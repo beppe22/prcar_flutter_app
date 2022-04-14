@@ -5,6 +5,7 @@ import 'package:prcarpolimi/infoAccount.dart';
 import 'package:prcarpolimi/infoCar.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/userModel.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'hamburger/filters.dart';
 
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
         title: const Text("PrCar"),
         backgroundColor: Colors.redAccent,
       ),
+      body: (const GoogleMapScreen()),
       backgroundColor: Colors.white,
       drawer: Drawer(
         child: ListView(
@@ -119,5 +121,23 @@ class _HomePageState extends State<HomePage> {
       }
     }
     return cars;
+  }
+}
+
+class GoogleMapScreen extends StatefulWidget {
+  const GoogleMapScreen({Key? key}) : super(key: key);
+  @override
+  _GoogleMapScreenState createState() => _GoogleMapScreenState();
+}
+
+class _GoogleMapScreenState extends State<GoogleMapScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: GoogleMap(
+        initialCameraPosition: CameraPosition(
+            target: LatLng(45.47811155714095, 9.227444681728846), zoom: 13),
+      ),
+    );
   }
 }

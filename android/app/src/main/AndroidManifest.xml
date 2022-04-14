@@ -4,6 +4,8 @@
         android:label="prcarpolimi"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCBVz-BC20ER-01QskoDfEBZhhUE0FeajA"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
