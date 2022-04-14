@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "433101278580",
+    "project_id": "prcarpolimi",
+    "storage_bucket": "prcarpolimi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433101278580:android:85e1bcbad7c4f61e7e7021",
+        "android_client_info": {
+          "package_name": "com.example.prcarpolimi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "433101278580-7rton9tcjjtr2cf8elm4hp2vjb25engc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmpxyP5nkQbkD8-E-SWtt2sa5mppjn8BQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "433101278580-7rton9tcjjtr2cf8elm4hp2vjb25engc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "433101278580-o9api6eft8db60liu56uqitscv32srla.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.prcarpolimi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
