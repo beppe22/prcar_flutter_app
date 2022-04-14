@@ -6,6 +6,8 @@ import 'package:prcarpolimi/infoCar.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 
+import 'hamburger/filters.dart';
+
 //import 'hamburger/filters.dart';
 //import 'hamburger/start.dart';
 //import 'hamburger/cars_owner.dart';
@@ -57,13 +59,10 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: const Text("Filters"),
               onTap: () {
-                /*Navigator.push(
+                Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => Filters(
-                          valueseats: '', valuefuel: '', valueprice: '')),
+                  MaterialPageRoute(builder: (context) => const Filters()),
                 );
-              */
               },
             ),
             ListTile(
