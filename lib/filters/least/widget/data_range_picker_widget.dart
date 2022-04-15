@@ -44,17 +44,15 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
       ]));
 
   Future pickDateRange(BuildContext context) async {
-    final initialDateRange = DateTimeRange(
+    /*final initialDateRange = DateTimeRange(
         start: DateTime.now(),
-        end: DateTime.now().add(const Duration(hours: 24 * 3)));
+        end: DateTime.now().add(const Duration(hours: 24 * 3)));*/
     final newDateRange = await showDateRangePicker(
         context: context,
         firstDate: DateTime(DateTime.now().year - 5),
         lastDate: DateTime(DateTime.now().year + 5),
         initialDateRange: dateRange);
-
     if (newDateRange == null) return;
-
     setState(() => dateRange = newDateRange);
   }
 }
