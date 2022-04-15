@@ -31,7 +31,6 @@ class _FuelState extends State<Fuel> {
           FuelButton(value: "Diesel"),
           FuelButton(value: "Electric"),
           FuelButton(value: "Hibryd"),
-          FuelButton(value: "Anything")
         ]));
   }
 }

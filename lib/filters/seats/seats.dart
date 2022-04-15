@@ -32,7 +32,6 @@ class _SeatsState extends State<Seats> {
           SeatsButton(value: '3'),
           SeatsButton(value: '4'),
           SeatsButton(value: '5'),
-          SeatsButton(value: 'Anything')
         ]));
   }
 }
