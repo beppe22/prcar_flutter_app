@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class AddNewCar extends StatelessWidget {
@@ -64,22 +66,19 @@ class AddNewCar extends StatelessWidget {
                         hintText: "Number of seats",
                         //prefixIcon: Icon(Icons.mail, color: Colors.black),
                       )),
-                  Container(
+                  SizedBox(
                       width: double.infinity,
                       child: RawMaterialButton(
-                        fillColor: const Color(0xFF0069FE),
-                        onPressed: () async {
-                          /*Navigator.push(
+                          fillColor: const Color(0xFFB74093),
+                          onPressed: () async {
+                            /*Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => HomePage(userModel)));*/
-                        },
-                        child: const Text("Add new car",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                            )),
-                      ))
+                          },
+                          child: const Text("Add new car",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 18.0))))
                 ])));
   }
 }

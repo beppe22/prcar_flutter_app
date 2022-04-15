@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, no_logic_in_create_state
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +8,7 @@ import 'package:prcarpolimi/infoCar.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'hamburger/filters.dart';
-
-//import 'hamburger/filters.dart';
-//import 'hamburger/start.dart';
-//import 'hamburger/cars_owner.dart';
 
 class HomePage extends StatefulWidget {
   UserModel userModel;
@@ -24,74 +21,53 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   UserModel userModel;
-  _HomePageState(this.userModel, {Key? key});
+  _HomePageState(this.userModel);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(
-        title: const Text("PrCar"),
-        backgroundColor: Colors.redAccent,
-      ),
-      body: (const GoogleMapScreen()),
-      backgroundColor: Colors.white,
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const SizedBox(
-              height: 20.0,
-            ),
-            ListTile(
-              title: const Text("Home",
-                  style: TextStyle(fontSize: 30, color: Colors.redAccent)),
-              onTap: () {},
-            ),
-            ListTile(
-              title: const Text("Account"),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => InfoAccount(userModel)),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text("Filters"),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Filters()),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text("About your car"),
-              onTap: () async {
-                List<CarModel> cars = await _fetchInfoCar();
-
-                if (cars != null) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => InfoCar(cars)),
-                  );
-                }
-              },
-            ),
-            ListTile(
-              title: const Text("Help"),
-              onTap: () {},
-            ),
-            ListTile(
-              title: const Text("Configuration"),
-              onTap: () {},
-            )
-          ],
-        ),
-      ),
-    ));
+            appBar: AppBar(
+                title: const Text("PrCar"), backgroundColor: Colors.redAccent),
+            body: (const GoogleMapScreen()),
+            backgroundColor: Colors.white,
+            drawer: Drawer(
+                child: ListView(padding: EdgeInsets.zero, children: [
+              const SizedBox(height: 20.0),
+              ListTile(
+                  title: const Text("Home",
+                      style: TextStyle(fontSize: 30, color: Colors.redAccent)),
+                  onTap: () {}),
+              ListTile(
+                  title: const Text("Account"),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InfoAccount(userModel)));
+                  }),
+              ListTile(
+                  title: const Text("Filters"),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Filters()));
+                  }),
+              ListTile(
+                  title: const Text("About your car"),
+                  onTap: () async {
+                    List<CarModel> cars = await _fetchInfoCar();
+                    if (cars != null) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => InfoCar(cars)));
+                    }
+                  }),
+              ListTile(title: const Text("Help"), onTap: () {}),
+              ListTile(title: const Text("Configuration"), onTap: () {})
+            ]))));
   }
 
   static Future<List<CarModel>> _fetchInfoCar() async {
@@ -134,10 +110,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-            target: LatLng(45.47811155714095, 9.227444681728846), zoom: 13),
-      ),
-    );
+        body: GoogleMap(
+            initialCameraPosition: CameraPosition(
+                target: LatLng(45.47811155714095, 9.227444681728846),
+                zoom: 13)));
   }
 }

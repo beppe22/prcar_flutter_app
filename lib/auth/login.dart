@@ -84,7 +84,7 @@ class _LoginState extends State<Login> {
         const SizedBox(
           height: 88.0,
         ),
-        Container(
+        SizedBox(
             width: double.infinity,
             child: RawMaterialButton(
               fillColor: const Color(0xFF0069FE),
@@ -127,7 +127,7 @@ class _LoginState extends State<Login> {
             ),
             onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SignUp()),
+                  MaterialPageRoute(builder: (context) => const SignUp()),
                 )),
       ],
     )));
