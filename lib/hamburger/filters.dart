@@ -35,8 +35,8 @@ class _FiltersState extends State<Filters> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Least()))
+              Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Least()))
                   .then((data) {
                 setState(() {
                   search.least = data;
