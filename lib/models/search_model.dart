@@ -3,6 +3,7 @@ class SearchModel {
   String? fuel;
   String? vehicle;
   String? price;
+  String? least;
 
-  SearchModel({this.seats, this.fuel, this.vehicle, this.price});
+  SearchModel({this.seats, this.fuel, this.vehicle, this.price, this.least});
 }

@@ -15,12 +15,13 @@ class Filters extends StatefulWidget {
 }
 
 class _FiltersState extends State<Filters> {
-  late SearchModel search;
+  static late SearchModel search;
 
   @override
   void initState() {
     super.initState();
-    search = SearchModel(seats: '', fuel: '', price: '', vehicle: '');
+    search =
+        SearchModel(seats: '', fuel: '', price: '', vehicle: '', least: '');
   }
 
   @override
@@ -33,16 +34,21 @@ class _FiltersState extends State<Filters> {
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const MainPage()));
+                      MaterialPageRoute(builder: (context) => const Least()))
+                  .then((data) {
+                setState(() {
+                  search.least = data;
+                });
+              });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: const Text("Least",
+            child: Text("Least: " + search.least.toString(),
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));

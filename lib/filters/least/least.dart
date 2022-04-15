@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:prcarpolimi/filters/least/leastbutton.dart';
 import 'widget/data_range_picker_widget.dart';
 
 Future main() async {
@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
           padding: const EdgeInsets.all(24),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             SizedBox(
-                height: 200,
+                height: 250,
                 child:
                     Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
             const SizedBox(
@@ -57,8 +57,9 @@ class _MainPageState extends State<MainPage> {
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.redAccent,
-                        fontSize: 15))),
-            const SizedBox(height: 75),
-            const DateRangePickerWidget()
+                        fontSize: 20))),
+            const SizedBox(height: 60),
+            const DateRangePickerWidget(),
+            LeastButton(value: '')
           ])));
 }

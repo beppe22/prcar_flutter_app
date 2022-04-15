@@ -13,7 +13,7 @@ class ButtonWidget extends StatelessWidget {
           minimumSize: const Size.fromHeight(40), primary: Colors.redAccent),
       child: FittedBox(
           child: Text(text,
-              style: const TextStyle(fontSize: 20, color: Colors.black))),
+              style: const TextStyle(fontSize: 20, color: Colors.white))),
       onPressed: onClicked);
 }
 
