@@ -229,7 +229,7 @@ class _FiltersState extends State<Filters> {
           const SizedBox(height: 15),
           priceButton,
           const SizedBox(height: 15),
-          clearButton,
+          clearButton
         ])));
   }
 }

@@ -59,6 +59,6 @@ class _MainPageState extends State<MainPage> {
                         color: Colors.redAccent,
                         fontSize: 15))),
             const SizedBox(height: 75),
-            const DateRangePickerWidget(),
+            const DateRangePickerWidget()
           ])));
 }

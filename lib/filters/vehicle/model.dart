@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state, library_prefixes
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
@@ -50,10 +49,7 @@ class _ModelsState extends State<Models> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const SizedBox(
-                                      width: 50,
-                                      height: 50,
-                                    ),
+                                    const SizedBox(width: 50, height: 50),
                                     Expanded(
                                         child: Container(
                                             padding: const EdgeInsets.only(

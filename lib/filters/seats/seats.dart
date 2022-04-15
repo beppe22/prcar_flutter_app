@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'seatsbotton.dart';
 
 class Seats extends StatefulWidget {
@@ -28,10 +27,17 @@ class _SeatsState extends State<Seats> {
           SizedBox(
               height: 175,
               child: Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
+          const SizedBox(
+              height: 50,
+              child: Text("Choose how many seats do you need.",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.redAccent,
+                      fontSize: 20))),
           SeatsButton(value: '2'),
           SeatsButton(value: '3'),
           SeatsButton(value: '4'),
-          SeatsButton(value: '5'),
+          SeatsButton(value: '5')
         ]));
   }
 }
