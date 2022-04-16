@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
-import '../../models/search_model.dart';
+import '../../models/car_parameter.dart';
 import 'ProductDataModel.dart';
 
 class Models extends StatefulWidget {
@@ -64,8 +64,17 @@ class _ModelsState extends State<Models> {
                                                   GestureDetector(
                                                       onTap: () {
                                                         Navigator.of(context)
-                                                            .popUntil((_) =>
-                                                                count++ >= 2);
+                                                          ..pop()
+                                                          ..pop();
+                                                        SearchCar
+                                                                .vehicleSearch =
+                                                            items[indice]
+                                                                    .brand
+                                                                    .toString() +
+                                                                "-" +
+                                                                modelNames![
+                                                                        index]
+                                                                    .toString();
                                                       },
                                                       child: Text(
                                                           modelNames![index]

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../models/car_parameter.dart';
 import '../leastbutton.dart';
 import 'buttom_widget.dart';
 
@@ -12,7 +13,6 @@ class DateRangePickerWidget extends StatefulWidget {
 
 class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
   DateTimeRange? dateRange;
-  late DateTime date1, date2;
 
   String getFrom() {
     if (dateRange == null) {
@@ -31,13 +31,6 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    date1 = DateTime.now();
-    date2 = DateTime.now();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return HeaderWidget(
         title: 'Date Range',
@@ -48,7 +41,8 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                     text: getFrom(),
                     onClicked: () => pickDateRange(context).then((data) {
                           setState(() {
-                            date1 = data;
+                            SearchCar.date1Search =
+                                DateFormat('dd-MM').format(dateRange!.start);
                           });
                         }))),
             const SizedBox(width: 8),
@@ -59,13 +53,12 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                     text: getUntil(),
                     onClicked: () => pickDateRange(context).then((data) {
                           setState(() {
-                            date2 = data;
+                            SearchCar.date2Search =
+                                DateFormat('dd-MM').format(dateRange!.end);
                           });
                         })))
           ]),
-          LeastButton(
-              value: (DateFormat('dd-MM-yyyy ').format(date1) +
-                  DateFormat(' dd-MM-yyyy').format(date2)))
+          const LeastButton()
         ]));
   }
 

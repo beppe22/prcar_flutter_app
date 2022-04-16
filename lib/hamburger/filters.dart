@@ -6,6 +6,7 @@ import '../filters/position.dart';
 import '../filters/price/price.dart';
 import '../filters/seats/seats.dart';
 import '../filters/vehicle/vehicle.dart';
+import '../models/car_parameter.dart';
 import '../models/search_model.dart';
 
 class Filters extends StatefulWidget {
@@ -21,7 +22,7 @@ class _FiltersState extends State<Filters> {
   void initState() {
     super.initState();
     search =
-        SearchModel(seats: '', fuel: '', price: '', vehicle: '', least: '');
+        SearchModel(seats: '', fuel: '', price: '', least: '', vehicle: '');
   }
 
   @override
@@ -39,7 +40,8 @@ class _FiltersState extends State<Filters> {
                       context, MaterialPageRoute(builder: (context) => Least()))
                   .then((data) {
                 setState(() {
-                  search.least = data;
+                  search.least =
+                      SearchCar.date1Search + ' => ' + SearchCar.date2Search;
                 });
               });
             },
@@ -68,7 +70,7 @@ class _FiltersState extends State<Filters> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: const Text("Position ",
+            child: const Text("Position: ",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 20,
@@ -83,12 +85,12 @@ class _FiltersState extends State<Filters> {
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
-            onPressed: () async {
+            onPressed: () {
               Navigator.push(context,
                       MaterialPageRoute(builder: (context) => const Vehicle()))
                   .then((data) {
                 setState(() {
-                  search.vehicle = data;
+                  search.vehicle = SearchCar.vehicleSearch;
                 });
               });
             },
@@ -191,7 +193,15 @@ class _FiltersState extends State<Filters> {
         decoration: BoxDecoration(
             color: Colors.grey, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                search.fuel = '';
+                search.least = '';
+                search.price = '';
+                search.vehicle = '';
+                search.seats = '';
+              });
+            },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),

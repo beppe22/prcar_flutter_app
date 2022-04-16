@@ -2,13 +2,12 @@
 import 'package:flutter/material.dart';
 
 class LeastButton extends StatelessWidget {
-  String value;
-  LeastButton({Key? key, required this.value}) : super(key: key);
+  const LeastButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.pop(context, value);
+          Navigator.pop(context);
         },
         child: Container(
             width: double.maxFinite,

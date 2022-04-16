@@ -79,9 +79,6 @@ class _LoginState extends State<Login> {
                         email: _emailController.text,
                         password: _passwordController.text,
                         context: context);
-
-                    print('fatto');
-
                     if (user != null) {
                       await firebaseFirestore
                           .collection('users')
