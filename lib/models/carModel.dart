@@ -1,22 +1,43 @@
 class CarModel {
   String? cid;
   String? model;
-  String? color;
-  int? seats;
+  String? vehicle;
+  String? seats;
+  String? price;
+  String? fuel;
+  String? active_or_not;
 
-  CarModel({this.cid, this.model, this.color, this.seats});
+  CarModel(
+      {this.cid,
+      this.model,
+      this.seats,
+      this.vehicle,
+      this.price,
+      this.fuel,
+      this.active_or_not});
 
   //receiving data from server
   factory CarModel.fromMap(map) {
     return CarModel(
         cid: map['cid'],
         model: map['model'],
-        color: map['color'],
-        seats: map['seats']);
+        seats: map['seats'],
+        vehicle: map['veicol'],
+        price: map['price'],
+        fuel: map['fuel'],
+        active_or_not: map['active_or_not']);
   }
 
   //sending data to our server
   Map<String, dynamic> toMap() {
-    return {'cid': cid, 'model': model, 'color': color, 'seats': seats};
+    return {
+      'cid': cid,
+      'model': model,
+      'veicol': vehicle,
+      'seats': seats,
+      'fuel': fuel,
+      'price': price,
+      'active?': active_or_not,
+    };
   }
 }

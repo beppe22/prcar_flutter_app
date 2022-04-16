@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/infoAccount.dart';
-import 'package:prcarpolimi/infoCar.dart';
+import 'package:prcarpolimi/cars_user.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -72,10 +72,10 @@ class _HomePageState extends State<HomePage> {
               onTap: () async {
                 List<CarModel> cars = await _fetchInfoCar();
 
-                if (cars != null) {
+                if (cars != []) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => InfoCar(cars)),
+                    MaterialPageRoute(builder: (context) => Cars_user(cars)),
                   );
                 }
               },

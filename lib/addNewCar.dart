@@ -1,13 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:prcarpolimi/cars_user.dart';
+import 'package:prcarpolimi/models/carModel.dart';
 
 class AddNewCar extends StatelessWidget {
-  const AddNewCar({Key? key}) : super(key: key);
+  AddNewCar({Key? key}) : super(key: key);
+
+  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
     TextEditingController model = TextEditingController();
-    TextEditingController color = TextEditingController();
     TextEditingController seats = TextEditingController();
+    TextEditingController price = TextEditingController();
+    TextEditingController fuel = TextEditingController();
+    TextEditingController vehicle = TextEditingController();
 
     return MaterialApp(
         home: Scaffold(
@@ -38,6 +46,16 @@ class AddNewCar extends StatelessWidget {
                     height: 44.0,
                   ),
                   TextField(
+                      controller: vehicle,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        hintText: "Car Vehicle",
+                        //prefixIcon: Icon(Icons.mail, color: Colors.black),
+                      )),
+                  const SizedBox(
+                    height: 44.0,
+                  ),
+                  TextField(
                       controller: model,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
@@ -48,20 +66,30 @@ class AddNewCar extends StatelessWidget {
                     height: 44.0,
                   ),
                   TextField(
-                      controller: color,
+                      controller: seats,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
-                        hintText: "Car color",
+                        hintText: "Number of seats",
                         //prefixIcon: Icon(Icons.mail, color: Colors.black),
                       )),
                   const SizedBox(
                     height: 44.0,
                   ),
                   TextField(
-                      controller: model,
+                      controller: fuel,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
-                        hintText: "Number of seats",
+                        hintText: "Type of fuel",
+                        //prefixIcon: Icon(Icons.mail, color: Colors.black),
+                      )),
+                  const SizedBox(
+                    height: 44.0,
+                  ),
+                  TextField(
+                      controller: price,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        hintText: "Price for day",
                         //prefixIcon: Icon(Icons.mail, color: Colors.black),
                       )),
                   Container(
@@ -69,10 +97,11 @@ class AddNewCar extends StatelessWidget {
                       child: RawMaterialButton(
                         fillColor: const Color(0xFF0069FE),
                         onPressed: () async {
-                          /*Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HomePage(userModel)));*/
+                          List<CarModel> cars = await _addCar(model.text,
+                              seats.text, fuel.text, vehicle.text, price.text);
+                          if (cars != []) {
+                            Navigator.pop(context, cars);
+                          }
                         },
                         child: const Text("Add new car",
                             style: TextStyle(
@@ -81,5 +110,52 @@ class AddNewCar extends StatelessWidget {
                             )),
                       ))
                 ])));
+  }
+
+  Future<List<CarModel>> _addCar(String model, String seats, String fuel,
+      String vehicle, String price) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+    CarModel carModel = CarModel();
+    List<CarModel> cars = [];
+
+    carModel.model = model;
+    carModel.fuel = fuel;
+    carModel.price = price;
+    carModel.vehicle = vehicle;
+    carModel.seats = seats;
+    carModel.active_or_not = 't';
+    carModel.cid = '1';
+
+    if (user != null) {
+      try {
+        await firebaseFirestore
+            .collection('users')
+            .doc(user.uid)
+            //quando non ci sono macchine da errore
+            .collection('cars')
+            //devo capire come inserire gli id automatici per le macchine
+            .doc('1')
+            .set(carModel.toMap());
+
+        await firebaseFirestore
+            .collection('users')
+            .doc(user.uid)
+            //quando non ci sono macchine da errore
+            .collection('cars')
+            .get()
+            .then((ds) {
+          for (var car in ds.docs) {
+            cars.add(CarModel.fromMap(car.data()));
+          }
+          print(cars);
+        });
+      } on FirebaseAuthException catch (e) {
+        if (e.code == "impossible to insert new car") {
+          print("Cars not added");
+        }
+      }
+    }
+    return cars;
   }
 }

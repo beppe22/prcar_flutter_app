@@ -47,6 +47,17 @@ class InfoAccount extends StatelessWidget {
                       fontSize: 17.8,
                       fontWeight: FontWeight.normal),
                 ),
+                Container(
+                    width: double.infinity,
+                    child: RawMaterialButton(
+                      fillColor: const Color(0xFF0069FE),
+                      onPressed: () async {},
+                      child: const Text("Logout",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          )),
+                    )),
               ],
             )));
   }
