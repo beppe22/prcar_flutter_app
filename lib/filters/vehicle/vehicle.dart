@@ -1,3 +1,5 @@
+// ignore_for_file: library_prefixes
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;

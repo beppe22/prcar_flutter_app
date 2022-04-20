@@ -26,12 +26,18 @@ class _FuelState extends State<Fuel> {
           SizedBox(
               height: 150,
               child: Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
+          const SizedBox(
+              height: 50,
+              child: Text("Choose the fuel that you want.",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.redAccent,
+                      fontSize: 15))),
           FuelButton(value: "Oil"),
           FuelButton(value: "Methane"),
           FuelButton(value: "Diesel"),
           FuelButton(value: "Electric"),
-          FuelButton(value: "Hibryd"),
-          FuelButton(value: "Anything")
+          FuelButton(value: "Hibryd")
         ]));
   }
 }

@@ -6,12 +6,7 @@ import 'package:prcarpolimi/cars_user.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'hamburger/filters.dart';
-
-//import 'hamburger/filters.dart';
-//import 'hamburger/start.dart';
-//import 'hamburger/cars_owner.dart';
 
 class HomePage extends StatefulWidget {
   UserModel userModel;
@@ -24,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   UserModel userModel;
-  _HomePageState(this.userModel, {Key? key});
+  _HomePageState(this.userModel);
 
   @override
   Widget build(BuildContext context) {
@@ -134,10 +129,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-            target: LatLng(45.47811155714095, 9.227444681728846), zoom: 13),
-      ),
-    );
+        body: GoogleMap(
+            initialCameraPosition: CameraPosition(
+                target: LatLng(45.47811155714095, 9.227444681728846),
+                zoom: 15)));
   }
 }

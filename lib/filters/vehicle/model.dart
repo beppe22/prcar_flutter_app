@@ -1,6 +1,8 @@
+// ignore_for_file: must_be_immutable, no_logic_in_create_state, library_prefixes
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
+import '../../models/car_parameter.dart';
 import 'ProductDataModel.dart';
 
 class Models extends StatefulWidget {
@@ -48,10 +50,7 @@ class _ModelsState extends State<Models> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const SizedBox(
-                                      width: 50,
-                                      height: 50,
-                                    ),
+                                    const SizedBox(width: 50, height: 50),
                                     Expanded(
                                         child: Container(
                                             padding: const EdgeInsets.only(
@@ -64,10 +63,18 @@ class _ModelsState extends State<Models> {
                                                 children: [
                                                   GestureDetector(
                                                       onTap: () {
-                                                        Navigator.of(
-                                                          context,
-                                                        ).popUntil((_) =>
-                                                            count++ >= 2);
+                                                        Navigator.of(context)
+                                                          ..pop()
+                                                          ..pop();
+                                                        SearchCar
+                                                                .vehicleSearch =
+                                                            items[indice]
+                                                                    .brand
+                                                                    .toString() +
+                                                                "-" +
+                                                                modelNames![
+                                                                        index]
+                                                                    .toString();
                                                       },
                                                       child: Text(
                                                           modelNames![index]

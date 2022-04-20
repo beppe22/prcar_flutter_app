@@ -6,6 +6,8 @@ import '../filters/position.dart';
 import '../filters/price/price.dart';
 import '../filters/seats/seats.dart';
 import '../filters/vehicle/vehicle.dart';
+import '../models/car_parameter.dart';
+import '../models/search_model.dart';
 
 class Filters extends StatefulWidget {
   const Filters({Key? key}) : super(key: key);
@@ -14,20 +16,13 @@ class Filters extends StatefulWidget {
 }
 
 class _FiltersState extends State<Filters> {
-  String valuefuel = '', valueprice = '', valueseats = '', valuevehicle = '';
-  String newValueSeats = '',
-      newValueFuel = '',
-      newValuePrice = '',
-      newValueVehicle = '';
+  static late SearchModel search;
 
-  void updateStatus(
-      newValueSeats, newValuePrice, newValueFuel, newValueVehicle) {
-    setState(() {
-      valueseats = newValueSeats;
-      valueprice = newValuePrice;
-      valuefuel = newValueFuel;
-      valuevehicle = newValueVehicle;
-    });
+  @override
+  void initState() {
+    super.initState();
+    search =
+        SearchModel(seats: '', fuel: '', price: '', least: '', vehicle: '');
   }
 
   @override
@@ -40,16 +35,22 @@ class _FiltersState extends State<Filters> {
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const MainPage()));
+            onPressed: () async {
+              Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Least()))
+                  .then((data) {
+                setState(() {
+                  search.least =
+                      SearchCar.date1Search + ' => ' + SearchCar.date2Search;
+                });
+              });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: const Text("Least",
+            child: Text("Least: " + search.least.toString(),
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
@@ -69,7 +70,7 @@ class _FiltersState extends State<Filters> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: const Text("Position ",
+            child: const Text("Position: ",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 20,
@@ -84,19 +85,19 @@ class _FiltersState extends State<Filters> {
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
-            onPressed: () async {
-              String data = await Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Vehicle()));
-              if (data == '') {
-                updateStatus(valueseats, valueprice, valuefuel, valuevehicle);
-              } else {
-                updateStatus(valueseats, valueprice, valuefuel, data);
-              }
+            onPressed: () {
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Vehicle()))
+                  .then((data) {
+                setState(() {
+                  search.vehicle = SearchCar.vehicleSearch;
+                });
+              });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Vehicle: " + valuevehicle,
+            child: Text("Vehicle: " + search.vehicle.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -112,18 +113,18 @@ class _FiltersState extends State<Filters> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              String data = await Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Seats()));
-              if (data == '') {
-                updateStatus(valueseats, valueprice, valuefuel, valuevehicle);
-              } else {
-                updateStatus(data, valueprice, valuefuel, valuevehicle);
-              }
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Seats()))
+                  .then((data) {
+                setState(() {
+                  search.seats = data;
+                });
+              });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Seats: " + valueseats,
+            child: Text("Seats: " + search.seats.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -139,18 +140,18 @@ class _FiltersState extends State<Filters> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              String data = await Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Fuel()));
-              if (data == '') {
-                updateStatus(valueseats, valueprice, valuefuel, valuevehicle);
-              } else {
-                updateStatus(valueseats, valueprice, data, valuevehicle);
-              }
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Fuel()))
+                  .then((data) {
+                setState(() {
+                  search.fuel = data;
+                });
+              });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Fuel: " + valuefuel,
+            child: Text("Fuel: " + search.fuel.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -166,18 +167,18 @@ class _FiltersState extends State<Filters> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              String data = await Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Price()));
-              if (data == '') {
-                updateStatus(valueseats, valueprice, valuefuel, valuevehicle);
-              } else {
-                updateStatus(valueseats, data, valuefuel, valuevehicle);
-              }
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Price()))
+                  .then((data) {
+                setState(() {
+                  search.price = data;
+                });
+              });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Price: " + valueprice,
+            child: Text("Price: " + search.price.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -192,7 +193,15 @@ class _FiltersState extends State<Filters> {
         decoration: BoxDecoration(
             color: Colors.grey, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                search.fuel = '';
+                search.least = '';
+                search.price = '';
+                search.vehicle = '';
+                search.seats = '';
+              });
+            },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
@@ -236,7 +245,7 @@ class _FiltersState extends State<Filters> {
           const SizedBox(height: 15),
           priceButton,
           const SizedBox(height: 15),
-          clearButton,
+          clearButton
         ])));
   }
 }
