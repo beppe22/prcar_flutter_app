@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable, file_names
-
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 

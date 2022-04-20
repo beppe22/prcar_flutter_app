@@ -66,25 +66,7 @@ class AddNewCar extends StatelessWidget {
                   ),
                   TextField(
                       controller: fuel,
-                      keyboardType: TextInputType.emailAddress)
-                ])));
-/*<<<<<<< HEAD
-                      decoration:
-                          const InputDecoration(hintText: "Number of seats")),
-                  SizedBox(
-                      width: double.infinity,
-                      child: RawMaterialButton(
-                          fillColor: const Color(0xFFB74093),
-                          onPressed: () async {
-                            /*Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HomePage(userModel)));*/
-                          },
-                          child: const Text("Add new car",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 18.0))))
-=======
+                      keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         hintText: "Type of fuel",
                         //prefixIcon: Icon(Icons.mail, color: Colors.black),
@@ -116,8 +98,7 @@ class AddNewCar extends StatelessWidget {
                               fontSize: 18.0,
                             )),
                       ))
-//>>>>>>> d045921105178be6010bae76355705267f0f7c63
-                ])));*/
+                ])));
   }
 
   Future<List<CarModel>> _addCar(String model, String seats, String fuel,
@@ -133,17 +114,26 @@ class AddNewCar extends StatelessWidget {
     carModel.vehicle = vehicle;
     carModel.seats = seats;
     carModel.active_or_not = 't';
-    carModel.cid = '1';
 
     if (user != null) {
       try {
+        carModel.cid = await firebaseFirestore
+            .collection('users')
+            .doc(user.uid)
+            //quando non ci sono macchine da errore
+            .collection('cars')
+            //devo capire come inserire gli id automatici per le macchine
+            .doc()
+            .id
+            .toString();
+
         await firebaseFirestore
             .collection('users')
             .doc(user.uid)
             //quando non ci sono macchine da errore
             .collection('cars')
             //devo capire come inserire gli id automatici per le macchine
-            .doc('1')
+            .doc()
             .set(carModel.toMap());
 
         await firebaseFirestore
