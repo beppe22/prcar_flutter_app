@@ -23,6 +23,7 @@ class InfoAccount extends StatelessWidget {
                       Navigator.pop(context);
                     })),
             body: Column(
+<<<<<<< HEAD
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -42,5 +43,44 @@ class InfoAccount extends StatelessWidget {
                           fontSize: 17.8,
                           fontWeight: FontWeight.normal))
                 ])));
+=======
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  usermodel.email.toString(),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 30.8,
+                      fontWeight: FontWeight.normal),
+                ),
+                Text(
+                  usermodel.firstName.toString(),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 17.8,
+                      fontWeight: FontWeight.normal),
+                ),
+                Text(
+                  usermodel.secondName.toString(),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 17.8,
+                      fontWeight: FontWeight.normal),
+                ),
+                Container(
+                    width: double.infinity,
+                    child: RawMaterialButton(
+                      fillColor: const Color(0xFF0069FE),
+                      onPressed: () async {},
+                      child: const Text("Logout",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          )),
+                    )),
+              ],
+            )));
+>>>>>>> d045921105178be6010bae76355705267f0f7c63
   }
 }

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/infoAccount.dart';
-import 'package:prcarpolimi/infoCar.dart';
+import 'package:prcarpolimi/cars_user.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
+<<<<<<< HEAD
             appBar: AppBar(
                 title: const Text("PrCar"), backgroundColor: Colors.redAccent),
             body: (const GoogleMapScreen()),
@@ -68,6 +69,70 @@ class _HomePageState extends State<HomePage> {
               ListTile(title: const Text("Help"), onTap: () {}),
               ListTile(title: const Text("Configuration"), onTap: () {})
             ]))));
+=======
+      appBar: AppBar(
+        title: const Text("PrCar"),
+        backgroundColor: Colors.redAccent,
+      ),
+      body: (const GoogleMapScreen()),
+      backgroundColor: Colors.white,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const SizedBox(
+              height: 20.0,
+            ),
+            ListTile(
+              title: const Text("Home",
+                  style: TextStyle(fontSize: 30, color: Colors.redAccent)),
+              onTap: () {},
+            ),
+            ListTile(
+              title: const Text("Account"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => InfoAccount(userModel)),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text("Filters"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Filters()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text("About your car"),
+              onTap: () async {
+                List<CarModel> cars = await _fetchInfoCar();
+
+                if (cars != []) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Cars_user(cars)),
+                  );
+                }
+              },
+            ),
+            ListTile(
+              title: const Text("Help"),
+              onTap: () {},
+            ),
+            ListTile(
+              title: const Text("Configuration"),
+              onTap: () {},
+            )
+          ],
+        ),
+      ),
+    ));
+>>>>>>> d045921105178be6010bae76355705267f0f7c63
   }
 
   static Future<List<CarModel>> _fetchInfoCar() async {
