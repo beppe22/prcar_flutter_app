@@ -215,19 +215,16 @@ class _SignUpState extends State<SignUp> {
 
   void signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
-      print('a');
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {postDetailsToFirestore()});
-      //.catchError((e) {});
     }
   }
 
   postDetailsToFirestore() async {
-    //calling our firestore
-    //calling our user model
-    //sending these values
+    //Calling our Firestore and User Model
 
+    //Sending these Values
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
     UserModel userModel = UserModel();

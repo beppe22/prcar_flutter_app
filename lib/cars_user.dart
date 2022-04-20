@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, must_be_immutable, no_logic_in_create_state, unnecessary_null_comparison
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,7 @@ class Cars_user extends StatefulWidget {
 
 class _Cars_userState extends State<Cars_user> {
   List<CarModel> cars;
-  _Cars_userState(this.cars, {Key? key});
+  _Cars_userState(this.cars);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class _Cars_userState extends State<Cars_user> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Container(
+                                              SizedBox(
                                                   width: double.infinity,
                                                   child: RawMaterialButton(
                                                     fillColor:

@@ -27,49 +27,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-<<<<<<< HEAD
-            appBar: AppBar(
-                title: const Text("PrCar"), backgroundColor: Colors.redAccent),
-            body: (const GoogleMapScreen()),
-            backgroundColor: Colors.white,
-            drawer: Drawer(
-                child: ListView(padding: EdgeInsets.zero, children: [
-              const SizedBox(height: 20.0),
-              ListTile(
-                  title: const Text("Home",
-                      style: TextStyle(fontSize: 30, color: Colors.redAccent)),
-                  onTap: () {}),
-              ListTile(
-                  title: const Text("Account"),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => InfoAccount(userModel)));
-                  }),
-              ListTile(
-                  title: const Text("Filters"),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Filters()));
-                  }),
-              ListTile(
-                  title: const Text("About your car"),
-                  onTap: () async {
-                    List<CarModel> cars = await _fetchInfoCar();
-                    if (cars != null) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => InfoCar(cars)));
-                    }
-                  }),
-              ListTile(title: const Text("Help"), onTap: () {}),
-              ListTile(title: const Text("Configuration"), onTap: () {})
-            ]))));
-=======
       appBar: AppBar(
         title: const Text("PrCar"),
         backgroundColor: Colors.redAccent,
@@ -132,7 +89,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     ));
->>>>>>> d045921105178be6010bae76355705267f0f7c63
   }
 
   static Future<List<CarModel>> _fetchInfoCar() async {

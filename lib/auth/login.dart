@@ -44,7 +44,7 @@ class _LoginState extends State<Login> {
     return MaterialApp(
         home: Scaffold(
             body: Column(
-<<<<<<< HEAD
+//<<<<<<< HEAD
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -103,8 +103,8 @@ class _LoginState extends State<Login> {
               onTap: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const SignUp())))
         ])));
-=======
-      mainAxisAlignment: MainAxisAlignment.center,
+//=======
+    /*mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
@@ -187,7 +187,7 @@ class _LoginState extends State<Login> {
                   MaterialPageRoute(builder: (context) => SignUp()),
                 )),
       ],
-    )));
->>>>>>> d045921105178be6010bae76355705267f0f7c63
+    );*/
+//>>>>>>> d045921105178be6010bae76355705267f0f7c63
   }
 }

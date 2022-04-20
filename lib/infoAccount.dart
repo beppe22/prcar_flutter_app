@@ -23,27 +23,6 @@ class InfoAccount extends StatelessWidget {
                       Navigator.pop(context);
                     })),
             body: Column(
-<<<<<<< HEAD
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(usermodel.email.toString(),
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 30.8,
-                          fontWeight: FontWeight.normal)),
-                  Text(usermodel.firstName.toString(),
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 17.8,
-                          fontWeight: FontWeight.normal)),
-                  Text(usermodel.secondName.toString(),
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 17.8,
-                          fontWeight: FontWeight.normal))
-                ])));
-=======
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -81,6 +60,5 @@ class InfoAccount extends StatelessWidget {
                     )),
               ],
             )));
->>>>>>> d045921105178be6010bae76355705267f0f7c63
   }
 }

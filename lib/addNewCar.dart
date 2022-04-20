@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-// ignore_for_file: file_names
-=======
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
->>>>>>> d045921105178be6010bae76355705267f0f7c63
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/cars_user.dart';
 import 'package:prcarpolimi/models/carModel.dart';
@@ -61,10 +57,6 @@ class AddNewCar extends StatelessWidget {
                   TextField(
                       controller: seats,
                       keyboardType: TextInputType.emailAddress,
-<<<<<<< HEAD
-                      decoration: const InputDecoration(hintText: "Car color")),
-                  const SizedBox(height: 44.0),
-=======
                       decoration: const InputDecoration(
                         hintText: "Number of seats",
                         //prefixIcon: Icon(Icons.mail, color: Colors.black),
@@ -72,11 +64,11 @@ class AddNewCar extends StatelessWidget {
                   const SizedBox(
                     height: 44.0,
                   ),
->>>>>>> d045921105178be6010bae76355705267f0f7c63
                   TextField(
                       controller: fuel,
-                      keyboardType: TextInputType.emailAddress,
-<<<<<<< HEAD
+                      keyboardType: TextInputType.emailAddress)
+                ])));
+/*<<<<<<< HEAD
                       decoration:
                           const InputDecoration(hintText: "Number of seats")),
                   SizedBox(
@@ -124,8 +116,8 @@ class AddNewCar extends StatelessWidget {
                               fontSize: 18.0,
                             )),
                       ))
->>>>>>> d045921105178be6010bae76355705267f0f7c63
-                ])));
+//>>>>>>> d045921105178be6010bae76355705267f0f7c63
+                ])));*/
   }
 
   Future<List<CarModel>> _addCar(String model, String seats, String fuel,
