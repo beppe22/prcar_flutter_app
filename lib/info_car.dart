@@ -3,10 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 
-class InfoCar extends StatelessWidget {
+class InfoCar extends StatefulWidget {
   CarModel carModel;
 
   InfoCar(this.carModel, {Key? key}) : super(key: key);
+  @override
+  State<InfoCar> createState() => _InfoCarState(carModel);
+}
+
+class _InfoCarState extends State<InfoCar> {
+  CarModel carModel;
+
+  _InfoCarState(this.carModel);
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
@@ -24,7 +32,7 @@ class InfoCar extends StatelessWidget {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context, []);
               },
             ),
           ),
@@ -46,6 +54,13 @@ class InfoCar extends StatelessWidget {
                     fontSize: 17.8,
                     fontWeight: FontWeight.normal),
               ),
+              Text(
+                carModel.active_or_not.toString(),
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 30.8,
+                    fontWeight: FontWeight.normal),
+              ),
               Container(
                   width: double.infinity,
                   child: RawMaterialButton(
@@ -57,17 +72,22 @@ class InfoCar extends StatelessWidget {
                           fontSize: 18.0,
                         )),
                   )),
-              /*Container(
-                    width: double.infinity,
-                    child: RawMaterialButton(
-                      fillColor: const Color(0xFF0069FE),
-                      onPressed: () async {},
-                      child: const Text("Sospend",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                          )),
-                    )),*/
+              Container(
+                  width: double.infinity,
+                  child: RawMaterialButton(
+                    fillColor: const Color(0xFF0069FE),
+                    onPressed: () async {
+                      _suspendCar();
+                      setState(() {
+                        carModel.active_or_not = 'f';
+                      });
+                    },
+                    child: const Text("Suspend",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.0,
+                        )),
+                  )),
               Container(
                   width: double.infinity,
                   child: RawMaterialButton(
@@ -98,6 +118,27 @@ class InfoCar extends StatelessWidget {
           .collection('cars')
           .doc(carModel.cid)
           .delete();
+    }
+  }
+
+  void _suspendCar() async {
+    User? user = _auth.currentUser;
+
+    if (user != null) {
+      try {
+        await firebaseFirestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('cars')
+            .doc(carModel.cid)
+            .set({
+          'active?': 'f',
+        });
+      } on FirebaseAuthException catch (e) {
+        print(
+          e.toString(),
+        );
+      }
     }
   }
 

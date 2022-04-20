@@ -1,22 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:prcarpolimi/cars_user.dart';
+import 'package:prcarpolimi/filters/vehicle/vehicle.dart';
 import 'package:prcarpolimi/models/carModel.dart';
-import 'dart:math';
 
-class AddNewCar extends StatelessWidget {
-  AddNewCar({Key? key}) : super(key: key);
-
-  final _auth = FirebaseAuth.instance;
+class ChangeInfoCar extends StatelessWidget {
+  CarModel carModel;
+  ChangeInfoCar(this.carModel, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController model = TextEditingController();
-    TextEditingController seats = TextEditingController();
-    TextEditingController price = TextEditingController();
-    TextEditingController fuel = TextEditingController();
-    TextEditingController vehicle = TextEditingController();
+    TextEditingController model = TextEditingController(text: carModel.model);
+    TextEditingController seats = TextEditingController(text: carModel.seats);
+    TextEditingController price = TextEditingController(text: carModel.price);
+    TextEditingController fuel = TextEditingController(text: carModel.fuel);
+    TextEditingController vehicle =
+        TextEditingController(text: carModel.vehicle);
 
     return MaterialApp(
         home: Scaffold(
@@ -34,7 +31,7 @@ class AddNewCar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Add car informations",
+                  const Text("Change car informations",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 50.8,
@@ -44,7 +41,7 @@ class AddNewCar extends StatelessWidget {
                       controller: vehicle,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
-                        hintText: "Car Vehicle",
+                        hintText: '',
                         //prefixIcon: Icon(Icons.mail, color: Colors.black),
                       )),
                   const SizedBox(
@@ -82,7 +79,7 @@ class AddNewCar extends StatelessWidget {
                         hintText: "Price for day",
                         //prefixIcon: Icon(Icons.mail, color: Colors.black),
                       )),
-                  Container(
+                  /*Container(
                       width: double.infinity,
                       child: RawMaterialButton(
                         fillColor: const Color(0xFF0069FE),
@@ -98,53 +95,7 @@ class AddNewCar extends StatelessWidget {
                               color: Colors.white,
                               fontSize: 18.0,
                             )),
-                      ))
+                      ))*/
                 ])));
-  }
-
-  Future<List<CarModel>> _addCar(String model, String seats, String fuel,
-      String vehicle, String price) async {
-    var rng = Random();
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-    CarModel carModel = CarModel();
-    List<CarModel> cars = [];
-
-    carModel.model = model;
-    carModel.fuel = fuel;
-    carModel.price = price;
-    carModel.vehicle = vehicle;
-    carModel.seats = seats;
-    carModel.active_or_not = 't';
-
-    if (user != null) {
-      carModel.cid = user.uid + vehicle + rng.nextInt(1000000).toString();
-      try {
-        await firebaseFirestore
-            .collection('users')
-            .doc(user.uid)
-            //quando non ci sono macchine da errore
-            .collection('cars')
-            .doc(carModel.cid)
-            .set(carModel.toMap());
-
-        await firebaseFirestore
-            .collection('users')
-            .doc(user.uid)
-            //quando non ci sono macchine da errore
-            .collection('cars')
-            .get()
-            .then((ds) {
-          for (var car in ds.docs) {
-            cars.add(CarModel.fromMap(car.data()));
-          }
-        });
-      } on FirebaseAuthException catch (e) {
-        if (e.code == "impossible to insert new car") {
-          print("Cars not added");
-        }
-      }
-    }
-    return cars;
   }
 }

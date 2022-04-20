@@ -101,7 +101,6 @@ class _HomePageState extends State<HomePage> {
         await firebaseFirestore
             .collection('users')
             .doc(user.uid)
-            //quando non ci sono macchine da errore
             .collection('cars')
             .get()
             .then((ds) {

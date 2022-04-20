@@ -37,7 +37,7 @@ class _Cars_userState extends State<Cars_user> {
               ),
             ),
             body: ListView.builder(
-                itemCount: cars == null ? 0 : cars.length,
+                itemCount: cars == [] ? 0 : cars.length,
                 itemBuilder: (context, index) {
                   return Card(
                       elevation: 5,
@@ -74,13 +74,16 @@ class _Cars_userState extends State<Cars_user> {
                                                                   builder: (context) =>
                                                                       InfoCar(cars[
                                                                           index])));
-                                                      setState(() {
-                                                        cars = new_cars;
-                                                      });
+
+                                                      if (new_cars != []) {
+                                                        setState(() {
+                                                          cars = new_cars;
+                                                        });
+                                                      }
                                                     },
                                                     child: Text(
                                                       cars[index]
-                                                          .model
+                                                          .vehicle
                                                           .toString(),
                                                       style: const TextStyle(
                                                           color: Colors.black,

@@ -27,7 +27,7 @@ class CarModel {
         vehicle: map['veicol'],
         price: map['price'],
         fuel: map['fuel'],
-        active_or_not: map['active_or_not']);
+        active_or_not: map['active?']);
   }
 
   //sending data to our server

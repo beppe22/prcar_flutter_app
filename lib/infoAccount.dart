@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:prcarpolimi/auth/login.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 
 class InfoAccount extends StatelessWidget {
@@ -49,7 +51,13 @@ class InfoAccount extends StatelessWidget {
                     width: double.infinity,
                     child: RawMaterialButton(
                       fillColor: const Color(0xFF0069FE),
-                      onPressed: () async {},
+                      onPressed: () async {
+                        FirebaseAuth.instance.signOut();
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => const Login()),
+                            (Route<dynamic> route) => false);
+                      },
                       child: const Text("Logout",
                           style: TextStyle(
                             color: Colors.white,
