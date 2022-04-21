@@ -53,6 +53,8 @@ class InfoAccount extends StatelessWidget {
                       fillColor: const Color(0xFF0069FE),
                       onPressed: () async {
                         FirebaseAuth.instance.signOut();
+                        /*Navigator.of(context)
+                            .popUntil((route) => route.isFirst);*/
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                                 builder: (context) => const Login()),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/auth/signUp.dart';
+import 'package:prcarpolimi/forgot_password.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 import 'package:prcarpolimi/homepage.dart';
 
@@ -23,6 +24,12 @@ class _LoginState extends State<Login> {
       required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -96,6 +103,16 @@ class _LoginState extends State<Login> {
                   child: const Text("Login",
                       style: TextStyle(color: Colors.white, fontSize: 18.0)))),
           const SizedBox(height: 88.0),
+          GestureDetector(
+              child: Text('Forgot password?',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontSize: 20,
+                  )),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ForgotPasswordPage(),
+                  ))),
           InkWell(
               child: const Text("Don't have an account?",
                   style: TextStyle(color: Colors.blue, fontSize: 15.0)),

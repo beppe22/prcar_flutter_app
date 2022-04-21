@@ -214,6 +214,12 @@ class _SignUpState extends State<SignUp> {
   }
 
   void signUp(String email, String password) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
     if (_formKey.currentState!.validate()) {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
