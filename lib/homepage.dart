@@ -129,8 +129,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   Widget build(BuildContext context) {
     return const Scaffold(
         body: GoogleMap(
+            mapType: MapType.hybrid,
             initialCameraPosition: CameraPosition(
                 target: LatLng(45.47811155714095, 9.227444681728846),
-                zoom: 15)));
+                zoom: 16)));
   }
 }

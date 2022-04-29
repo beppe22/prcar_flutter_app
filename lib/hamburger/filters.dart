@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../filters/fuel/fuel.dart';
 import '../filters/least/least.dart';
-import '../filters/position.dart';
+import '../filters/position/position.dart';
 import '../filters/price/price.dart';
 import '../filters/seats/seats.dart';
 import '../filters/vehicle/vehicle.dart';
@@ -21,8 +20,8 @@ class _FiltersState extends State<Filters> {
   @override
   void initState() {
     super.initState();
-    search =
-        SearchModel(seats: '', fuel: '', price: '', least: '', vehicle: '');
+    search = SearchModel(
+        seats: '', fuel: '', price: '', least: '', vehicle: '', position: '');
   }
 
   @override
@@ -40,8 +39,7 @@ class _FiltersState extends State<Filters> {
                       context, MaterialPageRoute(builder: (context) => Least()))
                   .then((data) {
                 setState(() {
-                  search.least =
-                      SearchCar.date1Search + ' => ' + SearchCar.date2Search;
+                  search.least = data;
                 });
               });
             },
@@ -65,14 +63,19 @@ class _FiltersState extends State<Filters> {
         child: MaterialButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Position()));
+                      MaterialPageRoute(builder: (context) => const Position()))
+                  .then((data) {
+                setState(() {
+                  search.position = data;
+                });
+              });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: const Text("Position: ",
+            child: Text("Position: " + search.position.toString(),
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
@@ -200,6 +203,7 @@ class _FiltersState extends State<Filters> {
                 search.price = '';
                 search.vehicle = '';
                 search.seats = '';
+                search.position = '';
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
