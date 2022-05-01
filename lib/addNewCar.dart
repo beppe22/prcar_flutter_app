@@ -1,7 +1,8 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:prcarpolimi/cars_user.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'dart:math';
 
@@ -82,7 +83,7 @@ class AddNewCar extends StatelessWidget {
                         hintText: "Price for day",
                         //prefixIcon: Icon(Icons.mail, color: Colors.black),
                       )),
-                  Container(
+                  SizedBox(
                       width: double.infinity,
                       child: RawMaterialButton(
                         fillColor: const Color(0xFF0069FE),
@@ -140,9 +141,7 @@ class AddNewCar extends StatelessWidget {
           }
         });
       } on FirebaseAuthException catch (e) {
-        if (e.code == "impossible to insert new car") {
-          print("Cars not added");
-        }
+        if (e.code == "impossible to insert new car") {}
       }
     }
     return cars;

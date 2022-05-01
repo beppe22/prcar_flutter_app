@@ -1,3 +1,5 @@
+// ignore_for_file: no_logic_in_create_state, must_be_immutable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -109,9 +111,7 @@ class _HomePageState extends State<HomePage> {
           }
         });
       } on FirebaseAuthException catch (e) {
-        if (e.code == "cars not found") {
-          print("No Cars found");
-        }
+        if (e.code == "cars not found") {}
       }
     }
     return cars;

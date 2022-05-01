@@ -48,7 +48,7 @@ class InfoCar extends StatelessWidget {
                     fontSize: 17.8,
                     fontWeight: FontWeight.normal),
               ),
-              Container(
+              SizedBox(
                   width: double.infinity,
                   child: RawMaterialButton(
                     fillColor: const Color(0xFF0069FE),
@@ -59,18 +59,7 @@ class InfoCar extends StatelessWidget {
                           fontSize: 18.0,
                         )),
                   )),
-              /*Container(
-                    width: double.infinity,
-                    child: RawMaterialButton(
-                      fillColor: const Color(0xFF0069FE),
-                      onPressed: () async {},
-                      child: const Text("Sospend",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                          )),
-                    )),*/
-              Container(
+              SizedBox(
                   width: double.infinity,
                   child: RawMaterialButton(
                     fillColor: const Color(0xFF0069FE),

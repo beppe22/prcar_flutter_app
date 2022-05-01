@@ -36,9 +36,7 @@ class _LoginState extends State<Login> {
 
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
-      if (e.code == "user-not-found") {
-        print("No user found");
-      }
+      if (e.code == "user-not-found") {}
     }
     return user;
   }

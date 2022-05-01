@@ -1,6 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:email_validator/email_validator.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -26,10 +27,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Text('Reset Password'),
+          title: const Text('Reset Password'),
         ),
         body: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Form(
               key: formKey,
               child: Column(

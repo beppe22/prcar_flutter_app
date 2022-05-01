@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
-import '../../models/car_parameter.dart';
+import '../../models/vehicle_search.dart';
 import 'ProductDataModel.dart';
 
 class Models extends StatefulWidget {
@@ -40,9 +40,6 @@ class _ModelsState extends State<Models> {
                     itemCount: modelNames == null ? 0 : modelNames.length,
                     itemBuilder: (context, index) {
                       return Card(
-                          elevation: 5,
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 6),
                           child: Container(
                               color: Colors.redAccent,
                               padding: const EdgeInsets.all(8),
@@ -66,7 +63,7 @@ class _ModelsState extends State<Models> {
                                                         Navigator.of(context)
                                                           ..pop()
                                                           ..pop();
-                                                        SearchCar
+                                                        SearchVehicle
                                                                 .vehicleSearch =
                                                             items[indice]
                                                                     .brand

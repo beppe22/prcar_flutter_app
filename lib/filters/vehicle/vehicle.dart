@@ -1,4 +1,4 @@
-// ignore_for_file: library_prefixes
+// ignore_for_file: library_prefixes, unnecessary_null_comparison
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -50,8 +50,17 @@ class _VehicleState extends State<Vehicle> {
                                     const SizedBox(width: 10, height: 50),
                                     Expanded(
                                         child: Container(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8),
+                                            width: double.maxFinite,
+                                            height: 50,
+                                            margin: const EdgeInsets.only(
+                                                top: 15,
+                                                left: 40,
+                                                right: 40,
+                                                bottom: 15),
+                                            decoration: BoxDecoration(
+                                                color: Colors.redAccent,
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
                                             child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,

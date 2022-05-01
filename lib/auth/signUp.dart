@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, body_might_complete_normally_nullable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -179,38 +179,35 @@ class _SignUpState extends State<SignUp> {
                     onPressed: () {
                       Navigator.pop(context, '');
                     })),
-            body: Container(
-                child: SingleChildScrollView(
-                    child: Container(
-                        color: Colors.white,
-                        child: Padding(
-                            padding: const EdgeInsets.all(36.0),
-                            child: Form(
-                                key: _formKey,
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      SizedBox(
-                                          height: 150,
-                                          child: Image.asset(
-                                              "assets/prcarlogo.png",
-                                              fit: BoxFit.contain)),
-                                      const SizedBox(height: 45),
-                                      firstNameField,
-                                      const SizedBox(height: 20),
-                                      secondNameField,
-                                      const SizedBox(height: 20),
-                                      emailField,
-                                      const SizedBox(height: 20),
-                                      passwordField,
-                                      const SizedBox(height: 20),
-                                      confirmPasswordField,
-                                      const SizedBox(height: 20),
-                                      signUpButton,
-                                      const SizedBox(height: 15)
-                                    ]))))))));
+            body: SingleChildScrollView(
+                child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                        padding: const EdgeInsets.all(36.0),
+                        child: Form(
+                            key: _formKey,
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  SizedBox(
+                                      height: 150,
+                                      child: Image.asset("assets/prcarlogo.png",
+                                          fit: BoxFit.contain)),
+                                  const SizedBox(height: 45),
+                                  firstNameField,
+                                  const SizedBox(height: 20),
+                                  secondNameField,
+                                  const SizedBox(height: 20),
+                                  emailField,
+                                  const SizedBox(height: 20),
+                                  passwordField,
+                                  const SizedBox(height: 20),
+                                  confirmPasswordField,
+                                  const SizedBox(height: 20),
+                                  signUpButton,
+                                  const SizedBox(height: 15)
+                                ])))))));
   }
 
   void signUp(String email, String password) async {

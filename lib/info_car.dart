@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, no_logic_in_create_state, avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +63,7 @@ class _InfoCarState extends State<InfoCar> {
                     fontSize: 30.8,
                     fontWeight: FontWeight.normal),
               ),
-              Container(
+              SizedBox(
                   width: double.infinity,
                   child: RawMaterialButton(
                     fillColor: const Color(0xFF0069FE),
@@ -72,7 +74,7 @@ class _InfoCarState extends State<InfoCar> {
                           fontSize: 18.0,
                         )),
                   )),
-              Container(
+              SizedBox(
                   width: double.infinity,
                   child: RawMaterialButton(
                     fillColor: const Color(0xFF0069FE),
@@ -88,7 +90,7 @@ class _InfoCarState extends State<InfoCar> {
                           fontSize: 18.0,
                         )),
                   )),
-              Container(
+              SizedBox(
                   width: double.infinity,
                   child: RawMaterialButton(
                     fillColor: const Color(0xFF0069FE),
@@ -163,9 +165,7 @@ class _InfoCarState extends State<InfoCar> {
           }
         });
       } on FirebaseAuthException catch (e) {
-        if (e.code == "cars not found") {
-          print("No Cars found");
-        }
+        if (e.code == "cars not found") {}
       }
     }
     return cars;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:prcarpolimi/filters/least/leastbutton.dart';
 import 'widget/data_range_picker_widget.dart';
 
 Future main() async {
@@ -8,12 +7,12 @@ Future main() async {
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  runApp(Least());
+  runApp(const Least());
 }
 
 class Least extends StatelessWidget {
   static const String title = 'Date (Range) & Time';
-  Least({Key? key}) : super(key: key);
+  const Least({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

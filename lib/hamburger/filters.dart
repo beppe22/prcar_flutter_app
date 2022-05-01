@@ -5,8 +5,8 @@ import '../filters/position/position.dart';
 import '../filters/price/price.dart';
 import '../filters/seats/seats.dart';
 import '../filters/vehicle/vehicle.dart';
-import '../models/car_parameter.dart';
 import '../models/search_model.dart';
+import '../models/vehicle_search.dart';
 
 class Filters extends StatefulWidget {
   const Filters({Key? key}) : super(key: key);
@@ -35,8 +35,8 @@ class _FiltersState extends State<Filters> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Least()))
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Least()))
                   .then((data) {
                 setState(() {
                   search.least = data;
@@ -93,7 +93,7 @@ class _FiltersState extends State<Filters> {
                       MaterialPageRoute(builder: (context) => const Vehicle()))
                   .then((data) {
                 setState(() {
-                  search.vehicle = SearchCar.vehicleSearch;
+                  search.vehicle = SearchVehicle.vehicleSearch;
                 });
               });
             },

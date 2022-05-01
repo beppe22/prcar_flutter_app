@@ -13,6 +13,12 @@ class DateRangePickerWidget extends StatefulWidget {
 
 class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
   DateTimeRange? dateRange;
+  static late SearchCar dateLeast;
+
+  @override
+  void initState() {
+    dateLeast = SearchCar(date1Search: '', date2Search: '');
+  }
 
   String getFrom() {
     if (dateRange == null) {
@@ -41,7 +47,7 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                     text: getFrom(),
                     onClicked: () => pickDateRange(context).then((data) {
                           setState(() {
-                            SearchCar.date1Search =
+                            dateLeast.date1Search =
                                 DateFormat('dd-MM').format(dateRange!.start);
                           });
                         }))),
@@ -53,12 +59,15 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                     text: getUntil(),
                     onClicked: () => pickDateRange(context).then((data) {
                           setState(() {
-                            SearchCar.date2Search =
+                            dateLeast.date2Search =
                                 DateFormat('dd-MM').format(dateRange!.end);
                           });
                         })))
           ]),
-          const LeastButton()
+          LeastButton(
+              value: dateLeast.date1Search.toString() +
+                  ' => ' +
+                  dateLeast.date2Search.toString())
         ]));
   }
 

@@ -1,5 +1,6 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:prcarpolimi/filters/vehicle/vehicle.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 
 class ChangeInfoCar extends StatelessWidget {
