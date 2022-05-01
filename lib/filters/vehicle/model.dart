@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
-import '../../models/vehicle_search.dart';
+import 'package:prcarpolimi/models/car_parameter.dart';
 import 'ProductDataModel.dart';
 
 class Models extends StatefulWidget {
@@ -63,15 +63,13 @@ class _ModelsState extends State<Models> {
                                                         Navigator.of(context)
                                                           ..pop()
                                                           ..pop();
-                                                        SearchVehicle
-                                                                .vehicleSearch =
+                                                        SearchCar.vehicle =
                                                             items[indice]
-                                                                    .brand
-                                                                    .toString() +
-                                                                "-" +
-                                                                modelNames![
-                                                                        index]
-                                                                    .toString();
+                                                                .brand
+                                                                .toString();
+                                                        SearchCar.model =
+                                                            modelNames![index]
+                                                                .toString();
                                                       },
                                                       child: Text(
                                                           modelNames![index]

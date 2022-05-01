@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prcarpolimi/models/car_parameter.dart';
 import '../filters/fuel/fuel.dart';
 import '../filters/least/least.dart';
 import '../filters/position/position.dart';
@@ -6,7 +7,6 @@ import '../filters/price/price.dart';
 import '../filters/seats/seats.dart';
 import '../filters/vehicle/vehicle.dart';
 import '../models/search_model.dart';
-import '../models/vehicle_search.dart';
 
 class Filters extends StatefulWidget {
   const Filters({Key? key}) : super(key: key);
@@ -63,7 +63,7 @@ class _FiltersState extends State<Filters> {
         child: MaterialButton(
             onPressed: () {
               Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Position()))
+                      MaterialPageRoute(builder: (context) => Position(true)))
                   .then((data) {
                 setState(() {
                   search.position = data;
@@ -93,7 +93,7 @@ class _FiltersState extends State<Filters> {
                       MaterialPageRoute(builder: (context) => const Vehicle()))
                   .then((data) {
                 setState(() {
-                  search.vehicle = SearchVehicle.vehicleSearch;
+                  search.vehicle = SearchCar.vehicle + '-' + SearchCar.model;
                 });
               });
             },

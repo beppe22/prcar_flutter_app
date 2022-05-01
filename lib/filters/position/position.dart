@@ -1,15 +1,24 @@
+// ignore_for_file: no_logic_in_create_state, must_be_immutable
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/filters/position/location_service.dart';
 
 class Position extends StatefulWidget {
-  const Position({Key? key}) : super(key: key);
+  bool val;
+  Position(this.val, {Key? key}) : super(key: key);
   @override
-  _Position createState() => _Position();
+  _Position createState() => _Position(val);
 }
 
 class _Position extends State<Position> {
+  bool val;
+  _Position(this.val);
+
+  double lat = 0;
+  double lng = 0;
+
   final Completer<GoogleMapController> _controller = Completer();
   final TextEditingController _searchcontroller = TextEditingController();
   String position = '';
@@ -36,7 +45,12 @@ class _Position extends State<Position> {
             actions: [
               IconButton(
                   onPressed: () {
-                    Navigator.pop(context, position);
+                    if (val) {
+                      Navigator.pop(context, position);
+                    } else {
+                      Navigator.pop(
+                          context, lat.toString() + '-' + lng.toString());
+                    }
                   },
                   icon: const Icon(Icons.add_location_alt_outlined)),
             ]),
@@ -70,8 +84,8 @@ class _Position extends State<Position> {
   }
 
   Future<void> _goToPlace(Map<String, dynamic> place) async {
-    final double lat = place['geometry']['location']['lat'];
-    final double lng = place['geometry']['location']['lng'];
+    lat = place['geometry']['location']['lat'];
+    lng = place['geometry']['location']['lng'];
     final GoogleMapController controller = await _controller.future;
     controller.moveCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(lat, lng), zoom: 16)));

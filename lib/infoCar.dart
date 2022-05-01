@@ -112,9 +112,7 @@ class InfoCar extends StatelessWidget {
           }
         });
       } on FirebaseAuthException catch (e) {
-        if (e.code == "cars not found") {
-          print("No Cars found");
-        }
+        if (e.code == "cars not found") {}
       }
     }
     return cars;
