@@ -63,7 +63,7 @@ class _FiltersState extends State<Filters> {
         child: MaterialButton(
             onPressed: () {
               Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Position()))
+                      MaterialPageRoute(builder: (context) => Position(true)))
                   .then((data) {
                 setState(() {
                   search.position = data;
@@ -93,7 +93,7 @@ class _FiltersState extends State<Filters> {
                       MaterialPageRoute(builder: (context) => const Vehicle()))
                   .then((data) {
                 setState(() {
-                  search.vehicle = SearchCar.vehicleSearch;
+                  search.vehicle = SearchCar.vehicle + '-' + SearchCar.model;
                 });
               });
             },

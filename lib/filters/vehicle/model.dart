@@ -66,15 +66,13 @@ class _ModelsState extends State<Models> {
                                                         Navigator.of(context)
                                                           ..pop()
                                                           ..pop();
-                                                        SearchCar
-                                                                .vehicleSearch =
+                                                        SearchCar.vehicle =
                                                             items[indice]
-                                                                    .brand
-                                                                    .toString() +
-                                                                "-" +
-                                                                modelNames![
-                                                                        index]
-                                                                    .toString();
+                                                                .brand
+                                                                .toString();
+                                                        SearchCar.model =
+                                                            modelNames![index]
+                                                                .toString();
                                                       },
                                                       child: Text(
                                                           modelNames![index]

@@ -5,6 +5,7 @@ class SearchModel {
   String? price;
   String? least;
   String? position;
+  String? model;
 
   SearchModel(
       {this.seats,
@@ -12,5 +13,6 @@ class SearchModel {
       this.vehicle,
       this.price,
       this.least,
-      this.position});
+      this.position,
+      this.model});
 }

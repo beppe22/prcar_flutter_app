@@ -8,15 +8,18 @@ class CarModel {
   String? price;
   String? fuel;
   String? active_or_not;
+  String? position;
 
-  CarModel(
-      {this.cid,
-      this.model,
-      this.seats,
-      this.vehicle,
-      this.price,
-      this.fuel,
-      this.active_or_not});
+  CarModel({
+    this.cid,
+    this.model,
+    this.seats,
+    this.vehicle,
+    this.price,
+    this.fuel,
+    this.active_or_not,
+    this.position,
+  });
 
   //receiving data from server
   factory CarModel.fromMap(map) {
@@ -27,7 +30,8 @@ class CarModel {
         vehicle: map['veicol'],
         price: map['price'],
         fuel: map['fuel'],
-        active_or_not: map['active?']);
+        active_or_not: map['active?'],
+        position: map['position']);
   }
 
   //sending data to our server
@@ -40,6 +44,7 @@ class CarModel {
       'fuel': fuel,
       'price': price,
       'active?': active_or_not,
+      'position': position,
     };
   }
 }
