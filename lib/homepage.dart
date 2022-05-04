@@ -173,27 +173,27 @@ class MapBottomPill extends StatelessWidget {
   MapBottomPill({Key? key}) : super(key: key);
 
   final carButton = Container(
-      width: double.maxFinite,
-      height: 10,
+      width: 140,
       margin: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
       decoration: BoxDecoration(
-          color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
-      child: RawMaterialButton(
+          color: Colors.grey, borderRadius: BorderRadius.circular(20)),
+      child: ElevatedButton(
         onPressed: () {},
+        child: const Text('Reserve'),
       ));
 
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.all(20),
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(25),
         decoration: BoxDecoration(
             color: Colors.redAccent,
-            borderRadius: BorderRadius.circular(40),
+            borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
                   color: Colors.black.withOpacity(0.2),
-                  blurRadius: 30,
+                  blurRadius: 80,
                   offset: Offset.zero)
             ]),
         child: Column(children: [
@@ -201,17 +201,28 @@ class MapBottomPill extends StatelessWidget {
               color: Colors.redAccent,
               child: Row(children: [
                 ClipOval(
-                    child: Image.asset('assets/prcarlogo.png',
-                        width: 60, height: 50, fit: BoxFit.cover)),
-                Column(children: const [
-                  Text('Selected car, click below for more details: ',
+                    child: Image.asset(
+                  'assets/prcarlogo.png',
+                  width: 100,
+                  height: 85,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.topCenter,
+                )),
+                Column(children: [
+                  const Text('Selected car, click below for',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.black,
+                          fontSize: 15,
+                          color: Colors.black87,
                           fontWeight: FontWeight.bold)),
-                  //carButton
-                ])
+                  const Text('more details: ',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold)),
+                  carButton
+                ], mainAxisAlignment: MainAxisAlignment.spaceBetween)
               ])),
         ]));
   }
