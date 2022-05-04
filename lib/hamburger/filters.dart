@@ -199,6 +199,7 @@ class _FiltersState extends State<Filters> {
             onPressed: () {
               setState(() {
                 search.fuel = '';
+                search.model = '';
                 search.least = '';
                 search.price = '';
                 search.vehicle = '';

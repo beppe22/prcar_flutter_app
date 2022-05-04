@@ -22,6 +22,7 @@ class AddNewCar extends StatefulWidget {
 
 class _AddNewCarState extends State<AddNewCar> {
   static late CarModel car;
+  String vehicleString = '';
 
   @override
   void initState() {
@@ -50,7 +51,7 @@ class _AddNewCarState extends State<AddNewCar> {
         child: MaterialButton(
             onPressed: () {
               Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Position(false)))
+                      MaterialPageRoute(builder: (context) => Position(true)))
                   .then((data) {
                 setState(() {
                   car.position = data;
@@ -82,17 +83,15 @@ class _AddNewCarState extends State<AddNewCar> {
                 setState(() {
                   car.vehicle = SearchCar.vehicle;
                   car.model = SearchCar.model;
+                  vehicleString =
+                      car.vehicle.toString() + '-' + car.model.toString();
                 });
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text(
-                "Vehicle: " +
-                    car.vehicle.toString() +
-                    '-' +
-                    car.model.toString(),
+            child: Text("Vehicle: " + vehicleString,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -195,6 +194,8 @@ class _AddNewCarState extends State<AddNewCar> {
                 car.vehicle = '';
                 car.seats = '';
                 car.position = '';
+                car.model = '';
+                vehicleString = '';
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -222,7 +223,7 @@ class _AddNewCarState extends State<AddNewCar> {
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
           const SizedBox(
               height: 30,
-              child: Text("Apply filters for your need.",
+              child: Text("Insert your own car.",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.redAccent,

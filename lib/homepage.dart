@@ -1,14 +1,19 @@
 // ignore_for_file: no_logic_in_create_state, must_be_immutable
 
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/infoAccount.dart';
 import 'package:prcarpolimi/cars_user.dart';
 import 'package:prcarpolimi/models/carModel.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'hamburger/filters.dart';
+
+const double pinVisiblePosition = 10;
+const double pinInvisiblePosition = -220;
 
 class HomePage extends StatefulWidget {
   UserModel userModel;
@@ -21,74 +26,110 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   UserModel userModel;
+
   _HomePageState(this.userModel);
+  double pinPillPosition = pinInvisiblePosition;
+
+  @override
+  void initState() {
+    super.initState();
+    PassMarker.markerToPass = {};
+    PassMarker.countMarker = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-      appBar: AppBar(
-        title: const Text("PrCar"),
-        backgroundColor: Colors.redAccent,
-      ),
-      body: (const GoogleMapScreen()),
-      backgroundColor: Colors.white,
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const SizedBox(
-              height: 20.0,
-            ),
-            ListTile(
+    GoogleMapController _controller;
+    return Scaffold(
+        appBar: AppBar(
+            title: const Text("PrCar"),
+            backgroundColor: Colors.redAccent,
+            actions: [
+              IconButton(
+                  onPressed: () async {
+                    List<CarModel> cars = await _fetchInfoCar();
+                    for (int i = 0; i < cars.length; i++) {
+                      String? carLatLng = cars[i].position;
+                      final splitted = carLatLng!.split('-');
+                      double lat = double.parse(splitted[0]);
+                      double lng = double.parse(splitted[1]);
+                      setState(() {
+                        PassMarker.markerToPass.add(Marker(
+                            markerId: MarkerId('marker$i'),
+                            infoWindow: InfoWindow(
+                              title: 'Car$i',
+                              //snippet: 'Car of ${cars[i].cid}'
+                            ),
+                            position: LatLng(lat, lng),
+                            icon: _iconColor(cars[i].cid.toString()),
+                            onTap: () {
+                              setState(() {
+                                pinPillPosition = pinVisiblePosition;
+                              });
+                            }));
+                        PassMarker.countMarker = PassMarker.countMarker + 1;
+                      });
+                    }
+                  },
+                  icon: const Icon(Icons.approval)),
+            ]),
+        backgroundColor: Colors.white,
+        drawer: Drawer(
+            child: ListView(padding: EdgeInsets.zero, children: [
+          const SizedBox(height: 20.0),
+          ListTile(
               title: const Text("Home",
                   style: TextStyle(fontSize: 30, color: Colors.redAccent)),
-              onTap: () {},
-            ),
-            ListTile(
+              onTap: () {}),
+          ListTile(
               title: const Text("Account"),
               onTap: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => InfoAccount(userModel)),
-                );
-              },
-            ),
-            ListTile(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => InfoAccount(userModel)));
+              }),
+          ListTile(
               title: const Text("Filters"),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Filters()),
-                );
-              },
-            ),
-            ListTile(
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Filters()));
+              }),
+          ListTile(
               title: const Text("About your car"),
               onTap: () async {
                 List<CarModel> cars = await _fetchInfoCar();
-
                 if (cars != []) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Cars_user(cars)),
-                  );
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Cars_user(cars)));
                 }
+              }),
+          ListTile(title: const Text("Help"), onTap: () {}),
+          ListTile(title: const Text("Configuration"), onTap: () {})
+        ])),
+        body: Stack(children: [
+          GoogleMap(
+              mapType: MapType.hybrid,
+              initialCameraPosition: const CameraPosition(
+                  target: LatLng(45.47811155714095, 9.227444681728846),
+                  zoom: 16),
+              markers: PassMarker.markerToPass,
+              onMapCreated: (GoogleMapController controller) {
+                _controller = controller;
               },
-            ),
-            ListTile(
-              title: const Text("Help"),
-              onTap: () {},
-            ),
-            ListTile(
-              title: const Text("Configuration"),
-              onTap: () {},
-            )
-          ],
-        ),
-      ),
-    ));
+              onTap: (LatLng loc) {
+                setState(() {
+                  pinPillPosition = pinInvisiblePosition;
+                });
+              }),
+          AnimatedPositioned(
+              left: 0,
+              curve: Curves.easeInOut,
+              right: 0,
+              bottom: pinPillPosition,
+              child: MapBottomPill(),
+              duration: const Duration(milliseconds: 500))
+        ]));
   }
 
   static Future<List<CarModel>> _fetchInfoCar() async {
@@ -116,22 +157,62 @@ class _HomePageState extends State<HomePage> {
     }
     return cars;
   }
+
+  BitmapDescriptor _iconColor(String owner) {
+    final _auth = FirebaseAuth.instance;
+    String? user = _auth.currentUser.toString();
+    if (owner == user) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+    } else {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+    }
+  }
 }
 
-class GoogleMapScreen extends StatefulWidget {
-  const GoogleMapScreen({Key? key}) : super(key: key);
-  @override
-  _GoogleMapScreenState createState() => _GoogleMapScreenState();
-}
+class MapBottomPill extends StatelessWidget {
+  MapBottomPill({Key? key}) : super(key: key);
 
-class _GoogleMapScreenState extends State<GoogleMapScreen> {
+  final carButton = Container(
+      width: double.maxFinite,
+      height: 10,
+      margin: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
+      decoration: BoxDecoration(
+          color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
+      child: RawMaterialButton(
+        onPressed: () {},
+      ));
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: GoogleMap(
-            mapType: MapType.hybrid,
-            initialCameraPosition: CameraPosition(
-                target: LatLng(45.47811155714095, 9.227444681728846),
-                zoom: 16)));
+    return Container(
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+            color: Colors.redAccent,
+            borderRadius: BorderRadius.circular(40),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 30,
+                  offset: Offset.zero)
+            ]),
+        child: Column(children: [
+          Container(
+              color: Colors.redAccent,
+              child: Row(children: [
+                ClipOval(
+                    child: Image.asset('assets/prcarlogo.png',
+                        width: 60, height: 50, fit: BoxFit.cover)),
+                Column(children: const [
+                  Text('Selected car, click below for more details: ',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold)),
+                  //carButton
+                ])
+              ])),
+        ]));
   }
 }
