@@ -47,7 +47,9 @@ class _HomePageState extends State<HomePage> {
             actions: [
               IconButton(
                   onPressed: () async {
-                    List<CarModel> cars = await _fetchInfoCar();
+                    final _auth = FirebaseAuth.instance;
+                    String? user = _auth.currentUser!.uid.toString();
+                    List<CarModel> cars = await _fetchCar();
                     for (int i = 0; i < cars.length; i++) {
                       String? carLatLng = cars[i].position;
                       final splitted = carLatLng!.split('-');
@@ -58,10 +60,9 @@ class _HomePageState extends State<HomePage> {
                             markerId: MarkerId('marker$i'),
                             infoWindow: InfoWindow(
                               title: 'Car$i',
-                              //snippet: 'Car of ${cars[i].cid}'
                             ),
                             position: LatLng(lat, lng),
-                            icon: _iconColor(cars[i].cid.toString()),
+                            icon: _iconColor(cars[i].uid.toString(), user),
                             onTap: () {
                               setState(() {
                                 pinPillPosition = pinVisiblePosition;
@@ -132,6 +133,41 @@ class _HomePageState extends State<HomePage> {
         ]));
   }
 
+  Future<List<CarModel>> _fetchCar() async {
+    final _auth = FirebaseAuth.instance;
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    List<CarModel> cars = [];
+
+    if (user != null) {
+      try {
+        await firebaseFirestore.collection('users').get()
+            //quando non ci sono macchine da errore
+            .then((ds) async {
+          for (var user_1 in ds.docs) {
+            //print(user_1.data());
+            await firebaseFirestore
+                .collection('users')
+                .doc(user_1.data()['uid'])
+                .collection('cars')
+                .get()
+                .then((ds_1) {
+              for (var car in ds_1.docs) {
+                //print(car.data());
+                cars.add(CarModel.fromMap(car.data()));
+              }
+            });
+          }
+        });
+      } on FirebaseAuthException catch (e) {
+        if (e.code == "impossible to insert new car") {}
+      }
+    }
+    return cars;
+  }
+
   static Future<List<CarModel>> _fetchInfoCar() async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     final _auth = FirebaseAuth.instance;
@@ -158,9 +194,7 @@ class _HomePageState extends State<HomePage> {
     return cars;
   }
 
-  BitmapDescriptor _iconColor(String owner) {
-    final _auth = FirebaseAuth.instance;
-    String? user = _auth.currentUser.toString();
+  BitmapDescriptor _iconColor(String owner, String user) {
     if (owner == user) {
       return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
     } else {

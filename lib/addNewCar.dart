@@ -51,7 +51,7 @@ class _AddNewCarState extends State<AddNewCar> {
         child: MaterialButton(
             onPressed: () {
               Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Position(true)))
+                      MaterialPageRoute(builder: (context) => Position(false)))
                   .then((data) {
                 setState(() {
                   car.position = data;
@@ -269,6 +269,8 @@ class _AddNewCarState extends State<AddNewCar> {
     List<CarModel> cars = [];
 
     carModel.active_or_not = 't';
+    carModel.uid = user!.uid.toString();
+    print(carModel.uid);
     if (user != null) {
       carModel.cid = user.uid +
           carModel.vehicle.toString() +

@@ -9,6 +9,7 @@ class CarModel {
   String? fuel;
   String? active_or_not;
   String? position;
+  String? uid;
 
   CarModel({
     this.cid,
@@ -19,6 +20,7 @@ class CarModel {
     this.fuel,
     this.active_or_not,
     this.position,
+    this.uid,
   });
 
   //receiving data from server
@@ -31,7 +33,8 @@ class CarModel {
         price: map['price'],
         fuel: map['fuel'],
         active_or_not: map['active?'],
-        position: map['position']);
+        position: map['position'],
+        uid: map['uid']);
   }
 
   //sending data to our server
@@ -45,6 +48,7 @@ class CarModel {
       'price': price,
       'active?': active_or_not,
       'position': position,
+      'uid': uid,
     };
   }
 }
