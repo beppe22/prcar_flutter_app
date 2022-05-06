@@ -18,16 +18,9 @@ class _Position extends State<Position> {
 
   double lat = 0;
   double lng = 0;
-
   final Completer<GoogleMapController> _controller = Completer();
   final TextEditingController _searchcontroller = TextEditingController();
   String position = '';
-
-  /*static const Marker _marker = Marker(
-      markerId: MarkerId('marker1'),
-      infoWindow: InfoWindow(title: 'Car 1'),
-      icon: BitmapDescriptor.defaultMarker,
-      position: LatLng(45.47811155714095, 9.227444681728846));*/
 
   @override
   Widget build(BuildContext context) {
@@ -43,16 +36,23 @@ class _Position extends State<Position> {
                   Navigator.pop(context, '');
                 }),
             actions: [
-              IconButton(
-                  onPressed: () {
-                    if (val) {
-                      Navigator.pop(context, position);
-                    } else {
-                      Navigator.pop(
-                          context, lat.toString() + '-' + lng.toString());
-                    }
-                  },
-                  icon: const Icon(Icons.add_location_alt_outlined)),
+              Row(children: [
+                const Text('Search!',
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
+                IconButton(
+                    onPressed: () {
+                      if (val) {
+                        Navigator.pop(context, position);
+                      } else {
+                        Navigator.pop(
+                            context, lat.toString() + '-' + lng.toString());
+                      }
+                    },
+                    icon: const Icon(Icons.add_location_alt_outlined))
+              ])
             ]),
         body: Column(children: [
           Row(children: [
