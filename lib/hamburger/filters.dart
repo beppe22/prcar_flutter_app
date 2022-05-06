@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
+import 'package:prcarpolimi/search_filters/new_map.dart';
 import '../filters/fuel/fuel.dart';
 import '../filters/least/least.dart';
 import '../filters/position/position.dart';
@@ -227,7 +228,24 @@ class _FiltersState extends State<Filters> {
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   Navigator.pop(context);
-                })),
+                }),
+            actions: [
+              Row(children: [
+                const Text('Search!',
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NewMap(search: search)));
+                    },
+                    icon: const Icon(Icons.add_task))
+              ])
+            ]),
         body: Center(
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
           const SizedBox(

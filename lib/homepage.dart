@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                       });
                     }
                   },
-                  icon: const Icon(Icons.approval)),
+                  icon: const Icon(Icons.autorenew_rounded)),
             ]),
         backgroundColor: Colors.white,
         drawer: Drawer(
