@@ -7,7 +7,7 @@ class CarModel {
   String? seats;
   String? price;
   String? fuel;
-  String? active_or_not;
+  String? activeOrNot;
   String? position;
   String? uid;
 
@@ -18,7 +18,7 @@ class CarModel {
     this.vehicle,
     this.price,
     this.fuel,
-    this.active_or_not,
+    this.activeOrNot,
     this.position,
     this.uid,
   });
@@ -32,7 +32,7 @@ class CarModel {
         vehicle: map['veicol'],
         price: map['price'],
         fuel: map['fuel'],
-        active_or_not: map['active?'],
+        activeOrNot: map['active?'],
         position: map['position'],
         uid: map['uid']);
   }
@@ -46,7 +46,7 @@ class CarModel {
       'seats': seats,
       'fuel': fuel,
       'price': price,
-      'active?': active_or_not,
+      'active?': activeOrNot,
       'position': position,
       'uid': uid,
     };

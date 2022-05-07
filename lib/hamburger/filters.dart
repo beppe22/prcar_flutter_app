@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
 import 'package:prcarpolimi/search_filters/new_map.dart';
 import '../filters/fuel/fuel.dart';
@@ -237,11 +240,12 @@ class _FiltersState extends State<Filters> {
                         color: Colors.white,
                         fontWeight: FontWeight.bold)),
                 IconButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      List<CarModel> cars = await _fetchCar();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NewMap(search: search)));
+                              builder: (context) => NewMap(search, cars)));
                     },
                     icon: const Icon(Icons.add_task))
               ])
@@ -270,5 +274,40 @@ class _FiltersState extends State<Filters> {
           const SizedBox(height: 15),
           clearButton
         ])));
+  }
+
+  Future<List<CarModel>> _fetchCar() async {
+    final _auth = FirebaseAuth.instance;
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    List<CarModel> cars = [];
+
+    if (user != null) {
+      try {
+        await firebaseFirestore.collection('users').get()
+            //quando non ci sono macchine da errore
+            .then((ds) async {
+          for (var user_1 in ds.docs) {
+            //print(user_1.data());
+            await firebaseFirestore
+                .collection('users')
+                .doc(user_1.data()['uid'])
+                .collection('cars')
+                .get()
+                .then((ds_1) {
+              for (var car in ds_1.docs) {
+                //print(car.data());
+                cars.add(CarModel.fromMap(car.data()));
+              }
+            });
+          }
+        });
+      } on FirebaseAuthException catch (e) {
+        if (e.code == "impossible to insert new car") {}
+      }
+    }
+    return cars;
   }
 }

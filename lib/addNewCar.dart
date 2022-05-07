@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unnecessary_null_comparison
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,9 +13,7 @@ import 'package:prcarpolimi/models/car_parameter.dart';
 import 'dart:math';
 
 class AddNewCar extends StatefulWidget {
-  AddNewCar({Key? key}) : super(key: key);
-
-  final _auth = FirebaseAuth.instance;
+  const AddNewCar({Key? key}) : super(key: key);
   @override
   _AddNewCarState createState() => _AddNewCarState();
 }
@@ -35,7 +33,7 @@ class _AddNewCarState extends State<AddNewCar> {
       vehicle: '',
       position: '',
       cid: '',
-      active_or_not: '',
+      activeOrNot: '',
     );
   }
 
@@ -268,9 +266,8 @@ class _AddNewCarState extends State<AddNewCar> {
 
     List<CarModel> cars = [];
 
-    carModel.active_or_not = 't';
+    carModel.activeOrNot = 't';
     carModel.uid = user!.uid.toString();
-    print(carModel.uid);
     if (user != null) {
       carModel.cid = user.uid +
           carModel.vehicle.toString() +

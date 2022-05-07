@@ -57,7 +57,7 @@ class _InfoCarState extends State<InfoCar> {
                     fontWeight: FontWeight.normal),
               ),
               Text(
-                carModel.active_or_not.toString(),
+                carModel.activeOrNot.toString(),
                 style: const TextStyle(
                     color: Colors.black,
                     fontSize: 30.8,
@@ -81,7 +81,7 @@ class _InfoCarState extends State<InfoCar> {
                     onPressed: () async {
                       _suspendCar();
                       setState(() {
-                        carModel.active_or_not = 'f';
+                        carModel.activeOrNot = 'f';
                       });
                     },
                     child: const Text("Suspend",

@@ -1,42 +1,92 @@
-// ignore_for_file: no_logic_in_create_state, must_be_immutable
+// ignore_for_file: no_logic_in_create_state, must_be_immutable, unused_local_variable
 
-import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_place/google_place.dart';
+import 'package:prcarpolimi/models/carModel.dart';
+import 'package:prcarpolimi/models/marker_to_search.dart';
 import 'package:prcarpolimi/models/search_model.dart';
 
-const double pinPillPosition = -220;
+const double pinVisiblePosition = 10;
+const double pinInvisiblePosition = -220;
 
 class NewMap extends StatefulWidget {
   SearchModel search;
-  NewMap({Key? key, required this.search}) : super(key: key);
+  List<CarModel> cars;
+  NewMap(this.search, this.cars, {Key? key}) : super(key: key);
 
   @override
-  _NewMapState createState() => _NewMapState(search);
+  _NewMapState createState() => _NewMapState(search, cars);
 }
 
 class _NewMapState extends State<NewMap> {
   SearchModel search;
+  List<CarModel> cars;
 
-  _NewMapState(this.search);
+  _NewMapState(this.search, this.cars);
+  double pinPillPosition = pinInvisiblePosition;
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
-    SearchModel carSearch;
+    GoogleMapController _controller;
+    String? user = _auth.currentUser!.uid.toString();
     return Scaffold(
         appBar: AppBar(
-          title: const Text("PrCar"),
-          backgroundColor: Colors.redAccent,
-        ),
+            title: const Text("PrCar"),
+            backgroundColor: Colors.redAccent,
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  SearchMarker.markerToSearch = {};
+                  SearchMarker.countMarker = 0;
+                  Navigator.pop(context);
+                }),
+            actions: [
+              Row(children: [
+                const Text('Reload!',
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
+                IconButton(
+                    onPressed: () async {
+                      List<CarModel> carsFiltered =
+                          await _searchCar(cars, search, user);
+                      for (int i = 0; i < carsFiltered.length; i++) {
+                        String? carLatLng = carsFiltered[i].position;
+                        final splitted = carLatLng!.split('-');
+                        double lat = double.parse(splitted[0]);
+                        double lng = double.parse(splitted[1]);
+                        setState(() {
+                          SearchMarker.markerToSearch.add(Marker(
+                              markerId: MarkerId('marker$i'),
+                              infoWindow:
+                                  const InfoWindow(title: 'Searched car'),
+                              position: LatLng(lat, lng),
+                              icon: BitmapDescriptor.defaultMarkerWithHue(
+                                  BitmapDescriptor.hueRed),
+                              onTap: () {
+                                setState(() {
+                                  pinPillPosition = pinVisiblePosition;
+                                });
+                              }));
+                          SearchMarker.countMarker =
+                              SearchMarker.countMarker + 1;
+                        });
+                      }
+                    },
+                    icon: const Icon(Icons.autorenew_rounded))
+              ])
+            ]),
         backgroundColor: Colors.white,
         body: Stack(children: [
-          const GoogleMap(
-            mapType: MapType.hybrid,
-            initialCameraPosition: CameraPosition(
-                target: LatLng(45.47811155714095, 9.227444681728846), zoom: 16),
-            /*markers: PassMarker.markerToPass,
+          GoogleMap(
+              mapType: MapType.hybrid,
+              initialCameraPosition: const CameraPosition(
+                  target: LatLng(45.47811155714095, 9.227444681728846),
+                  zoom: 16),
+              markers: SearchMarker.markerToSearch,
               onMapCreated: (GoogleMapController controller) {
                 _controller = controller;
               },
@@ -44,8 +94,7 @@ class _NewMapState extends State<NewMap> {
                 setState(() {
                   pinPillPosition = pinInvisiblePosition;
                 });
-              }*/
-          ),
+              }),
           AnimatedPositioned(
               left: 0,
               curve: Curves.easeInOut,
@@ -54,6 +103,50 @@ class _NewMapState extends State<NewMap> {
               child: MapBottomPill(),
               duration: const Duration(milliseconds: 500))
         ]));
+  }
+
+  Future<List<CarModel>> _searchCar(
+      List<CarModel> cars, SearchModel search, String user) async {
+    List<CarModel> filteredCar = [];
+    for (int i = 0; i < cars.length; i++) {
+      bool j = true;
+      String owner = cars[i].uid.toString();
+      if (user == owner) {
+        j = false;
+      }
+      if (j &&
+          (search.seats.toString() != '') &&
+          (int.parse(search.seats.toString()) >
+              int.parse(cars[i].seats.toString()))) {
+        j = false;
+      }
+      if (j &&
+          (search.fuel.toString() != '') &&
+          (search.fuel != cars[i].fuel)) {
+        j = false;
+      }
+      String modelSearch = '';
+      if (search.vehicle.toString() != '') {
+        String toSplit = search.vehicle.toString();
+        final splitted = toSplit.split('-');
+        modelSearch = splitted[1];
+      }
+      if (j &&
+          (search.vehicle.toString() != '') &&
+          (modelSearch != cars[i].model)) {
+        j = false;
+      }
+      if (j &&
+          (search.price.toString() != '') &&
+          (int.parse(search.price.toString()) <
+              int.parse(cars[i].price.toString()))) {
+        j = false;
+      }
+      if (j) {
+        filteredCar.add(cars[i]);
+      }
+    }
+    return filteredCar;
   }
 
   /*Future<List<CarModel>> _fetchCar() async {
@@ -90,14 +183,6 @@ class _NewMapState extends State<NewMap> {
     }
     return cars;
   }*/
-
-  BitmapDescriptor _iconColor(String owner, String user) {
-    if (owner == user) {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
-    } else {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
-    }
-  }
 }
 
 class MapBottomPill extends StatelessWidget {

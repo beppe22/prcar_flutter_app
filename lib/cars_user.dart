@@ -64,17 +64,16 @@ class _Cars_userState extends State<Cars_user> {
                                                     fillColor:
                                                         const Color(0xFF0069FE),
                                                     onPressed: () async {
-                                                      final new_cars =
-                                                          await Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) =>
-                                                                      InfoCar(cars[
-                                                                          index])));
+                                                      final newCars = await Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  InfoCar(cars[
+                                                                      index])));
 
-                                                      if (new_cars != []) {
+                                                      if (newCars != []) {
                                                         setState(() {
-                                                          cars = new_cars;
+                                                          cars = newCars;
                                                         });
                                                       }
                                                     },
@@ -95,7 +94,7 @@ class _Cars_userState extends State<Cars_user> {
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
                 final newCars = await Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddNewCar()));
+                    MaterialPageRoute(builder: (context) => const AddNewCar()));
                 setState(() {
                   cars = newCars;
                 });
