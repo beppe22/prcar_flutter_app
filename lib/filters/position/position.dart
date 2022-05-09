@@ -7,16 +7,12 @@ import 'package:prcarpolimi/filters/position/location_service.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
 
 class Position extends StatefulWidget {
-  bool val;
-  Position(this.val, {Key? key}) : super(key: key);
+  const Position({Key? key}) : super(key: key);
   @override
-  _Position createState() => _Position(val);
+  _Position createState() => _Position();
 }
 
 class _Position extends State<Position> {
-  bool val;
-  _Position(this.val);
-
   double lat = 0;
   double lng = 0;
   final Completer<GoogleMapController> _controller = Completer();
@@ -45,16 +41,9 @@ class _Position extends State<Position> {
                         fontWeight: FontWeight.bold)),
                 IconButton(
                     onPressed: () {
-                      if (val) {
-                        SearchCar.latSearch = lat.toString();
-                        SearchCar.lngSearch = lng.toString();
-                        Navigator.pop(context, position);
-                      } else {
-                        SearchCar.latSearch = lat.toString();
-                        SearchCar.lngSearch = lng.toString();
-                        Navigator.pop(
-                            context, lat.toString() + '-' + lng.toString());
-                      }
+                      SearchCar.latSearch = lat.toString();
+                      SearchCar.lngSearch = lng.toString();
+                      Navigator.pop(context, position);
                     },
                     icon: const Icon(Icons.add_location_alt_outlined))
               ])

@@ -67,7 +67,7 @@ class _FiltersState extends State<Filters> {
         child: MaterialButton(
             onPressed: () {
               Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Position(true)))
+                      MaterialPageRoute(builder: (context) => const Position()))
                   .then((data) {
                 setState(() {
                   search.position = data;

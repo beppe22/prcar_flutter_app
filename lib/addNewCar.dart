@@ -21,6 +21,7 @@ class AddNewCar extends StatefulWidget {
 class _AddNewCarState extends State<AddNewCar> {
   static late CarModel car;
   String vehicleString = '';
+  String positionString = '';
 
   @override
   void initState() {
@@ -49,17 +50,20 @@ class _AddNewCarState extends State<AddNewCar> {
         child: MaterialButton(
             onPressed: () {
               Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Position(false)))
+                      MaterialPageRoute(builder: (context) => const Position()))
                   .then((data) {
                 setState(() {
-                  car.position = data;
+                  car.position = SearchCar.latSearch.toString() +
+                      '-' +
+                      SearchCar.lngSearch.toString();
+                  positionString = data;
                 });
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Position: " + car.position.toString(),
+            child: Text("Position: " + positionString.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -193,6 +197,7 @@ class _AddNewCarState extends State<AddNewCar> {
                 car.seats = '';
                 car.position = '';
                 car.model = '';
+                positionString = '';
                 vehicleString = '';
               });
             },
@@ -226,17 +231,17 @@ class _AddNewCarState extends State<AddNewCar> {
                       fontWeight: FontWeight.bold,
                       color: Colors.redAccent,
                       fontSize: 25))),
-          const SizedBox(height: 10),
-          positionButton,
-          const SizedBox(height: 10),
-          seatsButton,
-          const SizedBox(height: 10),
-          fuelButton,
-          const SizedBox(height: 10),
-          priceButton,
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           vehicleButton,
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
+          positionButton,
+          const SizedBox(height: 15),
+          seatsButton,
+          const SizedBox(height: 15),
+          fuelButton,
+          const SizedBox(height: 15),
+          priceButton,
+          const SizedBox(height: 15),
           clearButton,
           const SizedBox(height: 10),
           SizedBox(
@@ -298,99 +303,4 @@ class _AddNewCarState extends State<AddNewCar> {
     }
     return cars;
   }
-
-/*
-  @override
-  Widget build(BuildContext context) {
-    TextEditingController model = TextEditingController();
-    TextEditingController seats = TextEditingController();
-    TextEditingController price = TextEditingController();
-    TextEditingController fuel = TextEditingController();
-    TextEditingController vehicle = TextEditingController();
-
-    return MaterialApp(
-        home: Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-                backgroundColor: Colors.redAccent,
-                title: const Text('PrCar'),
-                automaticallyImplyLeading: false,
-                leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    })),
-            body: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Add car informations",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 50.8,
-                          fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 44.0),
-                  TextField(
-                      controller: vehicle,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: "Car Vehicle",
-                        //prefixIcon: Icon(Icons.mail, color: Colors.black),
-                      )),
-                  const SizedBox(
-                    height: 44.0,
-                  ),
-                  TextField(
-                      controller: model,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(hintText: "Car Model")),
-                  const SizedBox(height: 44.0),
-                  TextField(
-                      controller: seats,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: "Number of seats",
-                        //prefixIcon: Icon(Icons.mail, color: Colors.black),
-                      )),
-                  const SizedBox(
-                    height: 44.0,
-                  ),
-                  TextField(
-                      controller: fuel,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: "Type of fuel",
-                        //prefixIcon: Icon(Icons.mail, color: Colors.black),
-                      )),
-                  const SizedBox(
-                    height: 44.0,
-                  ),
-                  TextField(
-                      controller: price,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: "Price for day",
-                        //prefixIcon: Icon(Icons.mail, color: Colors.black),
-                      )),
-                  SizedBox(
-                      width: double.infinity,
-                      child: RawMaterialButton(
-                        fillColor: const Color(0xFF0069FE),
-                        onPressed: () async {
-                          List<CarModel> cars = await _addCar(model.text,
-                              seats.text, fuel.text, vehicle.text, price.text);
-                          if (cars != []) {
-                            Navigator.pop(context, cars);
-                          }
-                        },
-                        child: const Text("Add new car",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                            )),
-                      ))
-                ])));
-  }
-
-  */
 }
