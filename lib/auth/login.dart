@@ -77,8 +77,8 @@ class _LoginState extends State<Login> {
           const SizedBox(height: 88.0),
           SizedBox(
               width: double.infinity,
-              child: RawMaterialButton(
-                  fillColor: const Color(0xFF0069FE),
+              child: MaterialButton(
+                  color: Colors.redAccent,
                   onPressed: () async {
                     User? user = await loginUsingEmailPassword(
                         email: _emailController.text,

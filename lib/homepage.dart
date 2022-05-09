@@ -31,13 +31,6 @@ class _HomePageState extends State<HomePage> {
   double pinPillPosition = pinInvisiblePosition;
 
   @override
-  void initState() {
-    super.initState();
-    PassMarker.markerToPass = {};
-    PassMarker.countMarker = 0;
-  }
-
-  @override
   Widget build(BuildContext context) {
     GoogleMapController _controller;
     return Scaffold(
@@ -54,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                     onPressed: () async {
                       final _auth = FirebaseAuth.instance;
-                      String? user = _auth.currentUser!.uid.toString();
+                      String? userAuth = _auth.currentUser!.uid.toString();
                       List<CarModel> cars = await _fetchCar();
                       for (int i = 0; i < cars.length; i++) {
                         String? carLatLng = cars[i].position;
@@ -68,7 +61,8 @@ class _HomePageState extends State<HomePage> {
                                 title: 'Car$i',
                               ),
                               position: LatLng(lat, lng),
-                              icon: _iconColor(cars[i].uid.toString(), user),
+                              icon:
+                                  _iconColor(cars[i].uid.toString(), userAuth),
                               onTap: () {
                                 setState(() {
                                   pinPillPosition = pinVisiblePosition;
@@ -79,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                       }
                     },
                     icon: const Icon(Icons.autorenew_rounded))
-              ]),
+              ])
             ]),
         backgroundColor: Colors.white,
         drawer: Drawer(
@@ -175,6 +169,14 @@ class _HomePageState extends State<HomePage> {
     return cars;
   }
 
+  BitmapDescriptor _iconColor(String owner, String user) {
+    if (owner == user) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+    } else {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+    }
+  }
+
   static Future<List<CarModel>> _fetchInfoCar() async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     final _auth = FirebaseAuth.instance;
@@ -199,14 +201,6 @@ class _HomePageState extends State<HomePage> {
       }
     }
     return cars;
-  }
-
-  BitmapDescriptor _iconColor(String owner, String user) {
-    if (owner == user) {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
-    } else {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
-    }
   }
 }
 
