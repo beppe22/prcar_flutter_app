@@ -64,6 +64,8 @@ class _HomePageState extends State<HomePage> {
                               icon:
                                   _iconColor(cars[i].uid.toString(), userAuth),
                               onTap: () {
+                                PassMarker.carUid = cars[i].cid.toString();
+                                print(PassMarker.carUid);
                                 setState(() {
                                   pinPillPosition = pinVisiblePosition;
                                 });
@@ -212,7 +214,11 @@ class MapBottomPill extends StatelessWidget {
       margin: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
       decoration: BoxDecoration(
           color: Colors.grey, borderRadius: BorderRadius.circular(20)),
-      child: ElevatedButton(onPressed: () {}, child: const Text('Reserve')));
+      child: ElevatedButton(
+          onPressed: () {
+            print(PassMarker.carUid.toString());
+          },
+          child: const Text('Reserve')));
 
   @override
   Widget build(BuildContext context) {
