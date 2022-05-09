@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/filters/position/location_service.dart';
+import 'package:prcarpolimi/models/car_parameter.dart';
 
 class Position extends StatefulWidget {
   bool val;
@@ -45,8 +46,12 @@ class _Position extends State<Position> {
                 IconButton(
                     onPressed: () {
                       if (val) {
+                        SearchCar.latSearch = lat.toString();
+                        SearchCar.lngSearch = lng.toString();
                         Navigator.pop(context, position);
                       } else {
+                        SearchCar.latSearch = lat.toString();
+                        SearchCar.lngSearch = lng.toString();
                         Navigator.pop(
                             context, lat.toString() + '-' + lng.toString());
                       }

@@ -209,6 +209,8 @@ class _FiltersState extends State<Filters> {
                 search.vehicle = '';
                 search.seats = '';
                 search.position = '';
+                SearchCar.latSearch = '';
+                SearchCar.lngSearch = '';
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),

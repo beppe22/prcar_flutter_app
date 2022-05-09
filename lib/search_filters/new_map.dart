@@ -1,9 +1,12 @@
 // ignore_for_file: no_logic_in_create_state, must_be_immutable, unused_local_variable
 
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/models/carModel.dart';
+import 'package:prcarpolimi/models/car_parameter.dart';
 import 'package:prcarpolimi/models/marker_to_search.dart';
 import 'package:prcarpolimi/models/search_model.dart';
 
@@ -142,11 +145,30 @@ class _NewMapState extends State<NewMap> {
               int.parse(cars[i].price.toString()))) {
         j = false;
       }
+      if (j &&
+          (SearchCar.latSearch.toString() != '') &&
+          (_nearbyPosition(SearchCar.latSearch, SearchCar.lngSearch,
+              cars[i].position.toString()))) {
+        j = false;
+      }
       if (j) {
         filteredCar.add(cars[i]);
       }
     }
     return filteredCar;
+  }
+
+  bool _nearbyPosition(String lat, String lng, String carsPos) {
+    double lat1 = double.parse(lat) / 57.29577951;
+    double lng1 = double.parse(lng) / 57.29577951;
+    final splitted = carsPos.split('-');
+    double lat2 = double.parse(splitted[0]) / 57.29577951;
+    double lng2 = double.parse(splitted[1]) / 57.29577951;
+    double distance = 3963.0 *
+        acos((sin(lat1) * sin(lat2)) +
+            cos(lat1) * cos(lat2) * cos(lng2 - lng1)) *
+        1.609344;
+    return distance > 3;
   }
 
   /*Future<List<CarModel>> _fetchCar() async {
