@@ -47,9 +47,9 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                     text: getUntil(), onClicked: () => pickDateRange(context)))
           ]),
           LeastButton(
-              value: SearchCar.date1Search.toString() +
+              value: SearchCar.date1Search.toString().substring(0, 5) +
                   ' => ' +
-                  SearchCar.date2Search.toString())
+                  SearchCar.date2Search.toString().substring(0, 5))
         ]));
   }
 
@@ -61,7 +61,7 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
         initialDateRange: dateRange);
     if (newDateRange == null) return;
     setState(() => dateRange = newDateRange);
-    SearchCar.date2Search = DateFormat('dd-MM').format(dateRange!.start);
-    SearchCar.date2Search = DateFormat('dd-MM').format(dateRange!.end);
+    SearchCar.date1Search = DateFormat('dd-MM-yyyy').format(dateRange!.start);
+    SearchCar.date2Search = DateFormat('dd-MM-yyyy').format(dateRange!.end);
   }
 }

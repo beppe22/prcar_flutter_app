@@ -151,6 +151,13 @@ class _NewMapState extends State<NewMap> {
               cars[i].position.toString()))) {
         j = false;
       }
+      if (j &&
+              (SearchCar.date1Search.toString() !=
+                  '') /* && (_freeDate(SearchCar.date1Search, SearchCar.date2Search,
+      cars[i].date.toString()*/
+          ) {
+        j = false;
+      }
       if (j) {
         filteredCar.add(cars[i]);
       }
@@ -171,39 +178,37 @@ class _NewMapState extends State<NewMap> {
     return distance > 3;
   }
 
-  /*Future<List<CarModel>> _fetchCar() async {
-    final _auth = FirebaseAuth.instance;
-
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-
-    List<CarModel> cars = [];
-
-    if (user != null) {
-      try {
-        await firebaseFirestore.collection('users').get()
-            //quando non ci sono macchine da errore
-            .then((ds) async {
-          for (var user_1 in ds.docs) {
-            //print(user_1.data());
-            await firebaseFirestore
-                .collection('users')
-                .doc(user_1.data()['uid'])
-                .collection('cars')
-                .get()
-                .then((ds_1) {
-              for (var car in ds_1.docs) {
-                //print(car.data());
-                cars.add(CarModel.fromMap(car.data()));
-              }
-            });
-          }
-        });
-      } on FirebaseAuthException catch (e) {
-        if (e.code == "impossible to insert new car") {}
-      }
+  /*bool _freeDate(String startDate, String endDate, List<String> allDate) {
+    if(allDate.length == 0)
+    {
+      return false;
     }
-    return cars;
+    else
+    {
+      for (int i = 0; i < allDate.length; i++)
+      {
+        if ((int.parse(startDate.substring(6)) >= int.parse(allDate[i].substring(6,10)))) 
+        {
+          if((int.parse(startDate.substring(3,5)) >= int.parse(allDate[i].substring(3,5))))
+          {
+            if((int.parse(startDate.substring(0,2)) >= int.parse(allDate[i].substring(0,2))))
+            {
+              if ((int.parse(endDate.substring(6)) <= int.parse(allDate[i].substring(17)))) 
+               {
+                if((int.parse(endDate.substring(3,5)) <= int.parse(allDate[i].substring(14,16))))
+                {
+                  if((int.parse(endDate.substring(0,2)) <= int.parse(allDate[i].substring(11,13))))
+                  {
+                    return false;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      return true;
+    }
   }*/
 }
 
