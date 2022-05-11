@@ -1,9 +1,10 @@
-// ignore_for_file: no_logic_in_create_state, must_be_immutable, unused_local_variable
+// ignore_for_file: no_logic_in_create_state, must_be_immutable
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:prcarpolimi/booking_page.dart';
 import 'package:prcarpolimi/infoAccount.dart';
 import 'package:prcarpolimi/cars_user.dart';
 import 'package:prcarpolimi/models/carModel.dart';
@@ -29,6 +30,13 @@ class _HomePageState extends State<HomePage> {
 
   _HomePageState(this.userModel);
   double pinPillPosition = pinInvisiblePosition;
+
+  @override
+  void initState() {
+    super.initState();
+    PassMarker.markerToPass = {};
+    PassMarker.countMarker = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +72,8 @@ class _HomePageState extends State<HomePage> {
                               icon:
                                   _iconColor(cars[i].uid.toString(), userAuth),
                               onTap: () {
-                                PassMarker.carUid = cars[i].cid.toString();
-                                print(PassMarker.carUid);
+                                PassMarker.carModel = cars[i];
+
                                 setState(() {
                                   pinPillPosition = pinVisiblePosition;
                                 });
@@ -75,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                       }
                     },
                     icon: const Icon(Icons.autorenew_rounded))
-              ])
+              ]),
             ]),
         backgroundColor: Colors.white,
         drawer: Drawer(
@@ -171,14 +179,6 @@ class _HomePageState extends State<HomePage> {
     return cars;
   }
 
-  BitmapDescriptor _iconColor(String owner, String user) {
-    if (owner == user) {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
-    } else {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
-    }
-  }
-
   static Future<List<CarModel>> _fetchInfoCar() async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     final _auth = FirebaseAuth.instance;
@@ -204,21 +204,18 @@ class _HomePageState extends State<HomePage> {
     }
     return cars;
   }
+
+  BitmapDescriptor _iconColor(String owner, String user) {
+    if (owner == user) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+    } else {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+    }
+  }
 }
 
 class MapBottomPill extends StatelessWidget {
-  MapBottomPill({Key? key}) : super(key: key);
-
-  final carButton = Container(
-      width: 140,
-      margin: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
-      decoration: BoxDecoration(
-          color: Colors.grey, borderRadius: BorderRadius.circular(20)),
-      child: ElevatedButton(
-          onPressed: () {
-            print(PassMarker.carUid.toString());
-          },
-          child: const Text('Reserve')));
+  const MapBottomPill({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -257,9 +254,157 @@ class MapBottomPill extends StatelessWidget {
                           fontSize: 15,
                           color: Colors.black87,
                           fontWeight: FontWeight.bold)),
-                  carButton
+                  Container(
+                      width: 140,
+                      margin: const EdgeInsets.only(
+                          top: 10, left: 10, right: 10, bottom: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            final result = await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(40)),
+                                  elevation: 16,
+                                  child: Container(
+                                    child: ListView(
+                                      shrinkWrap: true,
+                                      children: <Widget>[
+                                        const SizedBox(height: 20),
+                                        const Center(
+                                            child: Text('Car Information')),
+                                        const SizedBox(height: 20),
+                                        _buildRow(
+                                            'assets/choc.png',
+                                            PassMarker.carModel.vehicle
+                                                .toString(),
+                                            'VEHICLE'),
+                                        _buildRow(
+                                            'assets/choc.png',
+                                            PassMarker.carModel.model
+                                                .toString(),
+                                            'MODEL'),
+                                        _buildRow(
+                                            'assets/choc.png',
+                                            PassMarker.carModel.fuel.toString(),
+                                            'FUEL'),
+                                        _buildRow(
+                                            'assets/choc.png',
+                                            PassMarker.carModel.seats
+                                                .toString(),
+                                            'SEATS'),
+                                        /*_buildRow(
+                                            'assets/choc.png',
+                                            PassMarker.carModel.position
+                                                .toString(),
+                                            'POSITION'),*/
+                                        _buildRow(
+                                            'assets/choc.png',
+                                            PassMarker.carModel.price
+                                                .toString(),
+                                            'PRICE FOR DAY'),
+                                        SizedBox(
+                                            width: double.infinity,
+                                            child: RawMaterialButton(
+                                              fillColor:
+                                                  const Color(0xFF0069FE),
+                                              onPressed: () async {
+                                                Navigator.pop(
+                                                    context,
+                                                    await BookingOut(
+                                                            PassMarker
+                                                                .carModel.cid,
+                                                            PassMarker
+                                                                .carModel.uid)
+                                                        .book());
+                                              },
+                                              child: const Text("Reserve",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18.0,
+                                                  )),
+                                            )),
+                                        SizedBox(
+                                            width: double.infinity,
+                                            child: RawMaterialButton(
+                                              fillColor:
+                                                  const Color(0xFF0069FE),
+                                              onPressed: () async {
+                                                Navigator.pop(context, '');
+                                              },
+                                              child: const Text("Return",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18.0,
+                                                  )),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                            if (result == '1') {
+                              /*showDialog<void>(
+                                context: context,
+                                barrierDismissible:
+                                    false, // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Congra'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: const <Widget>[
+                                          Text('Your Booked your car'),
+                                          
+                                        ],
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      Navigator.pop(context, '1')
+                                    ],
+                                  );
+                                },
+                              );*/
+                            }
+                            //fare spuntare un label per comunicare se la reservation ha avuto buon fine
+                          },
+                          child: const Text('Reserve'))),
                 ], mainAxisAlignment: MainAxisAlignment.spaceBetween)
               ]))
         ]));
+  }
+
+  Widget _buildRow(String imageAsset, String value, String type) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        children: <Widget>[
+          const SizedBox(height: 12),
+          //Container(height: 2, color: Colors.redAccent),
+          const SizedBox(height: 12),
+          Row(
+            children: <Widget>[
+              CircleAvatar(backgroundImage: AssetImage(imageAsset)),
+              const SizedBox(width: 12),
+              Text(type.toUpperCase()),
+              const Spacer(),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.yellow[900],
+                    borderRadius: BorderRadius.circular(20)),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                child: Text(value),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
