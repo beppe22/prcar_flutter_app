@@ -221,7 +221,24 @@ class _AddNewCarState extends State<AddNewCar> {
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   Navigator.pop(context);
-                })),
+                }),
+            actions: [
+              Row(children: [
+                const Text('Done!',
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
+                IconButton(
+                    onPressed: () async {
+                      List<CarModel> cars = await _addCar(car);
+                      if (cars != []) {
+                        Navigator.pop(context, cars);
+                      }
+                    },
+                    icon: const Icon(Icons.add_task))
+              ])
+            ]),
         body: Center(
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
           const SizedBox(
@@ -244,22 +261,6 @@ class _AddNewCarState extends State<AddNewCar> {
           const SizedBox(height: 15),
           clearButton,
           const SizedBox(height: 10),
-          SizedBox(
-              width: double.infinity,
-              child: RawMaterialButton(
-                fillColor: const Color(0xFF0069FE),
-                onPressed: () async {
-                  List<CarModel> cars = await _addCar(car);
-                  if (cars != []) {
-                    Navigator.pop(context, cars);
-                  }
-                },
-                child: const Text("Add new car",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                    )),
-              ))
         ])));
   }
 

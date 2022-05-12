@@ -46,12 +46,11 @@ class _LoginState extends State<Login> {
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
 
-    return MaterialApp(
-        home: Scaffold(
-            body: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+    return Scaffold(
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
           const Text("PrCar",
               style: TextStyle(
                   color: Colors.black,
@@ -116,6 +115,6 @@ class _LoginState extends State<Login> {
                   style: TextStyle(color: Colors.blue, fontSize: 15.0)),
               onTap: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const SignUp())))
-        ])));
+        ]));
   }
 }

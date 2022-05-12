@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state, avoid_print
 
+// ignore_for_file: must_be_immutable, no_logic_in_create_state, avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,90 +25,161 @@ class _InfoCarState extends State<InfoCar> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Info Car',
-        home: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
             backgroundColor: Colors.redAccent,
             title: const Text('PrCar'),
             automaticallyImplyLeading: false,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context, []);
-              },
-            ),
-          ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                carModel.model.toString(),
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 30.8,
-                    fontWeight: FontWeight.normal),
-              ),
-              Text(
-                carModel.seats.toString(),
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 17.8,
-                    fontWeight: FontWeight.normal),
-              ),
-              Text(
-                carModel.activeOrNot.toString(),
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 30.8,
-                    fontWeight: FontWeight.normal),
-              ),
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context, []);
+                })),
+        body: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
               SizedBox(
-                  width: double.infinity,
-                  child: RawMaterialButton(
-                    fillColor: const Color(0xFF0069FE),
-                    onPressed: () async {},
-                    child: const Text("Change Info",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                        )),
-                  )),
-              SizedBox(
-                  width: double.infinity,
-                  child: RawMaterialButton(
-                    fillColor: const Color(0xFF0069FE),
-                    onPressed: () async {
-                      _suspendCar();
-                      setState(() {
-                        carModel.activeOrNot = 'f';
-                      });
-                    },
-                    child: const Text("Suspend",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                        )),
-                  )),
-              SizedBox(
-                  width: double.infinity,
-                  child: RawMaterialButton(
-                    fillColor: const Color(0xFF0069FE),
-                    onPressed: () async {
-                      _deleteCar();
-                      Navigator.pop(context, _fetchInfoCar());
-                    },
-                    child: const Text("Delete",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                        )),
-                  ))
-            ],
-          ),
-        ));
+                  height: 200,
+                  child:
+                      Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
+              const SizedBox(height: 30),
+              Container(
+                  height: 175,
+                  width: 350,
+                  child: Center(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                        Text(
+                            'Model: ' +
+                                carModel.vehicle.toString() +
+                                '-' +
+                                carModel.model.toString(),
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500,
+                                backgroundColor: Colors.white)),
+                        Text('Seats: ' + carModel.seats.toString(),
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500,
+                                backgroundColor: Colors.white)),
+                        Text('Fuel: ' + carModel.fuel.toString(),
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500,
+                                backgroundColor: Colors.white)),
+                        Text('Position: ' + carModel.position.toString(),
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500,
+                                backgroundColor: Colors.white)),
+                        Text('Price for day: ' + carModel.price.toString(),
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500,
+                                backgroundColor: Colors.white)),
+                        Text(
+                            'Status: ' +
+                                _activeString(carModel.activeOrNot.toString()),
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500,
+                                backgroundColor: Colors.white))
+                      ])),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Colors.redAccent,
+                            spreadRadius: 4,
+                            blurRadius: 2)
+                      ])),
+              const SizedBox(height: 35),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                    height: 60,
+                    width: 150,
+                    child: MaterialButton(
+                        color: Colors.grey,
+                        onPressed: () async {},
+                        child: const Text("Change Info",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20))),
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.blueGrey,
+                              spreadRadius: 6,
+                              blurRadius: 3)
+                        ])),
+                const SizedBox(width: 30),
+                Container(
+                    height: 60,
+                    width: 150,
+                    child: MaterialButton(
+                        color: Colors.grey,
+                        onPressed: () async {
+                          _suspendCar();
+                          setState(() {
+                            carModel.activeOrNot = 'f';
+                          });
+                        },
+                        child: const Text("Suspend / Active",
+                            textAlign: TextAlign.center,
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20))),
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.blueGrey,
+                              spreadRadius: 6,
+                              blurRadius: 3)
+                        ]))
+              ]),
+              const SizedBox(height: 30),
+              Container(
+                  height: 60,
+                  width: 150,
+                  child: MaterialButton(
+                      color: Colors.grey,
+                      onPressed: () async {
+                        _deleteCar();
+                        Navigator.pop(context, _fetchInfoCar());
+                      },
+                      child: const Text("Delete",
+                          style: TextStyle(color: Colors.white, fontSize: 20))),
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Colors.blueGrey,
+                            spreadRadius: 6,
+                            blurRadius: 3)
+                      ]))
+            ])));
   }
 
   void _deleteCar() async {
@@ -169,5 +242,13 @@ class _InfoCarState extends State<InfoCar> {
       }
     }
     return cars;
+  }
+
+  String _activeString(String active) {
+    if (active == 't') {
+      return 'Active';
+    } else {
+      return 'Inactive';
+    }
   }
 }
