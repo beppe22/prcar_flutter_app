@@ -36,61 +36,39 @@ class _VehicleState extends State<Vehicle> {
                 return ListView.builder(
                     itemCount: items == null ? 0 : items.length,
                     itemBuilder: (context, index) {
-                      return Card(
-                          elevation: 5,
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 35, vertical: 6),
-                          child: Container(
-                              color: Colors.redAccent,
-                              padding: const EdgeInsets.all(8),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const SizedBox(width: 10, height: 50),
-                                    Expanded(
-                                        child: Container(
-                                            width: double.maxFinite,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(
-                                                top: 15,
-                                                left: 40,
-                                                right: 40,
-                                                bottom: 15),
-                                            decoration: BoxDecoration(
-                                                color: Colors.redAccent,
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                            child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    Models(
-                                                                        indice:
-                                                                            index)));
-                                                      },
-                                                      child: Text(
-                                                          items[index]
-                                                              .brand
-                                                              .toString(),
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize: 20,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white)))
-                                                ])))
-                                  ])));
+                      return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 35),
+                            Container(
+                                width: 350,
+                                height: 70,
+                                decoration: BoxDecoration(
+                                    color: Colors.redAccent,
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Models(indice: index)));
+                                          },
+                                          child: Text(
+                                              items[index].brand.toString(),
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white)))
+                                    ]))
+                          ]);
                     });
               } else {
                 return const Center(child: CircularProgressIndicator());

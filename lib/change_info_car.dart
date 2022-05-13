@@ -41,13 +41,8 @@ class ChangeInfoCar extends StatelessWidget {
                   TextField(
                       controller: vehicle,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: '',
-                        //prefixIcon: Icon(Icons.mail, color: Colors.black),
-                      )),
-                  const SizedBox(
-                    height: 44.0,
-                  ),
+                      decoration: const InputDecoration(hintText: '')),
+                  const SizedBox(height: 44.0),
                   TextField(
                       controller: model,
                       keyboardType: TextInputType.emailAddress,
@@ -56,30 +51,20 @@ class ChangeInfoCar extends StatelessWidget {
                   TextField(
                       controller: seats,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: "Number of seats",
-                        //prefixIcon: Icon(Icons.mail, color: Colors.black),
-                      )),
-                  const SizedBox(
-                    height: 44.0,
-                  ),
+                      decoration:
+                          const InputDecoration(hintText: "Number of seats")),
+                  const SizedBox(height: 44.0),
                   TextField(
                       controller: fuel,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: "Type of fuel",
-                        //prefixIcon: Icon(Icons.mail, color: Colors.black),
-                      )),
-                  const SizedBox(
-                    height: 44.0,
-                  ),
+                      decoration:
+                          const InputDecoration(hintText: "Type of fuel")),
+                  const SizedBox(height: 44.0),
                   TextField(
                       controller: price,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: "Price for day",
-                        //prefixIcon: Icon(Icons.mail, color: Colors.black),
-                      )),
+                      decoration:
+                          const InputDecoration(hintText: "Price for day")),
                   /*Container(
                       width: double.infinity,
                       child: RawMaterialButton(

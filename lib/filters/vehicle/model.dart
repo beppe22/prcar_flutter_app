@@ -39,51 +39,40 @@ class _ModelsState extends State<Models> {
                 return ListView.builder(
                     itemCount: modelNames == null ? 0 : modelNames.length,
                     itemBuilder: (context, index) {
-                      return Card(
-                          child: Container(
-                              color: Colors.redAccent,
-                              padding: const EdgeInsets.all(8),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const SizedBox(width: 50, height: 50),
-                                    Expanded(
-                                        child: Container(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8),
-                                            child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.of(context)
-                                                          ..pop()
-                                                          ..pop();
-                                                        SearchCar.vehicle =
-                                                            items[indice]
-                                                                .brand
-                                                                .toString();
-                                                        SearchCar.model =
-                                                            modelNames![index]
-                                                                .toString();
-                                                      },
-                                                      child: Text(
-                                                          modelNames![index]
-                                                              .toString(),
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize: 20,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white)))
-                                                ])))
-                                  ])));
+                      return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 35),
+                            Container(
+                                width: 350,
+                                height: 70,
+                                decoration: BoxDecoration(
+                                    color: Colors.redAccent,
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context)
+                                              ..pop()
+                                              ..pop();
+                                            SearchCar.vehicle =
+                                                items[indice].brand.toString();
+                                            SearchCar.model =
+                                                modelNames![index].toString();
+                                          },
+                                          child: Text(
+                                              modelNames![index].toString(),
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white)))
+                                    ]))
+                          ]);
                     });
               } else {
                 return const Center(child: CircularProgressIndicator());

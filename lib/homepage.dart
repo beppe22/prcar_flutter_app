@@ -66,14 +66,13 @@ class _HomePageState extends State<HomePage> {
                           PassMarker.markerToPass.add(Marker(
                               markerId: MarkerId('marker$i'),
                               infoWindow: InfoWindow(
-                                title: 'Car$i',
-                              ),
+                                  title: _printInfoWindow(
+                                      cars[i].uid.toString(), userAuth)),
                               position: LatLng(lat, lng),
                               icon:
                                   _iconColor(cars[i].uid.toString(), userAuth),
                               onTap: () {
                                 PassMarker.carModel = cars[i];
-
                                 setState(() {
                                   pinPillPosition = pinVisiblePosition;
                                 });
@@ -83,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                       }
                     },
                     icon: const Icon(Icons.autorenew_rounded))
-              ]),
+              ])
             ]),
         backgroundColor: Colors.white,
         drawer: Drawer(
@@ -183,7 +182,6 @@ class _HomePageState extends State<HomePage> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     final _auth = FirebaseAuth.instance;
     User? user = _auth.currentUser;
-    CarModel carModel = CarModel();
     List<CarModel> cars = [];
 
     if (user != null) {
@@ -210,6 +208,14 @@ class _HomePageState extends State<HomePage> {
       return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
     } else {
       return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+    }
+  }
+
+  String _printInfoWindow(String owner, String user) {
+    if (owner == user) {
+      return 'My car';
+    } else {
+      return 'Other\'s car';
     }
   }
 }
@@ -264,90 +270,86 @@ class MapBottomPill extends StatelessWidget {
                       child: ElevatedButton(
                           onPressed: () async {
                             final result = await showDialog(
-                              context: context,
-                              builder: (context) {
-                                return Dialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40)),
-                                  elevation: 16,
-                                  child: Container(
-                                    child: ListView(
-                                      shrinkWrap: true,
-                                      children: <Widget>[
-                                        const SizedBox(height: 20),
-                                        const Center(
-                                            child: Text('Car Information')),
-                                        const SizedBox(height: 20),
-                                        _buildRow(
-                                            'assets/choc.png',
-                                            PassMarker.carModel.vehicle
-                                                .toString(),
-                                            'VEHICLE'),
-                                        _buildRow(
-                                            'assets/choc.png',
-                                            PassMarker.carModel.model
-                                                .toString(),
-                                            'MODEL'),
-                                        _buildRow(
-                                            'assets/choc.png',
-                                            PassMarker.carModel.fuel.toString(),
-                                            'FUEL'),
-                                        _buildRow(
-                                            'assets/choc.png',
-                                            PassMarker.carModel.seats
-                                                .toString(),
-                                            'SEATS'),
-                                        /*_buildRow(
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(40)),
+                                      elevation: 16,
+                                      child: ListView(
+                                          shrinkWrap: true,
+                                          children: <Widget>[
+                                            const SizedBox(height: 20),
+                                            const Center(
+                                                child: Text('Car Information')),
+                                            const SizedBox(height: 20),
+                                            _buildRow(
+                                                'assets/choc.png',
+                                                PassMarker.carModel.vehicle
+                                                    .toString(),
+                                                'VEHICLE'),
+                                            _buildRow(
+                                                'assets/choc.png',
+                                                PassMarker.carModel.model
+                                                    .toString(),
+                                                'MODEL'),
+                                            _buildRow(
+                                                'assets/choc.png',
+                                                PassMarker.carModel.fuel
+                                                    .toString(),
+                                                'FUEL'),
+                                            _buildRow(
+                                                'assets/choc.png',
+                                                PassMarker.carModel.seats
+                                                    .toString(),
+                                                'SEATS'),
+                                            /*_buildRow(
                                             'assets/choc.png',
                                             PassMarker.carModel.position
                                                 .toString(),
                                             'POSITION'),*/
-                                        _buildRow(
-                                            'assets/choc.png',
-                                            PassMarker.carModel.price
-                                                .toString(),
-                                            'PRICE FOR DAY'),
-                                        SizedBox(
-                                            width: double.infinity,
-                                            child: RawMaterialButton(
-                                              fillColor:
-                                                  const Color(0xFF0069FE),
-                                              onPressed: () async {
-                                                Navigator.pop(
-                                                    context,
-                                                    await BookingOut(
-                                                            PassMarker
-                                                                .carModel.cid,
-                                                            PassMarker
-                                                                .carModel.uid)
-                                                        .book());
-                                              },
-                                              child: const Text("Reserve",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18.0,
-                                                  )),
-                                            )),
-                                        SizedBox(
-                                            width: double.infinity,
-                                            child: RawMaterialButton(
-                                              fillColor:
-                                                  const Color(0xFF0069FE),
-                                              onPressed: () async {
-                                                Navigator.pop(context, '');
-                                              },
-                                              child: const Text("Return",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18.0,
-                                                  )),
-                                            ))
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
+                                            _buildRow(
+                                                'assets/choc.png',
+                                                PassMarker.carModel.price
+                                                    .toString(),
+                                                'PRICE FOR DAY'),
+                                            SizedBox(
+                                                width: double.infinity,
+                                                child: RawMaterialButton(
+                                                    fillColor:
+                                                        const Color(0xFF0069FE),
+                                                    onPressed: () async {
+                                                      Navigator.pop(
+                                                          context,
+                                                          await BookingOut(
+                                                                  PassMarker
+                                                                      .carModel
+                                                                      .cid,
+                                                                  PassMarker
+                                                                      .carModel
+                                                                      .uid)
+                                                              .book());
+                                                    },
+                                                    child: const Text("Reserve",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 18.0)))),
+                                            SizedBox(
+                                                width: double.infinity,
+                                                child: RawMaterialButton(
+                                                    fillColor:
+                                                        const Color(0xFF0069FE),
+                                                    onPressed: () async {
+                                                      Navigator.pop(
+                                                          context, '');
+                                                    },
+                                                    child: const Text("Return",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 18.0))))
+                                          ]));
+                                });
                             if (result == '1') {
                               /*showDialog<void>(
                                 context: context,
@@ -381,30 +383,24 @@ class MapBottomPill extends StatelessWidget {
 
   Widget _buildRow(String imageAsset, String value, String type) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        children: <Widget>[
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(children: <Widget>[
           const SizedBox(height: 12),
           //Container(height: 2, color: Colors.redAccent),
           const SizedBox(height: 12),
-          Row(
-            children: <Widget>[
-              CircleAvatar(backgroundImage: AssetImage(imageAsset)),
-              const SizedBox(width: 12),
-              Text(type.toUpperCase()),
-              const Spacer(),
-              Container(
+          Row(children: <Widget>[
+            CircleAvatar(backgroundImage: AssetImage(imageAsset)),
+            const SizedBox(width: 12),
+            Text(type.toUpperCase()),
+            const Spacer(),
+            Container(
                 decoration: BoxDecoration(
                     color: Colors.yellow[900],
                     borderRadius: BorderRadius.circular(20)),
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                child: Text(value),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                child: Text(value))
+          ])
+        ]));
   }
 }

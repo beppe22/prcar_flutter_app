@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state, must_be_immutable
+// ignore_for_file: no_logic_in_create_state, must_be_immutable, avoid_print
 
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class _Position extends State<Position> {
   final Completer<GoogleMapController> _controller = Completer();
   final TextEditingController _searchcontroller = TextEditingController();
   String position = '';
-
+  bool index = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,16 +34,42 @@ class _Position extends State<Position> {
                 }),
             actions: [
               Row(children: [
-                const Text('Search!',
+                const Text('This Place!',
                     style: TextStyle(
                         fontSize: 17,
                         color: Colors.white,
                         fontWeight: FontWeight.bold)),
                 IconButton(
                     onPressed: () {
-                      SearchCar.latSearch = lat.toString();
-                      SearchCar.lngSearch = lng.toString();
-                      Navigator.pop(context, position);
+                      if (index) {
+                        SearchCar.latSearch = lat.toString();
+                        SearchCar.lngSearch = lng.toString();
+                        index = true;
+                        Navigator.pop(context, position);
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                    title: const Text('No place choosen',
+                                        style: TextStyle(fontSize: 24)),
+                                    content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: const <Widget>[
+                                          Text(
+                                              'Please search a place on a map, click on the lens to move the map to that place and then click here',
+                                              style: TextStyle(fontSize: 20))
+                                        ]),
+                                    actions: <Widget>[
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Close',
+                                              style: TextStyle(fontSize: 24)))
+                                    ]));
+                      }
                     },
                     icon: const Icon(Icons.add_location_alt_outlined))
               ])
@@ -59,21 +85,26 @@ class _Position extends State<Position> {
                     onChanged: (value) {})),
             IconButton(
                 onPressed: () async {
-                  var place =
-                      await LocationService().getPlace(_searchcontroller.text);
-                  _goToPlace(place);
+                  try {
+                    var place = await LocationService()
+                        .getPlace(_searchcontroller.text);
+                    _goToPlace(place);
+                    index = true;
+                  } on RangeError catch (e) {
+                    print(e);
+                  }
                 },
                 icon: const Icon(Icons.search))
           ]),
           Expanded(
               child: GoogleMap(
-            mapType: MapType.hybrid,
-            initialCameraPosition: const CameraPosition(
-                target: LatLng(45.47811155714095, 9.227444681728846), zoom: 16),
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-          ))
+                  mapType: MapType.hybrid,
+                  initialCameraPosition: const CameraPosition(
+                      target: LatLng(45.47811155714095, 9.227444681728846),
+                      zoom: 16),
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  }))
         ]));
   }
 

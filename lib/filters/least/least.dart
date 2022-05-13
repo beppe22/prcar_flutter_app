@@ -43,7 +43,7 @@ class Least extends StatelessWidget {
                           color: Colors.redAccent,
                           fontSize: 20))),
               const SizedBox(height: 60),
-              const DateRangePickerWidget(),
+              const DateRangePickerWidget()
             ])));
   }
 }

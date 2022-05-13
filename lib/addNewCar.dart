@@ -221,12 +221,58 @@ class _AddNewCarState extends State<AddNewCar> {
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   Navigator.pop(context);
-                })),
+                }),
+            actions: [
+              Row(children: [
+                const Text('Done!',
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
+                IconButton(
+                    onPressed: () async {
+                      if (car.fuel != '' &&
+                          car.position != '' &&
+                          car.model != '' &&
+                          car.price != '' &&
+                          car.seats != '') {
+                        List<CarModel> cars = await _addCar(car);
+                        if (cars != []) {
+                          Navigator.pop(context, cars);
+                        }
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                    title: const Text('Invalid Insert',
+                                        style: TextStyle(fontSize: 24)),
+                                    content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: const <Widget>[
+                                          Text(
+                                              'Don\'t insert a car without all the parameters choosen',
+                                              style: TextStyle(fontSize: 20))
+                                        ]),
+                                    actions: <Widget>[
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Close',
+                                              style: TextStyle(fontSize: 24)))
+                                    ]));
+                      }
+                    },
+                    icon: const Icon(Icons.add_task))
+              ])
+            ]),
         body: Center(
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
           const SizedBox(
               height: 30,
-              child: Text("Insert your own car.",
+              child: Text("Insert a new car",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.redAccent,
@@ -244,22 +290,6 @@ class _AddNewCarState extends State<AddNewCar> {
           const SizedBox(height: 15),
           clearButton,
           const SizedBox(height: 10),
-          SizedBox(
-              width: double.infinity,
-              child: RawMaterialButton(
-                fillColor: const Color(0xFF0069FE),
-                onPressed: () async {
-                  List<CarModel> cars = await _addCar(car);
-                  if (cars != []) {
-                    Navigator.pop(context, cars);
-                  }
-                },
-                child: const Text("Add new car",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                    )),
-              ))
         ])));
   }
 
