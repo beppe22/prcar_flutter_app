@@ -182,7 +182,6 @@ class _HomePageState extends State<HomePage> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     final _auth = FirebaseAuth.instance;
     User? user = _auth.currentUser;
-    CarModel carModel = CarModel();
     List<CarModel> cars = [];
 
     if (user != null) {
