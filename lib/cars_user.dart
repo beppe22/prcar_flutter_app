@@ -21,16 +21,14 @@ class _Cars_userState extends State<Cars_user> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.redAccent,
-          title: const Text('PrCar'),
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
+            backgroundColor: Colors.redAccent,
+            title: const Text('PrCar'),
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                })),
         body: ListView.builder(
             itemCount: cars == [] ? 0 : cars.length,
             itemBuilder: (context, index) {
@@ -74,20 +72,19 @@ class _Cars_userState extends State<Cars_user> {
                                       color: Colors.redAccent,
                                       spreadRadius: 6,
                                       blurRadius: 2)
-                                ])),
+                                ]))
                       ])));
             }),
         floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final newCars = await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const AddNewCar()));
-            setState(() {
-              cars = newCars;
-            });
-          },
-          backgroundColor: Colors.grey,
-          tooltip: 'Add new car',
-          child: const Icon(Icons.add),
-        ));
+            onPressed: () async {
+              final newCars = await Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const AddNewCar()));
+              setState(() {
+                cars = newCars;
+              });
+            },
+            backgroundColor: Colors.grey,
+            tooltip: 'Add new car',
+            child: const Icon(Icons.add)));
   }
 }

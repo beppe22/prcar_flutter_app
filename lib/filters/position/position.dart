@@ -67,13 +67,13 @@ class _Position extends State<Position> {
           ]),
           Expanded(
               child: GoogleMap(
-            mapType: MapType.hybrid,
-            initialCameraPosition: const CameraPosition(
-                target: LatLng(45.47811155714095, 9.227444681728846), zoom: 16),
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-          ))
+                  mapType: MapType.hybrid,
+                  initialCameraPosition: const CameraPosition(
+                      target: LatLng(45.47811155714095, 9.227444681728846),
+                      zoom: 16),
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  }))
         ]));
   }
 

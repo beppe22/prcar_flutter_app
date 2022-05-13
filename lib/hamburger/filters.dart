@@ -50,7 +50,7 @@ class _FiltersState extends State<Filters> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Least: " + search.least.toString(),
+            child: Text(_printLeast(search.least.toString()),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -96,9 +96,11 @@ class _FiltersState extends State<Filters> {
               Navigator.push(context,
                       MaterialPageRoute(builder: (context) => const Vehicle()))
                   .then((data) {
-                setState(() {
-                  search.vehicle = SearchCar.vehicle + '-' + SearchCar.model;
-                });
+                if (data != '') {
+                  setState(() {
+                    search.vehicle = SearchCar.vehicle + '-' + SearchCar.model;
+                  });
+                }
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -276,6 +278,14 @@ class _FiltersState extends State<Filters> {
           const SizedBox(height: 15),
           clearButton
         ])));
+  }
+
+  String _printLeast(String least) {
+    if (least == '') {
+      return 'Least: ';
+    } else {
+      return 'Least: ' + least.substring(0, 5) + least.substring(10, 19);
+    }
   }
 
   Future<List<CarModel>> _fetchCar() async {

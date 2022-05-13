@@ -77,7 +77,7 @@ class InfoAccount extends StatelessWidget {
                                 color: Colors.red,
                                 fontSize: 25,
                                 fontWeight: FontWeight.w500,
-                                backgroundColor: Colors.white)),
+                                backgroundColor: Colors.white))
                       ])),
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -105,7 +105,7 @@ class InfoAccount extends StatelessWidget {
                                 color: Colors.red,
                                 fontSize: 25,
                                 fontWeight: FontWeight.w500,
-                                backgroundColor: Colors.white)),
+                                backgroundColor: Colors.white))
                       ])),
                   decoration: BoxDecoration(
                       color: Colors.white,

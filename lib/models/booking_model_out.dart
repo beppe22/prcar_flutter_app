@@ -4,12 +4,7 @@ class BookingOutModel {
   String? date;
   String? uidBooking;
 
-  BookingOutModel({
-    this.uidOwner,
-    this.cid,
-    this.date,
-    this.uidBooking,
-  });
+  BookingOutModel({this.uidOwner, this.cid, this.date, this.uidBooking});
 
   //receiving data from server
   factory BookingOutModel.fromMap(map) {
@@ -26,7 +21,7 @@ class BookingOutModel {
       'uidOwner': uidOwner,
       'cid': cid,
       'date': date,
-      'uidBooking': uidBooking,
+      'uidBooking': uidBooking
     };
   }
 }

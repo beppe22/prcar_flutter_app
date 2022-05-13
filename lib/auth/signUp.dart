@@ -172,12 +172,12 @@ class _SignUpState extends State<SignUp> {
         home: Scaffold(
             appBar: AppBar(
                 backgroundColor: Colors.redAccent,
-                title: const Text("Fuel"),
+                title: const Text("Sign Up"),
                 automaticallyImplyLeading: false,
                 leading: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () {
-                      Navigator.pop(context, '');
+                      Navigator.pop(context);
                     })),
             body: SingleChildScrollView(
                 child: Container(

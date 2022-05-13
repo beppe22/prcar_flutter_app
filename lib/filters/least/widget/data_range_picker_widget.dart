@@ -47,9 +47,9 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                     text: getUntil(), onClicked: () => pickDateRange(context)))
           ]),
           LeastButton(
-              value: SearchCar.date1Search.toString().substring(0, 5) +
+              value: SearchCar.date1Search.toString() +
                   ' => ' +
-                  SearchCar.date2Search.toString().substring(0, 5))
+                  SearchCar.date2Search.toString())
         ]));
   }
 

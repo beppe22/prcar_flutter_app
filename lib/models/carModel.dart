@@ -11,17 +11,16 @@ class CarModel {
   String? position;
   String? uid;
 
-  CarModel({
-    this.cid,
-    this.model,
-    this.seats,
-    this.vehicle,
-    this.price,
-    this.fuel,
-    this.activeOrNot,
-    this.position,
-    this.uid,
-  });
+  CarModel(
+      {this.cid,
+      this.model,
+      this.seats,
+      this.vehicle,
+      this.price,
+      this.fuel,
+      this.activeOrNot,
+      this.position,
+      this.uid});
 
   //receiving data from server
   factory CarModel.fromMap(map) {

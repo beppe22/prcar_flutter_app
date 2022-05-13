@@ -243,7 +243,7 @@ class _AddNewCarState extends State<AddNewCar> {
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
           const SizedBox(
               height: 30,
-              child: Text("Insert your own car.",
+              child: Text("Insert a new car",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.redAccent,

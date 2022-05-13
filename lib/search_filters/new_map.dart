@@ -220,10 +220,7 @@ class MapBottomPill extends StatelessWidget {
       margin: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
       decoration: BoxDecoration(
           color: Colors.grey, borderRadius: BorderRadius.circular(20)),
-      child: ElevatedButton(
-        onPressed: () {},
-        child: const Text('Reserve'),
-      ));
+      child: ElevatedButton(onPressed: () {}, child: const Text('Reserve')));
 
   @override
   Widget build(BuildContext context) {
@@ -244,13 +241,11 @@ class MapBottomPill extends StatelessWidget {
               color: Colors.redAccent,
               child: Row(children: [
                 ClipOval(
-                    child: Image.asset(
-                  'assets/prcarlogo.png',
-                  width: 100,
-                  height: 85,
-                  fit: BoxFit.cover,
-                  alignment: Alignment.topCenter,
-                )),
+                    child: Image.asset('assets/prcarlogo.png',
+                        width: 100,
+                        height: 85,
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter)),
                 Column(children: [
                   const Text('Selected car, click below for',
                       textAlign: TextAlign.center,
@@ -266,7 +261,7 @@ class MapBottomPill extends StatelessWidget {
                           fontWeight: FontWeight.bold)),
                   carButton
                 ], mainAxisAlignment: MainAxisAlignment.spaceBetween)
-              ])),
+              ]))
         ]));
   }
 }
