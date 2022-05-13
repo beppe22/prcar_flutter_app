@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
               curve: Curves.easeInOut,
               right: 0,
               bottom: pinPillPosition,
-              child: MapBottomPill(),
+              child: const MapBottomPill(),
               duration: const Duration(milliseconds: 500))
         ]));
   }
