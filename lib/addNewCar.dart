@@ -231,9 +231,38 @@ class _AddNewCarState extends State<AddNewCar> {
                         fontWeight: FontWeight.bold)),
                 IconButton(
                     onPressed: () async {
-                      List<CarModel> cars = await _addCar(car);
-                      if (cars != []) {
-                        Navigator.pop(context, cars);
+                      if (car.fuel != '' &&
+                          car.position != '' &&
+                          car.model != '' &&
+                          car.price != '' &&
+                          car.seats != '') {
+                        List<CarModel> cars = await _addCar(car);
+                        if (cars != []) {
+                          Navigator.pop(context, cars);
+                        }
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                    title: const Text('Invalid Insert',
+                                        style: TextStyle(fontSize: 24)),
+                                    content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: const <Widget>[
+                                          Text(
+                                              'Don\'t insert a car without all the parameters choosen',
+                                              style: TextStyle(fontSize: 20))
+                                        ]),
+                                    actions: <Widget>[
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Close',
+                                              style: TextStyle(fontSize: 24)))
+                                    ]));
                       }
                     },
                     icon: const Icon(Icons.add_task))
