@@ -58,7 +58,6 @@ class _Cars_userState extends State<Cars_user> {
                                           builder: (context) =>
                                               InfoCar(cars[index], suspOrAct)));
                                   if (newCars != []) {
-                                    print(cars.length);
                                     setState(() {
                                       cars = newCars;
                                     });

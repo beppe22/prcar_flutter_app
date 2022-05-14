@@ -29,7 +29,7 @@ class InfoAccount extends StatelessWidget {
                 children: [
               const SizedBox(height: 25),
               SizedBox(
-                  height: 250,
+                  height: 200,
                   child:
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
               const SizedBox(height: 30),
@@ -116,8 +116,8 @@ class InfoAccount extends StatelessWidget {
                             spreadRadius: 4,
                             blurRadius: 2)
                       ])),
-              const SizedBox(height: 40),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              const SizedBox(height: 30),
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(
                     height: 50,
                     width: 250,
@@ -139,6 +139,64 @@ class InfoAccount extends StatelessWidget {
                         boxShadow: const [
                           BoxShadow(
                               color: Colors.deepPurple,
+                              spreadRadius: 6,
+                              blurRadius: 3)
+                        ])),
+                const SizedBox(height: 40),
+                Container(
+                    height: 50,
+                    width: 250,
+                    child: MaterialButton(
+                        color: Colors.redAccent,
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                      title: const Text('!!! Warning !!!',
+                                          style: TextStyle(
+                                              fontSize: 28,
+                                              color: Colors.redAccent,
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center),
+                                      content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: const <Widget>[
+                                            Text(
+                                                'If you press \'Confirm!\' your account will be deleted. Do you want to continue?',
+                                                style: TextStyle(fontSize: 20),
+                                                textAlign: TextAlign.center)
+                                          ]),
+                                      actions: <Widget>[
+                                        Row(children: [
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text('Close',
+                                                  style:
+                                                      TextStyle(fontSize: 24))),
+                                          const SizedBox(width: 110),
+                                          TextButton(
+                                              onPressed: () {
+                                                /*qua fa il delete*/
+                                              },
+                                              child: const Text('Confirm!',
+                                                  style:
+                                                      TextStyle(fontSize: 24)))
+                                        ])
+                                      ]));
+                        },
+                        child: const Text("Delete Account",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 25))),
+                    decoration: BoxDecoration(
+                        color: Colors.black87,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black87,
                               spreadRadius: 6,
                               blurRadius: 3)
                         ]))
