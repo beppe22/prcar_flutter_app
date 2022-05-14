@@ -7,16 +7,21 @@ import 'package:prcarpolimi/models/carModel.dart';
 
 class InfoCar extends StatefulWidget {
   CarModel carModel;
+  String supOrActive;
 
-  InfoCar(this.carModel, {Key? key}) : super(key: key);
+  InfoCar(this.carModel, this.supOrActive, {Key? key}) : super(key: key);
   @override
-  State<InfoCar> createState() => _InfoCarState(carModel);
+  State<InfoCar> createState() => _InfoCarState(carModel, supOrActive);
 }
 
 class _InfoCarState extends State<InfoCar> {
   CarModel carModel;
+  String supOrActive;
 
-  _InfoCarState(this.carModel);
+  _InfoCarState(
+    this.carModel,
+    this.supOrActive,
+  );
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
@@ -137,15 +142,23 @@ class _InfoCarState extends State<InfoCar> {
                     child: MaterialButton(
                         color: Colors.grey,
                         onPressed: () async {
-                          _suspendCar();
-                          setState(() {
-                            carModel.activeOrNot = 'f';
-                          });
+                          if (supOrActive == 'Active') {
+                            setState(() {
+                              carModel.activeOrNot = 't';
+                              supOrActive = 'Suspend';
+                            });
+                          } else {
+                            setState(() {
+                              carModel.activeOrNot = 'f';
+                              supOrActive = 'Active';
+                            });
+                          }
+                          _suspendOrActiveCar();
                         },
-                        child: const Text("Suspend / Active",
+                        child: Text(supOrActive,
                             textAlign: TextAlign.center,
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 20))),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20))),
                     decoration: BoxDecoration(
                         color: Colors.grey,
                         borderRadius: BorderRadius.circular(12),
@@ -194,7 +207,7 @@ class _InfoCarState extends State<InfoCar> {
     }
   }
 
-  void _suspendCar() async {
+  void _suspendOrActiveCar() async {
     User? user = _auth.currentUser;
 
     if (user != null) {
@@ -204,9 +217,7 @@ class _InfoCarState extends State<InfoCar> {
             .doc(user.uid)
             .collection('cars')
             .doc(carModel.cid)
-            .set({
-          'active?': 'f',
-        });
+            .set(carModel.toMap());
       } on FirebaseAuthException catch (e) {
         print(
           e.toString(),

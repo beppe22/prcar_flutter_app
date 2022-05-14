@@ -31,7 +31,7 @@ class CarModel {
         vehicle: map['veicol'],
         price: map['price'],
         fuel: map['fuel'],
-        activeOrNot: map['active?'],
+        activeOrNot: map['activeOrNot'],
         position: map['position'],
         uid: map['uid']);
   }
@@ -45,7 +45,7 @@ class CarModel {
       'seats': seats,
       'fuel': fuel,
       'price': price,
-      'active?': activeOrNot,
+      'activeOrNot': activeOrNot,
       'position': position,
       'uid': uid,
     };

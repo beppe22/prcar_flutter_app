@@ -46,12 +46,19 @@ class _Cars_userState extends State<Cars_user> {
                             child: MaterialButton(
                                 color: Colors.grey.shade200,
                                 onPressed: () async {
+                                  String suspOrAct = '';
+                                  if (cars[index].activeOrNot == 't') {
+                                    suspOrAct = 'Suspend';
+                                  } else {
+                                    suspOrAct = 'Active';
+                                  }
                                   final newCars = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              InfoCar(cars[index])));
+                                              InfoCar(cars[index], suspOrAct)));
                                   if (newCars != []) {
+                                    print(cars.length);
                                     setState(() {
                                       cars = newCars;
                                     });
