@@ -107,7 +107,7 @@ class _NewMapState extends State<NewMap> {
               curve: Curves.easeInOut,
               right: 0,
               bottom: pinPillPosition,
-              child: MapBottomPill(),
+              child: const MapBottomPill(),
               duration: const Duration(milliseconds: 500))
         ]));
   }
