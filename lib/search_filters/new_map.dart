@@ -5,8 +5,10 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prcarpolimi/booking_page.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/models/marker_to_search.dart';
 import 'package:prcarpolimi/models/search_model.dart';
 
@@ -213,14 +215,7 @@ class _NewMapState extends State<NewMap> {
 }
 
 class MapBottomPill extends StatelessWidget {
-  MapBottomPill({Key? key}) : super(key: key);
-
-  final carButton = Container(
-      width: 140,
-      margin: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
-      decoration: BoxDecoration(
-          color: Colors.grey, borderRadius: BorderRadius.circular(20)),
-      child: ElevatedButton(onPressed: () {}, child: const Text('Reserve')));
+  const MapBottomPill({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -259,9 +254,172 @@ class MapBottomPill extends StatelessWidget {
                           fontSize: 15,
                           color: Colors.black87,
                           fontWeight: FontWeight.bold)),
-                  carButton
-                ], mainAxisAlignment: MainAxisAlignment.spaceBetween)
+                  Container(
+                      width: 140,
+                      margin: const EdgeInsets.only(
+                          top: 10, left: 10, right: 10, bottom: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            final result = await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      elevation: 6,
+                                      child: Column(children: <Widget>[
+                                        const SizedBox(height: 20),
+                                        const Center(
+                                            child: Text('Car Information',
+                                                style: TextStyle(
+                                                    fontSize: 38,
+                                                    fontWeight:
+                                                        FontWeight.bold))),
+                                        const SizedBox(height: 10),
+                                        _buildRow(
+                                            'assets/choc.png',
+                                            PassMarker.carModel.vehicle
+                                                .toString(),
+                                            'VEHICLE'),
+                                        _buildRow(
+                                            'assets/choc.png',
+                                            PassMarker.carModel.model
+                                                .toString(),
+                                            'MODEL'),
+                                        _buildRow(
+                                            'assets/choc.png',
+                                            PassMarker.carModel.fuel.toString(),
+                                            'FUEL'),
+                                        _buildRow(
+                                            'assets/choc.png',
+                                            PassMarker.carModel.seats
+                                                .toString(),
+                                            'SEATS'),
+                                        _buildRow(
+                                            'assets/choc.png',
+                                            PassMarker.carModel.price
+                                                .toString(),
+                                            'PRICE FOR DAY'),
+                                        const SizedBox(height: 20),
+                                        SizedBox(
+                                            height: 175,
+                                            child: Image.asset(
+                                                "assets/prcarlogo.png",
+                                                fit: BoxFit.contain)),
+                                        Container(
+                                            child: MaterialButton(
+                                                height: 50,
+                                                minWidth: 200,
+                                                color: Colors.redAccent,
+                                                onPressed: () async {
+                                                  Navigator.pop(
+                                                      context,
+                                                      await BookingOut(
+                                                              PassMarker
+                                                                  .carModel.cid,
+                                                              PassMarker
+                                                                  .carModel.uid)
+                                                          .book());
+                                                },
+                                                child: const Text("Reserve",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22.0))),
+                                            decoration: BoxDecoration(
+                                                color: Colors.deepPurple,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                boxShadow: const [
+                                                  BoxShadow(
+                                                      color: Colors.deepPurple,
+                                                      spreadRadius: 6,
+                                                      blurRadius: 3)
+                                                ])),
+                                        const SizedBox(height: 30),
+                                        Container(
+                                            child: MaterialButton(
+                                                height: 50,
+                                                minWidth: 200,
+                                                color: Colors.redAccent,
+                                                onPressed: () async {
+                                                  Navigator.pop(context, '');
+                                                },
+                                                child: const Text("Return",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22.0))),
+                                            decoration: BoxDecoration(
+                                                color: Colors.deepPurple,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                boxShadow: const [
+                                                  BoxShadow(
+                                                      color: Colors.deepPurple,
+                                                      spreadRadius: 6,
+                                                      blurRadius: 3)
+                                                ]))
+                                      ]));
+                                });
+                            if (result == '1') {
+                              /*showDialog<void>(
+                                context: context,
+                                barrierDismissible:
+                                    false, // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Congra'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: const <Widget>[
+                                          Text('Your Booked your car'),
+                                          
+                                        ],
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      Navigator.pop(context, '1')
+                                    ],
+                                  );
+                                },
+                              );*/
+                            }
+                            //fare spuntare un label per comunicare se la reservation ha avuto buon fine
+                          },
+                          child: const Text('Reserve'))),
+                ], mainAxisAlignment: MainAxisAlignment.center)
               ]))
+        ]));
+  }
+
+  Widget _buildRow(String imageAsset, String value, String type) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(children: <Widget>[
+          const SizedBox(height: 12),
+          //Container(height: 2, color: Colors.redAccent),
+          Row(children: <Widget>[
+            //CircleAvatar(backgroundImage: AssetImage(imageAsset)),
+            const SizedBox(width: 12),
+            Text(
+              type.toUpperCase(),
+              style: const TextStyle(fontSize: 18),
+            ),
+            const Spacer(),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.yellow[900],
+                    borderRadius: BorderRadius.circular(20)),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                child: Text(
+                  value,
+                  style: const TextStyle(fontSize: 18),
+                ))
+          ])
         ]));
   }
 }
