@@ -42,7 +42,7 @@ class _Cars_userState extends State<Cars_user> {
                         const SizedBox(height: 20),
                         Container(
                             height: 50,
-                            width: 300,
+                            width: 350,
                             child: MaterialButton(
                                 color: Colors.grey.shade200,
                                 onPressed: () async {

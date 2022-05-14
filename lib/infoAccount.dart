@@ -120,7 +120,7 @@ class InfoAccount extends StatelessWidget {
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(
                     height: 50,
-                    width: 175,
+                    width: 250,
                     child: MaterialButton(
                         color: Colors.grey,
                         onPressed: () async {
@@ -132,13 +132,13 @@ class InfoAccount extends StatelessWidget {
                         },
                         child: const Text("Logout",
                             style:
-                                TextStyle(color: Colors.white, fontSize: 34))),
+                                TextStyle(color: Colors.white, fontSize: 25))),
                     decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.deepPurple,
+                        borderRadius: BorderRadius.circular(12),
                         boxShadow: const [
                           BoxShadow(
-                              color: Colors.blueGrey,
+                              color: Colors.deepPurple,
                               spreadRadius: 6,
                               blurRadius: 3)
                         ]))

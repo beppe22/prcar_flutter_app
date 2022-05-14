@@ -47,11 +47,14 @@ class _LoginState extends State<Login> {
     TextEditingController _passwordController = TextEditingController();
 
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+        body: SingleChildScrollView(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              const SizedBox(height: 80),
               const Text("Welcome to PrCar!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -134,17 +137,17 @@ class _LoginState extends State<Login> {
                         },
                         child: const Text("Login",
                             style:
-                                TextStyle(color: Colors.white, fontSize: 34))),
+                                TextStyle(color: Colors.white, fontSize: 25))),
                     decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.deepPurple,
+                        borderRadius: BorderRadius.circular(12),
                         boxShadow: const [
                           BoxShadow(
-                              color: Colors.blueGrey,
+                              color: Colors.deepPurple,
                               spreadRadius: 6,
                               blurRadius: 3)
                         ]))
               ])
-            ]));
+            ])));
   }
 }

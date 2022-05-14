@@ -252,7 +252,7 @@ class _AddNewCarState extends State<AddNewCar> {
                                             CrossAxisAlignment.start,
                                         children: const <Widget>[
                                           Text(
-                                              'Don\'t insert a car without all the parameters choosen',
+                                              'You can\'t insert a car without all the parameters choosen',
                                               style: TextStyle(fontSize: 20))
                                         ]),
                                     actions: <Widget>[

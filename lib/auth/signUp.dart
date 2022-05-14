@@ -170,6 +170,7 @@ class _SignUpState extends State<SignUp> {
     return MaterialApp(
         //padding: const EdgeInsets.all(16.0),
         home: Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
                 backgroundColor: Colors.redAccent,
                 title: const Text("Sign Up"),

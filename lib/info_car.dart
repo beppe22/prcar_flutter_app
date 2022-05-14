@@ -82,7 +82,9 @@ class _InfoCarState extends State<InfoCar> {
                                 fontSize: 22,
                                 fontWeight: FontWeight.w500,
                                 backgroundColor: Colors.white)),
-                        Text('Position: ' + carModel.position.toString(),
+                        Text(
+                            'Position: ' +
+                                _positionString(carModel.position.toString()),
                             textAlign: TextAlign.start,
                             style: const TextStyle(
                                 color: Colors.red,
@@ -127,11 +129,11 @@ class _InfoCarState extends State<InfoCar> {
                             style:
                                 TextStyle(color: Colors.white, fontSize: 20))),
                     decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: const [
                           BoxShadow(
-                              color: Colors.blueGrey,
+                              color: Colors.deepPurple,
                               spreadRadius: 6,
                               blurRadius: 3)
                         ])),
@@ -160,11 +162,11 @@ class _InfoCarState extends State<InfoCar> {
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 20))),
                     decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: const [
                           BoxShadow(
-                              color: Colors.blueGrey,
+                              color: Colors.deepPurple,
                               spreadRadius: 6,
                               blurRadius: 3)
                         ]))
@@ -182,11 +184,11 @@ class _InfoCarState extends State<InfoCar> {
                       child: const Text("Delete",
                           style: TextStyle(color: Colors.white, fontSize: 20))),
                   decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: Colors.deepPurple,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: const [
                         BoxShadow(
-                            color: Colors.blueGrey,
+                            color: Colors.deepPurple,
                             spreadRadius: 6,
                             blurRadius: 3)
                       ]))
@@ -258,5 +260,12 @@ class _InfoCarState extends State<InfoCar> {
     } else {
       return 'Inactive';
     }
+  }
+
+  String _positionString(String position) {
+    String newPos = '';
+    List<String> splitted = position.split('-');
+    newPos = splitted[0].substring(0, 7) + '-' + splitted[1].substring(0, 7);
+    return newPos;
   }
 }
