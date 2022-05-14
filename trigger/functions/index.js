@@ -1,53 +1,35 @@
 const functions = require("firebase-functions");
 const admin = require('firebase-admin');
-auth = FirebaseAuth.instance;
-const user = auth.currentUser.uid;
+admin.initializeApp();
+const db = admin.firestore();
 
 
+exports.eii= functions.firestore
+.document('users/{IdUser}/booking-out/{IdBookingOut}')
+.onCreate(async (snap, context) => {
 
-
-
-
-
-
-
-exports.makeUppercase= functions.firestore
-.document('m/Mxw2M8wMQn0rWuLSky8j/n/{bookId}')
-.onCreate((snap, context) => {
-
-
-
-    const original = snap.data().original;
-
-      // Access the parameter `{documentId}` with `context.params`
-    functions.logger.log('Uppercasing', context.params.bookId, original);
-      
-    const uppercase = user.toString();
-      
-      // You must return a Promise when performing asynchronous tasks inside a Functions such as
-      // writing to Firestore.
-      // Setting an 'uppercase' field in Firestore document returns a Promise.
-    return snap.ref.set({uppercase}, {merge: true});
+   const bookOut= snap.data();
     
     
     /*const uidOwner= snap.data().uidOwner;
     const cid=snap.data().cid
     //print(cid);
-    
+    */
     var object1 = {
-        'uidOwner': uidOwner,
-        'cid': cid,
-        'date': snap.data().date,
-        'uidBooking': snap.data().uidBooking,
+        'uidOwner': bookOut.uidOwner,
+        'cid': bookOut.cid,
+        'date': bookOut.date,
+        'uidBooking': bookOut.uidBooking,
+        'bookingId': bookOut.bookingId,
       }
 
     
     await db.collection('users')
-    .document(uidOwner)
+    .doc(bookOut.uidOwner)
     .collection('cars')
-    .document(cid)
+    .doc(bookOut.cid)
     .collection('booking-in')
-    .document('ciao')
+    .doc(bookOut.bookingId)
     .set(object1);
     
     /*return getFirestore()

@@ -1,18 +1,21 @@
-class BookingInModel {
+class BookingModel {
   String? uidOwner;
   String? cid;
   String? date;
   String? uidBooking;
+  String? bookingId;
 
-  BookingInModel({this.uidOwner, this.cid, this.date, this.uidBooking});
+  BookingModel(
+      {this.uidOwner, this.cid, this.date, this.uidBooking, this.bookingId});
 
   //receiving data from server
-  factory BookingInModel.fromMap(map) {
-    return BookingInModel(
+  factory BookingModel.fromMap(map) {
+    return BookingModel(
         uidOwner: map['uidOwner'],
         cid: map['cid'],
         date: map['date'],
-        uidBooking: map['uidBooking']);
+        uidBooking: map['uidBooking'],
+        bookingId: map['bookingId']);
   }
 
   //sending data to our server
@@ -21,7 +24,8 @@ class BookingInModel {
       'uidOwner': uidOwner,
       'cid': cid,
       'date': date,
-      'uidBooking': uidBooking
+      'uidBooking': uidBooking,
+      'bookingId': bookingId,
     };
   }
 }

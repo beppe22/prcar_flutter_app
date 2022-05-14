@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:prcarpolimi/models/booking_model_out.dart';
+import 'package:prcarpolimi/models/booking_model.dart';
 
 class BookingOut {
   late String? uid;
@@ -11,20 +11,26 @@ class BookingOut {
 
   Future<String> book() async {
     final _auth = FirebaseAuth.instance;
-    var rng = Random();
+    var rng = Random().nextInt(10000000);
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
 
     if (user != null) {
       try {
+        String bookingId =
+            user.uid.toString() + cid.toString() + rng.toString();
         await firebaseFirestore
             .collection('users')
             .doc(user.uid)
             //quando non ci sono macchine da errore
             .collection('booking-out')
-            .doc(user.uid.toString() + cid.toString() + rng.toString())
-            .set(BookingOutModel(
-                    cid: cid, uidOwner: uid, date: '1', uidBooking: user.uid)
+            .doc(bookingId)
+            .set(BookingModel(
+                    cid: cid,
+                    uidOwner: uid,
+                    date: '1',
+                    uidBooking: user.uid,
+                    bookingId: bookingId)
                 .toMap())
             .then((ds) {
           return '1';
