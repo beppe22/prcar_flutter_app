@@ -1,87 +1,245 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
+import 'package:prcarpolimi/filters/fuel/fuel.dart';
+import 'package:prcarpolimi/filters/position/position.dart';
+import 'package:prcarpolimi/filters/price/price.dart';
+import 'package:prcarpolimi/filters/seats/seats.dart';
+import 'package:prcarpolimi/filters/vehicle/vehicle.dart';
 import 'package:prcarpolimi/models/carModel.dart';
+import 'package:prcarpolimi/models/car_parameter.dart';
 
-class ChangeInfoCar extends StatelessWidget {
+class ChangeInfoCar extends StatefulWidget {
   CarModel carModel;
   ChangeInfoCar(this.carModel, {Key? key}) : super(key: key);
+  @override
+  State<ChangeInfoCar> createState() => _ChangeInfoCarState(carModel);
+}
+
+class _ChangeInfoCarState extends State<ChangeInfoCar> {
+  CarModel carModel;
+  static late CarModel modify;
+  _ChangeInfoCarState(this.carModel);
+
+  @override
+  void initState() {
+    super.initState();
+    modify = CarModel(
+        seats: carModel.seats,
+        fuel: carModel.fuel,
+        price: carModel.price,
+        model: carModel.model,
+        vehicle: carModel.vehicle,
+        position: carModel.position,
+        activeOrNot: carModel.activeOrNot,
+        uid: carModel.uid,
+        cid: carModel.cid);
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController model = TextEditingController(text: carModel.model);
-    TextEditingController seats = TextEditingController(text: carModel.seats);
-    TextEditingController price = TextEditingController(text: carModel.price);
-    TextEditingController fuel = TextEditingController(text: carModel.fuel);
-    TextEditingController vehicle =
-        TextEditingController(text: carModel.vehicle);
+    String positionString = modify.position.toString();
+    final positionButton = Container(
+        width: double.maxFinite,
+        height: 50,
+        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        decoration: BoxDecoration(
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
+        child: MaterialButton(
+            onPressed: () {
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Position()))
+                  .then((data) {
+                setState(() {
+                  modify.position = SearchCar.latSearch.toString() +
+                      '-' +
+                      SearchCar.lngSearch.toString();
+                  positionString = data;
+                });
+              });
+            },
+            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(30)),
+            child: Text("Position: " + _printPosition(positionString),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold))));
 
-    return MaterialApp(
-        home: Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-                backgroundColor: Colors.redAccent,
-                title: const Text('PrCar'),
-                automaticallyImplyLeading: false,
-                leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    })),
-            body: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Change car informations",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 50.8,
-                          fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 44.0),
-                  TextField(
-                      controller: vehicle,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(hintText: '')),
-                  const SizedBox(height: 44.0),
-                  TextField(
-                      controller: model,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(hintText: "Car Model")),
-                  const SizedBox(height: 44.0),
-                  TextField(
-                      controller: seats,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration:
-                          const InputDecoration(hintText: "Number of seats")),
-                  const SizedBox(height: 44.0),
-                  TextField(
-                      controller: fuel,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration:
-                          const InputDecoration(hintText: "Type of fuel")),
-                  const SizedBox(height: 44.0),
-                  TextField(
-                      controller: price,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration:
-                          const InputDecoration(hintText: "Price for day")),
-                  /*Container(
-                      width: double.infinity,
-                      child: RawMaterialButton(
-                        fillColor: const Color(0xFF0069FE),
-                        onPressed: () async {
-                          List<CarModel> cars = await _addCar(model.text,
-                              seats.text, fuel.text, vehicle.text, price.text);
-                          if (cars != []) {
-                            Navigator.pop(context, cars);
-                          }
-                        },
-                        child: const Text("Add new car",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                            )),
-                      ))*/
-                ])));
+//vehicle button field
+    final vehicleButton = Container(
+        width: double.maxFinite,
+        height: 50,
+        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        decoration: BoxDecoration(
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
+        child: MaterialButton(
+            onPressed: () {
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Vehicle()))
+                  .then((data) {
+                setState(() {
+                  modify.vehicle = SearchCar.vehicle;
+                  modify.model = SearchCar.model;
+                });
+              });
+            },
+            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(30)),
+            child: Text(
+                "Vehicle: " +
+                    modify.vehicle.toString() +
+                    '-' +
+                    modify.model.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold))));
+
+    //seats button field
+    final seatsButton = Container(
+        width: double.maxFinite,
+        height: 50,
+        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        decoration: BoxDecoration(
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
+        child: MaterialButton(
+            onPressed: () async {
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Seats()))
+                  .then((data) {
+                setState(() {
+                  modify.seats = data;
+                });
+              });
+            },
+            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(30)),
+            child: Text("Seats: " + modify.seats.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold))));
+
+    //fuel button field
+    final fuelButton = Container(
+        width: double.maxFinite,
+        height: 50,
+        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        decoration: BoxDecoration(
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
+        child: MaterialButton(
+            onPressed: () async {
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Fuel()))
+                  .then((data) {
+                setState(() {
+                  modify.fuel = data;
+                });
+              });
+            },
+            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(30)),
+            child: Text("Fuel: " + modify.fuel.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold))));
+
+    //price button field
+    final priceButton = Container(
+        width: double.maxFinite,
+        height: 50,
+        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        decoration: BoxDecoration(
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
+        child: MaterialButton(
+            onPressed: () async {
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Price()))
+                  .then((data) {
+                setState(() {
+                  modify.price = data;
+                });
+              });
+            },
+            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(30)),
+            child: Text("Price: " + modify.price.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold))));
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+            backgroundColor: Colors.redAccent,
+            title: const Text('PrCar'),
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+            actions: [
+              Row(children: [
+                const Text('Change!',
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
+                IconButton(
+                    onPressed: () async {
+                      //Modifiche macchina
+                    },
+                    icon: const Icon(Icons.add_task))
+              ])
+            ]),
+        body: Center(
+            child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          const SizedBox(
+              height: 40,
+              child: Text("Change your car's",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.redAccent,
+                      fontSize: 35))),
+          const SizedBox(height: 15),
+          const SizedBox(
+              height: 40,
+              child: Text("information",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.redAccent,
+                      fontSize: 35))),
+          const SizedBox(height: 35),
+          vehicleButton,
+          const SizedBox(height: 15),
+          positionButton,
+          const SizedBox(height: 15),
+          seatsButton,
+          const SizedBox(height: 15),
+          fuelButton,
+          const SizedBox(height: 15),
+          priceButton,
+          const SizedBox(height: 15)
+        ])));
+  }
+
+  String _printPosition(String position) {
+    String newPos = '';
+    List<String> splitted = position.split('-');
+    newPos = splitted[0].substring(0, 7) + '-' + splitted[1].substring(0, 7);
+    return newPos;
   }
 }

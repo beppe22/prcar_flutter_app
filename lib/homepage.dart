@@ -81,6 +81,10 @@ class _HomePageState extends State<HomePage> {
                                   setState(() {
                                     pinPillPosition = pinVisiblePosition;
                                   });
+                                } else {
+                                  setState(() {
+                                    pinPillPosition = pinInvisiblePosition;
+                                  });
                                 }
                               }));
                           PassMarker.countMarker = PassMarker.countMarker + 1;

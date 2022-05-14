@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:prcarpolimi/change_info_car.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 
 class InfoCar extends StatefulWidget {
@@ -124,7 +125,13 @@ class _InfoCarState extends State<InfoCar> {
                     width: 150,
                     child: MaterialButton(
                         color: Colors.grey,
-                        onPressed: () async {},
+                        onPressed: () async {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ChangeInfoCar(carModel)));
+                        },
                         child: const Text("Change Info",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 20))),
