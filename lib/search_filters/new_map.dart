@@ -66,8 +66,10 @@ class _NewMapState extends State<NewMap> {
                         setState(() {
                           SearchMarker.markerToSearch.add(Marker(
                               markerId: MarkerId('marker$i'),
-                              infoWindow:
-                                  const InfoWindow(title: 'Searched car'),
+                              infoWindow: InfoWindow(
+                                  title: carsFiltered[i].vehicle.toString() +
+                                      '-' +
+                                      carsFiltered[i].model.toString()),
                               position: LatLng(lat, lng),
                               icon: BitmapDescriptor.defaultMarkerWithHue(
                                   BitmapDescriptor.hueRed),
