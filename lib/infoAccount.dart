@@ -7,7 +7,7 @@ import 'package:prcarpolimi/auth/login.dart';
 import 'models/static_user.dart';
 
 class InfoAccount extends StatelessWidget {
-  InfoAccount({Key? key}) : super(key: key);
+  const InfoAccount({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -17,23 +17,26 @@ const double pinInvisiblePosition = -220;
 
 class HomePage extends StatefulWidget {
   List<CarModel>? searchCar;
+  List<String>? positionString;
 
-  HomePage({Key? key, this.searchCar}) : super(key: key);
+  HomePage({Key? key, this.searchCar, this.positionString}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState(searchCar);
+  State<HomePage> createState() => _HomePageState(searchCar, positionString);
 }
 
 class _HomePageState extends State<HomePage> {
   List<CarModel>? searchCar;
-  _HomePageState(this.searchCar);
-  double pinPillPosition = pinInvisiblePosition;
+  List<String>? positionString;
+  _HomePageState(this.searchCar, this.positionString);
+  double? pinPillPosition;
+  Set<Marker> _markers = {};
 
   @override
   void initState() {
     super.initState();
-    PassMarker.markerToPass = {};
-    PassMarker.countMarker = 0;
+    pinPillPosition = -220;
+    _updateMarkers();
   }
 
   @override
@@ -51,45 +54,7 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.white,
                         fontWeight: FontWeight.bold)),
                 IconButton(
-                    onPressed: () async {
-                      final _auth = FirebaseAuth.instance;
-                      String? userAuth = _auth.currentUser!.uid.toString();
-                      List<CarModel> cars = await _fetchCar();
-                      for (int i = 0; i < cars.length; i++) {
-                        String? carLatLng = cars[i].position;
-                        final splitted = carLatLng!.split('-');
-                        double lat = double.parse(splitted[0]);
-                        double lng = double.parse(splitted[1]);
-                        setState(() {
-                          PassMarker.markerToPass.add(Marker(
-                              markerId: MarkerId('marker$i'),
-                              infoWindow: InfoWindow(
-                                  title: _printInfoWindow(
-                                      cars[i].uid.toString(),
-                                      userAuth,
-                                      cars[i].vehicle.toString() +
-                                          '-' +
-                                          cars[i].model.toString())),
-                              position: LatLng(lat, lng),
-                              icon:
-                                  _iconColor(cars[i].uid.toString(), userAuth),
-                              onTap: () {
-                                if (userAuth != cars[i].uid.toString()) {
-                                  PassMarker.carModel = cars[i];
-                                  setState(() {
-                                    pinPillPosition = pinVisiblePosition;
-                                  });
-                                } else {
-                                  setState(() {
-                                    pinPillPosition = pinInvisiblePosition;
-                                  });
-                                }
-                              }));
-                          PassMarker.countMarker = PassMarker.countMarker + 1;
-                        });
-                      }
-                    },
-                    icon: const Icon(Icons.autorenew_rounded))
+                    onPressed: () {}, icon: const Icon(Icons.autorenew_rounded))
               ])
             ]),
         backgroundColor: Colors.white,
@@ -103,8 +68,10 @@ class _HomePageState extends State<HomePage> {
           ListTile(
               title: const Text("Account"),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => InfoAccount()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const InfoAccount()));
               }),
           ListTile(
               title: const Text("Filters"),
@@ -130,7 +97,7 @@ class _HomePageState extends State<HomePage> {
               initialCameraPosition: const CameraPosition(
                   target: LatLng(45.47811155714095, 9.227444681728846),
                   zoom: 16),
-              markers: PassMarker.markerToPass,
+              markers: _markers,
               onMapCreated: (GoogleMapController controller) {
                 _controller = controller;
               },
@@ -223,6 +190,44 @@ class _HomePageState extends State<HomePage> {
     } else {
       return carOwner;
     }
+  }
+
+  void _updateMarkers() async {
+    final _auth = FirebaseAuth.instance;
+    String? userAuth = _auth.currentUser!.uid.toString();
+    List<CarModel> cars = await _fetchCar();
+    for (int i = 0; i < cars.length; i++) {
+      String? carLatLng = cars[i].position;
+      final splitted = carLatLng!.split('-');
+      double lat = double.parse(splitted[0]);
+      double lng = double.parse(splitted[1]);
+      setState(() {
+        PassMarker.markerToPass.add(Marker(
+            markerId: MarkerId('marker$i'),
+            infoWindow: InfoWindow(
+                title: _printInfoWindow(
+                    cars[i].uid.toString(),
+                    userAuth,
+                    cars[i].vehicle.toString() +
+                        '-' +
+                        cars[i].model.toString())),
+            position: LatLng(lat, lng),
+            icon: _iconColor(cars[i].uid.toString(), userAuth),
+            onTap: () {
+              if (userAuth != cars[i].uid.toString()) {
+                PassMarker.carModel = cars[i];
+                setState(() {
+                  pinPillPosition = pinVisiblePosition;
+                });
+              } else {
+                setState(() {
+                  pinPillPosition = pinInvisiblePosition;
+                });
+              }
+            }));
+      });
+    }
+    _markers = PassMarker.markerToPass;
   }
 }
 
