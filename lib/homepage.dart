@@ -104,8 +104,14 @@ class _HomePageState extends State<HomePage> {
               onTap: () async {
                 List<CarModel> cars = await _fetchInfoCar();
                 if (cars != []) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Cars_user(cars)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Cars_user(cars))).then((data) {
+                    setState(() {
+                      _updateMarkers();
+                    });
+                  });
                 }
               }),
           ListTile(title: const Text("Help"), onTap: () {}),
@@ -247,6 +253,7 @@ class _HomePageState extends State<HomePage> {
                   });
                 }
               }));
+          PassMarker.markerId = PassMarker.markerId + 1;
         });
       }
     } else {

@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/filters/fuel/fuel.dart';
 import 'package:prcarpolimi/filters/position/position.dart';
 import 'package:prcarpolimi/filters/price/price.dart';
@@ -11,8 +12,10 @@ import 'package:prcarpolimi/filters/vehicle/vehicle.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
 import 'dart:math';
-
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+
+const double pinVisiblePosition = 10;
+const double pinInvisiblePosition = -220;
 
 class AddNewCar extends StatefulWidget {
   const AddNewCar({Key? key}) : super(key: key);
@@ -24,6 +27,7 @@ class _AddNewCarState extends State<AddNewCar> {
   static late CarModel car;
   String vehicleString = '';
   String positionString = '';
+  double pinPillPosition = -220;
 
   @override
   void initState() {
@@ -240,6 +244,25 @@ class _AddNewCarState extends State<AddNewCar> {
                           car.seats != '') {
                         List<CarModel> cars = await _addCar(car);
                         PassMarker.from = true;
+                        setState(() {
+                          int i = PassMarker.markerId;
+                          PassMarker.markerId = PassMarker.markerId + 1;
+                          String? carLatLng = car.position;
+                          final splitted = carLatLng!.split('-');
+                          double lat = double.parse(splitted[0]);
+                          double lng = double.parse(splitted[1]);
+                          PassMarker.markerToPass.add(Marker(
+                              markerId: MarkerId('marker$i'),
+                              infoWindow: const InfoWindow(title: 'My car'),
+                              position: LatLng(lat, lng),
+                              icon: BitmapDescriptor.defaultMarkerWithHue(
+                                  BitmapDescriptor.hueBlue),
+                              onTap: () {
+                                setState(() {
+                                  pinPillPosition = pinInvisiblePosition;
+                                });
+                              }));
+                        });
                         if (cars != []) {
                           Navigator.pop(context, cars);
                         }
