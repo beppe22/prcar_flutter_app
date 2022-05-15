@@ -9,7 +9,6 @@ import 'package:prcarpolimi/infoAccount.dart';
 import 'package:prcarpolimi/cars_user.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
-import 'package:prcarpolimi/models/userModel.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'hamburger/filters.dart';
 
@@ -17,18 +16,17 @@ const double pinVisiblePosition = 10;
 const double pinInvisiblePosition = -220;
 
 class HomePage extends StatefulWidget {
-  UserModel userModel;
+  List<CarModel>? searchCar;
 
-  HomePage(this.userModel, {Key? key}) : super(key: key);
+  HomePage({Key? key, this.searchCar}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState(userModel);
+  State<HomePage> createState() => _HomePageState(searchCar);
 }
 
 class _HomePageState extends State<HomePage> {
-  UserModel userModel;
-
-  _HomePageState(this.userModel);
+  List<CarModel>? searchCar;
+  _HomePageState(this.searchCar);
   double pinPillPosition = pinInvisiblePosition;
 
   @override
@@ -105,10 +103,8 @@ class _HomePageState extends State<HomePage> {
           ListTile(
               title: const Text("Account"),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => InfoAccount(userModel)));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => InfoAccount()));
               }),
           ListTile(
               title: const Text("Filters"),

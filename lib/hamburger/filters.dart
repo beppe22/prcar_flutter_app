@@ -1,9 +1,10 @@
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:prcarpolimi/homepage.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
-import 'package:prcarpolimi/search_filters/new_map.dart';
 import '../filters/fuel/fuel.dart';
 import '../filters/least/least.dart';
 import '../filters/position/position.dart';
@@ -20,7 +21,8 @@ class Filters extends StatefulWidget {
 
 class _FiltersState extends State<Filters> {
   static late SearchModel search;
-
+  final _auth = FirebaseAuth.instance;
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   @override
   void initState() {
     super.initState();
@@ -30,6 +32,7 @@ class _FiltersState extends State<Filters> {
 
   @override
   Widget build(BuildContext context) {
+    String? user = _auth.currentUser!.uid.toString();
     //least button field
     final leastButton = Container(
         width: double.maxFinite,
@@ -246,10 +249,13 @@ class _FiltersState extends State<Filters> {
                 IconButton(
                     onPressed: () async {
                       List<CarModel> cars = await _fetchCar();
+                      List<CarModel> searchCars =
+                          await _searchCar(cars, search, user);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NewMap(search, cars)));
+                              builder: (context) =>
+                                  HomePage(searchCar: searchCars)));
                     },
                     icon: const Icon(Icons.add_task))
               ])
@@ -322,4 +328,107 @@ class _FiltersState extends State<Filters> {
     }
     return cars;
   }
+
+  Future<List<CarModel>> _searchCar(
+      List<CarModel> cars, SearchModel search, String user) async {
+    List<CarModel> filteredCar = [];
+    for (int i = 0; i < cars.length; i++) {
+      bool j = true;
+      String owner = cars[i].uid.toString();
+      if (user == owner) {
+        j = false;
+      }
+      if (j &&
+          (search.seats.toString() != '') &&
+          (int.parse(search.seats.toString()) >
+              int.parse(cars[i].seats.toString()))) {
+        j = false;
+      }
+      if (j &&
+          (search.fuel.toString() != '') &&
+          (search.fuel != cars[i].fuel)) {
+        j = false;
+      }
+      String modelSearch = '';
+      if (search.vehicle.toString() != '') {
+        String toSplit = search.vehicle.toString();
+        final splitted = toSplit.split('-');
+        modelSearch = splitted[1];
+      }
+      if (j &&
+          (search.vehicle.toString() != '') &&
+          (modelSearch != cars[i].model)) {
+        j = false;
+      }
+      if (j &&
+          (search.price.toString() != '') &&
+          (int.parse(search.price.toString()) <
+              int.parse(cars[i].price.toString()))) {
+        j = false;
+      }
+      if (j &&
+          (SearchCar.latSearch.toString() != '') &&
+          (_nearbyPosition(SearchCar.latSearch, SearchCar.lngSearch,
+              cars[i].position.toString()))) {
+        j = false;
+      }
+      if (j &&
+              (SearchCar.date1Search.toString() !=
+                  '') /* && (_freeDate(SearchCar.date1Search, SearchCar.date2Search,
+      cars[i].date.toString()*/
+          ) {
+        j = false;
+      }
+      if (j) {
+        filteredCar.add(cars[i]);
+      }
+    }
+    return filteredCar;
+  }
+
+  bool _nearbyPosition(String lat, String lng, String carsPos) {
+    double lat1 = double.parse(lat) / 57.29577951;
+    double lng1 = double.parse(lng) / 57.29577951;
+    final splitted = carsPos.split('-');
+    double lat2 = double.parse(splitted[0]) / 57.29577951;
+    double lng2 = double.parse(splitted[1]) / 57.29577951;
+    double distance = 3963.0 *
+        acos((sin(lat1) * sin(lat2)) +
+            cos(lat1) * cos(lat2) * cos(lng2 - lng1)) *
+        1.609344;
+    return distance > 3;
+  }
+
+  /*bool _freeDate(String startDate, String endDate, List<String> allDate) {
+    if(allDate.length == 0)
+    {
+      return false;
+    }
+    else
+    {
+      for (int i = 0; i < allDate.length; i++)
+      {
+        if ((int.parse(startDate.substring(6)) >= int.parse(allDate[i].substring(6,10)))) 
+        {
+          if((int.parse(startDate.substring(3,5)) >= int.parse(allDate[i].substring(3,5))))
+          {
+            if((int.parse(startDate.substring(0,2)) >= int.parse(allDate[i].substring(0,2))))
+            {
+              if ((int.parse(endDate.substring(6)) <= int.parse(allDate[i].substring(17)))) 
+               {
+                if((int.parse(endDate.substring(3,5)) <= int.parse(allDate[i].substring(14,16))))
+                {
+                  if((int.parse(endDate.substring(0,2)) <= int.parse(allDate[i].substring(11,13))))
+                  {
+                    return false;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      return true;
+    }
+  }*/
 }

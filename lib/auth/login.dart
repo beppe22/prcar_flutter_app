@@ -6,6 +6,8 @@ import 'package:prcarpolimi/forgot_password.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 import 'package:prcarpolimi/homepage.dart';
 
+import '../models/static_user.dart';
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -127,11 +129,14 @@ class _LoginState extends State<Login> {
                                 .get()
                                 .then((ds) {
                               userModel = UserModel.fromMap(ds);
+                              StaticUser.email = userModel.email!;
+                              StaticUser.uid = userModel.uid!;
+                              StaticUser.firstName = userModel.firstName!;
+                              StaticUser.secondName = userModel.secondName!;
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          HomePage(userModel)));
+                                      builder: (context) => HomePage()));
                             });
                           }
                         },

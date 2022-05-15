@@ -3,11 +3,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/auth/login.dart';
-import 'package:prcarpolimi/models/userModel.dart';
+
+import 'models/static_user.dart';
 
 class InfoAccount extends StatelessWidget {
-  UserModel usermodel;
-  InfoAccount(this.usermodel, {Key? key}) : super(key: key);
+  InfoAccount({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class InfoAccount extends StatelessWidget {
                         const SizedBox(width: 15),
                         const Icon(Icons.mail, color: Colors.grey),
                         const SizedBox(width: 20),
-                        Text('Email: ' + usermodel.email.toString(),
+                        Text('Email: ' + StaticUser.email.toString(),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 color: Colors.red,
@@ -71,7 +71,7 @@ class InfoAccount extends StatelessWidget {
                         const SizedBox(width: 15),
                         const Icon(Icons.account_circle, color: Colors.grey),
                         const SizedBox(width: 20),
-                        Text('First Name: ' + usermodel.firstName.toString(),
+                        Text('First Name: ' + StaticUser.firstName.toString(),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 color: Colors.red,
@@ -99,7 +99,7 @@ class InfoAccount extends StatelessWidget {
                         const SizedBox(width: 15),
                         const Icon(Icons.account_circle, color: Colors.grey),
                         const SizedBox(width: 20),
-                        Text('Second Name: ' + usermodel.secondName.toString(),
+                        Text('Second Name: ' + StaticUser.secondName.toString(),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 color: Colors.red,
