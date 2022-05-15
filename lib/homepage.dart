@@ -18,21 +18,17 @@ const double pinInvisiblePosition = -220;
 class HomePage extends StatefulWidget {
   List<CarModel>? searchCar;
   List<String>? positionString;
-  bool? from;
 
-  HomePage(this.from, {Key? key, this.searchCar, this.positionString})
-      : super(key: key);
+  HomePage({Key? key, this.searchCar, this.positionString}) : super(key: key);
 
   @override
-  State<HomePage> createState() =>
-      _HomePageState(searchCar, positionString, from);
+  State<HomePage> createState() => _HomePageState(searchCar, positionString);
 }
 
 class _HomePageState extends State<HomePage> {
   List<CarModel>? searchCar;
   List<String>? positionString;
-  bool? from;
-  _HomePageState(this.searchCar, this.positionString, this.from);
+  _HomePageState(this.searchCar, this.positionString);
   double? pinPillPosition;
   Set<Marker> _markers = {};
 
@@ -59,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.bold)),
                 IconButton(
                     onPressed: () {
-                      if (from!) {
+                      if (PassMarker.from) {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
@@ -74,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                                               style: TextStyle(fontSize: 24)))
                                     ]));
                       } else {
-                        from = true;
+                        PassMarker.from = true;
                         _updateMarkers();
                       }
                     },
@@ -219,7 +215,7 @@ class _HomePageState extends State<HomePage> {
   void _updateMarkers() async {
     final _auth = FirebaseAuth.instance;
     String? userAuth = _auth.currentUser!.uid.toString();
-    if (from!) {
+    if (PassMarker.from) {
       PassMarker.markerToPass = {};
       List<CarModel> cars = await _fetchCar();
       for (int i = 0; i < cars.length; i++) {

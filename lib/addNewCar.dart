@@ -12,6 +12,8 @@ import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
 import 'dart:math';
 
+import 'package:prcarpolimi/models/marker_to_pass.dart';
+
 class AddNewCar extends StatefulWidget {
   const AddNewCar({Key? key}) : super(key: key);
   @override
@@ -237,6 +239,7 @@ class _AddNewCarState extends State<AddNewCar> {
                           car.price != '' &&
                           car.seats != '') {
                         List<CarModel> cars = await _addCar(car);
+                        PassMarker.from = true;
                         if (cars != []) {
                           Navigator.pop(context, cars);
                         }

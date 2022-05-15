@@ -11,6 +11,7 @@ import '../filters/position/position.dart';
 import '../filters/price/price.dart';
 import '../filters/seats/seats.dart';
 import '../filters/vehicle/vehicle.dart';
+import '../models/marker_to_pass.dart';
 import '../models/search_model.dart';
 
 class Filters extends StatefulWidget {
@@ -253,11 +254,12 @@ class _FiltersState extends State<Filters> {
                       List<CarModel> searchCars =
                           await _searchCar(cars, search, user);
                       if (searchCars.isNotEmpty) {
+                        PassMarker.from = false;
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    HomePage(from, searchCar: searchCars)));
+                                    HomePage(searchCar: searchCars)));
                       } else {
                         showDialog(
                             context: context,

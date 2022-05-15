@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/auth/signUp.dart';
 import 'package:prcarpolimi/forgot_password.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 import 'package:prcarpolimi/homepage.dart';
 
@@ -133,10 +134,11 @@ class _LoginState extends State<Login> {
                               StaticUser.uid = userModel.uid!;
                               StaticUser.firstName = userModel.firstName!;
                               StaticUser.secondName = userModel.secondName!;
+                              PassMarker.from = true;
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePage(from)));
+                                      builder: (context) => HomePage()));
                             });
                           }
                         },
