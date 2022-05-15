@@ -52,14 +52,34 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.redAccent,
             actions: [
               Row(children: [
-                const Text('Reload!',
+                const Text('Clear filter!',
                     style: TextStyle(
                         fontSize: 17,
                         color: Colors.white,
                         fontWeight: FontWeight.bold)),
                 IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.autorenew_rounded))
-              ])
+                    onPressed: () {
+                      if (from!) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                    title: const Text('Map already clean!',
+                                        style: TextStyle(fontSize: 24)),
+                                    actions: <Widget>[
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Close',
+                                              style: TextStyle(fontSize: 24)))
+                                    ]));
+                      } else {
+                        from = true;
+                        _updateMarkers();
+                      }
+                    },
+                    icon: const Icon(Icons.autorenew_rounded))
+              ]),
             ]),
         backgroundColor: Colors.white,
         drawer: Drawer(
