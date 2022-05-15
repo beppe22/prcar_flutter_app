@@ -23,7 +23,7 @@ class _SignUpState extends State<SignUp> {
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
   final confirmPasswordEditingController = TextEditingController();
-
+  bool from = true;
   @override
   Widget build(BuildContext context) {
     //first name field
@@ -244,7 +244,9 @@ class _SignUpState extends State<SignUp> {
         .doc(user.uid)
         .set(userModel.toMap());
 
-    Navigator.pushAndRemoveUntil((context),
-        MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => HomePage(from)),
+        (route) => false);
   }
 }

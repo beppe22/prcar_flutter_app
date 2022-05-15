@@ -22,6 +22,7 @@ class Filters extends StatefulWidget {
 class _FiltersState extends State<Filters> {
   static late SearchModel search;
   final _auth = FirebaseAuth.instance;
+  bool from = false;
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   @override
   void initState() {
@@ -251,11 +252,35 @@ class _FiltersState extends State<Filters> {
                       List<CarModel> cars = await _fetchCar();
                       List<CarModel> searchCars =
                           await _searchCar(cars, search, user);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  HomePage(searchCar: searchCars)));
+                      if (searchCars.isNotEmpty) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    HomePage(from, searchCar: searchCars)));
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                    title: const Text('No car found',
+                                        style: TextStyle(fontSize: 24)),
+                                    content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: const <Widget>[
+                                          Text('Try with less parameters',
+                                              style: TextStyle(fontSize: 20))
+                                        ]),
+                                    actions: <Widget>[
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Close',
+                                              style: TextStyle(fontSize: 24)))
+                                    ]));
+                      }
                     },
                     icon: const Icon(Icons.add_task))
               ])

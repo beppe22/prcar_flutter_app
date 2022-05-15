@@ -18,17 +18,21 @@ const double pinInvisiblePosition = -220;
 class HomePage extends StatefulWidget {
   List<CarModel>? searchCar;
   List<String>? positionString;
+  bool? from;
 
-  HomePage({Key? key, this.searchCar, this.positionString}) : super(key: key);
+  HomePage(this.from, {Key? key, this.searchCar, this.positionString})
+      : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState(searchCar, positionString);
+  State<HomePage> createState() =>
+      _HomePageState(searchCar, positionString, from);
 }
 
 class _HomePageState extends State<HomePage> {
   List<CarModel>? searchCar;
   List<String>? positionString;
-  _HomePageState(this.searchCar, this.positionString);
+  bool? from;
+  _HomePageState(this.searchCar, this.positionString, this.from);
   double? pinPillPosition;
   Set<Marker> _markers = {};
 
@@ -195,37 +199,66 @@ class _HomePageState extends State<HomePage> {
   void _updateMarkers() async {
     final _auth = FirebaseAuth.instance;
     String? userAuth = _auth.currentUser!.uid.toString();
-    List<CarModel> cars = await _fetchCar();
-    for (int i = 0; i < cars.length; i++) {
-      String? carLatLng = cars[i].position;
-      final splitted = carLatLng!.split('-');
-      double lat = double.parse(splitted[0]);
-      double lng = double.parse(splitted[1]);
-      setState(() {
-        PassMarker.markerToPass.add(Marker(
-            markerId: MarkerId('marker$i'),
-            infoWindow: InfoWindow(
-                title: _printInfoWindow(
-                    cars[i].uid.toString(),
-                    userAuth,
-                    cars[i].vehicle.toString() +
-                        '-' +
-                        cars[i].model.toString())),
-            position: LatLng(lat, lng),
-            icon: _iconColor(cars[i].uid.toString(), userAuth),
-            onTap: () {
-              if (userAuth != cars[i].uid.toString()) {
-                PassMarker.carModel = cars[i];
+    if (from!) {
+      PassMarker.markerToPass = {};
+      List<CarModel> cars = await _fetchCar();
+      for (int i = 0; i < cars.length; i++) {
+        String? carLatLng = cars[i].position;
+        final splitted = carLatLng!.split('-');
+        double lat = double.parse(splitted[0]);
+        double lng = double.parse(splitted[1]);
+        setState(() {
+          PassMarker.markerToPass.add(Marker(
+              markerId: MarkerId('marker$i'),
+              infoWindow: InfoWindow(
+                  title: _printInfoWindow(
+                      cars[i].uid.toString(),
+                      userAuth,
+                      cars[i].vehicle.toString() +
+                          '-' +
+                          cars[i].model.toString())),
+              position: LatLng(lat, lng),
+              icon: _iconColor(cars[i].uid.toString(), userAuth),
+              onTap: () {
+                if (userAuth != cars[i].uid.toString()) {
+                  PassMarker.carModel = cars[i];
+                  setState(() {
+                    pinPillPosition = pinVisiblePosition;
+                  });
+                } else {
+                  setState(() {
+                    pinPillPosition = pinInvisiblePosition;
+                  });
+                }
+              }));
+        });
+      }
+    } else {
+      PassMarker.markerToPass = {};
+      for (int i = 0; i < searchCar!.length; i++) {
+        String? carLatLng = searchCar![i].position;
+        final splitted = carLatLng!.split('-');
+        double lat = double.parse(splitted[0]);
+        double lng = double.parse(splitted[1]);
+        setState(() {
+          PassMarker.markerToPass.add(Marker(
+              markerId: MarkerId('marker$i'),
+              infoWindow: InfoWindow(
+                  title: _printInfoWindow(
+                      searchCar![i].uid.toString(),
+                      userAuth,
+                      searchCar![i].vehicle.toString() +
+                          '-' +
+                          searchCar![i].model.toString())),
+              position: LatLng(lat, lng),
+              icon: _iconColor(searchCar![i].uid.toString(), userAuth),
+              onTap: () {
                 setState(() {
                   pinPillPosition = pinVisiblePosition;
                 });
-              } else {
-                setState(() {
-                  pinPillPosition = pinInvisiblePosition;
-                });
-              }
-            }));
-      });
+              }));
+        });
+      }
     }
     _markers = PassMarker.markerToPass;
   }

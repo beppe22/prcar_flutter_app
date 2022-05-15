@@ -19,7 +19,7 @@ class _LoginState extends State<Login> {
   //Login function
   UserModel userModel = UserModel();
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
+  bool from = true;
   static Future<User?> loginUsingEmailPassword(
       {required String email,
       required String password,
@@ -136,7 +136,7 @@ class _LoginState extends State<Login> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePage()));
+                                      builder: (context) => HomePage(from)));
                             });
                           }
                         },
