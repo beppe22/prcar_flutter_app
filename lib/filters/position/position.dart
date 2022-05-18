@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/filters/position/location_service.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
@@ -47,28 +48,10 @@ class _Position extends State<Position> {
                         index = true;
                         Navigator.pop(context, position);
                       } else {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                    title: const Text('No place choosen',
-                                        style: TextStyle(fontSize: 24)),
-                                    content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: const <Widget>[
-                                          Text(
-                                              'Please search a place on a map, click on the lens to move the map to that place and then click here',
-                                              style: TextStyle(fontSize: 20))
-                                        ]),
-                                    actions: <Widget>[
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text('Close',
-                                              style: TextStyle(fontSize: 24)))
-                                    ]));
+                        Fluttertoast.showToast(
+                            msg:
+                                'No place choosen :( Please search a place on a map, click on the lens to move the map to that place and then click here',
+                            fontSize: 20);
                       }
                     },
                     icon: const Icon(Icons.add_location_alt_outlined))
@@ -98,7 +81,7 @@ class _Position extends State<Position> {
           ]),
           Expanded(
               child: GoogleMap(
-                  mapType: MapType.hybrid,
+                  mapType: MapType.normal,
                   initialCameraPosition: const CameraPosition(
                       target: LatLng(45.47811155714095, 9.227444681728846),
                       zoom: 16),

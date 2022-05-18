@@ -43,7 +43,8 @@ dependencies:
   email_validator: ^2.0.1
   http: ^0.13.4
   google_place: ^0.4.7
-  
+  image_picker: ^0.8.5+3
+  fluttertoast: ^8.0.9
   
 
   

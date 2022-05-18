@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/auth/signUp.dart';
 import 'package:prcarpolimi/forgot_password.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
@@ -28,11 +29,6 @@ class _LoginState extends State<Login> {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
-    );
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -40,7 +36,14 @@ class _LoginState extends State<Login> {
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {}
+      return null;
     }
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
     return user;
   }
 
@@ -140,6 +143,9 @@ class _LoginState extends State<Login> {
                                   MaterialPageRoute(
                                       builder: (context) => HomePage()));
                             });
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: 'No user found :(', fontSize: 20);
                           }
                         },
                         child: const Text("Login",

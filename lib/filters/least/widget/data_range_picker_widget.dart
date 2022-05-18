@@ -38,13 +38,19 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
           Row(children: [
             Expanded(
                 child: ButtonWidget(
-                    text: getFrom(), onClicked: () => pickDateRange(context))),
+                    text: getFrom(),
+                    onClicked: () {
+                      pickDateRange(context);
+                    })),
             const SizedBox(width: 8),
             const Icon(Icons.arrow_forward, color: Colors.black),
             const SizedBox(width: 8),
             Expanded(
                 child: ButtonWidget(
-                    text: getUntil(), onClicked: () => pickDateRange(context)))
+                    text: getUntil(),
+                    onClicked: () {
+                      pickDateRange(context);
+                    }))
           ]),
           LeastButton(
               value: SearchCar.date1Search.toString() +

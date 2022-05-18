@@ -4,12 +4,16 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/booking_page.dart';
+import 'package:prcarpolimi/filters/least/least.dart';
+import 'package:prcarpolimi/hamburger/configuration.dart';
 import 'package:prcarpolimi/infoAccount.dart';
 import 'package:prcarpolimi/cars_user.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'hamburger/configuration2.dart';
 import 'hamburger/filters.dart';
 
 const double pinVisiblePosition = 10;
@@ -56,19 +60,8 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                     onPressed: () {
                       if (PassMarker.from) {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                    title: const Text('Map already clean!',
-                                        style: TextStyle(fontSize: 24)),
-                                    actions: <Widget>[
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text('Close',
-                                              style: TextStyle(fontSize: 24)))
-                                    ]));
+                        Fluttertoast.showToast(
+                            msg: 'Map arleady clean!', fontSize: 20);
                       } else {
                         PassMarker.from = true;
                         _updateMarkers();
@@ -114,12 +107,26 @@ class _HomePageState extends State<HomePage> {
                   });
                 }
               }),
-          ListTile(title: const Text("Help"), onTap: () {}),
-          ListTile(title: const Text("Configuration"), onTap: () {})
+          ListTile(
+              title: const Text("Configuration"),
+              onTap: () {
+                if (!PassMarker.driveInserted2) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Configuration()));
+                } else {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Configuration2()));
+                }
+              }),
+          ListTile(title: const Text("Help"), onTap: () {})
         ])),
         body: Stack(children: [
           GoogleMap(
-              mapType: MapType.hybrid,
+              mapType: MapType.normal,
               initialCameraPosition: const CameraPosition(
                   target: LatLng(45.47811155714095, 9.227444681728846),
                   zoom: 16),
@@ -389,14 +396,30 @@ class MapBottomPill extends StatelessWidget {
                                                 minWidth: 200,
                                                 color: Colors.redAccent,
                                                 onPressed: () async {
-                                                  Navigator.pop(
-                                                      context,
-                                                      await BookingOut(
-                                                              PassMarker
-                                                                  .carModel.cid,
-                                                              PassMarker
-                                                                  .carModel.uid)
-                                                          .book());
+                                                  if (PassMarker
+                                                      .driveInserted2) {
+                                                    PassMarker.hpOrNot = true;
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                Least())); /*
+                                                    Navigator.pop(
+                                                        context,
+                                                        await BookingOut(
+                                                                PassMarker
+                                                                    .carModel
+                                                                    .cid,
+                                                                PassMarker
+                                                                    .carModel
+                                                                    .uid)
+                                                            .book());*/
+                                                  } else {
+                                                    Fluttertoast.showToast(
+                                                        msg:
+                                                            'No driving license info inserted. Go to configuration for more details',
+                                                        fontSize: 18);
+                                                  }
                                                 },
                                                 child: const Text("Reserve",
                                                     style: TextStyle(

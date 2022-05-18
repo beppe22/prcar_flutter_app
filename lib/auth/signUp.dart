@@ -63,6 +63,7 @@ class _SignUpState extends State<SignUp> {
           if (value!.isEmpty) {
             return ("Second Name can't be Empty");
           }
+          return null;
         },
         onSaved: (value) {
           secondNameEditingController.text = value!;
@@ -115,6 +116,7 @@ class _SignUpState extends State<SignUp> {
           if (!regex.hasMatch(value)) {
             return ("Please Enter Valid Password(Min. 6 Character");
           }
+          return null;
         },
         onSaved: (value) {
           passwordEditingController.text = value!;
@@ -156,7 +158,7 @@ class _SignUpState extends State<SignUp> {
         borderRadius: BorderRadius.circular(30),
         color: Colors.redAccent,
         child: MaterialButton(
-            onPressed: () {
+            onPressed: () async {
               signUp(
                   emailEditingController.text, passwordEditingController.text);
             },
@@ -214,13 +216,12 @@ class _SignUpState extends State<SignUp> {
   }
 
   void signUp(String email, String password) async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
-    );
-
     if (_formKey.currentState!.validate()) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(child: CircularProgressIndicator()),
+      );
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {postDetailsToFirestore()});

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/homepage.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
@@ -44,8 +45,11 @@ class _FiltersState extends State<Filters> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Least()))
+              PassMarker.hpOrNot = false;
+              SearchCar.date1Search = '';
+              SearchCar.date2Search = '';
+              Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Least()))
                   .then((data) {
                 setState(() {
                   search.least = data;
@@ -261,27 +265,9 @@ class _FiltersState extends State<Filters> {
                                 builder: (context) =>
                                     HomePage(searchCar: searchCars)));
                       } else {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                    title: const Text('No car found',
-                                        style: TextStyle(fontSize: 24)),
-                                    content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: const <Widget>[
-                                          Text('Try with less parameters',
-                                              style: TextStyle(fontSize: 20))
-                                        ]),
-                                    actions: <Widget>[
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text('Close',
-                                              style: TextStyle(fontSize: 24)))
-                                    ]));
+                        Fluttertoast.showToast(
+                            msg: 'No car found :( try with less parameters',
+                            fontSize: 20);
                       }
                     },
                     icon: const Icon(Icons.add_task))

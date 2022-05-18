@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:prcarpolimi/booking_page.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class LeastButton extends StatelessWidget {
   String value;
@@ -7,8 +9,16 @@ class LeastButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          Navigator.pop(context, value);
+        onTap: () async {
+          if (PassMarker.hpOrNot) {
+            Navigator.pop(
+                context,
+                await BookingOut(
+                        PassMarker.carModel.cid, PassMarker.carModel.uid)
+                    .book());
+          } else {
+            Navigator.pop(context, value);
+          }
         },
         child: Container(
             width: double.maxFinite,

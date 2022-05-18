@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/filters/fuel/fuel.dart';
 import 'package:prcarpolimi/filters/position/position.dart';
@@ -243,6 +244,8 @@ class _AddNewCarState extends State<AddNewCar> {
                           car.price != '' &&
                           car.seats != '') {
                         List<CarModel> cars = await _addCar(car);
+                        Fluttertoast.showToast(
+                            msg: 'Car added succesfully :)', fontSize: 20);
                         PassMarker.from = true;
                         setState(() {
                           int i = PassMarker.markerId;
@@ -267,28 +270,10 @@ class _AddNewCarState extends State<AddNewCar> {
                           Navigator.pop(context, cars);
                         }
                       } else {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                    title: const Text('Invalid Insert',
-                                        style: TextStyle(fontSize: 24)),
-                                    content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: const <Widget>[
-                                          Text(
-                                              'You can\'t insert a car without all the parameters choosen',
-                                              style: TextStyle(fontSize: 20))
-                                        ]),
-                                    actions: <Widget>[
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text('Close',
-                                              style: TextStyle(fontSize: 24)))
-                                    ]));
+                        Fluttertoast.showToast(
+                            msg:
+                                'Invalid Insert: You can\'t insert a car without all the parameters choosen',
+                            fontSize: 20);
                       }
                     },
                     icon: const Icon(Icons.add_task))

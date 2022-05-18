@@ -28,7 +28,7 @@ class BookingOut {
             .set(BookingModel(
                     cid: cid,
                     uidOwner: uid,
-                    date: '1',
+                    date: '25/06/2022-29/06/2022',
                     uidBooking: user.uid,
                     bookingId: bookingId)
                 .toMap())
