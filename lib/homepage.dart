@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:prcarpolimi/booking_page.dart';
 import 'package:prcarpolimi/filters/least/least.dart';
 import 'package:prcarpolimi/hamburger/configuration.dart';
 import 'package:prcarpolimi/infoAccount.dart';
@@ -403,7 +402,7 @@ class MapBottomPill extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                Least())); /*
+                                                                const Least())); /*
                                                     Navigator.pop(
                                                         context,
                                                         await BookingOut(
