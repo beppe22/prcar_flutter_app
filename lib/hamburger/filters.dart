@@ -390,10 +390,9 @@ class _FiltersState extends State<Filters> {
         j = false;
       }
       if (j &&
-              (SearchCar.date1Search.toString() !=
-                  '') /* && (_freeDate(SearchCar.date1Search, SearchCar.date2Search,
-      cars[i].date.toString()*/
-          ) {
+          (SearchCar.date1Search.toString() != '') &&
+          (_freeDate(SearchCar.date1Search, SearchCar.date2Search,
+              [] /*cars[i].date.toString()*/))) {
         j = false;
       }
       if (j) {
@@ -416,36 +415,20 @@ class _FiltersState extends State<Filters> {
     return distance > 3;
   }
 
-  /*bool _freeDate(String startDate, String endDate, List<String> allDate) {
-    if(allDate.length == 0)
-    {
+  bool _freeDate(String startDate, String endDate, List<String> allDate) {
+    if (allDate.isEmpty) {
       return false;
-    }
-    else
-    {
-      for (int i = 0; i < allDate.length; i++)
-      {
-        if ((int.parse(startDate.substring(6)) >= int.parse(allDate[i].substring(6,10)))) 
-        {
-          if((int.parse(startDate.substring(3,5)) >= int.parse(allDate[i].substring(3,5))))
-          {
-            if((int.parse(startDate.substring(0,2)) >= int.parse(allDate[i].substring(0,2))))
-            {
-              if ((int.parse(endDate.substring(6)) <= int.parse(allDate[i].substring(17)))) 
-               {
-                if((int.parse(endDate.substring(3,5)) <= int.parse(allDate[i].substring(14,16))))
-                {
-                  if((int.parse(endDate.substring(0,2)) <= int.parse(allDate[i].substring(11,13))))
-                  {
-                    return false;
-                  }
-                }
-              }
-            }
-          }
+    } else {
+      for (int i = 0; i < allDate.length; i++) {
+        String start = allDate[0];
+        String end = allDate[1];
+        if ((start.compareTo(startDate) >= 0 &&
+                start.compareTo(endDate) <= 0) ||
+            (end.compareTo(startDate) >= 0 && end.compareTo(endDate) <= 0)) {
+          return true;
         }
       }
-      return true;
+      return false;
     }
-  }*/
+  }
 }
