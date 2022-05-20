@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
-
 import 'package:prcarpolimi/models/marker_to_pass.dart';
-//import 'package:flutter/services.dart';
-import 'widget/data_range_picker_widget.dart';
+import 'calendar.dart';
 
-/*Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
-  runApp(const Least());
-}*/
-
-class Least extends StatelessWidget {
-  static const String title = 'Date (Range) & Time';
+class Least extends StatefulWidget {
   const Least({Key? key}) : super(key: key);
+
+  @override
+  _LeastState createState() => _LeastState();
+}
+
+class _LeastState extends State<Least> {
+  String dateStart = '';
+  String dateEnd = '';
+  double? pinPillPosition;
+  @override
+  void initState() {
+    super.initState();
+    dateStart = '';
+    dateEnd = '';
+    pinPillPosition = -220;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +39,7 @@ class Least extends StatelessWidget {
                 })),
         backgroundColor: Colors.white,
         body: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(6),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               SizedBox(
@@ -48,8 +53,114 @@ class Least extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: Colors.redAccent,
                           fontSize: 20))),
-              const SizedBox(height: 60),
-              const DateRangePickerWidget()
+              const SizedBox(height: 40),
+              Row(children: [
+                Container(
+                    width: 110,
+                    height: 50,
+                    margin: const EdgeInsets.only(
+                        top: 10, left: 40, right: 40, bottom: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.redAccent,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: MaterialButton(
+                        onPressed: () async {
+                          Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Calendar()))
+                              .then((data) {
+                            setState(() {
+                              dateStart = data[0];
+                              dateEnd = data[1];
+                            });
+                          });
+                        },
+                        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                        shape: ContinuousRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Text(fromString(dateStart),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)))),
+                Container(
+                    width: 110,
+                    height: 50,
+                    margin: const EdgeInsets.only(
+                        top: 10, left: 40, right: 40, bottom: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.redAccent,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: MaterialButton(
+                        onPressed: () async {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Calendar()));
+                        },
+                        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                        shape: ContinuousRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Text(untilString(dateEnd),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold))))
+              ]),
+              const SizedBox(height: 20),
+              Container(
+                  width: 400,
+                  height: 70,
+                  margin: const EdgeInsets.only(
+                      top: 10, left: 40, right: 40, bottom: 10),
+                  decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(width: 5.0, color: Colors.grey)),
+                  child: MaterialButton(
+                      onPressed: () async {
+                        if (PassMarker.hpOrNot) {
+                          //reserve
+                        } else {
+                          Navigator.pop(context, [dateStart, dateEnd]);
+                        }
+                      },
+                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                      shape: ContinuousRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text(_textReserveSave(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.bold))))
             ])));
+  }
+
+  String _textReserveSave() {
+    if (PassMarker.hpOrNot) {
+      return "Reserve!";
+    } else {
+      return "Save!";
+    }
+  }
+
+  String fromString(String from) {
+    if (from == '') {
+      return "From: ";
+    } else {
+      return from.substring(0, 5);
+    }
+  }
+
+  String untilString(String until) {
+    if (until == '') {
+      return "Until: ";
+    } else {
+      return until.substring(0, 5);
+    }
   }
 }

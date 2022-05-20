@@ -52,14 +52,16 @@ class _FiltersState extends State<Filters> {
                       MaterialPageRoute(builder: (context) => const Least()))
                   .then((data) {
                 setState(() {
-                  search.least = data;
+                  SearchCar.date1Search = data[0];
+                  SearchCar.date2Search = data[1];
                 });
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text(_printLeast(search.least.toString()),
+            child: Text(
+                _printLeast(SearchCar.date1Search, SearchCar.date2Search),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -222,6 +224,8 @@ class _FiltersState extends State<Filters> {
                 search.position = '';
                 SearchCar.latSearch = '';
                 SearchCar.lngSearch = '';
+                SearchCar.date1Search = '';
+                SearchCar.date2Search = '';
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -299,11 +303,11 @@ class _FiltersState extends State<Filters> {
         ])));
   }
 
-  String _printLeast(String least) {
-    if (least == '') {
+  String _printLeast(String start, String end) {
+    if (start == '' && end == '') {
       return 'Least: ';
     } else {
-      return 'Least: ' + least.substring(0, 5) + least.substring(10, 19);
+      return 'Least: ' + start.substring(0, 5) + '-' + end.substring(0, 5);
     }
   }
 
