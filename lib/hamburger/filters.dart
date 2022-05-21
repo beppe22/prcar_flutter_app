@@ -392,7 +392,7 @@ class _FiltersState extends State<Filters> {
       if (j &&
           (SearchCar.date1Search.toString() != '') &&
           (_freeDate(SearchCar.date1Search, SearchCar.date2Search,
-              [] /*cars[i].date.toString()*/))) {
+              [] /*Funzione che ricava le date delle macchine*/))) {
         j = false;
       }
       if (j) {

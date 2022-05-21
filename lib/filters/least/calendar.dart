@@ -16,16 +16,7 @@ class _CalendarState extends State<Calendar> {
   final DateRangePickerController _controller = DateRangePickerController();
   final List<List<DateTime>> _blackoutDates = [
     [
-      DateFormat("dd/MM/yyyy").parse("18/05/2022"),
-      DateFormat("dd/MM/yyyy").parse("19/05/2022")
-    ],
-    [
-      DateFormat("dd/MM/yyyy").parse("22/05/2022"),
-      DateFormat("dd/MM/yyyy").parse("24/05/2022")
-    ],
-    [
-      DateFormat("dd/MM/yyyy").parse("28/05/2022"),
-      DateFormat("dd/MM/yyyy").parse("30/05/2022")
+      /*Funzione per ricavare le date dato l'utende (utente PassMarker.carModel.uid)*/
     ]
   ];
   @override
