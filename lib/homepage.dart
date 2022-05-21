@@ -3,15 +3,18 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/filters/least/least.dart';
 import 'package:prcarpolimi/hamburger/configuration.dart';
 import 'package:prcarpolimi/infoAccount.dart';
 import 'package:prcarpolimi/cars_user.dart';
+import 'package:prcarpolimi/message_page.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prcarpolimi/models/static_user.dart';
 import 'hamburger/configuration2.dart';
 import 'hamburger/filters.dart';
 
@@ -34,12 +37,19 @@ class _HomePageState extends State<HomePage> {
   _HomePageState(this.searchCar, this.positionString);
   double? pinPillPosition;
   Set<Marker> _markers = {};
+  late FirebaseMessaging messaging;
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  List<String> messages = [];
 
   @override
   void initState() {
     super.initState();
     pinPillPosition = -220;
     _updateMarkers();
+
+    _saveToken();
+    _listen();
+    //checkForInitialMessage();
   }
 
   @override
@@ -84,6 +94,15 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const InfoAccount()));
+              }),
+          ListTile(
+              title: const Text("Mess",
+                  style: TextStyle(fontSize: 30, color: Colors.redAccent)),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MessagePage(messages)));
               }),
           ListTile(
               title: const Text("Filters"),
@@ -147,6 +166,73 @@ class _HomePageState extends State<HomePage> {
               duration: const Duration(milliseconds: 500))
         ]));
   }
+
+  _saveToken() async {
+    messaging = FirebaseMessaging.instance;
+    await messaging.getToken().then((value) async {
+      await db.collection('tokens').doc(StaticUser.uid).set({
+        'token': value, //aggiungere info di copia 1
+      });
+    });
+  }
+
+  _listen() async {
+    messaging = FirebaseMessaging.instance;
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+
+      FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+        print("message recieved");
+        print(event.notification!.body);
+        setState(() {
+          messages.add(event.notification!.body.toString());
+        });
+      });
+      FirebaseMessaging.onMessageOpenedApp.listen((message) {
+        print('Message clicked!');
+        print(message.notification!.body);
+        setState(() {
+          messages.add(message.notification!.body.toString());
+        });
+      });
+    } else {
+      print('User declined or has not accepted permission');
+    }
+  }
+
+  /*checkForInitialMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      print('Message ripreso!');
+      print(initialMessage.notification!.body);
+      showDialog(
+          barrierDismissible:
+              true, //tapping outside dialog will close the dialog if set 'true'
+          context: context,
+          builder: (context) {
+            return const Dialog(
+              child: Text('ciao'),
+            );
+          });
+      /*setState(() {
+        setState(() {
+          messages.add(initialMessage.notification!.body.toString());
+        });
+      });*/
+    } 
+    }
+  }*/
 
   Future<List<CarModel>> _fetchCar() async {
     final _auth = FirebaseAuth.instance;
@@ -517,4 +603,8 @@ class MapBottomPill extends StatelessWidget {
           ])
         ]));
   }
+}
+
+Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Handling a background message: ${message.messageId}");
 }
