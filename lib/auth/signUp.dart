@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/homepage.dart';
+import 'package:prcarpolimi/models/static_user.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 
 import '../models/marker_to_pass.dart';
@@ -241,6 +242,11 @@ class _SignUpState extends State<SignUp> {
     userModel.uid = user.uid;
     userModel.firstName = firstNameEditingController.text;
     userModel.secondName = secondNameEditingController.text;
+    StaticUser.email = userModel.email!;
+    StaticUser.uid = userModel.uid!;
+    StaticUser.firstName = userModel.firstName!;
+    StaticUser.secondName = userModel.secondName!;
+    PassMarker.driveInserted = false;
     PassMarker.from = true;
     await firebaseFirestore
         .collection("users")

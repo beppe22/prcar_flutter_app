@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state, must_be_immutable
+// ignore_for_file: no_logic_in_create_state, must_be_immutable, avoid_print
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -96,8 +96,7 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => const InfoAccount()));
               }),
           ListTile(
-              title: const Text("Mess",
-                  style: TextStyle(fontSize: 30, color: Colors.redAccent)),
+              title: const Text("Messages"),
               onTap: () {
                 Navigator.push(
                     context,
@@ -128,7 +127,7 @@ class _HomePageState extends State<HomePage> {
           ListTile(
               title: const Text("Configuration"),
               onTap: () {
-                if (!PassMarker.driveInserted2) {
+                if (!PassMarker.driveInserted) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -140,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => const Configuration2()));
                 }
               }),
-          ListTile(title: const Text("Help"), onTap: () {})
+          ListTile(title: const Text("Help"), onTap: () async {})
         ])),
         body: Stack(children: [
           GoogleMap(
@@ -482,23 +481,13 @@ class MapBottomPill extends StatelessWidget {
                                                 color: Colors.redAccent,
                                                 onPressed: () async {
                                                   if (PassMarker
-                                                      .driveInserted2) {
+                                                      .driveInserted) {
                                                     PassMarker.hpOrNot = true;
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                const Least())); /*
-                                                    Navigator.pop(
-                                                        context,
-                                                        await BookingOut(
-                                                                PassMarker
-                                                                    .carModel
-                                                                    .cid,
-                                                                PassMarker
-                                                                    .carModel
-                                                                    .uid)
-                                                            .book());*/
+                                                                const Least()));
                                                   } else {
                                                     Fluttertoast.showToast(
                                                         msg:

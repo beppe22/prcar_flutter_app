@@ -54,8 +54,7 @@ class _Configuration2State extends State<Configuration2> {
                   border: Border.all(width: 5.0, color: Colors.grey)),
               child: (MaterialButton(
                   onPressed: () {
-                    PassMarker.driveInserted2 = false;
-                    PassMarker.returnHP = true;
+                    PassMarker.driveInserted = false;
                     Fluttertoast.showToast(
                         msg: 'Driving license info resetted succesfully :)',
                         fontSize: 20);

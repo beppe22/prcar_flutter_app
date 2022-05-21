@@ -45,11 +45,11 @@ exports.eii= functions.firestore
       tok = value.data().token;
       
       //debugPrint('ciao = $tok');
-  
+      //const nameCar= await retrieveCarName(bookOut.cid,bookOut.uidOwner);
       var payload = {
         "notification": {
-            "title": "From",
-            "body": "motive" + tok,
+            "title": "Car booked",
+            "body": "Someone has booked your car ",
             "sound": "default"
         }}
     
@@ -70,6 +70,19 @@ exports.eii= functions.firestore
     //admin.database().ref('/users/vZElXSMJupWCIumLLSpdHD5ntvi1/cars/vZElXSMJupWCIumLLSpdHD5ntvi1BMW353100/booking-in/aaa').set(BookingOutModel(uidOwner, cid, snap.data().date,snap.data().uidBooking).toMap());
     //return getDatabase().ref('/users/vZElXSMJupWCIumLLSpdHD5ntvi1/cars/vZElXSMJupWCIumLLSpdHD5ntvi1BMW353100/booking-in/aaa').push(object1);
 })
+
+async function retrieveCarName(idCar,idUser){
+   
+  await db.collection('users').doc(idUser).collection('cars').doc(idCar).get().then(async (car) => {
+  const nameVehicle= car.data().veicol;
+  const nameModel= car.data().model;
+  const stringa= nameVehicle + '-'+ nameModel;
+
+  return (stringa);
+  });
+
+  
+}
 
 
 /*exports.endToDevice= functions.firestore
