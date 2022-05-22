@@ -1,3 +1,5 @@
+// ignore_for_file: no_logic_in_create_state, must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
@@ -5,18 +7,19 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 
 class Calendar extends StatefulWidget {
-  const Calendar({Key? key}) : super(key: key);
+  List<String> blackout;
+  Calendar({Key? key, required this.blackout}) : super(key: key);
 
   @override
-  _CalendarState createState() => _CalendarState();
+  _CalendarState createState() => _CalendarState(blackout);
 }
 
 class _CalendarState extends State<Calendar> {
   String _startDate = '', _endDate = '';
   final DateRangePickerController _controller = DateRangePickerController();
-  final List<List<DateTime>> _blackoutDates = [
-    [DateTime.parse("20220522"), DateTime.parse("20220525")]
-  ];
+  List<String> blackout;
+  _CalendarState(this.blackout);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +45,7 @@ class _CalendarState extends State<Calendar> {
               extendableRangeSelectionDirection:
                   ExtendableRangeSelectionDirection.forward,
               monthViewSettings: DateRangePickerMonthViewSettings(
-                  blackoutDates: _takeDateList(_blackoutDates)),
+                  blackoutDates: _takeDateList(blackout)),
               monthCellStyle: const DateRangePickerMonthCellStyle(
                 textStyle: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -70,7 +73,7 @@ class _CalendarState extends State<Calendar> {
                           msg: 'No date selected :(', fontSize: 20);
                     } else {
                       if (await _checkFreeDate(
-                          _takeDateList(_blackoutDates),
+                          _takeDateList(blackout),
                           DateFormat("dd/MM/yyyy").parse(_startDate),
                           DateFormat("dd/MM/yyyy").parse(_endDate))) {
                         Navigator.pop(context, [_startDate, _endDate]);
@@ -93,15 +96,18 @@ class _CalendarState extends State<Calendar> {
         ]));
   }
 
-  List<DateTime> _takeDateList(List<List<DateTime>> date) {
+  List<DateTime> _takeDateList(List<String> date) {
     if (PassMarker.hpOrNot) {
       List<DateTime> blackList = [];
       if (date.isEmpty) {
         return [];
       }
       for (int i = 0; i < date.length; i++) {
-        DateTime start = date[i][0];
-        DateTime end = date[i][1];
+        final splitted = date[i].split('-');
+        String startS = splitted[0];
+        String endS = splitted[1];
+        DateTime start = DateFormat("dd/MM/yyyy").parse(startS);
+        DateTime end = DateFormat("dd/MM/yyyy").parse(endS);
         while (start.compareTo(end) != 0) {
           blackList.add(start);
           start = start.add(const Duration(days: 1));

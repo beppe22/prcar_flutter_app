@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/booking_page.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'calendar.dart';
@@ -66,10 +69,12 @@ class _LeastState extends State<Least> {
                         borderRadius: BorderRadius.circular(20)),
                     child: MaterialButton(
                         onPressed: () async {
+                          List<String> blackout = await _fetchDates();
                           Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const Calendar()))
+                                      builder: (context) =>
+                                          Calendar(blackout: blackout)))
                               .then((data) {
                             setState(() {
                               dateStart = data[0];
@@ -96,10 +101,12 @@ class _LeastState extends State<Least> {
                         borderRadius: BorderRadius.circular(20)),
                     child: MaterialButton(
                         onPressed: () async {
+                          final List<String> blackout = await _fetchDates();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Calendar()));
+                                  builder: (context) =>
+                                      Calendar(blackout: blackout)));
                         },
                         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                         shape: ContinuousRectangleBorder(
@@ -124,13 +131,25 @@ class _LeastState extends State<Least> {
                   child: MaterialButton(
                       onPressed: () async {
                         if (PassMarker.hpOrNot) {
-                          Navigator.pop(
-                              context,
-                              await BookingOut(PassMarker.carModel.cid,
-                                      PassMarker.carModel.uid)
-                                  .book());
+                          if (dateStart == '' && dateEnd == '') {
+                            Fluttertoast.showToast(
+                                msg: "No date choosen :(", fontSize: 20);
+                          } else {
+                            Navigator.pop(
+                                context,
+                                await BookingOut(
+                                        PassMarker.carModel.cid,
+                                        PassMarker.carModel.uid,
+                                        dateStart + '-' + dateEnd)
+                                    .book());
+                          }
                         } else {
-                          Navigator.pop(context, [dateStart, dateEnd]);
+                          if (dateStart == '' && dateEnd == '') {
+                            Fluttertoast.showToast(
+                                msg: "No date choosen :(", fontSize: 20);
+                          } else {
+                            Navigator.pop(context, [dateStart, dateEnd]);
+                          }
                         }
                       },
                       padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -167,5 +186,31 @@ class _LeastState extends State<Least> {
     } else {
       return until.substring(0, 5);
     }
+  }
+
+  Future<List<String>> _fetchDates() async {
+    final _auth = FirebaseAuth.instance;
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    List<String> dates = [];
+
+    if (user != null) {
+      var data = await firebaseFirestore
+          .collection('users')
+          .doc(PassMarker.carModel.uid)
+          .collection('cars')
+          .doc(PassMarker.carModel.cid)
+          .collection('booking-in')
+          .get();
+
+      if (data.docs.isNotEmpty) {
+        for (var bookIn in data.docs) {
+          dates.add(bookIn.data()['date']);
+        }
+      }
+    }
+    return dates;
   }
 }

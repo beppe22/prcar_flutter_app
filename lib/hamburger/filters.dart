@@ -14,6 +14,7 @@ import '../filters/seats/seats.dart';
 import '../filters/vehicle/vehicle.dart';
 import '../models/marker_to_pass.dart';
 import '../models/search_model.dart';
+import 'package:intl/intl.dart';
 
 class Filters extends StatefulWidget {
   const Filters({Key? key}) : super(key: key);
@@ -247,6 +248,19 @@ class _FiltersState extends State<Filters> {
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
+                  setState(() {
+                    search.fuel = '';
+                    search.model = '';
+                    search.least = '';
+                    search.price = '';
+                    search.vehicle = '';
+                    search.seats = '';
+                    search.position = '';
+                    SearchCar.latSearch = '';
+                    SearchCar.lngSearch = '';
+                    SearchCar.date1Search = '';
+                    SearchCar.date2Search = '';
+                  });
                   Navigator.pop(context);
                 }),
             actions: [
@@ -261,6 +275,19 @@ class _FiltersState extends State<Filters> {
                       List<CarModel> cars = await _fetchCar();
                       List<CarModel> searchCars =
                           await _searchCar(cars, search, user);
+                      setState(() {
+                        search.fuel = '';
+                        search.model = '';
+                        search.least = '';
+                        search.price = '';
+                        search.vehicle = '';
+                        search.seats = '';
+                        search.position = '';
+                        SearchCar.latSearch = '';
+                        SearchCar.lngSearch = '';
+                        SearchCar.date1Search = '';
+                        SearchCar.date2Search = '';
+                      });
                       if (searchCars.isNotEmpty) {
                         PassMarker.from = false;
                         Navigator.push(
@@ -379,7 +406,7 @@ class _FiltersState extends State<Filters> {
       }
       if (j &&
           (search.price.toString() != '') &&
-          (int.parse(search.price.toString()) <
+          (int.parse(search.price.toString()) >
               int.parse(cars[i].price.toString()))) {
         j = false;
       }
@@ -392,7 +419,7 @@ class _FiltersState extends State<Filters> {
       if (j &&
           (SearchCar.date1Search.toString() != '') &&
           (_freeDate(SearchCar.date1Search, SearchCar.date2Search,
-              [] /*Funzione che ricava le date delle macchine*/))) {
+              await _fetchDates(cars[i].uid, cars[i].cid)))) {
         j = false;
       }
       if (j) {
@@ -416,19 +443,41 @@ class _FiltersState extends State<Filters> {
   }
 
   bool _freeDate(String startDate, String endDate, List<String> allDate) {
+    DateTime started = DateFormat("dd/MM/yyyy").parse(startDate);
+    DateTime ended = DateFormat("dd/MM/yyyy").parse(endDate);
     if (allDate.isEmpty) {
       return false;
     } else {
       for (int i = 0; i < allDate.length; i++) {
-        String start = allDate[0];
-        String end = allDate[1];
-        if ((start.compareTo(startDate) >= 0 &&
-                start.compareTo(endDate) <= 0) ||
-            (end.compareTo(startDate) >= 0 && end.compareTo(endDate) <= 0)) {
+        final splitted = allDate[i].split('-');
+        String start = splitted[0];
+        String end = splitted[1];
+        DateTime startD = DateFormat("dd/MM/yyyy").parse(start);
+        DateTime endD = DateFormat("dd/MM/yyyy").parse(end);
+        if ((startD.compareTo(started) >= 0 && startD.compareTo(ended) <= 0) ||
+            (endD.compareTo(started) >= 0 && endD.compareTo(ended) <= 0)) {
           return true;
         }
       }
       return false;
     }
+  }
+
+  Future<List<String>> _fetchDates(String? carsUid, String? carsCid) async {
+    List<String> dates = [];
+
+    var data = await firebaseFirestore
+        .collection('users')
+        .doc(carsUid)
+        .collection('cars')
+        .doc(carsCid)
+        .collection('booking-in')
+        .get();
+    if (data.docs.isNotEmpty) {
+      for (var bookIn in data.docs) {
+        dates.add(bookIn.data()['date']);
+      }
+    }
+    return dates;
   }
 }

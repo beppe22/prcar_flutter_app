@@ -6,8 +6,9 @@ import 'package:prcarpolimi/models/booking_model.dart';
 class BookingOut {
   late String? uid;
   late String? cid;
+  late String? date;
 
-  BookingOut(this.cid, this.uid);
+  BookingOut(this.cid, this.uid, this.date);
 
   Future<String> book() async {
     final _auth = FirebaseAuth.instance;
@@ -28,7 +29,7 @@ class BookingOut {
             .set(BookingModel(
                     cid: cid,
                     uidOwner: uid,
-                    date: '25/06/2022-29/06/2022',
+                    date: date,
                     uidBooking: user.uid,
                     bookingId: bookingId)
                 .toMap())
