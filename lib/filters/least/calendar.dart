@@ -15,9 +15,7 @@ class _CalendarState extends State<Calendar> {
   String _startDate = '', _endDate = '';
   final DateRangePickerController _controller = DateRangePickerController();
   final List<List<DateTime>> _blackoutDates = [
-    [
-      /*Funzione per ricavare le date dato l'utende (utente PassMarker.carModel.uid)*/
-    ]
+    [DateTime.parse("20220522"), DateTime.parse("20220525")]
   ];
   @override
   Widget build(BuildContext context) {
