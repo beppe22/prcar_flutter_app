@@ -45,11 +45,11 @@ exports.eii= functions.firestore
       tok = value.data().token;
       
       //debugPrint('ciao = $tok');
-  
+      //const nameCar= await retrieveCarName(bookOut.cid,bookOut.uidOwner);
       var payload = {
         "notification": {
-            "title": "From",
-            "body": "motive" + tok,
+            "title": "Car booked",
+            "body": "Someone has booked your car ",
             "sound": "default"
         }}
     
@@ -71,24 +71,34 @@ exports.eii= functions.firestore
     //return getDatabase().ref('/users/vZElXSMJupWCIumLLSpdHD5ntvi1/cars/vZElXSMJupWCIumLLSpdHD5ntvi1BMW353100/booking-in/aaa').push(object1);
 })
 
+async function retrieveCarName(idCar,idUser){
+   
+  await db.collection('users').doc(idUser).collection('cars').doc(idCar).get().then(async (car) => {
+  const nameVehicle= car.data().veicol;
+  const nameModel= car.data().model;
+  const stringa= nameVehicle + '-'+ nameModel;
+
+  return (stringa);
+  });
+
+  
+}
+
 
 /*exports.endToDevice= functions.firestore
 .document('b/{id}')
 .onCreate((snap, context) => {
-
   
   db.collection('a').doc('a').get().then((value) => {
     
     if (value.empty) {
       console.log('No Device');
-
   }else {
     var tok = '';
     console.log('Device');
     tok = value.data().token;
     
     //debugPrint('ciao = $tok');
-
     var payload = {
       "notification": {
           "title": "From",

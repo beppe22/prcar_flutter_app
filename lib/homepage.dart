@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/booking_page.dart';
 import 'package:prcarpolimi/filters/least/least.dart';
 import 'package:prcarpolimi/hamburger/configuration.dart';
 import 'package:prcarpolimi/infoAccount.dart';
@@ -96,8 +97,7 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => const InfoAccount()));
               }),
           ListTile(
-              title: const Text("Mess",
-                  style: TextStyle(fontSize: 30, color: Colors.redAccent)),
+              title: const Text("Mess"),
               onTap: () {
                 Navigator.push(
                     context,
@@ -171,7 +171,7 @@ class _HomePageState extends State<HomePage> {
     messaging = FirebaseMessaging.instance;
     await messaging.getToken().then((value) async {
       await db.collection('tokens').doc(StaticUser.uid).set({
-        'token': value, //aggiungere info di copia 1
+        'token': value,
       });
     });
   }
@@ -482,23 +482,13 @@ class MapBottomPill extends StatelessWidget {
                                                 color: Colors.redAccent,
                                                 onPressed: () async {
                                                   if (PassMarker
-                                                      .driveInserted2) {
+                                                      .driveInserted) {
                                                     PassMarker.hpOrNot = true;
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                const Least())); /*
-                                                    Navigator.pop(
-                                                        context,
-                                                        await BookingOut(
-                                                                PassMarker
-                                                                    .carModel
-                                                                    .cid,
-                                                                PassMarker
-                                                                    .carModel
-                                                                    .uid)
-                                                            .book());*/
+                                                                const Least()));
                                                   } else {
                                                     Fluttertoast.showToast(
                                                         msg:
