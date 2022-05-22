@@ -88,20 +88,17 @@ async function retrieveCarName(idCar,idUser){
 /*exports.endToDevice= functions.firestore
 .document('b/{id}')
 .onCreate((snap, context) => {
-
   
   db.collection('a').doc('a').get().then((value) => {
     
     if (value.empty) {
       console.log('No Device');
-
   }else {
     var tok = '';
     console.log('Device');
     tok = value.data().token;
     
     //debugPrint('ciao = $tok');
-
     var payload = {
       "notification": {
           "title": "From",

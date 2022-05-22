@@ -170,7 +170,7 @@ class _HomePageState extends State<HomePage> {
     messaging = FirebaseMessaging.instance;
     await messaging.getToken().then((value) async {
       await db.collection('tokens').doc(StaticUser.uid).set({
-        'token': value, //aggiungere info di copia 1
+        'token': value,
       });
     });
   }
