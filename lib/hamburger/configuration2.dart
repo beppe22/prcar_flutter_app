@@ -1,5 +1,7 @@
 // ignore_for_file: body_might_complete_normally_nullable
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
@@ -54,7 +56,10 @@ class _Configuration2State extends State<Configuration2> {
                   border: Border.all(width: 5.0, color: Colors.grey)),
               child: (MaterialButton(
                   onPressed: () {
+                    final _auth = FirebaseAuth.instance;
+                    User? user = _auth.currentUser;
                     PassMarker.driveInserted = false;
+                    _deleteDrivingLicense(user!.uid);
                     Fluttertoast.showToast(
                         msg: 'Driving license info resetted succesfully :)',
                         fontSize: 20);
@@ -73,5 +78,18 @@ class _Configuration2State extends State<Configuration2> {
                           color: Colors.white,
                           fontWeight: FontWeight.bold)))))
         ])));
+  }
+
+  _deleteDrivingLicense(String uid) async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    final delete1 =
+        storage.ref().child("drivingLicenseData/$uid.bottomLicense");
+    await delete1.delete();
+    final delete2 = storage.ref().child("drivingLicenseData/$uid.frontLicense");
+    await delete2.delete();
+    final delete3 = storage.ref().child("drivingLicenseData/$uid.expiryDate");
+    await delete3.delete();
+    final delete4 = storage.ref().child("drivingLicenseData/$uid.drivingCode");
+    await delete4.delete();
   }
 }
