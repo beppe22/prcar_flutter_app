@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, must_be_immutable, no_logic_in_create_state
 
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -8,15 +8,21 @@ import 'package:image_picker/image_picker.dart';
 import 'package:prcarpolimi/configuration/bottom_license.dart';
 
 class FrontLicense extends StatefulWidget {
-  const FrontLicense({Key? key}) : super(key: key);
+  String expiryDate, drivingCode;
+  FrontLicense({Key? key, required this.expiryDate, required this.drivingCode})
+      : super(key: key);
 
   @override
-  State<FrontLicense> createState() => _FrontLicenseState();
+  State<FrontLicense> createState() =>
+      _FrontLicenseState(expiryDate, drivingCode);
 }
 
 class _FrontLicenseState extends State<FrontLicense> {
-  File? image;
+  File? frontImage;
   bool? ok;
+  String expiryDate, drivingCode;
+
+  _FrontLicenseState(this.expiryDate, this.drivingCode);
 
   @override
   void initState() {
@@ -26,11 +32,11 @@ class _FrontLicenseState extends State<FrontLicense> {
 
   Future pickImage(ImageSource source) async {
     try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
-      final imageTemporary = File(image.path);
+      final frontImage = await ImagePicker().pickImage(source: source);
+      if (frontImage == null) return;
+      final imageTemporary = File(frontImage.path);
       setState(() {
-        this.image = imageTemporary;
+        this.frontImage = imageTemporary;
         ok = true;
       });
     } on PlatformException catch (e) {
@@ -57,8 +63,9 @@ class _FrontLicenseState extends State<FrontLicense> {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center),
           const SizedBox(height: 20),
-          image != null
-              ? Image.file(image!, width: 160, height: 160, fit: BoxFit.cover)
+          frontImage != null
+              ? Image.file(frontImage!,
+                  width: 160, height: 160, fit: BoxFit.cover)
               : SizedBox(
                   height: 175,
                   child:
@@ -73,6 +80,8 @@ class _FrontLicenseState extends State<FrontLicense> {
                   border: Border.all(width: 5.0, color: Colors.grey)),
               child: (MaterialButton(
                   onPressed: () {
+                    print(drivingCode);
+                    print(expiryDate);
                     pickImage(ImageSource.gallery);
                   },
                   padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -118,7 +127,10 @@ class _FrontLicenseState extends State<FrontLicense> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const BottomLicense()));
+                              builder: (context) => BottomLicense(
+                                  expiryDate: expiryDate,
+                                  drivingCode: drivingCode,
+                                  frontImage: frontImage!)));
                     } else {
                       Fluttertoast.showToast(
                           msg: 'No picture inserted :(', fontSize: 20);

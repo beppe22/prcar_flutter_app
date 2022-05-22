@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state, must_be_immutable
+// ignore_for_file: no_logic_in_create_state, must_be_immutable, avoid_print
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:prcarpolimi/booking_page.dart';
 import 'package:prcarpolimi/filters/least/least.dart';
 import 'package:prcarpolimi/hamburger/configuration.dart';
 import 'package:prcarpolimi/infoAccount.dart';
@@ -97,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => const InfoAccount()));
               }),
           ListTile(
-              title: const Text("Mess"),
+              title: const Text("Messages"),
               onTap: () {
                 Navigator.push(
                     context,
@@ -128,7 +127,7 @@ class _HomePageState extends State<HomePage> {
           ListTile(
               title: const Text("Configuration"),
               onTap: () {
-                if (!PassMarker.driveInserted2) {
+                if (!PassMarker.driveInserted) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -140,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => const Configuration2()));
                 }
               }),
-          ListTile(title: const Text("Help"), onTap: () {})
+          ListTile(title: const Text("Help"), onTap: () async {})
         ])),
         body: Stack(children: [
           GoogleMap(

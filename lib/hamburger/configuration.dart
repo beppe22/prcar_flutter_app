@@ -2,8 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/configuration/front_license.dart';
-
-import '../models/marker_to_pass.dart';
+import 'package:prcarpolimi/homepage.dart';
 
 class Configuration extends StatefulWidget {
   const Configuration({Key? key}) : super(key: key);
@@ -100,13 +99,10 @@ class _ConfigurationState extends State<Configuration> {
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  if (PassMarker.returnHP) {
-                    Navigator.of(context)
-                      ..pop()
-                      ..pop();
-                  } else {
-                    Navigator.pop(context);
-                  }
+                  Navigator.pushAndRemoveUntil(
+                      (context),
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                      (route) => false);
                 })),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -170,8 +166,12 @@ class _ConfigurationState extends State<Configuration> {
 
   void nextPage() {
     if (_formKey.currentState!.validate()) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const FrontLicense()));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FrontLicense(
+                  drivingCode: drivingLicenseCodeEditingController.text,
+                  expiryDate: expiryDateEditingController.text)));
     }
   }
 }

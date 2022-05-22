@@ -1,22 +1,37 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, no_logic_in_create_state, must_be_immutable
 
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:prcarpolimi/auth/storage_service.dart';
+import 'package:prcarpolimi/homepage.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class BottomLicense extends StatefulWidget {
-  const BottomLicense({Key? key}) : super(key: key);
+  String expiryDate, drivingCode;
+  File frontImage;
+  BottomLicense(
+      {Key? key,
+      required this.expiryDate,
+      required this.drivingCode,
+      required this.frontImage})
+      : super(key: key);
 
   @override
-  State<BottomLicense> createState() => _BottomLicenseState();
+  State<BottomLicense> createState() =>
+      _BottomLicenseState(expiryDate, drivingCode, frontImage);
 }
 
 class _BottomLicenseState extends State<BottomLicense> {
-  File? image;
+  File? bottomImage;
+  File frontImage;
   bool? ok;
+  String expiryDate, drivingCode;
+
+  _BottomLicenseState(this.expiryDate, this.drivingCode, this.frontImage);
 
   @override
   void initState() {
@@ -26,11 +41,11 @@ class _BottomLicenseState extends State<BottomLicense> {
 
   Future pickImage(ImageSource source) async {
     try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
-      final imageTemporary = File(image.path);
+      final bottomImage = await ImagePicker().pickImage(source: source);
+      if (bottomImage == null) return;
+      final imageTemporary = File(bottomImage.path);
       setState(() {
-        this.image = imageTemporary;
+        this.bottomImage = imageTemporary;
         ok = true;
       });
     } on PlatformException catch (e) {
@@ -40,6 +55,7 @@ class _BottomLicenseState extends State<BottomLicense> {
 
   @override
   Widget build(BuildContext context) {
+    final Storage storage = Storage();
     return Scaffold(
       appBar: AppBar(
           title: const Text('Driving license'),
@@ -56,8 +72,9 @@ class _BottomLicenseState extends State<BottomLicense> {
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center),
         const SizedBox(height: 20),
-        image != null
-            ? Image.file(image!, width: 160, height: 160, fit: BoxFit.cover)
+        bottomImage != null
+            ? Image.file(bottomImage!,
+                width: 160, height: 160, fit: BoxFit.cover)
             : SizedBox(
                 height: 175,
                 child:
@@ -114,25 +131,25 @@ class _BottomLicenseState extends State<BottomLicense> {
             child: (MaterialButton(
                 onPressed: () {
                   if (ok!) {
-                    PassMarker.driveInserted2 = true;
-                    if (PassMarker.returnHP) {
-                      PassMarker.returnHP = false;
-                      Fluttertoast.showToast(
-                          msg: 'Driving license inserted :)', fontSize: 20);
-                      Navigator.of(context)
-                        ..pop()
-                        ..pop()
-                        ..pop()
-                        ..pop();
-                    } else {
-                      PassMarker.returnHP = false;
-                      Fluttertoast.showToast(
-                          msg: 'Driving license inserted :)', fontSize: 20);
-                      Navigator.of(context)
-                        ..pop()
-                        ..pop()
-                        ..pop();
-                    }
+                    PassMarker.driveInserted = true;
+                    final _auth = FirebaseAuth.instance;
+                    User? user = _auth.currentUser;
+                    String uidCode = user!.uid;
+                    final frontPath = frontImage.path;
+                    final bottomPath = bottomImage!.path;
+                    final expiryPath = expiryDate;
+                    final drivingCodePath = drivingCode;
+                    storage.uploadFile(frontPath, '$uidCode.frontLicense');
+                    storage.uploadFile(bottomPath, '$uidCode.bottomLicense');
+                    storage.uploadString(expiryPath, '$uidCode.expiryDate');
+                    storage.uploadString(
+                        drivingCodePath, '$uidCode.drivingCode');
+                    Fluttertoast.showToast(
+                        msg: 'Driving license inserted :)', fontSize: 20);
+                    Navigator.pushAndRemoveUntil(
+                        (context),
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                        (route) => false);
                   } else {
                     Fluttertoast.showToast(
                         msg: 'No picture inserted :(', fontSize: 20);

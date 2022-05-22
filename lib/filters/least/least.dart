@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prcarpolimi/booking_page.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'calendar.dart';
 
@@ -123,7 +124,11 @@ class _LeastState extends State<Least> {
                   child: MaterialButton(
                       onPressed: () async {
                         if (PassMarker.hpOrNot) {
-                          //reserve
+                          Navigator.pop(
+                              context,
+                              await BookingOut(PassMarker.carModel.cid,
+                                      PassMarker.carModel.uid)
+                                  .book());
                         } else {
                           Navigator.pop(context, [dateStart, dateEnd]);
                         }
