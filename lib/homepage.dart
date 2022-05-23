@@ -17,6 +17,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/models/static_user.dart';
 import 'hamburger/configuration2.dart';
 import 'hamburger/filters.dart';
+import 'dart:io' show Platform;
 
 const double pinVisiblePosition = 10;
 const double pinInvisiblePosition = -220;
@@ -46,10 +47,11 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     pinPillPosition = -220;
     _updateMarkers();
-
-    _saveToken();
-    _listen();
-    //checkForInitialMessage();
+    if (Platform.isAndroid) {
+      _saveToken();
+      _listen();
+      //checkForInitialMessage();
+    }
   }
 
   @override
@@ -171,6 +173,8 @@ class _HomePageState extends State<HomePage> {
     await messaging.getToken().then((value) async {
       await db.collection('tokens').doc(StaticUser.uid).set({
         'token': value,
+        'createdAt': FieldValue.serverTimestamp(),
+        'platform': Platform.operatingSystem
       });
     });
   }

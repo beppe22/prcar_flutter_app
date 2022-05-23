@@ -84,6 +84,44 @@ async function retrieveCarName(idCar,idUser){
   
 }
 
+exports.firestoreEmail = functions.firestore
+.document('users/{IdUser}/booking-out/{IdBookingOut}')
+.onCreate(async (snap, context) => {
+
+  const bookOut= snap.data();
+  
+
+  //Retrieve car booked info
+  
+  const car= await db.collection('users').doc(bookOut.uidOwner).collection('cars').doc(bookOut.cid).get();
+  const model= car.data().model;
+  const vehicle= car.data().veicol;
+
+  //Retrieve email from who received the booking
+  const user= await db.collection('users').doc(bookOut.uidOwner).get();
+  const email= user.data().email;
+
+
+  const SENDGRID_API_KEY = functions.config().sendgrid.key;
+  const sgMail= require('@sendgrid/mail');
+  sgMail.setApiKey(SENDGRID_API_KEY);
+  
+  const msg= 
+  {
+    to: email,
+    from: 'tancreditalia@hotmail.it',
+    subject: 'Booking',
+    templateId: 'd-61b9f62cf1d74688aaee77abcb0dc1fc',
+    substitutionWrappers: ['{{', '}}'],
+    dynamic_template_data: {
+      nameCar: vehicle + '-' + model,
+    }
+
+
+  }
+  return sgMail.send(msg)
+  //});
+});
 
 /*exports.endToDevice= functions.firestore
 .document('b/{id}')
