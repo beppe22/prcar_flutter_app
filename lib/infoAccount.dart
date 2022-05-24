@@ -15,7 +15,7 @@ class InfoAccount extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('PrCar'),
+            title: const Text('Account'),
             automaticallyImplyLeading: false,
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),

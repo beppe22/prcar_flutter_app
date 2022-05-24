@@ -10,7 +10,7 @@ import 'package:prcarpolimi/filters/least/least.dart';
 import 'package:prcarpolimi/hamburger/configuration.dart';
 import 'package:prcarpolimi/infoAccount.dart';
 import 'package:prcarpolimi/cars_user.dart';
-import 'package:prcarpolimi/message_page.dart';
+import 'package:prcarpolimi/hamburger/message_page.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MessagePage(messages)));
+                        builder: (context) => const MessagePage()));
               }),
           ListTile(
               title: const Text("Filters"),
