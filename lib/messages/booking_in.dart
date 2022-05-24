@@ -1,8 +1,11 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:prcarpolimi/homepage.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class BookingInPage extends StatefulWidget {
   List<String> res;
@@ -119,6 +122,65 @@ class BookingInPageState extends State<BookingInPage> {
                                                                       child: MaterialButton(
                                                                         onPressed:
                                                                             () async {
+                                                                          if (PassMarker.status[index] !=
+                                                                              'a') {
+                                                                            final splitted =
+                                                                                res[index].split('.');
+                                                                            String
+                                                                                date =
+                                                                                splitted[0];
+                                                                            DateTime
+                                                                                dayStart =
+                                                                                DateFormat("dd/MM/yyyy").parse(date.substring(0, 10));
+                                                                            DateTime
+                                                                                day =
+                                                                                DateTime.now();
+                                                                            DateTime
+                                                                                day3 =
+                                                                                DateTime(day.year, day.month, day.day + 3);
+                                                                            if (dayStart.compareTo(day3) >
+                                                                                0) {
+                                                                              _annulmentMessage(index);
+                                                                              Navigator.pushAndRemoveUntil((context), MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
+                                                                              Fluttertoast.showToast(msg: 'Operation abolished!', fontSize: 20);
+                                                                            } else {
+                                                                              Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
+                                                                            }
+                                                                          } else {
+                                                                            Fluttertoast.showToast(
+                                                                                msg: 'Impossible operation: reservatione already abolished :(',
+                                                                                fontSize: 20);
+                                                                          }
+                                                                        },
+                                                                        child: const Text(
+                                                                            'Annulment',
+                                                                            textAlign: TextAlign
+                                                                                .center,
+                                                                            style: TextStyle(
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 18,
+                                                                                color: Colors.black)),
+                                                                        shape: ContinuousRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(30)),
+                                                                      )),
+                                                                  const SizedBox(
+                                                                      height:
+                                                                          30),
+                                                                  Container(
+                                                                      height:
+                                                                          70,
+                                                                      width:
+                                                                          250,
+                                                                      decoration: BoxDecoration(
+                                                                          color: Colors
+                                                                              .redAccent,
+                                                                          border: Border.all(
+                                                                              width: 5.0,
+                                                                              color: Colors.grey)),
+                                                                      child: MaterialButton(
+                                                                        onPressed:
+                                                                            () async {
                                                                           final splitted =
                                                                               res[index].split('.');
                                                                           String
@@ -129,7 +191,14 @@ class BookingInPageState extends State<BookingInPage> {
                                                                               DateFormat("dd/MM/yyyy").parse(date.substring(11));
                                                                           if (dayEnd.compareTo(DateTime.now()) <
                                                                               0) {
-                                                                            //eliminazione messaggio
+                                                                            _eliminationMessage(index);
+                                                                            Navigator.pushAndRemoveUntil(
+                                                                                (context),
+                                                                                MaterialPageRoute(builder: (context) => HomePage()),
+                                                                                (route) => false);
+                                                                            Fluttertoast.showToast(
+                                                                                msg: 'This message has been eliminated!',
+                                                                                fontSize: 20);
                                                                           } else {
                                                                             Fluttertoast.showToast(
                                                                                 msg: 'Impossible operation: you can\'t eliminate this message while the reservation isn\'t finished :(',
@@ -137,7 +206,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                           }
                                                                         },
                                                                         child: const Text(
-                                                                            'Cancellation',
+                                                                            'Elimination',
                                                                             textAlign: TextAlign
                                                                                 .center,
                                                                             style: TextStyle(
@@ -210,14 +279,47 @@ class BookingInPageState extends State<BookingInPage> {
     String car = splitted[1];
     DateTime dayStart = DateFormat("dd/MM/yyyy").parse(date.substring(0, 10));
     DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(date.substring(11));
-    if (dayStart.compareTo(DateTime.now()) > 0) {
-      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Soon';
-    }
-    if (dayStart.compareTo(DateTime.now()) <= 0 &&
-        dayEnd.compareTo(DateTime.now()) > 0) {
-      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Active';
+    if (PassMarker.status[int.parse(i)] == 'a') {
+      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Declined';
     } else {
-      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Complete';
+      if (dayStart.compareTo(DateTime.now()) > 0) {
+        return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Soon';
+      }
+      if (dayStart.compareTo(DateTime.now()) <= 0 &&
+          dayEnd.compareTo(DateTime.now()) > 0) {
+        return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Active';
+      } else {
+        return i +
+            '. Date: ' +
+            date +
+            '\n Model: ' +
+            car +
+            '\n Status: Complete';
+      }
     }
+  }
+
+  _eliminationMessage(int i) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    await firebaseFirestore
+        .collection('users')
+        .doc(PassMarker.uid[i])
+        .collection('cars')
+        .doc(PassMarker.cid[i])
+        .collection('bookingIn')
+        .doc(PassMarker.bookId[i])
+        .update({'status': 'e'});
+  }
+
+  _annulmentMessage(int i) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    await firebaseFirestore
+        .collection('users')
+        .doc(PassMarker.uid[i])
+        .collection('cars')
+        .doc(PassMarker.cid[i])
+        .collection('bookingIn')
+        .doc(PassMarker.bookId[i])
+        .update({'status': 'a'});
   }
 }

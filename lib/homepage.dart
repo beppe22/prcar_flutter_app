@@ -260,7 +260,9 @@ class _HomePageState extends State<HomePage> {
                 .then((ds_1) {
               for (var car in ds_1.docs) {
                 //print(car.data());
-                cars.add(CarModel.fromMap(car.data()));
+                if (car.data()['activeOrNot'] == 't') {
+                  cars.add(CarModel.fromMap(car.data()));
+                }
               }
             });
           }

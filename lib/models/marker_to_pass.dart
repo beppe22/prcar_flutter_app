@@ -8,4 +8,8 @@ class PassMarker {
   static int markerId = 0;
   static bool from = true;
   static bool hpOrNot = true;
+  static List<String> cid = [];
+  static List<String> uid = [];
+  static List<String> bookId = [];
+  static List<String> status = [];
 }

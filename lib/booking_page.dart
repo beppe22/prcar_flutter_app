@@ -31,7 +31,8 @@ class BookingOut {
                     uidOwner: uid,
                     date: date,
                     uidBooking: user.uid,
-                    bookingId: bookingId)
+                    bookingId: bookingId,
+                    status: 'c')
                 .toMap())
             .then((ds) {
           return '1';

@@ -4,9 +4,15 @@ class BookingModel {
   String? date;
   String? uidBooking;
   String? bookingId;
+  String? status;
 
   BookingModel(
-      {this.uidOwner, this.cid, this.date, this.uidBooking, this.bookingId});
+      {this.uidOwner,
+      this.cid,
+      this.date,
+      this.uidBooking,
+      this.bookingId,
+      this.status});
 
   //receiving data from server
   factory BookingModel.fromMap(map) {
@@ -15,7 +21,8 @@ class BookingModel {
         cid: map['cid'],
         date: map['date'],
         uidBooking: map['uidBooking'],
-        bookingId: map['bookingId']);
+        bookingId: map['bookingId'],
+        status: map['status']);
   }
 
   //sending data to our server
@@ -26,6 +33,7 @@ class BookingModel {
       'date': date,
       'uidBooking': uidBooking,
       'bookingId': bookingId,
+      'status': status
     };
   }
 }

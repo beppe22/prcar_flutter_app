@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/messages/booking_in.dart';
 import 'package:prcarpolimi/messages/booking_out.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({Key? key}) : super(key: key);
@@ -93,6 +94,10 @@ class MessagePageState extends State<MessagePage> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
     List<String> myRes = [];
+    PassMarker.uid = [];
+    PassMarker.cid = [];
+    PassMarker.bookId = [];
+    PassMarker.status = [];
 
     if (user != null) {
       var data = await firebaseFirestore
@@ -104,19 +109,26 @@ class MessagePageState extends State<MessagePage> {
       if (data.docs.isNotEmpty) {
         for (var bookOut in data.docs) {
           String insert = bookOut.data()['date'];
+
           var data1 = await firebaseFirestore
               .collection('users')
               .doc(bookOut.data()['uidOwner'])
               .collection('cars')
               .doc(bookOut.data()['cid'])
               .get();
+          if (bookOut.data()['status'] != 'e') {
+            PassMarker.uid.add(user.uid);
+            PassMarker.cid.add(bookOut.data()['cid']);
+            PassMarker.bookId.add(bookOut.data()['bookingId']);
+            PassMarker.status.add(bookOut.data()['status']);
 
-          insert = insert +
-              '.' +
-              data1.data()!['veicol'] +
-              '-' +
-              data1.data()!['model'];
-          myRes.add(insert);
+            insert = insert +
+                '.' +
+                data1.data()!['veicol'] +
+                '-' +
+                data1.data()!['model'];
+            myRes.add(insert);
+          }
         }
       }
     }
@@ -128,6 +140,10 @@ class MessagePageState extends State<MessagePage> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
     List<String> otherRes = [];
+    PassMarker.uid = [];
+    PassMarker.cid = [];
+    PassMarker.bookId = [];
+    PassMarker.status = [];
 
     if (user != null) {
       var data = await firebaseFirestore
@@ -155,12 +171,19 @@ class MessagePageState extends State<MessagePage> {
                     .collection('cars')
                     .doc(book.data()['cid'])
                     .get();
-                insert = insert +
-                    '.' +
-                    data1.data()!['veicol'] +
-                    '-' +
-                    data1.data()!['model'];
-                otherRes.add(insert);
+
+                if (book.data()['status'] != 'e') {
+                  PassMarker.uid.add(user.uid);
+                  PassMarker.cid.add(book.data()['cid']);
+                  PassMarker.bookId.add(book.data()['bookingIn']);
+                  PassMarker.bookId.add(book.data()['status']);
+                  insert = insert +
+                      '.' +
+                      data1.data()!['veicol'] +
+                      '-' +
+                      data1.data()!['model'];
+                  otherRes.add(insert);
+                }
               }
             }
           });

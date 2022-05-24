@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/change_info_car.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 
@@ -163,6 +164,10 @@ class _InfoCarState extends State<InfoCar> {
                             });
                           }
                           _suspendOrActiveCar();
+                          Fluttertoast.showToast(
+                              msg:
+                                  'Car\'s status changed! Pay attention to its reservations because those are still available!',
+                              fontSize: 20);
                         },
                         child: Text(supOrActive,
                             textAlign: TextAlign.center,
