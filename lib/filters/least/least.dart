@@ -207,7 +207,9 @@ class _LeastState extends State<Least> {
 
       if (data.docs.isNotEmpty) {
         for (var bookIn in data.docs) {
-          dates.add(bookIn.data()['date']);
+          if (bookIn.data()['status'] != 'a') {
+            dates.add(bookIn.data()['date']);
+          }
         }
       }
     }
