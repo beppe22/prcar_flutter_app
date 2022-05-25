@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/auth/login.dart';
@@ -179,8 +180,15 @@ class InfoAccount extends StatelessWidget {
                                                       TextStyle(fontSize: 24))),
                                           const SizedBox(width: 110),
                                           TextButton(
-                                              onPressed: () {
-                                                /*qua fa il delete*/
+                                              onPressed: () async {
+                                                deleteAccount();
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const Login()),
+                                                    (Route<dynamic> route) =>
+                                                        false);
                                               },
                                               child: const Text('Confirm!',
                                                   style:
@@ -202,5 +210,13 @@ class InfoAccount extends StatelessWidget {
                         ]))
               ])
             ])));
+  }
+
+  void deleteAccount() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    await user?.delete();
+    await firebaseFirestore.collection("users").doc(StaticUser.uid).delete();
   }
 }
