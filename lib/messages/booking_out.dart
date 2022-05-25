@@ -114,8 +114,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                       width:
                                                                           250,
                                                                       decoration: BoxDecoration(
-                                                                          color: Colors
-                                                                              .redAccent,
+                                                                          color: _colorAnulment(index),
                                                                           border: Border.all(
                                                                               width: 5.0,
                                                                               color: Colors.grey)),
@@ -148,7 +147,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                             }
                                                                           } else {
                                                                             Fluttertoast.showToast(
-                                                                                msg: 'Impossible operation: reservatione already abolished :(',
+                                                                                msg: 'Impossible operation: reservation already abolished :(',
                                                                                 fontSize: 20);
                                                                           }
                                                                         },
@@ -189,8 +188,8 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                           DateTime
                                                                               dayEnd =
                                                                               DateFormat("dd/MM/yyyy").parse(date.substring(11));
-                                                                          if (dayEnd.compareTo(DateTime.now()) <
-                                                                              0) {
+                                                                          if (dayEnd.compareTo(DateTime.now()) < 0 ||
+                                                                              PassMarker.bookId[index] == 'a') {
                                                                             _eliminationMessage(index);
                                                                             Navigator.pushAndRemoveUntil(
                                                                                 (context),
@@ -317,5 +316,13 @@ class BookingOutPageState extends State<BookingOutPage> {
         .collection('booking-out')
         .doc(PassMarker.bookId[i])
         .update({'status': 'a'});
+  }
+
+  _colorAnulment(int i) {
+    if (PassMarker.status[i] == 'a') {
+      return Colors.black;
+    } else {
+      return Colors.redAccent;
+    }
   }
 }
