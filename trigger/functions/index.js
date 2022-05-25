@@ -17,11 +17,12 @@ exports.eii= functions.firestore
     //print(cid);*/
     
     var object1 = {
-        'uidOwner': bookOut.uidOwner,
+        'bookingId': bookOut.bookingId,
         'cid': bookOut.cid,
         'date': bookOut.date,
+        'status' : 'a',
         'uidBooking': bookOut.uidBooking,
-        'bookingId': bookOut.bookingId,
+        'uidOwner': bookOut.uidOwner,
       }
 
     
@@ -84,7 +85,7 @@ async function retrieveCarName(idCar,idUser){
   
 }
 
-exports.firestoreEmail = functions.firestore
+exports.emailForBooking = functions.firestore
 .document('users/{IdUser}/booking-out/{IdBookingOut}')
 .onCreate(async (snap, context) => {
 
@@ -120,8 +121,82 @@ exports.firestoreEmail = functions.firestore
 
   }
   return sgMail.send(msg)
-  //});
+  
 });
+
+exports.statusChanging = functions.firestore
+.document('users/{IdUser}/booking-out/{IdBookingOut}')
+.onUpdate(async (snap, context) => {
+
+  const booking= snap.data();
+  const preStatus= snap.before.get('status');
+  const postStatus= snap.after.get('status');
+
+  if(preStatus == 'c' && postStatus == 'a')
+  {
+    await db.collection('users')
+    .doc(booking.uidOwner)
+    .collection('cars')
+    .doc(bookOut.cid)
+    .collection('booking-in')
+    .doc(bookOut.bookingId)
+    .update({'status' : 'a'});
+  }
+})
+
+exports.statusChanging = functions.firestore
+.document('users/{IdUser}/cars/{IdCars}/bookingIn/{IdBookingIn}')
+.onUpdate(async (snap, context) => {
+
+  const booking= snap.data();
+  const preStatus= snap.before.get('status');
+  const postStatus= snap.after.get('status');
+
+  if(preStatus == 'c' && postStatus == 'a')
+  {
+    await db.collection('users')
+    .doc(booking.uidBooking)
+    .collection('booking-out')
+    .doc(bookOut.bookingId)
+    .update({'status' : 'a'});
+  }
+})
+
+/*exports.emailForNewAcceptedUser = functions.firestore
+.document('users/{IdUser}')
+.onUpdate(async (snap, context) => {
+
+  const user= snap.data();
+  const preStatus = snap.before.get('isConfirmed');
+  const postStatus = snap.after.get('isConfirmed');
+
+  if(preStatus == 'false' && postStatus == 'true'){
+  
+  
+
+  const email= user.data().email;
+
+
+  const SENDGRID_API_KEY = functions.config().sendgrid.key;
+  const sgMail= require('@sendgrid/mail');
+  sgMail.setApiKey(SENDGRID_API_KEY);
+  
+  const msg= 
+  {
+    to: email,
+    from: 'tancreditalia@hotmail.it',
+    subject: 'Confirmation',
+    templateId: 'd-7a00fd84017c425b99f0805f4de5c528',
+    substitutionWrappers: ['{{', '}}'],
+    dynamic_template_data: {
+      name: user.data().firstName,
+    }
+
+
+  }
+  return sgMail.send(msg)
+}
+});*/
 
 /*exports.endToDevice= functions.firestore
 .document('b/{id}')

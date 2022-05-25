@@ -47,8 +47,9 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     pinPillPosition = -220;
     _updateMarkers();
+
+    _saveToken();
     if (Platform.isAndroid) {
-      _saveToken();
       _listen();
       //checkForInitialMessage();
     }
