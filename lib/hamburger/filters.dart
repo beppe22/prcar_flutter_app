@@ -477,7 +477,9 @@ class _FiltersState extends State<Filters> {
         .get();
     if (data.docs.isNotEmpty) {
       for (var bookIn in data.docs) {
-        dates.add(bookIn.data()['date']);
+        if (bookIn.data()['status'] != 'a') {
+          dates.add(bookIn.data()['date']);
+        }
       }
     }
     return dates;
