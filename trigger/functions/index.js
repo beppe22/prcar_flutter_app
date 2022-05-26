@@ -124,7 +124,7 @@ exports.emailForBooking = functions.firestore
   
 });
 
-exports.statusChanging = functions.firestore
+exports.statusChangingBookingOut = functions.firestore
 .document('users/{IdUser}/booking-out/{IdBookingOut}')
 .onUpdate(async (snap, context) => {
 
@@ -144,8 +144,8 @@ exports.statusChanging = functions.firestore
   }
 })
 
-exports.statusChanging = functions.firestore
-.document('users/{IdUser}/cars/{IdCars}/bookingIn/{IdBookingIn}')
+exports.statusChangingBookingIn = functions.firestore
+.document('users/{IdUser}/cars/{IdCars}/booking-in/{IdBookingIn}')
 .onUpdate(async (snap, context) => {
 
   const booking= snap.data();
@@ -161,6 +161,8 @@ exports.statusChanging = functions.firestore
     .update({'status' : 'a'});
   }
 })
+
+
 
 /*exports.emailForNewAcceptedUser = functions.firestore
 .document('users/{IdUser}')

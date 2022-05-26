@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/auth/login.dart';
+import 'package:prcarpolimi/homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,7 +41,11 @@ class _MyHomePageState extends State<MyHomePage> {
             future: _initializeFirebase(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                return const Login();
+                if (FirebaseAuth.instance.currentUser != null) {
+                  return HomePage();
+                } else {
+                  return const Login();
+                }
               }
               return const Center(child: CircularProgressIndicator());
             }));
