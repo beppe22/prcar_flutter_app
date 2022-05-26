@@ -9,6 +9,7 @@ import 'package:prcarpolimi/models/userModel.dart';
 import 'package:prcarpolimi/homepage.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../models/static_user.dart';
+import 'package:intl/intl.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -139,6 +140,7 @@ class _LoginState extends State<Login> {
                               StaticUser.firstName = userModel.firstName!;
                               StaticUser.secondName = userModel.secondName!;
                               PassMarker.from = true;
+                              _finishReservation(user);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -184,6 +186,70 @@ class _LoginState extends State<Login> {
       return true;
     } else {
       return false;
+    }
+  }
+
+  _finishReservation(User user) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    var data = await firebaseFirestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('booking-out')
+        .get();
+
+    if (data.docs.isNotEmpty) {
+      for (var bookOut in data.docs) {
+        String data = bookOut.data()['date'];
+        final splitted = data.split('-');
+        String finalDate = splitted[1];
+        DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(finalDate);
+        if (dayEnd.compareTo(DateTime.now()) < 0) {
+          await firebaseFirestore
+              .collection('users')
+              .doc(user.uid)
+              .collection('booking-out')
+              .doc(bookOut.data()['bookingId'])
+              .update({'status': 'a'});
+        }
+      }
+    }
+
+    var data2 = await firebaseFirestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('cars')
+        .get();
+
+    if (data2.docs.isNotEmpty) {
+      for (var car in data.docs) {
+        await firebaseFirestore
+            .collection('users')
+            .doc(car.data()['uid'])
+            .collection('cars')
+            .doc(car.data()['cid'])
+            .collection('booking-in')
+            .get()
+            .then((ds) async {
+          if (ds.docs.isNotEmpty) {
+            for (var book in ds.docs) {
+              String data = book.data()['date'];
+              final splitted = data.split('-');
+              String finalDate = splitted[1];
+              DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(finalDate);
+              if (dayEnd.compareTo(DateTime.now()) < 0) {
+                await firebaseFirestore
+                    .collection('users')
+                    .doc(user.uid)
+                    .collection('cars')
+                    .doc(book.data()['cid'])
+                    .collection('booking-in')
+                    .doc(book.data()['bookingId'])
+                    .update({'status': 'f'});
+              }
+            }
+          }
+        });
+      }
     }
   }
 }

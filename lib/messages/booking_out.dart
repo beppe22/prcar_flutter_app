@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:prcarpolimi/homepage.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class BookingOutPage extends StatefulWidget {
@@ -114,7 +113,8 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                       width:
                                                                           250,
                                                                       decoration: BoxDecoration(
-                                                                          color: _colorAnulment(index),
+                                                                          color: _colorAnulment(
+                                                                              index),
                                                                           border: Border.all(
                                                                               width: 5.0,
                                                                               color: Colors.grey)),
@@ -123,6 +123,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                             () async {
                                                                           if (PassMarker.status[index] !=
                                                                               'a') {
+                                                                            Navigator.pop(context);
                                                                             final splitted =
                                                                                 res[index].split('.');
                                                                             String
@@ -139,8 +140,11 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                 DateTime(day.year, day.month, day.day + 3);
                                                                             if (dayStart.compareTo(day3) >
                                                                                 0) {
-                                                                              _annulmentMessage(index);
-                                                                              Navigator.pushAndRemoveUntil((context), MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
+                                                                              setState(() {
+                                                                                _annulmentMessage(index);
+                                                                                PassMarker.status[index] = 'a';
+                                                                              });
+
                                                                               Fluttertoast.showToast(msg: 'Operation abolished!', fontSize: 20);
                                                                             } else {
                                                                               Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
@@ -180,6 +184,8 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                       child: MaterialButton(
                                                                         onPressed:
                                                                             () async {
+                                                                          Navigator.pop(
+                                                                              context);
                                                                           final splitted =
                                                                               res[index].split('.');
                                                                           String
@@ -189,12 +195,11 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                               dayEnd =
                                                                               DateFormat("dd/MM/yyyy").parse(date.substring(11));
                                                                           if (dayEnd.compareTo(DateTime.now()) < 0 ||
-                                                                              PassMarker.bookId[index] == 'a') {
-                                                                            _eliminationMessage(index);
-                                                                            Navigator.pushAndRemoveUntil(
-                                                                                (context),
-                                                                                MaterialPageRoute(builder: (context) => HomePage()),
-                                                                                (route) => false);
+                                                                              PassMarker.status[index] == 'a') {
+                                                                            setState(() {
+                                                                              _eliminationMessage(index);
+                                                                              PassMarker.status[index] = 'e';
+                                                                            });
                                                                             Fluttertoast.showToast(
                                                                                 msg: 'This message has been eliminated!',
                                                                                 fontSize: 20);
@@ -281,21 +286,43 @@ class BookingOutPageState extends State<BookingOutPage> {
     if (PassMarker.status[int.parse(i)] == 'a') {
       return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Declined';
     } else {
-      if (dayStart.compareTo(DateTime.now()) > 0) {
-        return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Soon';
-      }
-      if (dayStart.compareTo(DateTime.now()) <= 0 &&
-          dayEnd.compareTo(DateTime.now()) > 0) {
-        return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Active';
-      } else {
+      if (PassMarker.status[int.parse(i)] == 'f') {
         return i +
             '. Date: ' +
             date +
             '\n Model: ' +
             car +
-            '\n Status: Complete';
+            '\n Status: Finished';
+      } else {
+        if (PassMarker.status[int.parse(i)] == 'c') {
+          if (dayStart.compareTo(DateTime.now()) > 0) {
+            return i +
+                '. Date: ' +
+                date +
+                '\n Model: ' +
+                car +
+                '\n Status: Soon';
+          }
+          if (dayStart.compareTo(DateTime.now()) <= 0 &&
+              dayEnd.compareTo(DateTime.now()) > 0) {
+            return i +
+                '. Date: ' +
+                date +
+                '\n Model: ' +
+                car +
+                '\n Status: Active';
+          } else {
+            return i +
+                '. Date: ' +
+                date +
+                '\n Model: ' +
+                car +
+                '\n Status: Complete';
+          }
+        }
       }
     }
+    return '';
   }
 
   _eliminationMessage(int i) async {

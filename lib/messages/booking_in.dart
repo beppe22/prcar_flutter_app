@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:prcarpolimi/homepage.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class BookingInPage extends StatefulWidget {
@@ -122,6 +121,8 @@ class BookingInPageState extends State<BookingInPage> {
                                                                       child: MaterialButton(
                                                                         onPressed:
                                                                             () async {
+                                                                          Navigator.pop(
+                                                                              context);
                                                                           if (PassMarker.status[index] !=
                                                                               'a') {
                                                                             final splitted =
@@ -140,8 +141,9 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                 DateTime(day.year, day.month, day.day + 3);
                                                                             if (dayStart.compareTo(day3) >
                                                                                 0) {
-                                                                              _annulmentMessage(index);
-                                                                              Navigator.pushAndRemoveUntil((context), MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
+                                                                              setState(() {
+                                                                                _annulmentMessage(index);
+                                                                              });
                                                                               Fluttertoast.showToast(msg: 'Operation abolished!', fontSize: 20);
                                                                             } else {
                                                                               Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
@@ -181,6 +183,8 @@ class BookingInPageState extends State<BookingInPage> {
                                                                       child: MaterialButton(
                                                                         onPressed:
                                                                             () async {
+                                                                          Navigator.pop(
+                                                                              context);
                                                                           final splitted =
                                                                               res[index].split('.');
                                                                           String
@@ -190,12 +194,10 @@ class BookingInPageState extends State<BookingInPage> {
                                                                               dayEnd =
                                                                               DateFormat("dd/MM/yyyy").parse(date.substring(11));
                                                                           if (dayEnd.compareTo(DateTime.now()) < 0 ||
-                                                                              PassMarker.bookId[index] == 'a') {
-                                                                            _eliminationMessage(index);
-                                                                            Navigator.pushAndRemoveUntil(
-                                                                                (context),
-                                                                                MaterialPageRoute(builder: (context) => HomePage()),
-                                                                                (route) => false);
+                                                                              PassMarker.status[index] == 'a') {
+                                                                            setState(() {
+                                                                              _eliminationMessage(index);
+                                                                            });
                                                                             Fluttertoast.showToast(
                                                                                 msg: 'This message has been eliminated!',
                                                                                 fontSize: 20);

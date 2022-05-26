@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/filters/fuel/fuel.dart';
 import 'package:prcarpolimi/filters/position/position.dart';
 import 'package:prcarpolimi/filters/price/price.dart';
@@ -200,7 +202,10 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                         fontWeight: FontWeight.bold)),
                 IconButton(
                     onPressed: () async {
-                      //Modifiche macchina
+                      _changeFirebase(carModel);
+                      Fluttertoast.showToast(
+                          msg: 'New car\'s update :)', fontSize: 20);
+                      Navigator.pop(context);
                     },
                     icon: const Icon(Icons.add_task))
               ])
@@ -241,5 +246,22 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
     List<String> splitted = position.split('-');
     newPos = splitted[0].substring(0, 7) + '-' + splitted[1].substring(0, 7);
     return newPos;
+  }
+
+  void _changeFirebase(CarModel car) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    await firebaseFirestore
+        .collection('users')
+        .doc(car.uid)
+        .collection('cars')
+        .doc(car.cid)
+        .update({
+      'fuel': modify.fuel,
+      'price': modify.price,
+      'position': modify.position,
+      'seats': modify.seats,
+      'veicol': modify.vehicle,
+      'model': modify.model
+    });
   }
 }

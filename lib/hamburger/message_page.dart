@@ -121,7 +121,6 @@ class MessagePageState extends State<MessagePage> {
             PassMarker.cid.add(bookOut.data()['cid']);
             PassMarker.bookId.add(bookOut.data()['bookingId']);
             PassMarker.status.add(bookOut.data()['status']);
-
             insert = insert +
                 '.' +
                 data1.data()!['veicol'] +
