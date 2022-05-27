@@ -15,6 +15,7 @@ import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/models/static_user.dart';
+import 'package:prcarpolimi/models/userModel.dart';
 import 'hamburger/configuration2.dart';
 import 'hamburger/filters.dart';
 import 'dart:io' show Platform;
@@ -45,6 +46,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
     pinPillPosition = -220;
     _updateMarkers();
 
@@ -169,14 +171,34 @@ class _HomePageState extends State<HomePage> {
         ]));
   }
 
-  _saveToken() async {
+  _fetchUserInfo() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      UserModel userModel = UserModel.fromMap(await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser?.uid.toString())
+          .get());
+
+      StaticUser.email = userModel.email!;
+      StaticUser.uid = userModel.uid!;
+      StaticUser.firstName = userModel.firstName!;
+      StaticUser.secondName = userModel.secondName!;
+    }
+  }
+
+  _saveToken() {
     messaging = FirebaseMessaging.instance;
-    await messaging.getToken().then((value) async {
-      await db.collection('tokens').doc(StaticUser.uid).set({
-        'token': value,
-        'createdAt': FieldValue.serverTimestamp(),
-        'platform': Platform.operatingSystem
-      });
+    messaging.getToken().then((value) async {
+      //popoliamo la variabile staticUser
+      await _fetchUserInfo();
+      if (value != null) {
+        await db.collection('tokens').doc(StaticUser.uid).set({
+          'token': value,
+          'createdAt': FieldValue.serverTimestamp(),
+          'platform': Platform.operatingSystem
+        });
+      }
     });
   }
 
@@ -197,6 +219,26 @@ class _HomePageState extends State<HomePage> {
       FirebaseMessaging.onMessage.listen((RemoteMessage event) {
         print("message recieved");
         print(event.notification!.body);
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                    title: Text(event.notification!.body.toString(),
+                        style: const TextStyle(
+                            fontSize: 28,
+                            color: Colors.redAccent,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center),
+                    actions: <Widget>[
+                      Row(children: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Close',
+                                style: TextStyle(fontSize: 24))),
+                        const SizedBox(width: 110),
+                      ])
+                    ]));
         setState(() {
           messages.add(event.notification!.body.toString());
         });
