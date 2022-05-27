@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:prcarpolimi/booking_page.dart';
+import 'package:prcarpolimi/booking.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'calendar.dart';
 

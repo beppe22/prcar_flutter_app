@@ -283,53 +283,51 @@ class BookingInPageState extends State<BookingInPage> {
     DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(date.substring(11));
     if (PassMarker.status[int.parse(i)] == 'a') {
       return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Declined';
-    } else {
-      if (dayStart.compareTo(DateTime.now()) > 0) {
-        return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Soon';
-      }
-      if (dayStart.compareTo(DateTime.now()) <= 0 &&
-          dayEnd.compareTo(DateTime.now()) > 0) {
-        return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Active';
-      } else {
-        return i +
-            '. Date: ' +
-            date +
-            '\n Model: ' +
-            car +
-            '\n Status: Complete';
-      }
     }
-  }
-
-  _eliminationMessage(int i) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    await firebaseFirestore
-        .collection('users')
-        .doc(PassMarker.uid[i])
-        .collection('cars')
-        .doc(PassMarker.cid[i])
-        .collection('bookingIn')
-        .doc(PassMarker.bookId[i])
-        .update({'status': 'e'});
-  }
-
-  _annulmentMessage(int i) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    await firebaseFirestore
-        .collection('users')
-        .doc(PassMarker.uid[i])
-        .collection('cars')
-        .doc(PassMarker.cid[i])
-        .collection('bookingIn')
-        .doc(PassMarker.bookId[i])
-        .update({'status': 'a'});
-  }
-
-  _colorAnulment(int i) {
-    if (PassMarker.status[i] == 'a') {
-      return Colors.black;
-    } else {
-      return Colors.redAccent;
+    if (PassMarker.status[int.parse(i)] == 'c' &&
+        dayStart.compareTo(DateTime.now()) > 0) {
+      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Soon';
     }
+    if (PassMarker.status[int.parse(i)] == 'c' &&
+        dayStart.compareTo(DateTime.now()) <= 0 &&
+        dayEnd.compareTo(DateTime.now()) >= 0) {
+      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Active';
+    }
+    if (PassMarker.status[int.parse(i)] == 'f') {
+      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Complete';
+    }
+    return '';
+  }
+}
+
+_eliminationMessage(int i) async {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  await firebaseFirestore
+      .collection('users')
+      .doc(PassMarker.uid[i])
+      .collection('cars')
+      .doc(PassMarker.cid[i])
+      .collection('bookingIn')
+      .doc(PassMarker.bookId[i])
+      .update({'status': 'e'});
+}
+
+_annulmentMessage(int i) async {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  await firebaseFirestore
+      .collection('users')
+      .doc(PassMarker.uid[i])
+      .collection('cars')
+      .doc(PassMarker.cid[i])
+      .collection('bookingIn')
+      .doc(PassMarker.bookId[i])
+      .update({'status': 'a'});
+}
+
+_colorAnulment(int i) {
+  if (PassMarker.status[i] == 'a') {
+    return Colors.black;
+  } else {
+    return Colors.redAccent;
   }
 }

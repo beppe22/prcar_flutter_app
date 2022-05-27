@@ -285,42 +285,18 @@ class BookingOutPageState extends State<BookingOutPage> {
     DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(date.substring(11));
     if (PassMarker.status[int.parse(i)] == 'a') {
       return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Declined';
-    } else {
-      if (PassMarker.status[int.parse(i)] == 'f') {
-        return i +
-            '. Date: ' +
-            date +
-            '\n Model: ' +
-            car +
-            '\n Status: Finished';
-      } else {
-        if (PassMarker.status[int.parse(i)] == 'c') {
-          if (dayStart.compareTo(DateTime.now()) > 0) {
-            return i +
-                '. Date: ' +
-                date +
-                '\n Model: ' +
-                car +
-                '\n Status: Soon';
-          }
-          if (dayStart.compareTo(DateTime.now()) <= 0 &&
-              dayEnd.compareTo(DateTime.now()) > 0) {
-            return i +
-                '. Date: ' +
-                date +
-                '\n Model: ' +
-                car +
-                '\n Status: Active';
-          } else {
-            return i +
-                '. Date: ' +
-                date +
-                '\n Model: ' +
-                car +
-                '\n Status: Complete';
-          }
-        }
-      }
+    }
+    if (PassMarker.status[int.parse(i)] == 'c' &&
+        dayStart.compareTo(DateTime.now()) > 0) {
+      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Soon';
+    }
+    if (PassMarker.status[int.parse(i)] == 'c' &&
+        dayStart.compareTo(DateTime.now()) <= 0 &&
+        dayEnd.compareTo(DateTime.now()) >= 0) {
+      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Active';
+    }
+    if (PassMarker.status[int.parse(i)] == 'f') {
+      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Complete';
     }
     return '';
   }
