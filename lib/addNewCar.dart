@@ -227,7 +227,8 @@ class _AddNewCarState extends State<AddNewCar> {
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.pop(context);
+                  List<CarModel> valueNull = [];
+                  Navigator.pop(context, valueNull);
                 }),
             actions: [
               Row(children: [

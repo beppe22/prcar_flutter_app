@@ -118,9 +118,11 @@ class _Cars_userState extends State<Cars_user> {
             onPressed: () async {
               final newCars = await Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const AddNewCar()));
-              setState(() {
-                cars = newCars;
-              });
+              if (newCars.isNotEmpty) {
+                setState(() {
+                  cars = newCars;
+                });
+              }
             },
             backgroundColor: Colors.grey,
             tooltip: 'Add new car',

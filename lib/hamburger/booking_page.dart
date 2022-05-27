@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:prcarpolimi/messages/booking_in.dart';
-import 'package:prcarpolimi/messages/booking_out.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+
+import '../booking/booking_in.dart';
+import '../booking/booking_out.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({Key? key}) : super(key: key);

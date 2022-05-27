@@ -38,8 +38,8 @@ class _InfoCarState extends State<InfoCar> {
             automaticallyImplyLeading: false,
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context, []);
+                onPressed: () async {
+                  Navigator.pop(context, await _fetchInfoCar());
                 })),
         body: Center(
             child: Column(
@@ -127,11 +127,16 @@ class _InfoCarState extends State<InfoCar> {
                     child: MaterialButton(
                         color: Colors.grey,
                         onPressed: () async {
-                          Navigator.push(
+                          CarModel newCar = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
                                       ChangeInfoCar(carModel)));
+                          if (newCar != CarModel()) {
+                            setState(() {
+                              carModel = newCar;
+                            });
+                          }
                         },
                         child: const Text("Change Info",
                             style:
@@ -245,18 +250,18 @@ class _InfoCarState extends State<InfoCar> {
     final _auth = FirebaseAuth.instance;
     User? user = _auth.currentUser;
     List<CarModel> cars = [];
-
     if (user != null) {
       try {
         await firebaseFirestore
             .collection('users')
             .doc(user.uid)
-            //quando non ci sono macchine da errore
             .collection('cars')
             .get()
             .then((ds) {
-          for (var car in ds.docs) {
-            cars.add(CarModel.fromMap(car.data()));
+          if (ds.docs.isNotEmpty) {
+            for (var car in ds.docs) {
+              cars.add(CarModel.fromMap(car.data()));
+            }
           }
         });
       } on FirebaseAuthException catch (e) {

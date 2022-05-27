@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/filters/fuel/fuel.dart';
@@ -20,22 +21,13 @@ class ChangeInfoCar extends StatefulWidget {
 
 class _ChangeInfoCarState extends State<ChangeInfoCar> {
   CarModel carModel;
-  static late CarModel modify;
+  CarModel modify = CarModel();
   _ChangeInfoCarState(this.carModel);
 
   @override
   void initState() {
     super.initState();
-    modify = CarModel(
-        seats: carModel.seats,
-        fuel: carModel.fuel,
-        price: carModel.price,
-        model: carModel.model,
-        vehicle: carModel.vehicle,
-        position: carModel.position,
-        activeOrNot: carModel.activeOrNot,
-        uid: carModel.uid,
-        cid: carModel.cid);
+    modify = carModel;
   }
 
   @override
@@ -191,7 +183,8 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.pop(context);
+                  CarModel valueNull = carModel;
+                  Navigator.pop(context, valueNull);
                 }),
             actions: [
               Row(children: [
@@ -202,10 +195,15 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                         fontWeight: FontWeight.bold)),
                 IconButton(
                     onPressed: () async {
-                      _changeFirebase(carModel);
-                      Fluttertoast.showToast(
-                          msg: 'New car\'s update :)', fontSize: 20);
-                      Navigator.pop(context);
+                      if (modify != carModel) {
+                        _changeFirebase(modify);
+                        Fluttertoast.showToast(
+                            msg: 'New car\'s update :)', fontSize: 20);
+                        Navigator.pop(context, modify);
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: 'You change nothing :(', fontSize: 20);
+                      }
                     },
                     icon: const Icon(Icons.add_task))
               ])

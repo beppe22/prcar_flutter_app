@@ -10,7 +10,7 @@ import 'package:prcarpolimi/filters/least/least.dart';
 import 'package:prcarpolimi/hamburger/configuration.dart';
 import 'package:prcarpolimi/infoAccount.dart';
 import 'package:prcarpolimi/cars_user.dart';
-import 'package:prcarpolimi/hamburger/message_page.dart';
+import 'package:prcarpolimi/hamburger/booking_page.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => const InfoAccount()));
               }),
           ListTile(
-              title: const Text("Messages"),
+              title: const Text("Booking"),
               onTap: () {
                 Navigator.push(
                     context,
@@ -238,6 +238,7 @@ class _HomePageState extends State<HomePage> {
     }
   }*/
 
+//Function that fecth all the cars in the database
   Future<List<CarModel>> _fetchCar() async {
     final _auth = FirebaseAuth.instance;
 
@@ -275,6 +276,7 @@ class _HomePageState extends State<HomePage> {
     return cars;
   }
 
+//Function that fecth only user's car
   static Future<List<CarModel>> _fetchInfoCar() async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     final _auth = FirebaseAuth.instance;
