@@ -20,7 +20,7 @@ exports.eii= functions.firestore
         'bookingId': bookOut.bookingId,
         'cid': bookOut.cid,
         'date': bookOut.date,
-        'status' : 'a',
+        'status' : 'c',
         'uidBooking': bookOut.uidBooking,
         'uidOwner': bookOut.uidOwner,
       }
