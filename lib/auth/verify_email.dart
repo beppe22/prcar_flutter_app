@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/homepage.dart';
 
 class VerifyEmailPage extends StatefulWidget {
@@ -96,6 +97,10 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
       setState(() {
         canResendEmail = true;
       });
+      Fluttertoast.showToast(
+          msg:
+              'A email has been sent. (If you don\' see it, check also your spam!)',
+          fontSize: 20);
     } catch (e) {
       // ignore: avoid_print
       print(e);
