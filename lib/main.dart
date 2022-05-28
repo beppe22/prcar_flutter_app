@@ -1,11 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/auth/login.dart';
 import 'package:prcarpolimi/homepage.dart';
-import 'package:prcarpolimi/models/static_user.dart';
-import 'package:prcarpolimi/models/userModel.dart';
 
 void main() {
   runApp(const MyApp());

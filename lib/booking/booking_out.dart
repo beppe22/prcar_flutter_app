@@ -31,11 +31,12 @@ class BookingOutPageState extends State<BookingOutPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 })),
-        body: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+        body: SingleChildScrollView(
+            child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
               const SizedBox(height: 40),
               (res.isEmpty)
                   ? Container(
@@ -257,7 +258,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                           },
                                           child: Text(
                                               _seeReservation(
-                                                  index.toString(), res[index]),
+                                                  index, res[index]),
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -274,55 +275,47 @@ class BookingOutPageState extends State<BookingOutPage> {
                                           ]))
                                 ]));
                       })
-            ])));
+            ]))));
   }
 
-  String _seeReservation(String i, String message) {
+  String _seeReservation(int i, String message) {
     final splitted = message.split('.');
     String date = splitted[0];
     String car = splitted[1];
     DateTime dayStart = DateFormat("dd/MM/yyyy").parse(date.substring(0, 10));
     DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(date.substring(11));
-    if (PassMarker.status[int.parse(i)] == 'a') {
-      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Declined';
-    } else {
-      if (PassMarker.status[int.parse(i)] == 'f') {
-        return i +
-            '. Date: ' +
-            date +
-            '\n Model: ' +
-            car +
-            '\n Status: Finished';
-      } else {
-        if (PassMarker.status[int.parse(i)] == 'c') {
-          if (dayStart.compareTo(DateTime.now()) > 0) {
-            return i +
-                '. Date: ' +
-                date +
-                '\n Model: ' +
-                car +
-                '\n Status: Soon';
-          }
-          if (dayStart.compareTo(DateTime.now()) <= 0 &&
-              dayEnd.compareTo(DateTime.now()) > 0) {
-            return i +
-                '. Date: ' +
-                date +
-                '\n Model: ' +
-                car +
-                '\n Status: Active';
-          } else {
-            return i +
-                '. Date: ' +
-                date +
-                '\n Model: ' +
-                car +
-                '\n Status: Complete';
-          }
-        }
-      }
+    if (PassMarker.status[i] == 'a') {
+      return i.toString() +
+          '. Date: ' +
+          date +
+          '\n Model: ' +
+          car +
+          '\n Status: Declined';
     }
-    return '';
+    if (PassMarker.status[i] == 'c' && dayStart.compareTo(DateTime.now()) > 0) {
+      return i.toString() +
+          '. Date: ' +
+          date +
+          '\n Model: ' +
+          car +
+          '\n Status: Soon';
+    }
+    if (PassMarker.status[i] == 'c' &&
+        dayStart.compareTo(DateTime.now()) <= 0 &&
+        dayEnd.compareTo(DateTime.now()) > 0) {
+      return i.toString() +
+          '. Date: ' +
+          date +
+          '\n Model: ' +
+          car +
+          '\n Status: Active';
+    }
+    return i.toString() +
+        '. Date: ' +
+        date +
+        '\n Model: ' +
+        car +
+        '\n Status: Complete';
   }
 
   _eliminationMessage(int i) async {

@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
-
 import '../booking/booking_in.dart';
 import '../booking/booking_out.dart';
 
@@ -151,7 +150,6 @@ class MessagePageState extends State<MessagePage> {
           .doc(user.uid)
           .collection('cars')
           .get();
-
       if (data.docs.isNotEmpty) {
         for (var car in data.docs) {
           await firebaseFirestore
@@ -171,17 +169,17 @@ class MessagePageState extends State<MessagePage> {
                     .collection('cars')
                     .doc(book.data()['cid'])
                     .get();
-
                 if (book.data()['status'] != 'e') {
                   PassMarker.uid.add(user.uid);
                   PassMarker.cid.add(book.data()['cid']);
-                  PassMarker.bookId.add(book.data()['bookingIn']);
-                  PassMarker.bookId.add(book.data()['status']);
+                  PassMarker.bookId.add(book.data()['bookingId']);
+                  PassMarker.status.add(book.data()['status']);
                   insert = insert +
                       '.' +
                       data1.data()!['veicol'] +
                       '-' +
                       data1.data()!['model'];
+
                   otherRes.add(insert);
                 }
               }

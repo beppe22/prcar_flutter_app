@@ -209,7 +209,7 @@ class _LoginState extends State<Login> {
               .doc(user.uid)
               .collection('booking-out')
               .doc(bookOut.data()['bookingId'])
-              .update({'status': 'a'});
+              .update({'status': 'f'});
         }
       }
     }
