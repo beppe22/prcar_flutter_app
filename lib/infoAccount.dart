@@ -181,7 +181,7 @@ class InfoAccount extends StatelessWidget {
                                           const SizedBox(width: 110),
                                           TextButton(
                                               onPressed: () async {
-                                                deleteAccount();
+                                                await deleteAccount();
                                                 Navigator.pushAndRemoveUntil(
                                                     context,
                                                     MaterialPageRoute(
@@ -212,7 +212,7 @@ class InfoAccount extends StatelessWidget {
             ])));
   }
 
-  void deleteAccount() async {
+  deleteAccount() async {
     User? user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
