@@ -3,8 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/auth/login.dart';
-
+import 'package:prcarpolimi/models/carModel.dart';
 import 'models/static_user.dart';
 
 class InfoAccount extends StatelessWidget {
@@ -181,14 +182,24 @@ class InfoAccount extends StatelessWidget {
                                           const SizedBox(width: 110),
                                           TextButton(
                                               onPressed: () async {
-                                                deleteAccount();
-                                                Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const Login()),
-                                                    (Route<dynamic> route) =>
-                                                        false);
+                                                int i = 0;
+                                                if (await _fetchAllRes(i) ==
+                                                    0) {
+                                                  await deleteAccount();
+                                                  Navigator.pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const Login()),
+                                                      (Route<dynamic> route) =>
+                                                          false);
+                                                } else {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          const InactiveCar());
+                                                }
                                               },
                                               child: const Text('Confirm!',
                                                   style:
@@ -212,11 +223,148 @@ class InfoAccount extends StatelessWidget {
             ])));
   }
 
-  void deleteAccount() async {
+  deleteAccount() async {
     User? user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
     await user?.delete();
     await firebaseFirestore.collection("users").doc(StaticUser.uid).delete();
+  }
+
+  Future<int> _fetchAllRes(int i) async {
+    final _auth = FirebaseAuth.instance;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    if (user != null) {
+      var data = await firebaseFirestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('booking-out')
+          .get();
+      if (data.docs.isNotEmpty) {
+        for (var bookOut in data.docs) {
+          await firebaseFirestore
+              .collection('users')
+              .doc(bookOut.data()['uidOwner'])
+              .collection('cars')
+              .doc(bookOut.data()['cid'])
+              .get();
+          if (bookOut.data()['status'] == 'c') {
+            i++;
+          }
+        }
+      }
+    }
+    if (user != null) {
+      var data = await firebaseFirestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('cars')
+          .get();
+      if (data.docs.isNotEmpty) {
+        for (var car in data.docs) {
+          await firebaseFirestore
+              .collection('users')
+              .doc(car.data()['uid'])
+              .collection('cars')
+              .doc(car.data()['cid'])
+              .collection('booking-in')
+              .get()
+              .then((ds) async {
+            if (ds.docs.isNotEmpty) {
+              for (var book in ds.docs) {
+                await firebaseFirestore
+                    .collection('users')
+                    .doc(book.data()['uidOwner'])
+                    .collection('cars')
+                    .doc(book.data()['cid'])
+                    .get();
+                if (book.data()['status'] == 'c') {
+                  i++;
+                }
+              }
+            }
+          });
+        }
+      }
+    }
+    return i;
+  }
+}
+
+class InactiveCar extends StatelessWidget {
+  const InactiveCar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        title: const Text(
+            'You have active reservation! For the moment, click below to switch your cars disabled and then complete or cancel your reservations',
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center),
+        actions: <Widget>[
+          Row(children: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Close', style: TextStyle(fontSize: 24))),
+            const SizedBox(width: 110),
+            TextButton(
+                onPressed: () async {
+                  final _auth = FirebaseAuth.instance;
+                  User? user = _auth.currentUser;
+                  List<CarModel> cars = await _fetchInfoCar(user!);
+                  _suspendOrActiveCar(cars, user);
+                  Fluttertoast.showToast(
+                      msg: 'All the cars have been disabled!', fontSize: 20);
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Disable', style: TextStyle(fontSize: 24))),
+          ])
+        ]);
+  }
+
+  static Future<List<CarModel>> _fetchInfoCar(User user) async {
+    List<CarModel> cars = [];
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    try {
+      await firebaseFirestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('cars')
+          .get()
+          .then((ds) {
+        if (ds.docs.isNotEmpty) {
+          for (var car in ds.docs) {
+            cars.add(CarModel.fromMap(car.data()));
+          }
+        }
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "cars not found") {}
+    }
+
+    return cars;
+  }
+
+  void _suspendOrActiveCar(List<CarModel> cars, User user) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    for (int i = 0; i < cars.length; i++) {
+      try {
+        await firebaseFirestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('cars')
+            .doc(cars[i].cid)
+            .update({'activeOrNot': 'f'});
+      } on FirebaseAuthException catch (e) {
+        // ignore: avoid_print
+        print(
+          e.toString(),
+        );
+      }
+    }
   }
 }

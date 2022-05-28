@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
-
 import '../booking/booking_in.dart';
 import '../booking/booking_out.dart';
 

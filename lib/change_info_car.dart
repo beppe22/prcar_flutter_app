@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/filters/fuel/fuel.dart';

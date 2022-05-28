@@ -195,8 +195,17 @@ class _InfoCarState extends State<InfoCar> {
                   child: MaterialButton(
                       color: Colors.grey,
                       onPressed: () async {
-                        _deleteCar();
-                        Navigator.pop(context, _fetchInfoCar());
+                        if (await _fetchCarRes(carModel.cid!) == 0) {
+                          _deleteCar();
+                          Navigator.pop(context, _fetchInfoCar());
+                          Fluttertoast.showToast(
+                              msg: 'Car deleted!', fontSize: 20);
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  InactiveSingleCar(car: carModel));
+                        }
                       },
                       child: const Text("Delete",
                           style: TextStyle(color: Colors.white, fontSize: 20))),
@@ -284,5 +293,83 @@ class _InfoCarState extends State<InfoCar> {
     List<String> splitted = position.split('-');
     newPos = splitted[0].substring(0, 7) + '-' + splitted[1].substring(0, 7);
     return newPos;
+  }
+
+  Future<int> _fetchCarRes(String cid) async {
+    final _auth = FirebaseAuth.instance;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+    int i = 0;
+    if (user != null) {
+      await firebaseFirestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('cars')
+          .doc(cid)
+          .collection('booking-in')
+          .get()
+          .then((ds) async {
+        if (ds.docs.isEmpty) {
+          return i;
+        } else {
+          for (var book in ds.docs) {
+            if (book.data()['status'] == 'c') {
+              i++;
+            }
+          }
+        }
+      });
+    }
+    return i;
+  }
+}
+
+class InactiveSingleCar extends StatelessWidget {
+  CarModel car;
+  InactiveSingleCar({Key? key, required this.car}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        title: const Text(
+            'You have active reservation! For the moment, click below to switch your cars disabled and then complete or cancel your reservations',
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center),
+        actions: <Widget>[
+          Row(children: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Close', style: TextStyle(fontSize: 24))),
+            const SizedBox(width: 110),
+            TextButton(
+                onPressed: () async {
+                  final _auth = FirebaseAuth.instance;
+                  User? user = _auth.currentUser;
+                  _suspendOrActiveCar(car, user!);
+                  Fluttertoast.showToast(
+                      msg: 'Your car has been disabled!', fontSize: 20);
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Disable', style: TextStyle(fontSize: 24))),
+          ])
+        ]);
+  }
+
+  void _suspendOrActiveCar(CarModel car, User user) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    try {
+      await firebaseFirestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('cars')
+          .doc(car.cid)
+          .update({'activeOrNot': 'f'});
+    } on FirebaseAuthException catch (e) {
+      print(
+        e.toString(),
+      );
+    }
   }
 }
