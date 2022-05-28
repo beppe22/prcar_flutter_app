@@ -1,8 +1,11 @@
 // ignore_for_file: body_might_complete_normally_nullable
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/configuration/front_license.dart';
-import 'package:prcarpolimi/homepage.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class Configuration extends StatefulWidget {
   const Configuration({Key? key}) : super(key: key);
@@ -91,77 +94,131 @@ class _ConfigurationState extends State<Configuration> {
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-            title: const Text('Driving license'),
-            backgroundColor: Colors.redAccent,
-            leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      (context),
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                      (route) => false);
-                })),
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-            child: Center(
-                child: Form(
-                    key: _formKey,
-                    child: Column(children: [
-                      const SizedBox(height: 20),
-                      const Text(
-                          'You need to insert your driving license code, the  ',
+    return !PassMarker.driveInserted
+        ? Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+                title: const Text('Driving license'),
+                backgroundColor: Colors.redAccent,
+                leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    })),
+            backgroundColor: Colors.white,
+            body: SingleChildScrollView(
+                child: Center(
+                    child: Form(
+                        key: _formKey,
+                        child: Column(children: [
+                          const SizedBox(height: 20),
+                          const Text(
+                              'You need to insert your driving license code, the  ',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.redAccent,
+                                  fontWeight: FontWeight.bold)),
+                          const Text('expiry date of your driving license and ',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.redAccent,
+                                  fontWeight: FontWeight.bold)),
+                          const Text(
+                              'front/bottom picture of your driving license',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.redAccent,
+                                  fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 20),
+                          SizedBox(
+                              height: 250,
+                              child: Image.asset("assets/prcarlogo.png",
+                                  fit: BoxFit.contain)),
+                          const SizedBox(height: 20),
+                          licenseCodeField,
+                          const SizedBox(height: 20),
+                          expiryDateEditingField,
+                          const SizedBox(height: 20),
+                          Container(
+                              height: 90,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  color: Colors.redAccent,
+                                  borderRadius: BorderRadius.circular(30),
+                                  border: Border.all(
+                                      width: 5.0, color: Colors.grey)),
+                              child: (MaterialButton(
+                                  onPressed: () {
+                                    nextPage();
+                                  },
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                                  child: const Text(
+                                      "Insert driving license picture",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)))))
+                        ])))))
+        : Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+                backgroundColor: Colors.redAccent,
+                title: const Text('PrCar'),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    })),
+            body: Center(
+                child: Column(children: [
+              const SizedBox(height: 35),
+              const Text(
+                'Driving License info already inserted, click below for reset your info',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.redAccent),
+              ),
+              const SizedBox(height: 35),
+              SizedBox(
+                  height: 250,
+                  child:
+                      Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
+              const SizedBox(height: 35),
+              Container(
+                  height: 70,
+                  width: 300,
+                  decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      border: Border.all(width: 5.0, color: Colors.grey)),
+                  child: (MaterialButton(
+                      onPressed: () {
+                        final _auth = FirebaseAuth.instance;
+                        User? user = _auth.currentUser;
+                        PassMarker.driveInserted = false;
+                        _deleteDrivingLicense(user!.uid);
+                        Fluttertoast.showToast(
+                            msg: 'Driving license info resetted succesfully :)',
+                            fontSize: 20);
+                        Navigator.pop(context);
+                      },
+                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                      shape: ContinuousRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      child: const Text("Reset driving license info!",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold)),
-                      const Text('expiry date of your driving license and ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold)),
-                      const Text('front/bottom picture of your driving license',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                          height: 250,
-                          child: Image.asset("assets/prcarlogo.png",
-                              fit: BoxFit.contain)),
-                      const SizedBox(height: 20),
-                      licenseCodeField,
-                      const SizedBox(height: 20),
-                      expiryDateEditingField,
-                      const SizedBox(height: 20),
-                      Container(
-                          height: 90,
-                          width: 300,
-                          decoration: BoxDecoration(
-                              color: Colors.redAccent,
-                              borderRadius: BorderRadius.circular(30),
-                              border:
-                                  Border.all(width: 5.0, color: Colors.grey)),
-                          child: (MaterialButton(
-                              onPressed: () {
-                                nextPage();
-                              },
-                              padding:
-                                  const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                              child: const Text(
-                                  "Insert driving license picture",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold)))))
-                    ])))));
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)))))
+            ])));
   }
 
   void nextPage() {
@@ -173,5 +230,18 @@ class _ConfigurationState extends State<Configuration> {
                   drivingCode: drivingLicenseCodeEditingController.text,
                   expiryDate: expiryDateEditingController.text)));
     }
+  }
+
+  _deleteDrivingLicense(String uid) async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    final delete1 =
+        storage.ref().child("drivingLicenseData/$uid.bottomLicense");
+    await delete1.delete();
+    final delete2 = storage.ref().child("drivingLicenseData/$uid.frontLicense");
+    await delete2.delete();
+    final delete3 = storage.ref().child("drivingLicenseData/$uid.expiryDate");
+    await delete3.delete();
+    final delete4 = storage.ref().child("drivingLicenseData/$uid.drivingCode");
+    await delete4.delete();
   }
 }

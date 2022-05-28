@@ -16,7 +16,6 @@ import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/models/static_user.dart';
 import 'package:prcarpolimi/models/userModel.dart';
-import 'hamburger/configuration2.dart';
 import 'hamburger/filters.dart';
 import 'dart:io' show Platform;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -140,18 +139,12 @@ class _HomePageState extends State<HomePage> {
               }),
           ListTile(
               title: const Text("Configuration"),
-              onTap: () {
-                if (!PassMarker.driveInserted) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Configuration()));
-                } else {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Configuration2()));
-                }
+              onTap: () async {
+                PassMarker.driveInserted = await listFiles();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Configuration()));
               }),
           ListTile(title: const Text("Help"), onTap: () async {})
         ])),
