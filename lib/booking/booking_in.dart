@@ -31,17 +31,18 @@ class BookingInPageState extends State<BookingInPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 })),
-        body: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+        body: SingleChildScrollView(
+            child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
               const SizedBox(height: 40),
               (res.isEmpty)
                   ? Container(
                       height: 70,
                       width: 350,
-                      child: const Text('No reservation yet :(',
+                      child: const Text('No messages yet :(',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.redAccent,
@@ -121,10 +122,9 @@ class BookingInPageState extends State<BookingInPage> {
                                                                       child: MaterialButton(
                                                                         onPressed:
                                                                             () async {
-                                                                          Navigator.pop(
-                                                                              context);
                                                                           if (PassMarker.status[index] !=
                                                                               'a') {
+                                                                            Navigator.pop(context);
                                                                             final splitted =
                                                                                 res[index].split('.');
                                                                             String
@@ -143,7 +143,9 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                 0) {
                                                                               setState(() {
                                                                                 _annulmentMessage(index);
+                                                                                PassMarker.status[index] = 'a';
                                                                               });
+
                                                                               Fluttertoast.showToast(msg: 'Operation abolished!', fontSize: 20);
                                                                             } else {
                                                                               Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
@@ -197,6 +199,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                               PassMarker.status[index] == 'a') {
                                                                             setState(() {
                                                                               _eliminationMessage(index);
+                                                                              PassMarker.status[index] = 'e';
                                                                             });
                                                                             Fluttertoast.showToast(
                                                                                 msg: 'This message has been eliminated!',
@@ -255,7 +258,7 @@ class BookingInPageState extends State<BookingInPage> {
                                           },
                                           child: Text(
                                               _seeReservation(
-                                                  index.toString(), res[index]),
+                                                  index, res[index]),
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -272,62 +275,78 @@ class BookingInPageState extends State<BookingInPage> {
                                           ]))
                                 ]));
                       })
-            ])));
+            ]))));
   }
 
-  String _seeReservation(String i, String message) {
+  String _seeReservation(int i, String message) {
     final splitted = message.split('.');
     String date = splitted[0];
     String car = splitted[1];
     DateTime dayStart = DateFormat("dd/MM/yyyy").parse(date.substring(0, 10));
     DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(date.substring(11));
-    if (PassMarker.status[int.parse(i)] == 'a') {
-      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Declined';
+    if (PassMarker.status[i] == 'a') {
+      return i.toString() +
+          '. Date: ' +
+          date +
+          '\n Model: ' +
+          car +
+          '\n Status: Declined';
     }
-    if (PassMarker.status[int.parse(i)] == 'c' &&
-        dayStart.compareTo(DateTime.now()) > 0) {
-      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Soon';
+    if (PassMarker.status[i] == 'c' && dayStart.compareTo(DateTime.now()) > 0) {
+      return i.toString() +
+          '. Date: ' +
+          date +
+          '\n Model: ' +
+          car +
+          '\n Status: Soon';
     }
-    if (PassMarker.status[int.parse(i)] == 'c' &&
+    if (PassMarker.status[i] == 'c' &&
         dayStart.compareTo(DateTime.now()) <= 0 &&
-        dayEnd.compareTo(DateTime.now()) >= 0) {
-      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Active';
+        dayEnd.compareTo(DateTime.now()) > 0) {
+      return i.toString() +
+          '. Date: ' +
+          date +
+          '\n Model: ' +
+          car +
+          '\n Status: Active';
     }
-    if (PassMarker.status[int.parse(i)] == 'f') {
-      return i + '. Date: ' + date + '\n Model: ' + car + '\n Status: Complete';
-    }
-    return '';
+    return i.toString() +
+        '. Date: ' +
+        date +
+        '\n Model: ' +
+        car +
+        '\n Status: Complete';
   }
-}
 
-_eliminationMessage(int i) async {
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  await firebaseFirestore
-      .collection('users')
-      .doc(PassMarker.uid[i])
-      .collection('cars')
-      .doc(PassMarker.cid[i])
-      .collection('bookingIn')
-      .doc(PassMarker.bookId[i])
-      .update({'status': 'e'});
-}
+  _eliminationMessage(int i) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    await firebaseFirestore
+        .collection('users')
+        .doc(PassMarker.uid[i])
+        .collection('cars')
+        .doc(PassMarker.cid[i])
+        .collection('bookingIn')
+        .doc(PassMarker.bookId[i])
+        .update({'status': 'e'});
+  }
 
-_annulmentMessage(int i) async {
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  await firebaseFirestore
-      .collection('users')
-      .doc(PassMarker.uid[i])
-      .collection('cars')
-      .doc(PassMarker.cid[i])
-      .collection('bookingIn')
-      .doc(PassMarker.bookId[i])
-      .update({'status': 'a'});
-}
+  _annulmentMessage(int i) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    await firebaseFirestore
+        .collection('users')
+        .doc(PassMarker.uid[i])
+        .collection('cars')
+        .doc(PassMarker.cid[i])
+        .collection('bookingIn')
+        .doc(PassMarker.bookId[i])
+        .update({'status': 'a'});
+  }
 
-_colorAnulment(int i) {
-  if (PassMarker.status[i] == 'a') {
-    return Colors.black;
-  } else {
-    return Colors.redAccent;
+  _colorAnulment(int i) {
+    if (PassMarker.status[i] == 'a') {
+      return Colors.black;
+    } else {
+      return Colors.redAccent;
+    }
   }
 }

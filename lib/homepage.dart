@@ -54,6 +54,14 @@ class _HomePageState extends State<HomePage> {
     if (Platform.isAndroid) {
       _listen();
       //checkForInitialMessage();
+
+      FirebaseMessaging.onMessageOpenedApp.listen((message) {
+        print('Message clicked!');
+        print(message.notification!.body);
+        setState(() {
+          messages.add(message.notification!.body.toString());
+        });
+      });
     }
   }
 
@@ -241,13 +249,6 @@ class _HomePageState extends State<HomePage> {
                     ]));
         setState(() {
           messages.add(event.notification!.body.toString());
-        });
-      });
-      FirebaseMessaging.onMessageOpenedApp.listen((message) {
-        print('Message clicked!');
-        print(message.notification!.body);
-        setState(() {
-          messages.add(message.notification!.body.toString());
         });
       });
     } else {
