@@ -48,10 +48,12 @@ class MessagePageState extends State<MessagePage> {
               child: (MaterialButton(
                   onPressed: () async {
                     List<String> res = await _fetchOtherRes();
+                    String bookingId = '';
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => BookingInPage(res: res)));
+                            builder: (context) =>
+                                BookingInPage(bookingId: bookingId, res: res)));
                   },
                   padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                   shape: ContinuousRectangleBorder(

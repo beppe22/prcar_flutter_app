@@ -1,10 +1,12 @@
 // ignore_for_file: file_names, unnecessary_null_comparison
 
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prcarpolimi/about_your_car/image_car.dart';
 import 'package:prcarpolimi/filters/fuel/fuel.dart';
 import 'package:prcarpolimi/filters/position/position.dart';
 import 'package:prcarpolimi/filters/price/price.dart';
@@ -29,6 +31,7 @@ class _AddNewCarState extends State<AddNewCar> {
   String vehicleString = '';
   String positionString = '';
   double pinPillPosition = -220;
+  List<File?>? images;
 
   @override
   void initState() {
@@ -43,6 +46,7 @@ class _AddNewCarState extends State<AddNewCar> {
       cid: '',
       activeOrNot: '',
     );
+    PassMarker.photoCount = 0;
   }
 
   @override
@@ -188,6 +192,19 @@ class _AddNewCarState extends State<AddNewCar> {
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
+//photo button field
+    final photoButton = FloatingActionButton(
+      onPressed: () async {
+        Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ImageCar()))
+            .then((data) {
+          images = data;
+        });
+      },
+      backgroundColor: Colors.redAccent,
+      child: const Icon(Icons.photo_camera),
+    );
+
 //clear button field
     final clearButton = Container(
         width: double.maxFinite,
@@ -206,6 +223,7 @@ class _AddNewCarState extends State<AddNewCar> {
                 car.model = '';
                 positionString = '';
                 vehicleString = '';
+                PassMarker.photoCount = 0;
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -243,7 +261,8 @@ class _AddNewCarState extends State<AddNewCar> {
                           car.position != '' &&
                           car.model != '' &&
                           car.price != '' &&
-                          car.seats != '') {
+                          car.seats != '' &&
+                          images == []) {
                         List<CarModel> cars = await _addCar(car);
                         Fluttertoast.showToast(
                             msg: 'Car added succesfully :)', fontSize: 20);
@@ -299,6 +318,8 @@ class _AddNewCarState extends State<AddNewCar> {
           fuelButton,
           const SizedBox(height: 15),
           priceButton,
+          const SizedBox(height: 15),
+          photoButton,
           const SizedBox(height: 15),
           clearButton,
           const SizedBox(height: 10),

@@ -1,8 +1,10 @@
 // ignore_for_file: camel_case_types, must_be_immutable, no_logic_in_create_state, unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
-import 'package:prcarpolimi/addNewCar.dart';
-import 'package:prcarpolimi/info_car.dart';
+import 'package:prcarpolimi/about_your_car/addNewCar.dart';
+import 'package:prcarpolimi/about_your_car/info_car.dart';
 import 'package:prcarpolimi/models/carModel.dart';
+import '../about_your_car/addNewCar.dart';
 
 class Cars_user extends StatefulWidget {
   List<CarModel> cars;
