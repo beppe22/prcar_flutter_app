@@ -52,7 +52,6 @@ exports.eii= functions.firestore
         "notification": {
             "title": "Car booked",
             "body": "Someone has booked your car ",
-            "bookId": 'ciao',
             "sound": "default"
         }}
     
