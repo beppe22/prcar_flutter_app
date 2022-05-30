@@ -42,15 +42,17 @@ exports.eii= functions.firestore
   
     }else {
       var tok = '';
-      //console.log('Device');
-      tok = value.data().token;
       
-      //debugPrint('ciao = $tok');
+      tok = value.data().token;
       //const nameCar= await retrieveCarName(bookOut.cid,bookOut.uidOwner);
       var payload = {
+        "data" : {
+          "bookId" : bookOut.bookingId,
+        },
         "notification": {
             "title": "Car booked",
             "body": "Someone has booked your car ",
+            "bookId": 'ciao',
             "sound": "default"
         }}
     

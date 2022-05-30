@@ -231,6 +231,7 @@ class _HomePageState extends State<HomePage> {
       FirebaseMessaging.onMessage.listen((RemoteMessage event) {
         print("message recieved");
         print(event.notification!.body);
+        print(event.data["bookId"]);
         showDialog(
             context: context,
             builder: (BuildContext context) => AlertDialog(
@@ -254,11 +255,12 @@ class _HomePageState extends State<HomePage> {
                               List<String> bookIn = await _fetchOtherRes();
                               //bookingId in input
                               String bookingId = '';
-                              Navigator.push(
+                              await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => BookingInPage(
                                           bookingId: bookingId, res: bookIn)));
+                              Navigator.of(context).pop();
                             },
                             child: const Text('Go!',
                                 style: TextStyle(fontSize: 24))),
