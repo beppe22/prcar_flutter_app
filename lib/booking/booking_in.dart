@@ -8,15 +8,18 @@ import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class BookingInPage extends StatefulWidget {
   List<String> res;
-  BookingInPage({Key? key, required this.res}) : super(key: key);
+  String bookingId;
+  BookingInPage({Key? key, required this.res, required this.bookingId})
+      : super(key: key);
 
   @override
-  State<BookingInPage> createState() => BookingInPageState(res);
+  State<BookingInPage> createState() => BookingInPageState(res, bookingId);
 }
 
 class BookingInPageState extends State<BookingInPage> {
   List<String> res;
-  BookingInPageState(this.res);
+  String bookingId;
+  BookingInPageState(this.res, this.bookingId);
 
   @override
   Widget build(BuildContext context) {
@@ -260,10 +263,11 @@ class BookingInPageState extends State<BookingInPage> {
                                               _seeReservation(
                                                   index, res[index]),
                                               textAlign: TextAlign.center,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 18,
-                                                  color: Colors.redAccent)))),
+                                                  color: _colorReservation(
+                                                      index, bookingId))))),
                                       decoration: BoxDecoration(
                                           border: Border.all(
                                               width: 5.0, color: Colors.grey),
@@ -345,6 +349,14 @@ class BookingInPageState extends State<BookingInPage> {
   _colorAnulment(int i) {
     if (PassMarker.status[i] == 'a') {
       return Colors.black;
+    } else {
+      return Colors.redAccent;
+    }
+  }
+
+  _colorReservation(int i, String bookingId) {
+    if (PassMarker.bookId[i] == bookingId) {
+      return Colors.greenAccent;
     } else {
       return Colors.redAccent;
     }

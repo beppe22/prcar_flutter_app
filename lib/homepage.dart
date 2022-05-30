@@ -6,16 +6,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/booking/booking_in.dart';
 import 'package:prcarpolimi/filters/least/least.dart';
 import 'package:prcarpolimi/hamburger/configuration.dart';
-import 'package:prcarpolimi/infoAccount.dart';
-import 'package:prcarpolimi/cars_user.dart';
+import 'package:prcarpolimi/hamburger/infoAccount.dart';
 import 'package:prcarpolimi/hamburger/booking_page.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/models/static_user.dart';
 import 'package:prcarpolimi/models/userModel.dart';
+import 'hamburger/cars_user.dart';
 import 'hamburger/filters.dart';
 import 'dart:io' show Platform;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -55,12 +56,20 @@ class _HomePageState extends State<HomePage> {
       _listen();
       //checkForInitialMessage();
 
-      FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      FirebaseMessaging.onMessageOpenedApp.listen((message) async {
         print('Message clicked!');
         print(message.notification!.body);
         setState(() {
           messages.add(message.notification!.body.toString());
         });
+        List<String> bookIn = await _fetchOtherRes();
+        //bookingId in input
+        String bookingId = '';
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    BookingInPage(bookingId: bookingId, res: bookIn)));
       });
     }
   }
@@ -240,6 +249,19 @@ class _HomePageState extends State<HomePage> {
                             child: const Text('Close',
                                 style: TextStyle(fontSize: 24))),
                         const SizedBox(width: 110),
+                        TextButton(
+                            onPressed: () async {
+                              List<String> bookIn = await _fetchOtherRes();
+                              //bookingId in input
+                              String bookingId = '';
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BookingInPage(
+                                          bookingId: bookingId, res: bookIn)));
+                            },
+                            child: const Text('Go!',
+                                style: TextStyle(fontSize: 24))),
                       ])
                     ]));
         setState(() {
@@ -249,6 +271,63 @@ class _HomePageState extends State<HomePage> {
     } else {
       print('User declined or has not accepted permission');
     }
+  }
+
+  Future<List<String>> _fetchOtherRes() async {
+    final _auth = FirebaseAuth.instance;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+    List<String> otherRes = [];
+    PassMarker.uid = [];
+    PassMarker.cid = [];
+    PassMarker.bookId = [];
+    PassMarker.status = [];
+
+    if (user != null) {
+      var data = await firebaseFirestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('cars')
+          .get();
+      if (data.docs.isNotEmpty) {
+        for (var car in data.docs) {
+          await firebaseFirestore
+              .collection('users')
+              .doc(car.data()['uid'])
+              .collection('cars')
+              .doc(car.data()['cid'])
+              .collection('booking-in')
+              .get()
+              .then((ds) async {
+            if (ds.docs.isNotEmpty) {
+              for (var book in ds.docs) {
+                String insert = book.data()['date'];
+                var data1 = await firebaseFirestore
+                    .collection('users')
+                    .doc(book.data()['uidOwner'])
+                    .collection('cars')
+                    .doc(book.data()['cid'])
+                    .get();
+                if (book.data()['status'] != 'e') {
+                  PassMarker.uid.add(user.uid);
+                  PassMarker.cid.add(book.data()['cid']);
+                  PassMarker.bookId.add(book.data()['bookingId']);
+                  PassMarker.status.add(book.data()['status']);
+                  insert = insert +
+                      '.' +
+                      data1.data()!['veicol'] +
+                      '-' +
+                      data1.data()!['model'];
+
+                  otherRes.add(insert);
+                }
+              }
+            }
+          });
+        }
+      }
+    }
+    return otherRes;
   }
 
   /*checkForInitialMessage() async {

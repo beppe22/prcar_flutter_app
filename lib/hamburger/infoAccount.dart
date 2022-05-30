@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/auth/login.dart';
 import 'package:prcarpolimi/models/carModel.dart';
-import 'models/static_user.dart';
+import '../models/static_user.dart';
 
 class InfoAccount extends StatelessWidget {
   const InfoAccount({Key? key}) : super(key: key);

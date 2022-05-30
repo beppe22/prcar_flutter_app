@@ -80,8 +80,6 @@ class _FrontLicenseState extends State<FrontLicense> {
                   border: Border.all(width: 5.0, color: Colors.grey)),
               child: (MaterialButton(
                   onPressed: () {
-                    print(drivingCode);
-                    print(expiryDate);
                     pickImage(ImageSource.gallery);
                   },
                   padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
