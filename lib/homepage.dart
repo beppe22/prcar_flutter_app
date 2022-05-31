@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -54,7 +55,7 @@ class _HomePageState extends State<HomePage> {
     _saveToken();
     if (Platform.isAndroid) {
       _listen();
-      //checkForInitialMessage();
+      _checkForInitialMessage();
 
       FirebaseMessaging.onMessageOpenedApp.listen((message) async {
         print('Message clicked!');
@@ -64,7 +65,7 @@ class _HomePageState extends State<HomePage> {
         });
         List<String> bookIn = await _fetchOtherRes();
         //bookingId in input
-        String bookingId = '';
+        String bookingId = message.data["bookId"];
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -254,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () async {
                               List<String> bookIn = await _fetchOtherRes();
                               //bookingId in input
-                              String bookingId = '';
+                              String bookingId = event.data["bookId"];
                               await Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -332,30 +333,24 @@ class _HomePageState extends State<HomePage> {
     return otherRes;
   }
 
-  /*checkForInitialMessage() async {
+  _checkForInitialMessage() async {
+    await Firebase.initializeApp();
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
 
     if (initialMessage != null) {
       print('Message ripreso!');
       print(initialMessage.notification!.body);
-      showDialog(
-          barrierDismissible:
-              true, //tapping outside dialog will close the dialog if set 'true'
-          context: context,
-          builder: (context) {
-            return const Dialog(
-              child: Text('ciao'),
-            );
-          });
-      /*setState(() {
-        setState(() {
-          messages.add(initialMessage.notification!.body.toString());
-        });
-      });*/
-    } 
+      List<String> bookIn = await _fetchOtherRes();
+      //bookingId in input
+      String bookingId = initialMessage.data["bookId"];
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  BookingInPage(bookingId: bookingId, res: bookIn)));
     }
-  }*/
+  }
 
 //Function that fecth all the cars in the database
   Future<List<CarModel>> _fetchCar() async {
@@ -373,23 +368,28 @@ class _HomePageState extends State<HomePage> {
             .then((ds) async {
           for (var user_1 in ds.docs) {
             //print(user_1.data());
-            await firebaseFirestore
-                .collection('users')
-                .doc(user_1.data()['uid'])
-                .collection('cars')
-                .get()
-                .then((ds_1) {
-              for (var car in ds_1.docs) {
-                //print(car.data());
-                if (car.data()['activeOrNot'] == 't') {
-                  cars.add(CarModel.fromMap(car.data()));
+            try {
+              await firebaseFirestore
+                  .collection('users')
+                  .doc(user_1.data()['uid'])
+                  .collection('cars')
+                  .get()
+                  .then((ds_1) {
+                for (var car in ds_1.docs) {
+                  //print(car.data());
+                  if (car.data()['activeOrNot'] == 't') {
+                    cars.add(CarModel.fromMap(car.data()));
+                  }
                 }
-              }
-            });
+              });
+            } on FirebaseAuthException catch (e) {
+              print(e.code);
+            }
           }
         });
       } on FirebaseAuthException catch (e) {
-        if (e.code == "impossible to insert new car") {}
+        print(e.code);
+        //if (e.code == "impossible to insert new car") {}
       }
     }
     return cars;
