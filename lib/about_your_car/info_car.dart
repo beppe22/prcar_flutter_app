@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/about_your_car/album.dart';
 import 'package:prcarpolimi/about_your_car/change_info_car.dart';
+import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 
 class InfoCar extends StatefulWidget {
@@ -34,7 +36,8 @@ class _InfoCarState extends State<InfoCar> {
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('PrCar'),
+            title: Text(
+                carModel.vehicle.toString() + '-' + carModel.model.toString()),
             automaticallyImplyLeading: false,
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
@@ -127,6 +130,7 @@ class _InfoCarState extends State<InfoCar> {
                     child: MaterialButton(
                         color: Colors.grey,
                         onPressed: () async {
+                          print(await urlFile(carModel.uid!, carModel.cid!));
                           CarModel newCar = await Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -189,50 +193,72 @@ class _InfoCarState extends State<InfoCar> {
                         ]))
               ]),
               const SizedBox(height: 30),
-              Container(
-                  height: 60,
-                  width: 150,
-                  child: MaterialButton(
-                      color: Colors.grey,
-                      onPressed: () async {
-                        if (await _fetchCarRes(carModel.cid!) == 0) {
-                          _deleteCar();
-                          Navigator.pop(context, _fetchInfoCar());
-                          Fluttertoast.showToast(
-                              msg: 'Car deleted!', fontSize: 20);
-                        } else {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  InactiveSingleCar(car: carModel));
-                        }
-                      },
-                      child: const Text("Delete",
-                          style: TextStyle(color: Colors.white, fontSize: 20))),
-                  decoration: BoxDecoration(
-                      color: Colors.deepPurple,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Colors.deepPurple,
-                            spreadRadius: 6,
-                            blurRadius: 3)
-                      ]))
+              Row(children: [
+                const SizedBox(width: 120),
+                Container(
+                    height: 60,
+                    width: 150,
+                    child: MaterialButton(
+                        color: Colors.grey,
+                        onPressed: () async {
+                          if (await _fetchCarRes(carModel.cid!) == 0) {
+                            User? user = _auth.currentUser;
+                            _deleteCar(user!.uid, carModel.cid!);
+                            Navigator.pop(context, _fetchInfoCar());
+                            Fluttertoast.showToast(
+                                msg: 'Car deleted!', fontSize: 20);
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    InactiveSingleCar(car: carModel));
+                          }
+                        },
+                        child: const Text("Delete",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20))),
+                    decoration: BoxDecoration(
+                        color: Colors.deepPurple,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.deepPurple,
+                              spreadRadius: 6,
+                              blurRadius: 3)
+                        ])),
+                const SizedBox(width: 40),
+                FloatingActionButton(
+                    onPressed: () async {
+                      String files =
+                          await urlFile(carModel.uid!, carModel.cid!);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Album(
+                                  cid: carModel.cid!,
+                                  uid: carModel.uid!,
+                                  files: files)));
+                    },
+                    backgroundColor: Colors.redAccent,
+                    child: const Icon(Icons.photo_album))
+              ])
             ])));
   }
 
-  void _deleteCar() async {
-    User? user = _auth.currentUser;
+  void _deleteCar(String uid, String cid) async {
+    /* await FirebaseStorage.instance.ref("$uid/$cid/").listAll().then((value) {
+      for (int i = 0; value.items.isEmpty; i++) {
+        String path = value.items[i].fullPath;
+        FirebaseStorage.instance.ref(path).delete();
+      }
+    });*/
 
-    if (user != null) {
-      await firebaseFirestore
-          .collection('users')
-          .doc(user.uid)
-          //quando non ci sono macchine da errore
-          .collection('cars')
-          .doc(carModel.cid)
-          .delete();
-    }
+    await firebaseFirestore
+        .collection('users')
+        .doc(uid)
+        .collection('cars')
+        .doc(carModel.cid)
+        .delete();
   }
 
   void _suspendOrActiveCar() async {
@@ -321,6 +347,12 @@ class _InfoCarState extends State<InfoCar> {
       });
     }
     return i;
+  }
+
+  Future<String> urlFile(String uid, String cid) async {
+    final Storage storage = Storage();
+    String url = await storage.downloadURL(uid, cid, 'imageCar0');
+    return url;
   }
 }
 

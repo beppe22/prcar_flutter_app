@@ -8,20 +8,39 @@ class Storage {
   final firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
-  Future<void> uploadFile(String filePath, String fileName) async {
+  Future<void> uploadFile(String filePath, String fileName, String uid) async {
     File file = File(filePath);
     try {
-      await storage.ref('drivingLicenseData/$fileName').putFile(file);
+      await storage.ref('$uid/drivingLicenseData/$fileName').putFile(file);
     } on firebase_core.FirebaseException catch (e) {
       print(e);
     }
   }
 
-  Future<void> uploadString(String stringPath, String stringName) async {
+  Future<void> uploadCarPic(
+      String filePath, String fileName, String uid, String cid) async {
+    File file = File(filePath);
     try {
-      await storage.ref('drivingLicenseData/$stringName').putString(stringPath);
+      await storage.ref('$uid/$cid/$fileName').putFile(file);
     } on firebase_core.FirebaseException catch (e) {
       print(e);
     }
+  }
+
+  Future<void> uploadString(
+      String stringPath, String stringName, String uid) async {
+    try {
+      await storage
+          .ref('$uid/drivingLicenseData/$stringName')
+          .putString(stringPath);
+    } on firebase_core.FirebaseException catch (e) {
+      print(e);
+    }
+  }
+
+  Future<String> downloadURL(String uid, String cid, String carImage) async {
+    String downloadUrl =
+        await storage.ref('$uid/$cid/$carImage').getDownloadURL();
+    return downloadUrl;
   }
 }

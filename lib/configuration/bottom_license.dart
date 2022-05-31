@@ -139,11 +139,11 @@ class _BottomLicenseState extends State<BottomLicense> {
                     final bottomPath = bottomImage!.path;
                     final expiryPath = expiryDate;
                     final drivingCodePath = drivingCode;
-                    storage.uploadFile(frontPath, '$uidCode.frontLicense');
-                    storage.uploadFile(bottomPath, '$uidCode.bottomLicense');
-                    storage.uploadString(expiryPath, '$uidCode.expiryDate');
+                    storage.uploadFile(frontPath, 'frontLicense', uidCode);
+                    storage.uploadFile(bottomPath, 'bottomLicense', uidCode);
+                    storage.uploadString(expiryPath, 'expiryDate', uidCode);
                     storage.uploadString(
-                        drivingCodePath, '$uidCode.drivingCode');
+                        drivingCodePath, 'drivingCode', uidCode);
                     Fluttertoast.showToast(
                         msg: 'Driving license inserted :)', fontSize: 20);
                     Navigator.pushAndRemoveUntil(

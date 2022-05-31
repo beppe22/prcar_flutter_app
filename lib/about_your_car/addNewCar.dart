@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/about_your_car/image_car.dart';
+import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/filters/fuel/fuel.dart';
 import 'package:prcarpolimi/filters/position/position.dart';
 import 'package:prcarpolimi/filters/price/price.dart';
@@ -31,7 +32,7 @@ class _AddNewCarState extends State<AddNewCar> {
   String vehicleString = '';
   String positionString = '';
   double pinPillPosition = -220;
-  List<File?>? images;
+  List<File?> images = [];
 
   @override
   void initState() {
@@ -236,6 +237,8 @@ class _AddNewCarState extends State<AddNewCar> {
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
+    final Storage storage = Storage();
+
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -262,7 +265,7 @@ class _AddNewCarState extends State<AddNewCar> {
                           car.model != '' &&
                           car.price != '' &&
                           car.seats != '' &&
-                          images == []) {
+                          images.isNotEmpty) {
                         List<CarModel> cars = await _addCar(car);
                         Fluttertoast.showToast(
                             msg: 'Car added succesfully :)', fontSize: 20);
@@ -286,6 +289,13 @@ class _AddNewCarState extends State<AddNewCar> {
                                 });
                               }));
                         });
+                        final _auth = FirebaseAuth.instance;
+                        User? user = _auth.currentUser;
+                        for (int i = 0; images[i] != null && i < 6; i++) {
+                          final tempPath = images[i]!.path;
+                          storage.uploadCarPic(tempPath, 'imageCar$i',
+                              user!.uid, PassMarker.cidAdd);
+                        }
                         if (cars != []) {
                           Navigator.pop(context, cars);
                         }
@@ -331,7 +341,7 @@ class _AddNewCarState extends State<AddNewCar> {
     var rng = Random();
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
-
+    PassMarker.cidAdd = '';
     List<CarModel> cars = [];
 
     carModel.activeOrNot = 't';
@@ -364,6 +374,7 @@ class _AddNewCarState extends State<AddNewCar> {
         if (e.code == "impossible to insert new car") {}
       }
     }
+    PassMarker.cidAdd = carModel.cid!;
     return cars;
   }
 }

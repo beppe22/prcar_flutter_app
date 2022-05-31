@@ -235,13 +235,13 @@ class _ConfigurationState extends State<Configuration> {
   _deleteDrivingLicense(String uid) async {
     FirebaseStorage storage = FirebaseStorage.instance;
     final delete1 =
-        storage.ref().child("drivingLicenseData/$uid.bottomLicense");
+        storage.ref().child("$uid/drivingLicenseData/bottomLicense");
     await delete1.delete();
-    final delete2 = storage.ref().child("drivingLicenseData/$uid.frontLicense");
+    final delete2 = storage.ref().child("$uid/drivingLicenseData/frontLicense");
     await delete2.delete();
-    final delete3 = storage.ref().child("drivingLicenseData/$uid.expiryDate");
+    final delete3 = storage.ref().child("$uid/drivingLicenseData/expiryDate");
     await delete3.delete();
-    final delete4 = storage.ref().child("drivingLicenseData/$uid.drivingCode");
+    final delete4 = storage.ref().child("$uid/drivingLicenseData/drivingCode");
     await delete4.delete();
   }
 }
