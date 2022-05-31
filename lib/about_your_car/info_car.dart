@@ -8,6 +8,7 @@ import 'package:prcarpolimi/about_your_car/album.dart';
 import 'package:prcarpolimi/about_your_car/change_info_car.dart';
 import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/models/carModel.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class InfoCar extends StatefulWidget {
   CarModel carModel;
@@ -130,7 +131,7 @@ class _InfoCarState extends State<InfoCar> {
                     child: MaterialButton(
                         color: Colors.grey,
                         onPressed: () async {
-                          print(await urlFile(carModel.uid!, carModel.cid!));
+                          PassMarker.carModel = carModel;
                           CarModel newCar = await Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -231,6 +232,9 @@ class _InfoCarState extends State<InfoCar> {
                     onPressed: () async {
                       String files =
                           await urlFile(carModel.uid!, carModel.cid!);
+                      print(carModel.uid);
+                      print(carModel.cid);
+                      print(files);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

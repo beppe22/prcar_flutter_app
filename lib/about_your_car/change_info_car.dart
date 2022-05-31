@@ -10,6 +10,7 @@ import 'package:prcarpolimi/filters/seats/seats.dart';
 import 'package:prcarpolimi/filters/vehicle/vehicle.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class ChangeInfoCar extends StatefulWidget {
   CarModel carModel;
@@ -194,15 +195,15 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                         fontWeight: FontWeight.bold)),
                 IconButton(
                     onPressed: () async {
-                      if (modify != carModel) {
-                        _changeFirebase(modify);
-                        Fluttertoast.showToast(
-                            msg: 'New car\'s update :)', fontSize: 20);
-                        Navigator.pop(context, modify);
-                      } else {
+                      //if (modify != PassMarker.carModel) {
+                      _changeFirebase(modify);
+                      Fluttertoast.showToast(
+                          msg: 'New car\'s update :)', fontSize: 20);
+                      Navigator.pop(context, modify);
+                      /*} else {
                         Fluttertoast.showToast(
                             msg: 'You change nothing :(', fontSize: 20);
-                      }
+                      }*/
                     },
                     icon: const Icon(Icons.add_task))
               ])

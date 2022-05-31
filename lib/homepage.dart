@@ -506,21 +506,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<bool> listFiles() async {
-    int count = 0;
     final firebase_storage.FirebaseStorage storage =
         firebase_storage.FirebaseStorage.instance;
     final _auth = FirebaseAuth.instance;
     User? user = _auth.currentUser;
     firebase_storage.ListResult results =
-        await storage.ref('drivingLicenseData/').listAll();
-    for (int i = 0; i < results.items.length; i++) {
-      String temp = results.items[i].name;
-      final splitted = temp.split('.');
-      if (splitted[0] == user!.uid) {
-        count++;
-      }
-    }
-    if (count == 4) {
+        await storage.ref('${user!.uid}/drivingLicenseData/').listAll();
+    print(results.items.length);
+    if (results.items.length == 4) {
       return true;
     } else {
       return false;

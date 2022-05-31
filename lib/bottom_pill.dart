@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/filters/least/least.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
-
 import 'about_your_car/album.dart';
 
 class MapBottomPill extends StatelessWidget {
