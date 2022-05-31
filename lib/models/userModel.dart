@@ -6,14 +6,15 @@ class UserModel {
   String? firstName;
   String? secondName;
   String? isConfirmed;
+  String? number;
 
-  UserModel({
-    this.uid,
-    this.email,
-    this.firstName,
-    this.secondName,
-    this.isConfirmed,
-  });
+  UserModel(
+      {this.uid,
+      this.email,
+      this.firstName,
+      this.secondName,
+      this.isConfirmed,
+      this.number});
 
   //receiving data from server
   factory UserModel.fromMap(map) {
@@ -22,7 +23,8 @@ class UserModel {
         email: map['email'],
         firstName: map['firstName'],
         secondName: map['secondName'],
-        isConfirmed: map['isConfirmed']);
+        isConfirmed: map['isConfirmed'],
+        number: map['number']);
   }
 
   //sending data to our server
@@ -33,6 +35,7 @@ class UserModel {
       'firstName': firstName,
       'secondName': secondName,
       'isConfirmed': isConfirmed,
+      'number': number
     };
   }
 }
