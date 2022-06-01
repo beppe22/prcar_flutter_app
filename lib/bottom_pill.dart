@@ -3,6 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/filters/least/least.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'about_your_car/album.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'auth/storage_service.dart';
 
 class MapBottomPill extends StatelessWidget {
   const MapBottomPill({Key? key}) : super(key: key);
@@ -97,22 +99,15 @@ class MapBottomPill extends StatelessWidget {
                                         const SizedBox(height: 20),
                                         FloatingActionButton(
                                             onPressed: () async {
-                                              /*String files = await urlFile(
-                                                  PassMarker.carModel.uid!,
-                                                  PassMarker.carModel.cid!);
-                                              */
+                                              List<String> files =
+                                                  await urlFile(
+                                                      PassMarker.carModel.uid!,
+                                                      PassMarker.carModel.cid!);
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          Album(
-                                                              cid: PassMarker
-                                                                  .carModel
-                                                                  .cid!,
-                                                              uid: PassMarker
-                                                                  .carModel
-                                                                  .uid!,
-                                                              files: '')));
+                                                          Album(files: files)));
                                             },
                                             backgroundColor: Colors.redAccent,
                                             child:
@@ -235,5 +230,19 @@ class MapBottomPill extends StatelessWidget {
                 ))
           ])
         ]));
+  }
+
+  Future<List<String>> urlFile(String uid, String cid) async {
+    final Storage storage = Storage();
+    final firebase_storage.FirebaseStorage storage2 =
+        firebase_storage.FirebaseStorage.instance;
+    List<String> urlList = [];
+    firebase_storage.ListResult results =
+        await storage2.ref('$uid/$cid/').listAll();
+    for (int i = 0; i < results.items.length; i++) {
+      String url = await storage.downloadURL(uid, cid, 'imageCar$i');
+      urlList.insert(i, url);
+    }
+    return urlList;
   }
 }

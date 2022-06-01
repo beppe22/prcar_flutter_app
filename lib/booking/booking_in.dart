@@ -138,7 +138,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                   PassMarker.status[index] = 'a';
                                                                                 });
 
-                                                                                Fluttertoast.showToast(msg: 'Operation abolished!', fontSize: 20);
+                                                                                Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
                                                                               } else {
                                                                                 Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
                                                                               }

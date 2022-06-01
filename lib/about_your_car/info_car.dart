@@ -9,6 +9,7 @@ import 'package:prcarpolimi/about_your_car/change_info_car.dart';
 import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class InfoCar extends StatefulWidget {
   CarModel carModel;
@@ -230,18 +231,12 @@ class _InfoCarState extends State<InfoCar> {
                 const SizedBox(width: 40),
                 FloatingActionButton(
                     onPressed: () async {
-                      String files =
+                      List<String> files =
                           await urlFile(carModel.uid!, carModel.cid!);
-                      print(carModel.uid);
-                      print(carModel.cid);
-                      print(files);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Album(
-                                  cid: carModel.cid!,
-                                  uid: carModel.uid!,
-                                  files: files)));
+                              builder: (context) => Album(files: files)));
                     },
                     backgroundColor: Colors.redAccent,
                     child: const Icon(Icons.photo_album))
@@ -353,10 +348,18 @@ class _InfoCarState extends State<InfoCar> {
     return i;
   }
 
-  Future<String> urlFile(String uid, String cid) async {
+  Future<List<String>> urlFile(String uid, String cid) async {
     final Storage storage = Storage();
-    String url = await storage.downloadURL(uid, cid, 'imageCar0');
-    return url;
+    final firebase_storage.FirebaseStorage storage2 =
+        firebase_storage.FirebaseStorage.instance;
+    List<String> urlList = [];
+    firebase_storage.ListResult results =
+        await storage2.ref('$uid/$cid/').listAll();
+    for (int i = 0; i < results.items.length; i++) {
+      String url = await storage.downloadURL(uid, cid, 'imageCar$i');
+      urlList.insert(i, url);
+    }
+    return urlList;
   }
 }
 
