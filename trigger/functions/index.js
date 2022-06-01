@@ -125,6 +125,7 @@ exports.emailForBooking = functions.firestore
   
 });
 
+
 exports.statusChangingBookingOut = functions.firestore
 .document('users/{IdUser}/booking-out/{IdBookingOut}')
 .onUpdate(async (snap, context) => {
@@ -143,6 +144,48 @@ exports.statusChangingBookingOut = functions.firestore
     .collection('booking-in')
     .doc(booking.bookingId)
     .update({'status' : 'a'});
+
+    //Retrieve car booked info
+  
+    const car= await db.collection('users').doc(booking.uidOwner).collection('cars').doc(booking.cid).get();
+    const model= car.data().model;
+    const vehicle= car.data().veicol;
+
+    //Retrieve email from who received the booking
+    const userOwner= await db.collection('users').doc(booking.uidOwner).get();
+    const email= userOwner.data().email;
+
+    //Retrieve who has canceled the booking
+    const userBookingOut= await db.collection('users').doc(booking.uidBooking).get();
+    const nameUserBookingOut= userBookingOut.data().firstName;
+    
+    //Retrieve the date of the booking
+    const date= booking.date;
+
+    const SENDGRID_API_KEY = functions.config().sendgrid.key;
+    const sgMail= require('@sendgrid/mail');
+    sgMail.setApiKey(SENDGRID_API_KEY);
+  
+    const msg= 
+    {
+    to: email,
+    from: 'tancreditalia@hotmail.it',
+    subject: 'Booking-out Canceled',
+    templateId: 'd-e3da928169964fe3a9a2723bf720a13f',
+    substitutionWrappers: ['{{', '}}'],
+    dynamic_template_data: {
+      nameCar: vehicle + '-' + model,
+      nameUserBookingOut: nameUserBookingOut,
+      date: date,
+    }
+
+
+    }
+    return sgMail.send(msg)
+
+
+
+
   }
 })
 
@@ -161,79 +204,47 @@ exports.statusChangingBookingIn = functions.firestore
     .collection('booking-out')
     .doc(booking.bookingId)
     .update({'status' : 'a'});
-  }
-})
 
 
-
-/*exports.emailForNewAcceptedUser = functions.firestore
-.document('users/{IdUser}')
-.onUpdate(async (snap, context) => {
-
-  const user= snap.data();
-  const preStatus = snap.before.get('isConfirmed');
-  const postStatus = snap.after.get('isConfirmed');
-
-  if(preStatus == 'false' && postStatus == 'true'){
+    //Retrieve car booked info
   
+    const car= await db.collection('users').doc(booking.uidOwner).collection('cars').doc(booking.cid).get();
+    const model= car.data().model;
+    const vehicle= car.data().veicol;
+
+    //Retrieve email of who has booked
+    const userBooking= await db.collection('users').doc(booking.uidBooking).get();
+    const email= userBooking.data().email;
+
+    //Retrieve who has canceled the booking - The owner of the car
+    const userBookingOut= await db.collection('users').doc(booking.uidOwner).get();
+    const nameUserOwner= userBookingOut.data().firstName;
+    
+    //Retrieve the date of the booking
+    const date= booking.date;
+
+    const SENDGRID_API_KEY = functions.config().sendgrid.key;
+    const sgMail= require('@sendgrid/mail');
+    sgMail.setApiKey(SENDGRID_API_KEY);
   
-
-  const email= user.data().email;
-
-
-  const SENDGRID_API_KEY = functions.config().sendgrid.key;
-  const sgMail= require('@sendgrid/mail');
-  sgMail.setApiKey(SENDGRID_API_KEY);
-  
-  const msg= 
-  {
+    const msg= 
+    {
     to: email,
     from: 'tancreditalia@hotmail.it',
-    subject: 'Confirmation',
-    templateId: 'd-7a00fd84017c425b99f0805f4de5c528',
+    subject: 'Booking-in Canceled',
+    templateId: 'd-b5337e0888484e92bb375e9e0949e8da',
     substitutionWrappers: ['{{', '}}'],
     dynamic_template_data: {
-      name: user.data().firstName,
+      nameCar: vehicle + '-' + model,
+      nameOwner: nameUserOwner,
+      date: date,
     }
 
 
+    }
+    return sgMail.send(msg)
   }
-  return sgMail.send(msg)
-}
-});*/
-
-/*exports.endToDevice= functions.firestore
-.document('b/{id}')
-.onCreate((snap, context) => {
-  
-  db.collection('a').doc('a').get().then((value) => {
-    
-    if (value.empty) {
-      console.log('No Device');
-  }else {
-    var tok = '';
-    console.log('Device');
-    tok = value.data().token;
-    
-    //debugPrint('ciao = $tok');
-    var payload = {
-      "notification": {
-          "title": "From",
-          "body": "motive" + tok,
-          "sound": "default"
-      }}
-  
-    return admin.messaging().sendToDevice(tok,payload).then((response) => {
-      console.log('Pushed them all');
-  }).catch((err) => {
-      console.log(err);
-  });
-  }
-    
-    });
-  
-  
-})*/
+})
 
 
 // // Create and Deploy Your First Cloud Functions
