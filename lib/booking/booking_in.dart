@@ -293,7 +293,7 @@ class BookingInPageState extends State<BookingInPage> {
         .doc(PassMarker.uid[i])
         .collection('cars')
         .doc(PassMarker.cid[i])
-        .collection('bookingIn')
+        .collection('booking-in')
         .doc(PassMarker.bookId[i])
         .update({'status': 'e'});
   }
@@ -305,7 +305,7 @@ class BookingInPageState extends State<BookingInPage> {
         .doc(PassMarker.uid[i])
         .collection('cars')
         .doc(PassMarker.cid[i])
-        .collection('bookingIn')
+        .collection('booking-in')
         .doc(PassMarker.bookId[i])
         .update({'status': 'a'});
   }
