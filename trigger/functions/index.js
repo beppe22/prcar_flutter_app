@@ -129,18 +129,19 @@ exports.statusChangingBookingOut = functions.firestore
 .document('users/{IdUser}/booking-out/{IdBookingOut}')
 .onUpdate(async (snap, context) => {
 
-  const booking= snap.data();
-  const preStatus= snap.before.get('status');
-  const postStatus= snap.after.get('status');
+  const booking= snap.after.data();
+  const preStatus= snap.before.data().status;
+  const postStatus= snap.after.data().status;;
+
 
   if(preStatus == 'c' && postStatus == 'a')
   {
     await db.collection('users')
     .doc(booking.uidOwner)
     .collection('cars')
-    .doc(bookOut.cid)
+    .doc(booking.cid)
     .collection('booking-in')
-    .doc(bookOut.bookingId)
+    .doc(booking.bookingId)
     .update({'status' : 'a'});
   }
 })
@@ -149,7 +150,7 @@ exports.statusChangingBookingIn = functions.firestore
 .document('users/{IdUser}/cars/{IdCars}/booking-in/{IdBookingIn}')
 .onUpdate(async (snap, context) => {
 
-  const booking= snap.data();
+  const booking= snap.after.data();
   const preStatus= snap.before.get('status');
   const postStatus= snap.after.get('status');
 
@@ -158,7 +159,7 @@ exports.statusChangingBookingIn = functions.firestore
     await db.collection('users')
     .doc(booking.uidBooking)
     .collection('booking-out')
-    .doc(bookOut.bookingId)
+    .doc(booking.bookingId)
     .update({'status' : 'a'});
   }
 })
