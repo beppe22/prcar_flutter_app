@@ -10,7 +10,6 @@ import 'package:prcarpolimi/filters/seats/seats.dart';
 import 'package:prcarpolimi/filters/vehicle/vehicle.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
-import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class ChangeInfoCar extends StatefulWidget {
   CarModel carModel;

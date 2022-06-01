@@ -512,7 +512,6 @@ class _HomePageState extends State<HomePage> {
     User? user = _auth.currentUser;
     firebase_storage.ListResult results =
         await storage.ref('${user!.uid}/drivingLicenseData/').listAll();
-    print(results.items.length);
     if (results.items.length == 4) {
       return true;
     } else {
