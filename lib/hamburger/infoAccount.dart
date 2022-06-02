@@ -13,6 +13,8 @@ class InfoAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -29,29 +31,34 @@ class InfoAccount extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-              const SizedBox(height: 25),
+              SizedBox(height: screenHeight * 0.04),
               SizedBox(
-                  height: 200,
+                  height: screenHeight * 0.22,
                   child:
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-              const SizedBox(height: 30),
+              SizedBox(height: screenHeight * 0.04),
               Container(
-                  height: 50,
-                  width: 350,
+                  height: screenHeight * 0.07,
+                  width: screenWidth * 0.9,
                   child: Center(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                        const SizedBox(width: 15),
+                        SizedBox(width: screenWidth * 0.02),
                         const Icon(Icons.mail, color: Colors.grey),
-                        const SizedBox(width: 20),
-                        Text('Email: ' + StaticUser.email.toString(),
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w500,
-                                backgroundColor: Colors.white))
+                        SizedBox(width: screenWidth * 0.02),
+                        Expanded(
+                            child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Text(
+                                    'Email: ' + StaticUser.email.toString(),
+                                    maxLines: 1,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w500,
+                                        backgroundColor: Colors.white))))
                       ])),
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -62,24 +69,30 @@ class InfoAccount extends StatelessWidget {
                             spreadRadius: 4,
                             blurRadius: 2)
                       ])),
-              const SizedBox(height: 30),
+              SizedBox(height: screenHeight * 0.04),
               Container(
-                  height: 40,
-                  width: 320,
+                  height: screenHeight * 0.07,
+                  width: screenWidth * 0.9,
                   child: Center(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                        const SizedBox(width: 15),
+                        SizedBox(width: screenWidth * 0.02),
                         const Icon(Icons.account_circle, color: Colors.grey),
-                        const SizedBox(width: 20),
-                        Text('First Name: ' + StaticUser.firstName.toString(),
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 25,
-                                fontWeight: FontWeight.w500,
-                                backgroundColor: Colors.white))
+                        SizedBox(width: screenWidth * 0.02),
+                        Expanded(
+                            child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Text(
+                                    'First Name: ' +
+                                        StaticUser.firstName.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w500,
+                                        backgroundColor: Colors.white))))
                       ])),
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -90,24 +103,30 @@ class InfoAccount extends StatelessWidget {
                             spreadRadius: 4,
                             blurRadius: 2)
                       ])),
-              const SizedBox(height: 30),
+              SizedBox(height: screenHeight * 0.04),
               Container(
-                  height: 40,
-                  width: 320,
+                  height: screenHeight * 0.07,
+                  width: screenWidth * 0.9,
                   child: Center(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                        const SizedBox(width: 15),
+                        SizedBox(width: screenWidth * 0.02),
                         const Icon(Icons.account_circle, color: Colors.grey),
-                        const SizedBox(width: 20),
-                        Text('Second Name: ' + StaticUser.secondName.toString(),
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 25,
-                                fontWeight: FontWeight.w500,
-                                backgroundColor: Colors.white))
+                        SizedBox(width: screenWidth * 0.02),
+                        Expanded(
+                            child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Text(
+                                    'Second Name: ' +
+                                        StaticUser.secondName.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w500,
+                                        backgroundColor: Colors.white))))
                       ])),
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -118,7 +137,7 @@ class InfoAccount extends StatelessWidget {
                             spreadRadius: 4,
                             blurRadius: 2)
                       ])),
-              const SizedBox(height: 30),
+              SizedBox(height: screenHeight * 0.04),
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(
                     height: 50,
@@ -144,7 +163,7 @@ class InfoAccount extends StatelessWidget {
                               spreadRadius: 6,
                               blurRadius: 3)
                         ])),
-                const SizedBox(height: 40),
+                SizedBox(height: screenHeight * 0.04),
                 Container(
                     height: 50,
                     width: 250,

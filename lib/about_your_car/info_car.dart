@@ -4,11 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:prcarpolimi/about_your_car/album.dart';
 import 'package:prcarpolimi/about_your_car/change_info_car.dart';
 import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class InfoCar extends StatefulWidget {
@@ -233,10 +233,14 @@ class _InfoCarState extends State<InfoCar> {
                     onPressed: () async {
                       List<String> files =
                           await urlFile(carModel.uid!, carModel.cid!);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Album(files: files)));
+                      final List<ImageProvider> _imageProviders = [];
+                      for (int i = 0; i < files.length; i++) {
+                        _imageProviders.insert(
+                            i, Image.network(files[i]).image);
+                      }
+                      MultiImageProvider multiImageProvider =
+                          MultiImageProvider(_imageProviders);
+                      await showImageViewerPager(context, multiImageProvider);
                     },
                     backgroundColor: Colors.redAccent,
                     child: const Icon(Icons.photo_album))

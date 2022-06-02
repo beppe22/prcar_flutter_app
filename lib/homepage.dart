@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/booking/booking_in.dart';
 import 'package:prcarpolimi/hamburger/configuration.dart';
 import 'package:prcarpolimi/hamburger/infoAccount.dart';
@@ -83,24 +82,35 @@ class _HomePageState extends State<HomePage> {
             title: const Text("PrCar"),
             backgroundColor: Colors.redAccent,
             actions: [
-              Row(children: [
-                const Text('Clear filter!',
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold)),
-                IconButton(
-                    onPressed: () {
-                      if (PassMarker.from) {
-                        Fluttertoast.showToast(
-                            msg: 'Map arleady clean!', fontSize: 20);
-                      } else {
-                        PassMarker.from = true;
-                        _updateMarkers();
-                      }
-                    },
-                    icon: const Icon(Icons.autorenew_rounded))
-              ]),
+              !PassMarker.from
+                  ? Row(children: [
+                      const Text('Clear filter!',
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+                      IconButton(
+                          onPressed: () {
+                            PassMarker.from = true;
+                            _updateMarkers();
+                          },
+                          icon: const Icon(Icons.autorenew_rounded))
+                    ])
+                  : Row(children: [
+                      const Text('Filters',
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+                      IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Filters()));
+                          },
+                          icon: const Icon(Icons.search))
+                    ])
             ]),
         backgroundColor: Colors.white,
         drawer: Drawer(
@@ -125,12 +135,6 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const MessagePage()));
-              }),
-          ListTile(
-              title: const Text("Filters"),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Filters()));
               }),
           ListTile(
               title: const Text("About your car"),

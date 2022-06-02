@@ -23,11 +23,14 @@ class BookingInPageState extends State<BookingInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('Booking-In'),
+            title: Text('Booking-In',
+                style: TextStyle(fontSize: screenWidth * 0.06)),
             automaticallyImplyLeading: false,
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
@@ -40,11 +43,11 @@ class BookingInPageState extends State<BookingInPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-              const SizedBox(height: 40),
+              SizedBox(height: screenHeight * 0.05),
               (res.isEmpty)
                   ? Container(
-                      height: 70,
-                      width: 350,
+                      height: screenHeight * 0.1,
+                      width: screenWidth * 0.9,
                       child: const Text('No messages yet :(',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -68,17 +71,20 @@ class BookingInPageState extends State<BookingInPage> {
                       itemBuilder: (context, index) {
                         if (PassMarker.status[index] != 'e') {
                           return Container(
-                              padding: const EdgeInsets.all(8),
+                              padding: EdgeInsets.all(screenHeight * 0.008),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const SizedBox(height: 20),
+                                    SizedBox(height: screenHeight * 0.01),
                                     Container(
-                                        height: 110,
-                                        width: 350,
-                                        padding: const EdgeInsets.fromLTRB(
-                                            20, 15, 20, 15),
+                                        height: screenHeight * 0.16,
+                                        width: screenWidth * 0.9,
+                                        padding: EdgeInsets.fromLTRB(
+                                            screenWidth * 0.008,
+                                            screenHeight * 0.008,
+                                            screenWidth * 0.008,
+                                            screenHeight * 0.008),
                                         child: (MaterialButton(
                                             onPressed: () async {
                                               showDialog(
@@ -86,13 +92,14 @@ class BookingInPageState extends State<BookingInPage> {
                                                   builder:
                                                       (BuildContext context) =>
                                                           AlertDialog(
-                                                              title: const Text(
+                                                              title: Text(
                                                                   'What do you want to do?',
                                                                   style: TextStyle(
                                                                       color: Colors
                                                                           .redAccent,
                                                                       fontSize:
-                                                                          25,
+                                                                          screenWidth *
+                                                                              0.08,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold),
@@ -109,14 +116,14 @@ class BookingInPageState extends State<BookingInPage> {
                                                                       MainAxisSize
                                                                           .min,
                                                                   children: [
-                                                                    const SizedBox(
-                                                                        height:
-                                                                            30),
+                                                                    SizedBox(
+                                                                        height: screenHeight *
+                                                                            0.03),
                                                                     Container(
-                                                                        height:
-                                                                            70,
-                                                                        width:
-                                                                            250,
+                                                                        height: screenHeight *
+                                                                            0.09,
+                                                                        width: screenWidth *
+                                                                            0.7,
                                                                         decoration: BoxDecoration(
                                                                             color:
                                                                                 _colorAnulment(index),
@@ -146,21 +153,21 @@ class BookingInPageState extends State<BookingInPage> {
                                                                               Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
                                                                             }
                                                                           },
-                                                                          child: const Text(
+                                                                          child: Text(
                                                                               'Annulment',
                                                                               textAlign: TextAlign.center,
-                                                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black)),
+                                                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                           shape:
                                                                               ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                         )),
-                                                                    const SizedBox(
-                                                                        height:
-                                                                            30),
+                                                                    SizedBox(
+                                                                        height: screenHeight *
+                                                                            0.03),
                                                                     Container(
-                                                                        height:
-                                                                            70,
-                                                                        width:
-                                                                            250,
+                                                                        height: screenHeight *
+                                                                            0.09,
+                                                                        width: screenWidth *
+                                                                            0.7,
                                                                         decoration: BoxDecoration(
                                                                             color:
                                                                                 Colors.redAccent,
@@ -188,21 +195,21 @@ class BookingInPageState extends State<BookingInPage> {
                                                                               Fluttertoast.showToast(msg: 'Impossible operation: you can\'t eliminate this message while the reservation isn\'t finished :(', fontSize: 20);
                                                                             }
                                                                           },
-                                                                          child: const Text(
+                                                                          child: Text(
                                                                               'Elimination',
                                                                               textAlign: TextAlign.center,
-                                                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black)),
+                                                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                           shape:
                                                                               ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                         )),
-                                                                    const SizedBox(
-                                                                        height:
-                                                                            30),
+                                                                    SizedBox(
+                                                                        height: screenHeight *
+                                                                            0.03),
                                                                     Container(
-                                                                        height:
-                                                                            70,
-                                                                        width:
-                                                                            250,
+                                                                        height: screenHeight *
+                                                                            0.09,
+                                                                        width: screenWidth *
+                                                                            0.7,
                                                                         decoration: BoxDecoration(
                                                                             color:
                                                                                 Colors.redAccent,
@@ -212,10 +219,10 @@ class BookingInPageState extends State<BookingInPage> {
                                                                               () async {
                                                                             Navigator.of(context).pop();
                                                                           },
-                                                                          child: const Text(
+                                                                          child: Text(
                                                                               'Return',
                                                                               textAlign: TextAlign.center,
-                                                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black)),
+                                                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                           shape:
                                                                               ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                         ))
@@ -224,10 +231,11 @@ class BookingInPageState extends State<BookingInPage> {
                                             child: Text(
                                                 _seeReservation(
                                                     index, res[index]),
-                                                textAlign: TextAlign.center,
+                                                textAlign: TextAlign.start,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 18,
+                                                    fontSize:
+                                                        screenWidth * 0.05,
                                                     color: _colorReservation(
                                                         index, bookingId))))),
                                         decoration: BoxDecoration(

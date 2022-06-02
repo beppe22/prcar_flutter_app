@@ -36,11 +36,13 @@ class _FiltersState extends State<Filters> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     String? user = _auth.currentUser!.uid.toString();
     //least button field
     final leastButton = Container(
-        width: double.maxFinite,
-        height: 50,
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
         margin: const EdgeInsets.only(top: 20, left: 40, right: 40, bottom: 10),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
@@ -98,8 +100,8 @@ class _FiltersState extends State<Filters> {
 
 //vehicle button field
     final vehicleButton = Container(
-        width: double.maxFinite,
-        height: 50,
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
         margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
@@ -127,8 +129,8 @@ class _FiltersState extends State<Filters> {
 
     //seats button field
     final seatsButton = Container(
-        width: double.maxFinite,
-        height: 50,
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
         margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
@@ -154,8 +156,8 @@ class _FiltersState extends State<Filters> {
 
     //fuel button field
     final fuelButton = Container(
-        width: double.maxFinite,
-        height: 50,
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
         margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
@@ -181,8 +183,8 @@ class _FiltersState extends State<Filters> {
 
     //price button field
     final priceButton = Container(
-        width: double.maxFinite,
-        height: 50,
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
         margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
@@ -208,8 +210,8 @@ class _FiltersState extends State<Filters> {
 
 //clear button field
     final clearButton = Container(
-        width: double.maxFinite,
-        height: 50,
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
         margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
         decoration: BoxDecoration(
             color: Colors.grey, borderRadius: BorderRadius.circular(20)),
@@ -239,42 +241,18 @@ class _FiltersState extends State<Filters> {
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-            backgroundColor: Colors.redAccent,
-            title: const Text('PrCar'),
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  setState(() {
-                    search.fuel = '';
-                    search.model = '';
-                    search.least = '';
-                    search.price = '';
-                    search.vehicle = '';
-                    search.seats = '';
-                    search.position = '';
-                    SearchCar.latSearch = '';
-                    SearchCar.lngSearch = '';
-                    SearchCar.date1Search = '';
-                    SearchCar.date2Search = '';
-                  });
-                  Navigator.pop(context);
-                }),
-            actions: [
-              Row(children: [
-                const Text('Search!',
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold)),
-                IconButton(
-                    onPressed: () async {
-                      List<CarModel> cars = await _fetchCar();
-                      List<CarModel> searchCars =
-                          await _searchCar(cars, search, user);
+    return SizedBox(
+        height: screenHeight,
+        width: screenWidth,
+        child: Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+                backgroundColor: Colors.redAccent,
+                title: const Text('PrCar'),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
                       setState(() {
                         search.fuel = '';
                         search.model = '';
@@ -288,46 +266,74 @@ class _FiltersState extends State<Filters> {
                         SearchCar.date1Search = '';
                         SearchCar.date2Search = '';
                       });
-                      if (searchCars.isNotEmpty) {
-                        PassMarker.from = false;
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    HomePage(searchCar: searchCars)));
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: 'No car found :( try with less parameters',
-                            fontSize: 20);
-                      }
-                    },
-                    icon: const Icon(Icons.add_task))
-              ])
-            ]),
-        body: Center(
-            child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-          const SizedBox(
-              height: 30,
-              child: Text("Apply filters for your need.",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.redAccent,
-                      fontSize: 25))),
-          const SizedBox(height: 15),
-          leastButton,
-          const SizedBox(height: 15),
-          vehicleButton,
-          const SizedBox(height: 15),
-          positionButton,
-          const SizedBox(height: 15),
-          seatsButton,
-          const SizedBox(height: 15),
-          fuelButton,
-          const SizedBox(height: 15),
-          priceButton,
-          const SizedBox(height: 15),
-          clearButton
-        ])));
+                      Navigator.pop(context);
+                    }),
+                actions: [
+                  Row(children: [
+                    const Text('Search!',
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                    IconButton(
+                        onPressed: () async {
+                          List<CarModel> cars = await _fetchCar();
+                          List<CarModel> searchCars =
+                              await _searchCar(cars, search, user);
+                          setState(() {
+                            search.fuel = '';
+                            search.model = '';
+                            search.least = '';
+                            search.price = '';
+                            search.vehicle = '';
+                            search.seats = '';
+                            search.position = '';
+                            SearchCar.latSearch = '';
+                            SearchCar.lngSearch = '';
+                            SearchCar.date1Search = '';
+                            SearchCar.date2Search = '';
+                          });
+                          if (searchCars.isNotEmpty) {
+                            PassMarker.from = false;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        HomePage(searchCar: searchCars)));
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: 'No car found :( try with less parameters',
+                                fontSize: 20);
+                          }
+                        },
+                        icon: const Icon(Icons.add_task))
+                  ])
+                ]),
+            body: Center(
+                child: Column(children: <Widget>[
+              SizedBox(height: screenHeight * 0.02),
+              SizedBox(
+                  height: screenHeight * 0.04,
+                  child: const Text("Apply filters for your need.",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.redAccent,
+                          fontSize: 25))),
+              SizedBox(height: screenHeight * 0.01),
+              leastButton,
+              SizedBox(height: screenHeight * 0.01),
+              vehicleButton,
+              SizedBox(height: screenHeight * 0.01),
+              positionButton,
+              SizedBox(height: screenHeight * 0.01),
+              seatsButton,
+              SizedBox(height: screenHeight * 0.01),
+              fuelButton,
+              SizedBox(height: screenHeight * 0.01),
+              priceButton,
+              SizedBox(height: screenHeight * 0.01),
+              clearButton
+            ]))));
   }
 
   String _printLeast(String start, String end) {
