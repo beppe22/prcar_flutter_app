@@ -18,7 +18,7 @@ class MapBottomPill extends StatelessWidget {
         padding: EdgeInsets.all(screenWidth * 0.08),
         decoration: BoxDecoration(
             color: Colors.redAccent,
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(screenWidth * 0.2),
             boxShadow: [
               BoxShadow(
                   color: Colors.black.withOpacity(0.2),
@@ -33,7 +33,7 @@ class MapBottomPill extends StatelessWidget {
                     child: Image.asset('assets/prcarlogo.png',
                         width: screenWidth * 0.3,
                         height: screenHeight * 0.15,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                         alignment: Alignment.topCenter)),
                 Column(children: [
                   Text('Selected car, click below for',

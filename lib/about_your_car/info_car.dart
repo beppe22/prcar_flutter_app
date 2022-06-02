@@ -34,15 +34,19 @@ class _InfoCarState extends State<InfoCar> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
             title: Text(
-                carModel.vehicle.toString() + '-' + carModel.model.toString()),
+              carModel.vehicle.toString() + '-' + carModel.model.toString(),
+              style: TextStyle(fontSize: screenWidth * 0.07),
+            ),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back, size: screenHeight * 0.04),
                 onPressed: () async {
                   Navigator.pop(context, await _fetchInfoCar());
                 })),
@@ -52,13 +56,13 @@ class _InfoCarState extends State<InfoCar> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
               SizedBox(
-                  height: 200,
+                  height: screenHeight * 0.25,
                   child:
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-              const SizedBox(height: 30),
+              SizedBox(height: screenHeight * 0.03),
               Container(
-                  height: 175,
-                  width: 350,
+                  height: screenHeight * 0.25,
+                  width: screenWidth * 0.9,
                   child: Center(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -70,48 +74,48 @@ class _InfoCarState extends State<InfoCar> {
                                 '-' +
                                 carModel.model.toString(),
                             textAlign: TextAlign.start,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 22,
+                                fontSize: screenWidth * 0.065,
                                 fontWeight: FontWeight.w500,
                                 backgroundColor: Colors.white)),
                         Text('Seats: ' + carModel.seats.toString(),
                             textAlign: TextAlign.start,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 22,
+                                fontSize: screenWidth * 0.065,
                                 fontWeight: FontWeight.w500,
                                 backgroundColor: Colors.white)),
                         Text('Fuel: ' + carModel.fuel.toString(),
                             textAlign: TextAlign.start,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 22,
+                                fontSize: screenWidth * 0.065,
                                 fontWeight: FontWeight.w500,
                                 backgroundColor: Colors.white)),
                         Text(
                             'Position: ' +
                                 _positionString(carModel.position.toString()),
                             textAlign: TextAlign.start,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 22,
+                                fontSize: screenWidth * 0.065,
                                 fontWeight: FontWeight.w500,
                                 backgroundColor: Colors.white)),
                         Text('Price for day: ' + carModel.price.toString(),
                             textAlign: TextAlign.start,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 22,
+                                fontSize: screenWidth * 0.065,
                                 fontWeight: FontWeight.w500,
                                 backgroundColor: Colors.white)),
                         Text(
                             'Status: ' +
                                 _activeString(carModel.activeOrNot.toString()),
                             textAlign: TextAlign.start,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 22,
+                                fontSize: screenWidth * 0.065,
                                 fontWeight: FontWeight.w500,
                                 backgroundColor: Colors.white))
                       ])),
@@ -124,11 +128,11 @@ class _InfoCarState extends State<InfoCar> {
                             spreadRadius: 4,
                             blurRadius: 2)
                       ])),
-              const SizedBox(height: 35),
+              SizedBox(height: screenHeight * 0.04),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(
-                    height: 60,
-                    width: 150,
+                    height: screenHeight * 0.07,
+                    width: screenWidth * 0.4,
                     child: MaterialButton(
                         color: Colors.grey,
                         onPressed: () async {
@@ -144,9 +148,10 @@ class _InfoCarState extends State<InfoCar> {
                             });
                           }
                         },
-                        child: const Text("Change Info",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 20))),
+                        child: Text("Change Info",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: screenWidth * 0.05))),
                     decoration: BoxDecoration(
                         color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(12),
@@ -156,10 +161,10 @@ class _InfoCarState extends State<InfoCar> {
                               spreadRadius: 6,
                               blurRadius: 3)
                         ])),
-                const SizedBox(width: 30),
+                SizedBox(width: screenWidth * 0.08),
                 Container(
-                    height: 60,
-                    width: 150,
+                    height: screenHeight * 0.07,
+                    width: screenWidth * 0.4,
                     child: MaterialButton(
                         color: Colors.grey,
                         onPressed: () async {
@@ -182,8 +187,9 @@ class _InfoCarState extends State<InfoCar> {
                         },
                         child: Text(supOrActive,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 20))),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: screenWidth * 0.065))),
                     decoration: BoxDecoration(
                         color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(12),
@@ -194,12 +200,12 @@ class _InfoCarState extends State<InfoCar> {
                               blurRadius: 3)
                         ]))
               ]),
-              const SizedBox(height: 30),
+              SizedBox(height: screenHeight * 0.04),
               Row(children: [
-                const SizedBox(width: 120),
+                SizedBox(width: screenWidth * 0.26),
                 Container(
-                    height: 60,
-                    width: 150,
+                    height: screenHeight * 0.07,
+                    width: screenWidth * 0.4,
                     child: MaterialButton(
                         color: Colors.grey,
                         onPressed: () async {
@@ -216,9 +222,10 @@ class _InfoCarState extends State<InfoCar> {
                                     InactiveSingleCar(car: carModel));
                           }
                         },
-                        child: const Text("Delete",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 20))),
+                        child: Text("Delete",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: screenWidth * 0.065))),
                     decoration: BoxDecoration(
                         color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(12),
@@ -228,7 +235,7 @@ class _InfoCarState extends State<InfoCar> {
                               spreadRadius: 6,
                               blurRadius: 3)
                         ])),
-                const SizedBox(width: 40),
+                SizedBox(width: screenWidth * 0.08),
                 FloatingActionButton(
                     onPressed: () async {
                       List<String> files =
@@ -243,7 +250,7 @@ class _InfoCarState extends State<InfoCar> {
                       await showImageViewerPager(context, multiImageProvider);
                     },
                     backgroundColor: Colors.redAccent,
-                    child: const Icon(Icons.photo_album))
+                    child: Icon(Icons.photo_album, size: screenHeight * 0.04))
               ])
             ])));
   }
