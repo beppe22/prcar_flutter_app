@@ -408,7 +408,7 @@ class _FiltersState extends State<Filters> {
       }
       if (j &&
           (search.price.toString() != '') &&
-          (int.parse(search.price.toString()) >
+          (int.parse(search.price.toString()) <
               int.parse(cars[i].price.toString()))) {
         j = false;
       }

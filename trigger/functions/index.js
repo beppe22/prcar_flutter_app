@@ -134,8 +134,18 @@ exports.statusChangingBookingOut = functions.firestore
   const preStatus= snap.before.data().status;
   const postStatus= snap.after.data().status;;
 
+  //Retrieve status of the booking-in
+  const bookIn = await db.collection('users')
+    .doc(booking.uidOwner)
+    .collection('cars')
+    .doc(booking.cid)
+    .collection('booking-in')
+    .doc(booking.bookingId)
+    .get();
+  const statusBookIn= bookIn.data().status;
 
-  if(preStatus == 'c' && postStatus == 'a')
+
+  if(preStatus == 'c' && postStatus == 'a' && statusBookIn == 'c')
   {
     await db.collection('users')
     .doc(booking.uidOwner)
@@ -162,6 +172,8 @@ exports.statusChangingBookingOut = functions.firestore
     //Retrieve the date of the booking
     const date= booking.date;
 
+
+    //send email 
     const SENDGRID_API_KEY = functions.config().sendgrid.key;
     const sgMail= require('@sendgrid/mail');
     sgMail.setApiKey(SENDGRID_API_KEY);
@@ -181,7 +193,39 @@ exports.statusChangingBookingOut = functions.firestore
 
 
     }
-    return sgMail.send(msg)
+    sgMail.send(msg)
+
+    //send notification
+    await db.collection('tokens').doc(booking.uidOwner).get().then(async (value) => {
+    
+      if (value.empty) {
+          console.log('No Device');
+    
+      }else {
+        var tok = '';
+        
+        tok = value.data().token;
+        //const nameCar= await retrieveCarName(bookOut.cid,bookOut.uidOwner);
+        var payload = {
+          "data" : {
+            "bookId" : booking.bookingId,
+          },
+          "notification": {
+              "title": "Booking canceled",
+              "body": "Someone has canceled a booking of your car ",
+              "sound": "default"
+          }}
+      
+        return admin.messaging().sendToDevice(tok,payload).then((response) => {
+          console.log('Pushed them all');
+      }).catch((err) => {
+          console.log(err);
+      });
+      }
+        
+        });
+
+
 
 
 
@@ -197,7 +241,15 @@ exports.statusChangingBookingIn = functions.firestore
   const preStatus= snap.before.get('status');
   const postStatus= snap.after.get('status');
 
-  if(preStatus == 'c' && postStatus == 'a')
+  //Retrieve status of the booking-out
+  const bookOut= await db.collection('users')
+  .doc(booking.uidBooking)
+  .collection('booking-out')
+  .doc(booking.bookingId)
+  .get();
+  const statusBookOut= bookOut.data().status;
+
+  if(preStatus == 'c' && postStatus == 'a' && statusBookOut=='c')
   {
     await db.collection('users')
     .doc(booking.uidBooking)
@@ -223,6 +275,8 @@ exports.statusChangingBookingIn = functions.firestore
     //Retrieve the date of the booking
     const date= booking.date;
 
+
+    //Send email
     const SENDGRID_API_KEY = functions.config().sendgrid.key;
     const sgMail= require('@sendgrid/mail');
     sgMail.setApiKey(SENDGRID_API_KEY);
@@ -242,7 +296,38 @@ exports.statusChangingBookingIn = functions.firestore
 
 
     }
-    return sgMail.send(msg)
+    sgMail.send(msg)
+
+
+    //send notification
+    await db.collection('tokens').doc(booking.uidBooking).get().then(async (value) => {
+    
+      if (value.empty) {
+          console.log('No Device');
+    
+      }else {
+        var tok = '';
+        
+        tok = value.data().token;
+        //const nameCar= await retrieveCarName(bookOut.cid,bookOut.uidOwner);
+        var payload = {
+          "data" : {
+            "bookId" : booking.bookingId,
+          },
+          "notification": {
+              "title": "Booking canceled",
+              "body": "Your booking was canceled by the owner ",
+              "sound": "default"
+          }}
+      
+        return admin.messaging().sendToDevice(tok,payload).then((response) => {
+          console.log('Pushed them all');
+      }).catch((err) => {
+          console.log(err);
+      });
+      }
+        
+        });
   }
 })
 
