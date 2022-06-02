@@ -60,7 +60,7 @@ class MapBottomPill extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20)),
                       child: ElevatedButton(
                           onPressed: () async {
-                            final result = await showDialog(
+                            await showDialog(
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
@@ -161,12 +161,29 @@ class MapBottomPill extends StatelessWidget {
                                                           .driveInserted) {
                                                         PassMarker.hpOrNot =
                                                             true;
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        const Least()));
+                                                        var reserveResult =
+                                                            'start';
+                                                        reserveResult =
+                                                            await Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            const Least()));
+
+                                                        if (reserveResult ==
+                                                            '1') {
+                                                          Navigator.of(context,
+                                                                  rootNavigator:
+                                                                      true)
+                                                              .pop('dialog');
+                                                        } else if (reserveResult ==
+                                                            '0') {
+                                                          Fluttertoast.showToast(
+                                                              msg:
+                                                                  'Something went wrong, try again later',
+                                                              fontSize: 18);
+                                                        }
                                                       } else {
                                                         Fluttertoast.showToast(
                                                             msg:
@@ -223,30 +240,6 @@ class MapBottomPill extends StatelessWidget {
                                                     ]))
                                           ]));
                                 });
-                            if (result == '1') {
-                              /*showDialog<void>(
-                                context: context,
-                                barrierDismissible:
-                                    false, // user must tap button!
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text('Congra'),
-                                    content: SingleChildScrollView(
-                                      child: ListBody(
-                                        children: const <Widget>[
-                                          Text('Your Booked your car'),
-                                          
-                                        ],
-                                      ),
-                                    ),
-                                    actions: <Widget>[
-                                      Navigator.pop(context, '1')
-                                    ],
-                                  );
-                                },
-                              );*/
-                            }
-                            //fare spuntare un label per comunicare se la reservation ha avuto buon fine
                           },
                           child: Text('Reserve',
                               style: TextStyle(fontSize: screenWidth * 0.03)))),

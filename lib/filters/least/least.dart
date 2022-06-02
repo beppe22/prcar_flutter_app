@@ -36,7 +36,7 @@ class _LeastState extends State<Least> {
                 icon: const Icon(Icons.arrow_back, color: Colors.white),
                 onPressed: () async {
                   if (PassMarker.hpOrNot) {
-                    Navigator.pop(context);
+                    Navigator.pop(context, 'start');
                   } else {
                     Navigator.pop(context, '');
                   }
