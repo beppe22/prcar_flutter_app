@@ -10,14 +10,4 @@ class NetworkCheck {
     }
     return false;
   }
-
-  dynamic checkInternet() {
-    check().then((intenet) {
-      if (intenet != null && intenet) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-  }
 }
