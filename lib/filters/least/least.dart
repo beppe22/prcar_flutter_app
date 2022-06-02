@@ -132,7 +132,6 @@ class _LeastState extends State<Least> {
                       border: Border.all(width: 5.0, color: Colors.grey)),
                   child: MaterialButton(
                       onPressed: () async {
-                        print(await networkCheck.check());
                         if (await networkCheck.check()) {
                           if (PassMarker.hpOrNot) {
                             if (dateStart == '' && dateEnd == '') {
