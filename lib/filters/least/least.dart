@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/booking.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'calendar.dart';
@@ -17,6 +18,7 @@ class _LeastState extends State<Least> {
   String dateStart = '';
   String dateEnd = '';
   double? pinPillPosition;
+  NetworkCheck networkCheck = NetworkCheck();
   @override
   void initState() {
     super.initState();
@@ -130,26 +132,32 @@ class _LeastState extends State<Least> {
                       border: Border.all(width: 5.0, color: Colors.grey)),
                   child: MaterialButton(
                       onPressed: () async {
-                        if (PassMarker.hpOrNot) {
-                          if (dateStart == '' && dateEnd == '') {
-                            Fluttertoast.showToast(
-                                msg: "No date choosen :(", fontSize: 20);
+                        if (await networkCheck.check()) {
+                          if (PassMarker.hpOrNot) {
+                            if (dateStart == '' && dateEnd == '') {
+                              Fluttertoast.showToast(
+                                  msg: "No date choosen :(", fontSize: 20);
+                            } else {
+                              Navigator.pop(
+                                  context,
+                                  await BookingOut(
+                                          PassMarker.carModel.cid,
+                                          PassMarker.carModel.uid,
+                                          dateStart + '-' + dateEnd)
+                                      .book());
+                            }
                           } else {
-                            Navigator.pop(
-                                context,
-                                await BookingOut(
-                                        PassMarker.carModel.cid,
-                                        PassMarker.carModel.uid,
-                                        dateStart + '-' + dateEnd)
-                                    .book());
+                            if (dateStart == '' && dateEnd == '') {
+                              Fluttertoast.showToast(
+                                  msg: "No date choosen :(", fontSize: 20);
+                            } else {
+                              Navigator.pop(context, [dateStart, dateEnd]);
+                            }
                           }
                         } else {
-                          if (dateStart == '' && dateEnd == '') {
-                            Fluttertoast.showToast(
-                                msg: "No date choosen :(", fontSize: 20);
-                          } else {
-                            Navigator.pop(context, [dateStart, dateEnd]);
-                          }
+                          Fluttertoast.showToast(
+                              msg: "You are not connected on internet",
+                              fontSize: 20);
                         }
                       },
                       padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
