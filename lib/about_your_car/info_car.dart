@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state, avoid_print, must_be_immutable
+// ignore_for_file: no_logic_in_create_state, must_be_immutable, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,9 +41,8 @@ class _InfoCarState extends State<InfoCar> {
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
             title: Text(
-              carModel.vehicle.toString() + '-' + carModel.model.toString(),
-              style: TextStyle(fontSize: screenWidth * 0.07),
-            ),
+                carModel.vehicle.toString() + '-' + carModel.model.toString(),
+                style: TextStyle(fontSize: screenWidth * 0.07)),
             automaticallyImplyLeading: false,
             leading: IconButton(
                 icon: Icon(Icons.arrow_back, size: screenHeight * 0.04),
@@ -326,8 +325,8 @@ class _InfoCarState extends State<InfoCar> {
 
   String _positionString(String position) {
     String newPos = '';
-    List<String> splitted = position.split('-');
-    newPos = splitted[0].substring(0, 7) + '-' + splitted[1].substring(0, 7);
+    List<String> splitted = position.split(',');
+    newPos = splitted[0].substring(0, 7) + ',' + splitted[1].substring(0, 7);
     return newPos;
   }
 

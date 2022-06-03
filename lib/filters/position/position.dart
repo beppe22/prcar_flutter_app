@@ -42,6 +42,8 @@ class _Position extends State<Position> {
                         fontWeight: FontWeight.bold)),
                 IconButton(
                     onPressed: () {
+                      SearchCar.latSearch = '';
+                      SearchCar.lngSearch = '';
                       if (index) {
                         SearchCar.latSearch = lat.toString();
                         SearchCar.lngSearch = lng.toString();

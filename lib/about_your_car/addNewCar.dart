@@ -66,7 +66,7 @@ class _AddNewCarState extends State<AddNewCar> {
                   .then((data) {
                 setState(() {
                   car.position = SearchCar.latSearch.toString() +
-                      '-' +
+                      ',' +
                       SearchCar.lngSearch.toString();
                   positionString = data;
                 });
@@ -98,7 +98,7 @@ class _AddNewCarState extends State<AddNewCar> {
                   car.vehicle = SearchCar.vehicle;
                   car.model = SearchCar.model;
                   vehicleString =
-                      car.vehicle.toString() + '-' + car.model.toString();
+                      car.vehicle.toString() + ',' + car.model.toString();
                 });
               });
             },
@@ -274,7 +274,7 @@ class _AddNewCarState extends State<AddNewCar> {
                           int i = PassMarker.markerId;
                           PassMarker.markerId = PassMarker.markerId + 1;
                           String? carLatLng = car.position;
-                          final splitted = carLatLng!.split('-');
+                          final splitted = carLatLng!.split(',');
                           double lat = double.parse(splitted[0]);
                           double lng = double.parse(splitted[1]);
                           PassMarker.markerToPass.add(Marker(

@@ -31,12 +31,12 @@ class _Cars_userState extends State<Cars_user> {
                 onPressed: () {
                   Navigator.pop(context);
                 })),
-        body: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-              const SizedBox(height: 40),
+        body: SingleChildScrollView(
+            child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
               (cars.isEmpty)
                   ? Container(
                       height: 70,
@@ -59,6 +59,7 @@ class _Cars_userState extends State<Cars_user> {
                                 blurRadius: 2)
                           ]))
                   : ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: cars == [] ? 0 : cars.length,
                       itemBuilder: (context, index) {
@@ -115,7 +116,7 @@ class _Cars_userState extends State<Cars_user> {
                                           ]))
                                 ]));
                       })
-            ])),
+            ]))),
         floatingActionButton: FloatingActionButton(
             onPressed: () async {
               final newCars = await Navigator.push(context,

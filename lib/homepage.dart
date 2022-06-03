@@ -449,7 +449,7 @@ class _HomePageState extends State<HomePage> {
       List<CarModel> cars = await _fetchCar();
       for (int i = 0; i < cars.length; i++) {
         String? carLatLng = cars[i].position;
-        final splitted = carLatLng!.split('-');
+        final splitted = carLatLng!.split(',');
         double lat = double.parse(splitted[0]);
         double lng = double.parse(splitted[1]);
         setState(() {
@@ -483,7 +483,7 @@ class _HomePageState extends State<HomePage> {
       PassMarker.markerToPass = {};
       for (int i = 0; i < searchCar!.length; i++) {
         String? carLatLng = searchCar![i].position;
-        final splitted = carLatLng!.split('-');
+        final splitted = carLatLng!.split(',');
         double lat = double.parse(splitted[0]);
         double lng = double.parse(splitted[1]);
         setState(() {
