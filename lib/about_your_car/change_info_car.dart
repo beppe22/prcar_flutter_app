@@ -45,7 +45,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                   .then((data) {
                 setState(() {
                   modify.position = SearchCar.latSearch.toString() +
-                      '-' +
+                      ',' +
                       SearchCar.lngSearch.toString();
                   positionString = data;
                 });
@@ -240,8 +240,8 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
 
   String _printPosition(String position) {
     String newPos = '';
-    List<String> splitted = position.split('-');
-    newPos = splitted[0].substring(0, 7) + '-' + splitted[1].substring(0, 7);
+    List<String> splitted = position.split(',');
+    newPos = splitted[0].substring(0, 7) + ',' + splitted[1].substring(0, 7);
     return newPos;
   }
 
