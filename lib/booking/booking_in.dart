@@ -7,6 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 
+import '../chatImplementation/chatDetail.dart';
+
 class BookingInPage extends StatefulWidget {
   List<String> res;
   String bookingId;
@@ -197,6 +199,17 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                     Navigator.of(context).pop();
                                                                                   },
                                                                                   child: Text('Return', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
+                                                                                  shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                                                                )),
+                                                                            Container(
+                                                                                height: screenHeight * 0.09,
+                                                                                width: screenWidth * 0.7,
+                                                                                decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
+                                                                                child: MaterialButton(
+                                                                                  onPressed: () async {
+                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: 'ciao', friendUid: 'OxM82qiitOh0mQX7XwkckzehdAD2')));
+                                                                                  },
+                                                                                  child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                                   shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                                 ))
                                                                           ])));
