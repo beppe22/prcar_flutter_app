@@ -48,6 +48,7 @@ exports.eii= functions.firestore
       var payload = {
         "data" : {
           "bookId" : bookOut.bookingId,
+          "type" : 'booking',
         },
         "notification": {
             "title": "Car booked",
@@ -209,6 +210,7 @@ exports.statusChangingBookingOut = functions.firestore
         var payload = {
           "data" : {
             "bookId" : booking.bookingId,
+            "type" : 'booking',
           },
           "notification": {
               "title": "Booking canceled",
@@ -313,6 +315,7 @@ exports.statusChangingBookingIn = functions.firestore
         var payload = {
           "data" : {
             "bookId" : booking.bookingId,
+            "type" : 'booking',
           },
           "notification": {
               "title": "Booking canceled",
@@ -335,8 +338,9 @@ exports.chatMessage = functions.firestore
 .document('chats/{Idchat}/messages/{IdMessage}')
 .onCreate(async (snap, context) => {
 
-  //Retreive Id of the one who received a message
+  //Retreive Id and name of the one who received a message
   const friendId= snap.data().friendId;
+  const friendName= snap.data().friendName;
 
   //Retreive the name of who sent the message
   await db.collection('users').doc(snap.data().uid).get().then(async (value1) =>{
@@ -356,6 +360,8 @@ exports.chatMessage = functions.firestore
         var payload = {
           "data" : {
             "type" : 'message',
+            "friendId" : friendId,
+            "friendName" : friendName,
           },
           "notification": {
               "title": "Message arrived",
