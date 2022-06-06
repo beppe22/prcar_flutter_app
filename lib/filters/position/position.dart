@@ -20,6 +20,7 @@ class _Position extends State<Position> {
   final TextEditingController _searchcontroller = TextEditingController();
   String position = '';
   bool index = false;
+  Set<Marker> _markers = {};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,9 +85,11 @@ class _Position extends State<Position> {
           Expanded(
               child: GoogleMap(
                   mapType: MapType.normal,
+                  markers: _markers,
                   initialCameraPosition: const CameraPosition(
                       target: LatLng(45.47811155714095, 9.227444681728846),
                       zoom: 16),
+                  onTap: _handleTap,
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
                   }))
@@ -100,5 +103,25 @@ class _Position extends State<Position> {
     controller.moveCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(lat, lng), zoom: 16)));
     position = place['formatted_address'].toString();
+  }
+
+  _handleTap(LatLng point) {
+    setState(() {
+      _markers = {};
+      _markers.add(Marker(
+        markerId: MarkerId(point.toString()),
+        position: point,
+        infoWindow: const InfoWindow(
+          title: 'Location',
+        ),
+        icon:
+            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
+      ));
+      lat = point.latitude;
+      lng = point.longitude;
+      index = true;
+      position =
+          lat.toString().substring(0, 6) + ',' + lng.toString().substring(0, 6);
+    });
   }
 }

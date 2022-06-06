@@ -440,7 +440,7 @@ class _FiltersState extends State<Filters> {
   bool _nearbyPosition(String lat, String lng, String carsPos) {
     double lat1 = double.parse(lat) / 57.29577951;
     double lng1 = double.parse(lng) / 57.29577951;
-    final splitted = carsPos.split('-');
+    final splitted = carsPos.split(',');
     double lat2 = double.parse(splitted[0]) / 57.29577951;
     double lng2 = double.parse(splitted[1]) / 57.29577951;
     double distance = 3963.0 *
