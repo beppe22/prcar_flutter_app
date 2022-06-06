@@ -25,7 +25,7 @@ class _ChatDetailState extends State<ChatDetail> {
   final friendName;
   final currentUserId = FirebaseAuth.instance.currentUser?.uid;
   var chatDocId;
-  var _textController = TextEditingController();
+  var textController = TextEditingController();
   _ChatDetailState(this.friendUid, this.friendName);
   @override
   void initState() {
@@ -64,9 +64,10 @@ class _ChatDetailState extends State<ChatDetail> {
       'createdOn': FieldValue.serverTimestamp(),
       'uid': currentUserId,
       'friendName': friendName,
+      'friendId': friendUid,
       'msg': msg
     }).then((value) {
-      _textController.text = '';
+      textController.text = '';
     });
   }
 
@@ -194,13 +195,13 @@ class _ChatDetailState extends State<ChatDetail> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 18.0),
                           child: CupertinoTextField(
-                            controller: _textController,
+                            controller: textController,
                           ),
                         ),
                       ),
                       CupertinoButton(
                           child: const Icon(Icons.send_sharp),
-                          onPressed: () => sendMessage(_textController.text))
+                          onPressed: () => sendMessage(textController.text))
                     ],
                   )
                 ],
