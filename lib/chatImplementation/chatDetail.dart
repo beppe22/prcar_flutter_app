@@ -1,3 +1,5 @@
+// ignore_for_file: no_logic_in_create_state
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +12,8 @@ class ChatDetail extends StatefulWidget {
   final friendUid;
   final friendName;
 
-  ChatDetail({Key? key, this.friendUid, this.friendName}) : super(key: key);
+  const ChatDetail({Key? key, this.friendUid, this.friendName})
+      : super(key: key);
 
   @override
   _ChatDetailState createState() => _ChatDetailState(friendUid, friendName);
@@ -22,7 +25,7 @@ class _ChatDetailState extends State<ChatDetail> {
   final friendName;
   final currentUserId = FirebaseAuth.instance.currentUser?.uid;
   var chatDocId;
-  var _textController = new TextEditingController();
+  var _textController = TextEditingController();
   _ChatDetailState(this.friendUid, this.friendName);
   @override
   void initState() {
@@ -109,7 +112,7 @@ class _ChatDetailState extends State<ChatDetail> {
               trailing: CupertinoButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {},
-                child: Icon(CupertinoIcons.phone),
+                child: const Icon(CupertinoIcons.phone),
               ),
               previousPageTitle: "Back",
             ),
@@ -136,10 +139,10 @@ class _ChatDetailState extends State<ChatDetail> {
                                     : BubbleType.receiverBubble,
                               ),
                               alignment: getAlignment(data['uid'].toString()),
-                              margin: EdgeInsets.only(top: 20),
+                              margin: const EdgeInsets.only(top: 20),
                               backGroundColor: isSender(data['uid'].toString())
-                                  ? Color(0xFF08C187)
-                                  : Color(0xffE7E7ED),
+                                  ? const Color(0xFF08C187)
+                                  : const Color(0xffE7E7ED),
                               child: Container(
                                 constraints: BoxConstraints(
                                   maxWidth:

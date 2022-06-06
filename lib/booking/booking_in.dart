@@ -207,7 +207,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                 decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                                 child: MaterialButton(
                                                                                   onPressed: () async {
-                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: 'ciao', friendUid: 'OxM82qiitOh0mQX7XwkckzehdAD2')));
+                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: 'ciao', friendUid: PassMarker.uidFriend[index])));
                                                                                   },
                                                                                   child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                                   shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -285,9 +285,11 @@ class BookingInPageState extends State<BookingInPage> {
 
   _eliminationMessage(int i) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    final _auth = FirebaseAuth.instance;
+    User? user = _auth.currentUser;
     await firebaseFirestore
         .collection('users')
-        .doc(PassMarker.uid[i])
+        .doc(user!.uid)
         .collection('cars')
         .doc(PassMarker.cid[i])
         .collection('booking-in')
@@ -296,10 +298,12 @@ class BookingInPageState extends State<BookingInPage> {
   }
 
   _annulmentMessage(int i) async {
+    final _auth = FirebaseAuth.instance;
+    User? user = _auth.currentUser;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     await firebaseFirestore
         .collection('users')
-        .doc(PassMarker.uid[i])
+        .doc(user!.uid)
         .collection('cars')
         .doc(PassMarker.cid[i])
         .collection('booking-in')
@@ -328,7 +332,7 @@ class BookingInPageState extends State<BookingInPage> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
     List<String> otherRes = [];
-    PassMarker.uid = [];
+    PassMarker.uidFriend = [];
     PassMarker.cid = [];
     PassMarker.bookId = [];
     PassMarker.status = [];
@@ -359,7 +363,7 @@ class BookingInPageState extends State<BookingInPage> {
                     .doc(book.data()['cid'])
                     .get();
                 if (book.data()['status'] != 'e') {
-                  PassMarker.uid.add(user.uid);
+                  PassMarker.uidFriend.add(book.data()['uidBooking']);
                   PassMarker.cid.add(book.data()['cid']);
                   PassMarker.bookId.add(book.data()['bookingId']);
                   PassMarker.status.add(book.data()['status']);

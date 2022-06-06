@@ -285,7 +285,7 @@ class _HomePageState extends State<HomePage> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
     List<String> otherRes = [];
-    PassMarker.uid = [];
+    PassMarker.uidFriend = [];
     PassMarker.cid = [];
     PassMarker.bookId = [];
     PassMarker.status = [];
@@ -316,7 +316,7 @@ class _HomePageState extends State<HomePage> {
                     .doc(book.data()['cid'])
                     .get();
                 if (book.data()['status'] != 'e') {
-                  PassMarker.uid.add(user.uid);
+                  PassMarker.uidFriend.add(book.data()['uidBooking']);
                   PassMarker.cid.add(book.data()['cid']);
                   PassMarker.bookId.add(book.data()['bookingId']);
                   PassMarker.status.add(book.data()['status']);
