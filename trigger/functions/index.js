@@ -331,6 +331,56 @@ exports.statusChangingBookingIn = functions.firestore
   }
 })
 
+exports.chatMessage = functions.firestore
+.document('chats/{Idchat}/messages/{IdMessage}')
+.onCreate(async (snap, context) => {
+
+  //Retreive Id of the one who received a message
+  const friendId= snap.data().friendId;
+
+  //Retreive the name of who sent the message
+  await db.collection('users').doc(snap.data().uid).get().then(async (value1) =>{
+
+    const name = value1.data().firstName;
+
+    await db.collection('tokens').doc(friendId).get().then(async (value) => {
+    
+      if (value.empty) {
+          console.log('No Device');
+    
+      }else {
+        var tok = '';
+        
+        tok = value.data().token;
+        
+        var payload = {
+          "data" : {
+            "type" : 'message',
+          },
+          "notification": {
+              "title": "Message arrived",
+              "body": "You received a message from" + name,
+              "sound": "default"
+          }}
+      
+        return admin.messaging().sendToDevice(tok,payload).then((response) => {
+          console.log('Pushed them all');
+      }).catch((err) => {
+          console.log(err);
+      });
+      }
+        
+        });
+
+
+
+  } )
+
+  
+
+
+})
+
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
