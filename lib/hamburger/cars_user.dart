@@ -20,6 +20,8 @@ class _Cars_userState extends State<Cars_user> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -37,6 +39,7 @@ class _Cars_userState extends State<Cars_user> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+              SizedBox(height: screenHeight * 0.05),
               (cars.isEmpty)
                   ? Container(
                       height: 70,

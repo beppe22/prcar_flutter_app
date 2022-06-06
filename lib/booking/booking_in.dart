@@ -139,6 +139,19 @@ class BookingInPageState extends State<BookingInPage> {
                                                                             Container(
                                                                                 height: screenHeight * 0.09,
                                                                                 width: screenWidth * 0.7,
+                                                                                decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
+                                                                                child: MaterialButton(
+                                                                                  onPressed: () async {
+                                                                                    String nameFriend = (UserModel.fromMap(await FirebaseFirestore.instance.collection('users').doc(PassMarker.uidFriend[index]).get())).firstName!;
+                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index])));
+                                                                                  },
+                                                                                  child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
+                                                                                  shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                                                                )),
+                                                                            SizedBox(height: screenHeight * 0.03),
+                                                                            Container(
+                                                                                height: screenHeight * 0.09,
+                                                                                width: screenWidth * 0.7,
                                                                                 decoration: BoxDecoration(color: _colorAnulment(index), border: Border.all(width: 5.0, color: Colors.grey)),
                                                                                 child: MaterialButton(
                                                                                   onPressed: () async {
@@ -200,18 +213,6 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                     Navigator.of(context).pop();
                                                                                   },
                                                                                   child: Text('Return', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
-                                                                                  shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                                                                                )),
-                                                                            Container(
-                                                                                height: screenHeight * 0.09,
-                                                                                width: screenWidth * 0.7,
-                                                                                decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
-                                                                                child: MaterialButton(
-                                                                                  onPressed: () async {
-                                                                                    String nameFriend = (UserModel.fromMap(await FirebaseFirestore.instance.collection('users').doc(PassMarker.uidFriend[index]).get())).firstName!;
-                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index])));
-                                                                                  },
-                                                                                  child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                                   shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                                 ))
                                                                           ])));

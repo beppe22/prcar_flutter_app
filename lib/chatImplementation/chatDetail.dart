@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state
+// ignore_for_file: no_logic_in_create_state, file_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,8 +44,6 @@ class _ChatDetailState extends State<ChatDetail> {
               setState(() {
                 chatDocId = querySnapshot.docs.single.id;
               });
-
-              print(chatDocId);
             } else {
               await chats.add({
                 'users': {currentUserId: null, friendUid: null},
@@ -99,24 +97,22 @@ class _ChatDetailState extends State<ChatDetail> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: Text("Loading"),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (snapshot.hasData) {
           var data;
-          return CupertinoPageScaffold(
-            navigationBar: CupertinoNavigationBar(
-              middle: Text(friendName),
-              trailing: CupertinoButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {},
-                child: const Icon(CupertinoIcons.phone),
-              ),
-              previousPageTitle: "Back",
-            ),
-            child: SafeArea(
+          return Scaffold(
+            appBar: AppBar(
+                backgroundColor: Colors.redAccent,
+                title: Text(friendName, style: const TextStyle(fontSize: 20)),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    })),
+            body: SafeArea(
               child: Column(
                 children: [
                   Expanded(
@@ -125,8 +121,6 @@ class _ChatDetailState extends State<ChatDetail> {
                       children: snapshot.data!.docs.map(
                         (DocumentSnapshot document) {
                           data = document.data()!;
-                          print(document.toString());
-                          print(data['msg']);
                           return Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
@@ -141,8 +135,8 @@ class _ChatDetailState extends State<ChatDetail> {
                               alignment: getAlignment(data['uid'].toString()),
                               margin: const EdgeInsets.only(top: 20),
                               backGroundColor: isSender(data['uid'].toString())
-                                  ? const Color(0xFF08C187)
-                                  : const Color(0xffE7E7ED),
+                                  ? Colors.redAccent
+                                  : Colors.grey.shade200,
                               child: Container(
                                 constraints: BoxConstraints(
                                   maxWidth:
@@ -154,14 +148,16 @@ class _ChatDetailState extends State<ChatDetail> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        Text(data['msg'],
-                                            style: TextStyle(
-                                                color: isSender(
-                                                        data['uid'].toString())
-                                                    ? Colors.white
-                                                    : Colors.black),
-                                            maxLines: 100,
-                                            overflow: TextOverflow.ellipsis)
+                                        Flexible(
+                                            child: Text(data['msg'],
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: isSender(data['uid']
+                                                            .toString())
+                                                        ? Colors.white
+                                                        : Colors.black),
+                                                maxLines: 100,
+                                                overflow: TextOverflow.fade))
                                       ],
                                     ),
                                     Row(
@@ -174,7 +170,7 @@ class _ChatDetailState extends State<ChatDetail> {
                                                   .toDate()
                                                   .toString(),
                                           style: TextStyle(
-                                              fontSize: 10,
+                                              fontSize: 14,
                                               color: isSender(
                                                       data['uid'].toString())
                                                   ? Colors.white
