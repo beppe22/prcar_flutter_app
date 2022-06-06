@@ -360,8 +360,8 @@ exports.chatMessage = functions.firestore
         var payload = {
           "data" : {
             "type" : 'message',
-            "friendId" : friendId,
-            "friendName" : friendName,
+            "friendId" : snap.data().uid,
+            "friendName" : name,
           },
           "notification": {
               "title": "Message arrived",
