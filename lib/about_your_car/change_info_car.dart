@@ -182,8 +182,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  CarModel valueNull = carModel;
-                  Navigator.pop(context, valueNull);
+                  Navigator.pop(context, carModel);
                 }),
             actions: [
               Row(children: [
@@ -253,12 +252,12 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
         .collection('cars')
         .doc(car.cid)
         .update({
-      'fuel': modify.fuel,
-      'price': modify.price,
-      'position': modify.position,
-      'seats': modify.seats,
-      'veicol': modify.vehicle,
-      'model': modify.model
+      'fuel': car.fuel,
+      'price': car.price,
+      'position': car.position,
+      'seats': car.seats,
+      'veicol': car.vehicle,
+      'model': car.model
     });
   }
 }

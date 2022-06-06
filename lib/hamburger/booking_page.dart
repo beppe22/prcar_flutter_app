@@ -26,7 +26,7 @@ class MessagePageState extends State<MessagePage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('Messages'),
+            title: const Text('All Booking'),
             automaticallyImplyLeading: false,
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
