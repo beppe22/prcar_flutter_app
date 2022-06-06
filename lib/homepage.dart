@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/booking/booking_in.dart';
+import 'package:prcarpolimi/chatImplementation/chatDetail.dart';
 import 'package:prcarpolimi/hamburger/configuration.dart';
 import 'package:prcarpolimi/hamburger/infoAccount.dart';
 import 'package:prcarpolimi/hamburger/booking_page.dart';
@@ -62,14 +63,23 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           messages.add(message.notification!.body.toString());
         });
-        List<String> bookIn = await _fetchOtherRes();
-        //bookingId in input
-        String bookingId = message.data["bookId"];
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    BookingInPage(bookingId: bookingId, res: bookIn)));
+        if (message.data["type"] == 'booking') {
+          List<String> bookIn = await _fetchOtherRes();
+          //bookingId in input
+          String bookingId = message.data["bookId"];
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      BookingInPage(bookingId: bookingId, res: bookIn)));
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChatDetail(
+                      friendName: message.data['friendName'],
+                      friendUid: message.data['friendId'])));
+        }
       });
     }
   }
@@ -236,41 +246,79 @@ class _HomePageState extends State<HomePage> {
       FirebaseMessaging.onMessage.listen((RemoteMessage event) {
         print("message recieved");
         print(event.notification!.body);
-        print(event.data["bookId"]);
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-                    title: Text(event.notification!.body.toString(),
-                        style: const TextStyle(
-                            fontSize: 28,
-                            color: Colors.redAccent,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center),
-                    actions: <Widget>[
-                      Row(children: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('Close',
-                                style: TextStyle(fontSize: 24))),
-                        const SizedBox(width: 110),
-                        TextButton(
-                            onPressed: () async {
-                              List<String> bookIn = await _fetchOtherRes();
-                              //bookingId in input
-                              String bookingId = event.data["bookId"];
-                              await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BookingInPage(
-                                          bookingId: bookingId, res: bookIn)));
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('Go!',
-                                style: TextStyle(fontSize: 24))),
-                      ])
-                    ]));
+        //print(event.data["bookId"]);
+        if (event.data['type'] == 'booking') {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                      title: Text(event.notification!.body.toString(),
+                          style: const TextStyle(
+                              fontSize: 28,
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center),
+                      actions: <Widget>[
+                        Row(children: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Close',
+                                  style: TextStyle(fontSize: 24))),
+                          const SizedBox(width: 110),
+                          TextButton(
+                              onPressed: () async {
+                                List<String> bookIn = await _fetchOtherRes();
+                                //bookingId in input
+                                String bookingId = event.data["bookId"];
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BookingInPage(
+                                            bookingId: bookingId,
+                                            res: bookIn)));
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Go!',
+                                  style: TextStyle(fontSize: 24))),
+                        ])
+                      ]));
+        } else {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                      title: Text(event.notification!.body.toString(),
+                          style: const TextStyle(
+                              fontSize: 28,
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center),
+                      actions: <Widget>[
+                        Row(children: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Close',
+                                  style: TextStyle(fontSize: 24))),
+                          const SizedBox(width: 110),
+                          TextButton(
+                              onPressed: () async {
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ChatDetail(
+                                            friendName:
+                                                event.data['friendName'],
+                                            friendUid:
+                                                event.data['friendId'])));
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Go!',
+                                  style: TextStyle(fontSize: 24))),
+                        ])
+                      ]));
+        }
         setState(() {
           messages.add(event.notification!.body.toString());
         });
