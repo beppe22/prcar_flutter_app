@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/models/userModel.dart';
 
 import '../chatImplementation/chatDetail.dart';
 
@@ -207,7 +208,8 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                 decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                                 child: MaterialButton(
                                                                                   onPressed: () async {
-                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: 'ciao', friendUid: PassMarker.uidFriend[index])));
+                                                                                    String nameFriend = (UserModel.fromMap(await FirebaseFirestore.instance.collection('users').doc(PassMarker.uidFriend[index]).get())).firstName!;
+                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index])));
                                                                                   },
                                                                                   child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                                   shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
