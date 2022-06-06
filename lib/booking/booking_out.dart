@@ -207,7 +207,8 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                 BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                             child: MaterialButton(
                                                                               onPressed: () async {
-                                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: 'ciao', friendUid: 'ElLKXX1ddNgfwtMThtRmq7pw8l42')));
+                                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => 
+                                                                                ChatDetail(friendName: 'ciao', friendUid: 'ElLKXX1ddNgfwtMThtRmq7pw8l42')));
                                                                               },
                                                                               child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                               shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),

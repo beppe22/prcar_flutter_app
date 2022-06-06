@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:prcarpolimi/models/booking_model.dart';
 
 class BookingOut {
-  late String? uid;
+  late String? uid; //Id of the owner of the car
   late String? cid;
   late String? date;
 
@@ -23,7 +23,6 @@ class BookingOut {
         await firebaseFirestore
             .collection('users')
             .doc(user.uid)
-            //quando non ci sono macchine da errore
             .collection('booking-out')
             .doc(bookingId)
             .set(BookingModel(
