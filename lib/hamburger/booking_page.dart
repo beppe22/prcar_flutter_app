@@ -96,7 +96,7 @@ class MessagePageState extends State<MessagePage> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
     List<String> myRes = [];
-    PassMarker.uid = [];
+    PassMarker.uidFriend = [];
     PassMarker.cid = [];
     PassMarker.bookId = [];
     PassMarker.status = [];
@@ -119,7 +119,7 @@ class MessagePageState extends State<MessagePage> {
               .doc(bookOut.data()['cid'])
               .get();
           if (bookOut.data()['status'] != 'e') {
-            PassMarker.uid.add(user.uid);
+            PassMarker.uidFriend.add(bookOut.data()['uidOwner']);
             PassMarker.cid.add(bookOut.data()['cid']);
             PassMarker.bookId.add(bookOut.data()['bookingId']);
             PassMarker.status.add(bookOut.data()['status']);
@@ -141,7 +141,7 @@ class MessagePageState extends State<MessagePage> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
     List<String> otherRes = [];
-    PassMarker.uid = [];
+    PassMarker.uidFriend = [];
     PassMarker.cid = [];
     PassMarker.bookId = [];
     PassMarker.status = [];
@@ -172,7 +172,7 @@ class MessagePageState extends State<MessagePage> {
                     .doc(book.data()['cid'])
                     .get();
                 if (book.data()['status'] != 'e') {
-                  PassMarker.uid.add(user.uid);
+                  PassMarker.uidFriend.add(book.data()['uidBooking']);
                   PassMarker.cid.add(book.data()['cid']);
                   PassMarker.bookId.add(book.data()['bookingId']);
                   PassMarker.status.add(book.data()['status']);

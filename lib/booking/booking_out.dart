@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -207,7 +208,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                 BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                             child: MaterialButton(
                                                                               onPressed: () async {
-                                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: 'ciao', friendUid: 'ElLKXX1ddNgfwtMThtRmq7pw8l42')));
+                                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: 'ciao', friendUid: PassMarker.uidFriend[index])));
                                                                               },
                                                                               child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                               shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -283,10 +284,12 @@ class BookingOutPageState extends State<BookingOutPage> {
   }
 
   _eliminationMessage(int i) async {
+    final _auth = FirebaseAuth.instance;
+    User? user = _auth.currentUser;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     await firebaseFirestore
         .collection('users')
-        .doc(PassMarker.uid[i])
+        .doc(user!.uid)
         .collection('booking-out')
         .doc(PassMarker.bookId[i])
         .update({'status': 'e'});
@@ -294,9 +297,11 @@ class BookingOutPageState extends State<BookingOutPage> {
 
   _annulmentMessage(int i) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    final _auth = FirebaseAuth.instance;
+    User? user = _auth.currentUser;
     await firebaseFirestore
         .collection('users')
-        .doc(PassMarker.uid[i])
+        .doc(user!.uid)
         .collection('booking-out')
         .doc(PassMarker.bookId[i])
         .update({'status': 'a'});

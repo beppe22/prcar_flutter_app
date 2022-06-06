@@ -9,7 +9,7 @@ class PassMarker {
   static bool from = true;
   static bool hpOrNot = true;
   static List<String> cid = [];
-  static List<String> uid = [];
+  static List<String> uidFriend = [];
   static List<String> bookId = [];
   static List<String> status = [];
   static int photoCount = 0;
