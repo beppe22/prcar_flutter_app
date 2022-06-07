@@ -67,6 +67,7 @@ class _AddNewCarState extends State<AddNewCar> {
                       MaterialPageRoute(builder: (context) => const Position()))
                   .then((data) {
                 setState(() {
+                  print(data);
                   car.position = SearchCar.latSearch.toString() +
                       ',' +
                       SearchCar.lngSearch.toString();
@@ -77,12 +78,15 @@ class _AddNewCarState extends State<AddNewCar> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Position: " + positionString.toString(),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold))));
+            child: Expanded(
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text("Position: " + positionString.toString(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold))))));
 
 //vehicle button field
     final vehicleButton = Container(
@@ -111,12 +115,15 @@ class _AddNewCarState extends State<AddNewCar> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Vehicle: " + vehicleString,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold))));
+            child: Expanded(
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text("Vehicle: " + vehicleString,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold))))));
 
     //seats button field
     final seatsButton = Container(

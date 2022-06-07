@@ -104,12 +104,15 @@ class _FiltersState extends State<Filters> {
                 screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Position: " + search.position.toString(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: screenText * 22,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold))));
+            child: Expanded(
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text("Position: " + search.position.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: screenText * 22,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold))))));
 
 //vehicle button field
     final vehicleButton = Container(
