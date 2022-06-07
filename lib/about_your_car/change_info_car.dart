@@ -13,7 +13,7 @@ import 'package:prcarpolimi/models/car_parameter.dart';
 
 class ChangeInfoCar extends StatefulWidget {
   CarModel carModel;
-  ChangeInfoCar(this.carModel, {Key? key}) : super(key: key);
+  ChangeInfoCar({Key? key, required this.carModel}) : super(key: key);
   @override
   State<ChangeInfoCar> createState() => _ChangeInfoCarState(carModel);
 }
@@ -26,12 +26,16 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
   @override
   void initState() {
     super.initState();
+    SearchCar.vehicle = carModel.vehicle!;
+    SearchCar.model = carModel.model!;
     modify = carModel;
   }
 
   @override
   Widget build(BuildContext context) {
-    String positionString = modify.position.toString();
+    String vehicleString =
+        carModel.vehicle.toString() + '-' + carModel.model.toString();
+    String positionString = carModel.position.toString();
     final positionButton = Container(
         width: double.maxFinite,
         height: 50,
@@ -44,10 +48,13 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                       MaterialPageRoute(builder: (context) => const Position()))
                   .then((data) {
                 setState(() {
-                  modify.position = SearchCar.latSearch.toString() +
-                      ',' +
-                      SearchCar.lngSearch.toString();
-                  positionString = data;
+                  if (data != '') {
+                    modify.position = SearchCar.latSearch.toString() +
+                        ',' +
+                        SearchCar.lngSearch.toString();
+
+                    positionString = data;
+                  }
                 });
               });
             },
@@ -74,19 +81,20 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                       MaterialPageRoute(builder: (context) => const Vehicle()))
                   .then((data) {
                 setState(() {
-                  modify.vehicle = SearchCar.vehicle;
-                  modify.model = SearchCar.model;
+                  if (SearchCar.latSearch != '' && SearchCar.lngSearch != '') {
+                    modify.vehicle = SearchCar.vehicle;
+                    modify.model = SearchCar.model;
+                    vehicleString = modify.vehicle.toString() +
+                        '-' +
+                        modify.model.toString();
+                  }
                 });
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text(
-                "Vehicle: " +
-                    modify.vehicle.toString() +
-                    '-' +
-                    modify.model.toString(),
+            child: Text("Vehicle: " + vehicleString,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -106,7 +114,9 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                       MaterialPageRoute(builder: (context) => const Seats()))
                   .then((data) {
                 setState(() {
-                  modify.seats = data;
+                  if (data != '') {
+                    modify.seats = data;
+                  }
                 });
               });
             },
@@ -133,7 +143,9 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                       MaterialPageRoute(builder: (context) => const Fuel()))
                   .then((data) {
                 setState(() {
-                  modify.fuel = data;
+                  if (data != '') {
+                    modify.fuel = data;
+                  }
                 });
               });
             },
@@ -160,7 +172,9 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                       MaterialPageRoute(builder: (context) => const Price()))
                   .then((data) {
                 setState(() {
-                  modify.price = data;
+                  if (data != '') {
+                    modify.price = data;
+                  }
                 });
               });
             },
@@ -177,11 +191,12 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('PrCar'),
+            title: const Text('Change Car'),
             automaticallyImplyLeading: false,
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
+                  setState(() {});
                   Navigator.pop(context, carModel);
                 }),
             actions: [
@@ -239,8 +254,10 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
 
   String _printPosition(String position) {
     String newPos = '';
-    List<String> splitted = position.split(',');
-    newPos = splitted[0].substring(0, 7) + ',' + splitted[1].substring(0, 7);
+    if (position != '') {
+      List<String> splitted = position.split(',');
+      newPos = splitted[0].substring(0, 7) + ',' + splitted[1].substring(0, 7);
+    }
     return newPos;
   }
 

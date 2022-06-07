@@ -140,7 +140,7 @@ class _InfoCarState extends State<InfoCar> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      ChangeInfoCar(carModel)));
+                                      ChangeInfoCar(carModel: carModel)));
                           if (newCar != CarModel()) {
                             setState(() {
                               carModel = newCar;

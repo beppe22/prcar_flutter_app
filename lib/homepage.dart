@@ -448,7 +448,7 @@ class _HomePageState extends State<HomePage> {
   }
 
 //Function that fecth only user's car
-  static Future<List<CarModel>> _fetchInfoCar() async {
+  Future<List<CarModel>> _fetchInfoCar() async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     final _auth = FirebaseAuth.instance;
     User? user = _auth.currentUser;
