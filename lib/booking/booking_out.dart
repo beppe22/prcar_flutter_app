@@ -27,15 +27,16 @@ class BookingOutPageState extends State<BookingOutPage> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
             title: Text('Booking-Out',
-                style: TextStyle(fontSize: screenWidth * 0.06)),
+                style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context);
                 })),
@@ -132,7 +133,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                             child: MaterialButton(
                                                                               onPressed: () async {
                                                                                 String nameFriend = (UserModel.fromMap(await FirebaseFirestore.instance.collection('users').doc(PassMarker.uidFriend[index]).get())).firstName!;
-                                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index], hp:false)));
+                                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index], hp: false)));
                                                                               },
                                                                               child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                               shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -200,23 +201,6 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                 }
                                                                               },
                                                                               child: Text('Elimination', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
-                                                                              shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                                                                            )),
-                                                                        SizedBox(
-                                                                            height:
-                                                                                screenHeight * 0.03),
-                                                                        Container(
-                                                                            height: screenHeight *
-                                                                                0.09,
-                                                                            width: screenWidth *
-                                                                                0.7,
-                                                                            decoration:
-                                                                                BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
-                                                                            child: MaterialButton(
-                                                                              onPressed: () async {
-                                                                                Navigator.of(context).pop();
-                                                                              },
-                                                                              child: Text('Return', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                               shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                             ))
                                                                       ])));

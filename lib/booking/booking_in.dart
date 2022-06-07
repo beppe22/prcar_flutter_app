@@ -36,17 +36,18 @@ class BookingInPageState extends State<BookingInPage> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: Text('Booking-In',
-                style: TextStyle(fontSize: screenWidth * 0.06)),
+            title:
+                Text('Booking-In', style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
                 icon: fromHp
-                    ? const Icon(Icons.cancel)
-                    : const Icon(Icons.arrow_back),
+                    ? Icon(Icons.cancel, size: screenText * 25)
+                    : Icon(Icons.arrow_back, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context);
                 })),
@@ -73,14 +74,17 @@ class BookingInPageState extends State<BookingInPage> {
                           child: Container(
                               height: screenHeight * 0.1,
                               width: screenWidth * 0.9,
-                              child: const Text('No messages yet :(',
+                              child: Text('No messages yet :(',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.redAccent,
-                                      fontSize: 24,
+                                      fontSize: screenText * 24,
                                       fontWeight: FontWeight.bold)),
-                              padding:
-                                  const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                              padding: EdgeInsets.fromLTRB(
+                                  screenWidth * 0.02,
+                                  screenHeight * 0.02,
+                                  screenWidth * 0.02,
+                                  screenHeight * 0.02),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
                                   border: Border.all(
@@ -131,8 +135,8 @@ class BookingInPageState extends State<BookingInPage> {
                                                                           style: TextStyle(
                                                                               color: Colors
                                                                                   .redAccent,
-                                                                              fontSize: screenWidth *
-                                                                                  0.08,
+                                                                              fontSize: screenText *
+                                                                                  25,
                                                                               fontWeight: FontWeight
                                                                                   .bold),
                                                                           textAlign: TextAlign
@@ -154,7 +158,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                     String nameFriend = (UserModel.fromMap(await FirebaseFirestore.instance.collection('users').doc(PassMarker.uidFriend[index]).get())).firstName!;
                                                                                     Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index], hp: false)));
                                                                                   },
-                                                                                  child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
+                                                                                  child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
                                                                                   shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                                 )),
                                                                             SizedBox(height: screenHeight * 0.03),
@@ -185,7 +189,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                       Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
                                                                                     }
                                                                                   },
-                                                                                  child: Text('Annulment', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
+                                                                                  child: Text('Annulment', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
                                                                                   shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                                 )),
                                                                             SizedBox(height: screenHeight * 0.03),
@@ -209,35 +213,23 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                       Fluttertoast.showToast(msg: 'Impossible operation: you can\'t eliminate this message while the reservation isn\'t finished :(', fontSize: 20);
                                                                                     }
                                                                                   },
-                                                                                  child: Text('Elimination', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
+                                                                                  child: Text('Elimination', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
                                                                                   shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                                 )),
-                                                                            SizedBox(height: screenHeight * 0.03),
-                                                                            Container(
-                                                                                height: screenHeight * 0.09,
-                                                                                width: screenWidth * 0.7,
-                                                                                decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
-                                                                                child: MaterialButton(
-                                                                                  onPressed: () async {
-                                                                                    Navigator.of(context).pop();
-                                                                                  },
-                                                                                  child: Text('Return', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
-                                                                                  shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                                                                                ))
                                                                           ])));
                                                     },
-                                                    child: Text(_seeReservation(index, res[index]),
+                                                    child: Text(
+                                                        _seeReservation(
+                                                            index, res[index]),
                                                         textAlign:
                                                             TextAlign.start,
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             fontSize:
-                                                                screenWidth *
-                                                                    0.05,
+                                                                screenText * 20,
                                                             color: _colorReservation(
-                                                                index,
-                                                                bookingId))))),
+                                                                index, bookingId))))),
                                                 decoration: BoxDecoration(
                                                     border: Border.all(
                                                         width: 5.0,
@@ -325,7 +317,7 @@ class BookingInPageState extends State<BookingInPage> {
 
   _colorAnulment(int i) {
     if (PassMarker.status[i] == 'a') {
-      return Colors.black;
+      return Colors.red.shade100;
     } else {
       return Colors.redAccent;
     }

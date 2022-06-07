@@ -60,7 +60,6 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                     positionString = SearchCar.latSearch.toString() +
                         ',' +
                         SearchCar.lngSearch.toString();
-                    positionString = data;
                   }
                 });
               });
