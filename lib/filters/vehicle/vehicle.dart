@@ -15,14 +15,18 @@ class Vehicle extends StatefulWidget {
 class _VehicleState extends State<Vehicle> {
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text("Vehicle"),
+            title: Text("Vehicle", style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back,
+                    color: Colors.white, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context, '');
                 })),
@@ -40,10 +44,10 @@ class _VehicleState extends State<Vehicle> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const SizedBox(height: 35),
+                            SizedBox(height: screenHeight * 0.035),
                             Container(
-                                width: 350,
-                                height: 70,
+                                width: screenWidth * 0.87,
+                                height: screenHeight * 0.1,
                                 decoration: BoxDecoration(
                                     color: Colors.redAccent,
                                     borderRadius: BorderRadius.circular(20)),
@@ -63,8 +67,8 @@ class _VehicleState extends State<Vehicle> {
                                           child: Text(
                                               items[index].brand.toString(),
                                               textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontSize: 20,
+                                              style: TextStyle(
+                                                  fontSize: screenText * 20,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white)))
                                     ]))

@@ -13,6 +13,7 @@ class MapBottomPill extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Container(
         margin: EdgeInsets.all(screenWidth * 0.02),
         padding: EdgeInsets.all(screenWidth * 0.08),
@@ -39,13 +40,13 @@ class MapBottomPill extends StatelessWidget {
                   Text('Selected car, click below for',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: screenWidth * 0.037,
+                          fontSize: screenText * 12,
                           color: Colors.black87,
                           fontWeight: FontWeight.bold)),
                   Text('more details: ',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: screenWidth * 0.037,
+                          fontSize: screenText * 12,
                           color: Colors.black87,
                           fontWeight: FontWeight.bold)),
                   Container(
@@ -56,7 +57,7 @@ class MapBottomPill extends StatelessWidget {
                           right: screenWidth * 0.005,
                           bottom: screenHeight * 0.005),
                       decoration: BoxDecoration(
-                          color: Colors.grey,
+                          color: Colors.purple,
                           borderRadius: BorderRadius.circular(20)),
                       child: ElevatedButton(
                           onPressed: () async {
@@ -77,7 +78,7 @@ class MapBottomPill extends StatelessWidget {
                                                 child: Text('Car Information',
                                                     style: TextStyle(
                                                         fontSize:
-                                                            screenWidth * 0.08,
+                                                            screenText * 25,
                                                         fontWeight:
                                                             FontWeight.bold))),
                                             SizedBox(
@@ -88,35 +89,40 @@ class MapBottomPill extends StatelessWidget {
                                                     .toString(),
                                                 'VEHICLE',
                                                 screenWidth,
-                                                screenHeight),
+                                                screenHeight,
+                                                screenText),
                                             _buildRow(
                                                 'assets/choc.png',
                                                 PassMarker.carModel.model
                                                     .toString(),
                                                 'MODEL',
                                                 screenWidth,
-                                                screenHeight),
+                                                screenHeight,
+                                                screenText),
                                             _buildRow(
                                                 'assets/choc.png',
                                                 PassMarker.carModel.fuel
                                                     .toString(),
                                                 'FUEL',
                                                 screenWidth,
-                                                screenHeight),
+                                                screenHeight,
+                                                screenText),
                                             _buildRow(
                                                 'assets/choc.png',
                                                 PassMarker.carModel.seats
                                                     .toString(),
                                                 'SEATS',
                                                 screenWidth,
-                                                screenHeight),
+                                                screenHeight,
+                                                screenText),
                                             _buildRow(
                                                 'assets/choc.png',
                                                 PassMarker.carModel.price
                                                     .toString(),
                                                 'PRICE FOR DAY',
                                                 screenWidth,
-                                                screenHeight),
+                                                screenHeight,
+                                                screenText),
                                             SizedBox(
                                                 height: screenHeight * 0.02),
                                             FloatingActionButton(
@@ -147,14 +153,14 @@ class MapBottomPill extends StatelessWidget {
                                                 },
                                                 backgroundColor:
                                                     Colors.redAccent,
-                                                child: const Icon(
-                                                    Icons.photo_album)),
+                                                child: Icon(Icons.photo_album,
+                                                    size: screenText * 25)),
                                             SizedBox(
                                                 height: screenHeight * 0.04),
                                             Container(
                                                 child: MaterialButton(
                                                     height: screenHeight * 0.07,
-                                                    minWidth: screenWidth * 0.6,
+                                                    minWidth: screenWidth * 0.4,
                                                     color: Colors.redAccent,
                                                     onPressed: () async {
                                                       if (PassMarker
@@ -182,30 +188,32 @@ class MapBottomPill extends StatelessWidget {
                                                           Fluttertoast.showToast(
                                                               msg:
                                                                   'Something went wrong, try again later',
-                                                              fontSize: 18);
+                                                              fontSize: 20);
                                                         }
                                                       } else {
                                                         Fluttertoast.showToast(
                                                             msg:
                                                                 'No driving license info inserted. Go to configuration for more details',
-                                                            fontSize: 18);
+                                                            fontSize: 20);
                                                       }
                                                     },
                                                     child: Text("Reserve",
                                                         style: TextStyle(
                                                             color: Colors.white,
                                                             fontSize:
-                                                                screenWidth *
-                                                                    0.08))),
+                                                                screenText *
+                                                                    23))),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.deepPurple,
+                                                    color: Colors
+                                                        .deepPurple.shade200,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             12),
-                                                    boxShadow: const [
+                                                    boxShadow: [
                                                       BoxShadow(
-                                                          color:
-                                                              Colors.deepPurple,
+                                                          color: Colors
+                                                              .deepPurple
+                                                              .shade300,
                                                           spreadRadius: 6,
                                                           blurRadius: 3)
                                                     ])),
@@ -214,7 +222,7 @@ class MapBottomPill extends StatelessWidget {
                                             Container(
                                                 child: MaterialButton(
                                                     height: screenHeight * 0.07,
-                                                    minWidth: screenWidth * 0.6,
+                                                    minWidth: screenWidth * 0.4,
                                                     color: Colors.redAccent,
                                                     onPressed: () async {
                                                       Navigator.pop(
@@ -224,17 +232,19 @@ class MapBottomPill extends StatelessWidget {
                                                         style: TextStyle(
                                                             color: Colors.white,
                                                             fontSize:
-                                                                screenWidth *
-                                                                    0.08))),
+                                                                screenText *
+                                                                    23))),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.deepPurple,
+                                                    color: Colors
+                                                        .deepPurple.shade200,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             12),
-                                                    boxShadow: const [
+                                                    boxShadow: [
                                                       BoxShadow(
-                                                          color:
-                                                              Colors.deepPurple,
+                                                          color: Colors
+                                                              .deepPurple
+                                                              .shade300,
                                                           spreadRadius: 6,
                                                           blurRadius: 3)
                                                     ]))
@@ -242,14 +252,14 @@ class MapBottomPill extends StatelessWidget {
                                 });
                           },
                           child: Text('Reserve',
-                              style: TextStyle(fontSize: screenWidth * 0.03)))),
+                              style: TextStyle(fontSize: screenText * 14)))),
                 ], mainAxisAlignment: MainAxisAlignment.center)
               ]))
         ]));
   }
 
   Widget _buildRow(String imageAsset, String value, String type,
-      double screenWidth, double screenHeight) {
+      double screenWidth, double screenHeight, double screenText) {
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.008),
         child: Column(children: <Widget>[
@@ -258,19 +268,20 @@ class MapBottomPill extends StatelessWidget {
             SizedBox(width: screenWidth * 0.005),
             Text(
               type.toUpperCase(),
-              style: TextStyle(fontSize: screenWidth * 0.055),
+              style: TextStyle(fontSize: screenText * 16),
             ),
             const Spacer(),
             Container(
                 decoration: BoxDecoration(
-                    color: Colors.yellow[900],
+                    color: const Color.fromARGB(
+                        255, 223, 162, 108), //Colors.yellow[900],
                     borderRadius: BorderRadius.circular(20)),
                 padding: EdgeInsets.symmetric(
                     vertical: screenHeight * 0.012,
                     horizontal: screenWidth * 0.06),
                 child: Text(
                   value,
-                  style: TextStyle(fontSize: screenWidth * 0.055),
+                  style: TextStyle(fontSize: screenText * 16),
                 ))
           ])
         ]));

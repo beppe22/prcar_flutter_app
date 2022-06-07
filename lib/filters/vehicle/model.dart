@@ -18,13 +18,17 @@ class _ModelsState extends State<Models> {
   _ModelsState(this.indice);
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text("Models"),
+            title: Text("Models", style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back,
+                    color: Colors.white, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context, '');
                 })),
@@ -43,10 +47,10 @@ class _ModelsState extends State<Models> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const SizedBox(height: 35),
+                            SizedBox(height: screenHeight * 0.035),
                             Container(
-                                width: 350,
-                                height: 70,
+                                width: screenWidth * 0.87,
+                                height: screenHeight * 0.1,
                                 decoration: BoxDecoration(
                                     color: Colors.redAccent,
                                     borderRadius: BorderRadius.circular(20)),
@@ -67,8 +71,8 @@ class _ModelsState extends State<Models> {
                                           },
                                           child: Text(
                                               modelNames![index].toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 20,
+                                              style: TextStyle(
+                                                  fontSize: screenText * 20,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white)))
                                     ]))

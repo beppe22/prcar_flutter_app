@@ -87,19 +87,23 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     GoogleMapController _controller;
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
             appBar: AppBar(
-                title: const Text("PrCar"),
+                title:
+                    Text("PrCar", style: TextStyle(fontSize: screenText * 20)),
                 backgroundColor: Colors.redAccent,
                 actions: [
                   !PassMarker.from
                       ? Row(children: [
-                          const Text('Clear filter!',
+                          Text('Clear filter!',
                               style: TextStyle(
-                                  fontSize: 17,
+                                  fontSize: screenText * 15,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                           IconButton(
@@ -107,12 +111,13 @@ class _HomePageState extends State<HomePage> {
                                 PassMarker.from = true;
                                 _updateMarkers();
                               },
-                              icon: const Icon(Icons.autorenew_rounded))
+                              icon: Icon(Icons.autorenew_rounded,
+                                  size: screenText * 25))
                         ])
                       : Row(children: [
-                          const Text('Filters',
+                          Text('Filters',
                               style: TextStyle(
-                                  fontSize: 17,
+                                  fontSize: screenText * 15,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                           IconButton(
@@ -122,19 +127,23 @@ class _HomePageState extends State<HomePage> {
                                     MaterialPageRoute(
                                         builder: (context) => const Filters()));
                               },
-                              icon: const Icon(Icons.search))
+                              icon: Icon(Icons.search, size: screenText * 25))
                         ])
                 ]),
             backgroundColor: Colors.white,
             drawer: Drawer(
                 child: ListView(padding: EdgeInsets.zero, children: [
-              const SizedBox(height: 20.0),
+              SizedBox(height: screenHeight * 0.1),
+              SizedBox(
+                  child: Text("  Home",
+                      style: TextStyle(
+                          fontSize: screenText * 30,
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold))),
+              SizedBox(height: screenHeight * 0.02),
               ListTile(
-                  title: const Text("Home",
-                      style: TextStyle(fontSize: 30, color: Colors.redAccent)),
-                  onTap: () {}),
-              ListTile(
-                  title: const Text("Account"),
+                  title: Text("Account",
+                      style: TextStyle(fontSize: screenText * 16)),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -142,7 +151,8 @@ class _HomePageState extends State<HomePage> {
                             builder: (context) => const InfoAccount()));
                   }),
               ListTile(
-                  title: const Text("Booking"),
+                  title: Text("Booking",
+                      style: TextStyle(fontSize: screenText * 16)),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -150,7 +160,8 @@ class _HomePageState extends State<HomePage> {
                             builder: (context) => const MessagePage()));
                   }),
               ListTile(
-                  title: const Text("About your car"),
+                  title: Text("About your car",
+                      style: TextStyle(fontSize: screenText * 16)),
                   onTap: () async {
                     List<CarModel> cars = await _fetchInfoCar();
                     if (cars != []) {
@@ -166,7 +177,8 @@ class _HomePageState extends State<HomePage> {
                     }
                   }),
               ListTile(
-                  title: const Text("Configuration"),
+                  title: Text("Configuration",
+                      style: TextStyle(fontSize: screenText * 16)),
                   onTap: () async {
                     PassMarker.driveInserted = await listFiles();
                     Navigator.push(
@@ -174,7 +186,10 @@ class _HomePageState extends State<HomePage> {
                         MaterialPageRoute(
                             builder: (context) => const Configuration()));
                   }),
-              ListTile(title: const Text("Help"), onTap: () async {})
+              ListTile(
+                  title:
+                      Text("Help", style: TextStyle(fontSize: screenText * 16)),
+                  onTap: () async {})
             ])),
             body: Stack(children: [
               GoogleMap(

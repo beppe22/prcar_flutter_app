@@ -29,13 +29,17 @@ class _LeastState extends State<Least> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text("Least"),
+            title: Text("Least", style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back,
+                    color: Colors.white, size: screenText * 25),
                 onPressed: () async {
                   if (PassMarker.hpOrNot) {
                     Navigator.pop(context, 'start');
@@ -45,27 +49,32 @@ class _LeastState extends State<Least> {
                 })),
         backgroundColor: Colors.white,
         body: Padding(
-            padding: const EdgeInsets.all(6),
+            padding: EdgeInsets.fromLTRB(screenWidth * 0.03,
+                screenHeight * 0.005, screenWidth * 0.03, screenHeight * 0.005),
             child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              SizedBox(height: screenHeight * 0.1),
               SizedBox(
-                  height: 250,
+                  height: screenHeight * 0.3,
                   child:
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-              const SizedBox(
-                  height: 50,
-                  child: Text("Choose for how long are you in need.",
+              SizedBox(
+                  height: screenHeight * 0.05,
+                  child: Text("Choose for how long are you in need",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.redAccent,
-                          fontSize: 20))),
-              const SizedBox(height: 40),
+                          color: Colors.grey,
+                          fontSize: screenText * 20))),
+              SizedBox(height: screenHeight * 0.04),
               Row(children: [
                 Container(
-                    width: 110,
-                    height: 50,
-                    margin: const EdgeInsets.only(
-                        top: 10, left: 40, right: 40, bottom: 10),
+                    width: screenWidth * 0.35,
+                    height: screenHeight * 0.07,
+                    margin: EdgeInsets.only(
+                        top: screenHeight * 0.02,
+                        left: screenWidth * 0.06,
+                        right: screenWidth * 0.06,
+                        bottom: screenHeight * 0.02),
                     decoration: BoxDecoration(
                         color: Colors.redAccent,
                         borderRadius: BorderRadius.circular(20)),
@@ -84,20 +93,22 @@ class _LeastState extends State<Least> {
                             });
                           });
                         },
-                        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                         shape: ContinuousRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
                         child: Text(fromString(dateStart),
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 20,
+                            style: TextStyle(
+                                fontSize: screenText * 20,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold)))),
                 Container(
-                    width: 110,
-                    height: 50,
-                    margin: const EdgeInsets.only(
-                        top: 10, left: 40, right: 40, bottom: 10),
+                    width: screenWidth * 0.35,
+                    height: screenHeight * 0.07,
+                    margin: EdgeInsets.only(
+                        top: screenHeight * 0.02,
+                        left: screenWidth * 0.06,
+                        right: screenWidth * 0.06,
+                        bottom: screenHeight * 0.02),
                     decoration: BoxDecoration(
                         color: Colors.redAccent,
                         borderRadius: BorderRadius.circular(20)),
@@ -110,26 +121,29 @@ class _LeastState extends State<Least> {
                                   builder: (context) =>
                                       Calendar(blackout: blackout)));
                         },
-                        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                         shape: ContinuousRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
                         child: Text(untilString(dateEnd),
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 20,
+                            style: TextStyle(
+                                fontSize: screenText * 20,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold))))
               ]),
-              const SizedBox(height: 20),
+              SizedBox(height: screenHeight * 0.035),
               Container(
-                  width: 400,
-                  height: 70,
-                  margin: const EdgeInsets.only(
-                      top: 10, left: 40, right: 40, bottom: 10),
+                  width: screenWidth * 0.8,
+                  height: screenHeight * 0.1,
+                  margin: EdgeInsets.only(
+                      top: screenHeight * 0.01,
+                      left: screenWidth * 0.03,
+                      right: screenWidth * 0.03,
+                      bottom: screenHeight * 0.01),
                   decoration: BoxDecoration(
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(30),
-                      border: Border.all(width: 5.0, color: Colors.grey)),
+                      border: Border.all(
+                          width: screenWidth * 0.017, color: Colors.grey)),
                   child: MaterialButton(
                       onPressed: () async {
                         if (await networkCheck.check()) {
@@ -160,13 +174,12 @@ class _LeastState extends State<Least> {
                               fontSize: 20);
                         }
                       },
-                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                       shape: ContinuousRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       child: Text(_textReserveSave(),
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontSize: 20,
+                          style: TextStyle(
+                              fontSize: screenText * 25,
                               color: Colors.redAccent,
                               fontWeight: FontWeight.bold))))
             ])));
