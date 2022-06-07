@@ -289,7 +289,7 @@ class _InfoCarState extends State<InfoCar> {
     }
   }
 
-  static Future<List<CarModel>> _fetchInfoCar() async {
+  Future<List<CarModel>> _fetchInfoCar() async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     final _auth = FirebaseAuth.instance;
     User? user = _auth.currentUser;

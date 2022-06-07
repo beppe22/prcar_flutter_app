@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, no_logic_in_create_state
+// ignore_for_file: no_logic_in_create_state
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +12,20 @@ import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
 
 class ChangeInfoCar extends StatefulWidget {
-  CarModel carModel;
-  ChangeInfoCar({Key? key, required this.carModel}) : super(key: key);
+  final CarModel carModel;
+  const ChangeInfoCar({Key? key, required this.carModel}) : super(key: key);
   @override
   State<ChangeInfoCar> createState() => _ChangeInfoCarState(carModel);
 }
 
 class _ChangeInfoCarState extends State<ChangeInfoCar> {
-  CarModel carModel;
-  CarModel modify = CarModel();
+  final CarModel carModel;
+  String? positionString;
+  String? vehicleString;
+  String? modelString;
+  String? priceString;
+  String? fuelString;
+  String? seatsString;
   _ChangeInfoCarState(this.carModel);
 
   @override
@@ -28,14 +33,17 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
     super.initState();
     SearchCar.vehicle = carModel.vehicle!;
     SearchCar.model = carModel.model!;
-    modify = carModel;
+    positionString = carModel.position;
+    vehicleString = carModel.vehicle;
+    modelString = carModel.model;
+    fuelString = carModel.fuel;
+    priceString = carModel.price;
+    seatsString = carModel.seats;
   }
 
   @override
   Widget build(BuildContext context) {
-    String vehicleString =
-        carModel.vehicle.toString() + '-' + carModel.model.toString();
-    String positionString = carModel.position.toString();
+    String nameString = vehicleString.toString() + '-' + modelString.toString();
     final positionButton = Container(
         width: double.maxFinite,
         height: 50,
@@ -49,10 +57,9 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                   .then((data) {
                 setState(() {
                   if (data != '') {
-                    modify.position = SearchCar.latSearch.toString() +
+                    positionString = SearchCar.latSearch.toString() +
                         ',' +
                         SearchCar.lngSearch.toString();
-
                     positionString = data;
                   }
                 });
@@ -61,7 +68,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Position: " + _printPosition(positionString),
+            child: Text("Position: " + _printPosition(positionString!),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -82,11 +89,10 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                   .then((data) {
                 setState(() {
                   if (SearchCar.latSearch != '' && SearchCar.lngSearch != '') {
-                    modify.vehicle = SearchCar.vehicle;
-                    modify.model = SearchCar.model;
-                    vehicleString = modify.vehicle.toString() +
-                        '-' +
-                        modify.model.toString();
+                    vehicleString = SearchCar.vehicle;
+                    modelString = SearchCar.model;
+                    nameString =
+                        vehicleString.toString() + '-' + modelString.toString();
                   }
                 });
               });
@@ -94,7 +100,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Vehicle: " + vehicleString,
+            child: Text("Vehicle: " + nameString,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -115,7 +121,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                   .then((data) {
                 setState(() {
                   if (data != '') {
-                    modify.seats = data;
+                    seatsString = data;
                   }
                 });
               });
@@ -123,7 +129,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Seats: " + modify.seats.toString(),
+            child: Text("Seats: " + seatsString.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -144,7 +150,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                   .then((data) {
                 setState(() {
                   if (data != '') {
-                    modify.fuel = data;
+                    fuelString = data;
                   }
                 });
               });
@@ -152,7 +158,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Fuel: " + modify.fuel.toString(),
+            child: Text("Fuel: " + fuelString.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -173,7 +179,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                   .then((data) {
                 setState(() {
                   if (data != '') {
-                    modify.price = data;
+                    priceString = data;
                   }
                 });
               });
@@ -181,7 +187,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Price: " + modify.price.toString(),
+            child: Text("Price: " + priceString.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -209,10 +215,25 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                 IconButton(
                     onPressed: () async {
                       //if (modify != PassMarker.carModel) {
-                      _changeFirebase(modify);
+                      _changeFirebase(
+                          carModel,
+                          seatsString!,
+                          fuelString!,
+                          modelString!,
+                          vehicleString!,
+                          priceString!,
+                          positionString!);
                       Fluttertoast.showToast(
                           msg: 'New car\'s update :)', fontSize: 20);
-                      Navigator.pop(context, modify);
+                      setState(() {
+                        carModel.fuel = fuelString.toString();
+                        carModel.price = priceString.toString();
+                        carModel.model = modelString.toString();
+                        carModel.vehicle = vehicleString.toString();
+                        carModel.seats = seatsString.toString();
+                        carModel.position = positionString.toString();
+                      });
+                      Navigator.pop(context, carModel);
                       /*} else {
                         Fluttertoast.showToast(
                             msg: 'You change nothing :(', fontSize: 20);
@@ -261,7 +282,8 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
     return newPos;
   }
 
-  void _changeFirebase(CarModel car) async {
+  void _changeFirebase(CarModel car, String seats, String fuel, String model,
+      String vehicle, String price, String position) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     await firebaseFirestore
         .collection('users')
@@ -269,12 +291,12 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
         .collection('cars')
         .doc(car.cid)
         .update({
-      'fuel': car.fuel,
-      'price': car.price,
-      'position': car.position,
-      'seats': car.seats,
-      'veicol': car.vehicle,
-      'model': car.model
+      'fuel': fuel,
+      'price': price,
+      'position': position,
+      'seats': seats,
+      'veicol': vehicle,
+      'model': model
     });
   }
 }
