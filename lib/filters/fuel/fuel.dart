@@ -10,34 +10,62 @@ class Fuel extends StatefulWidget {
 class _FuelState extends State<Fuel> {
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text("Fuel"),
+            title: Text("Fuel", style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back,
+                    color: Colors.white, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context, '');
                 })),
         backgroundColor: Colors.white,
         body: Column(children: [
-          const SizedBox(height: 20),
+          SizedBox(height: screenHeight * 0.05),
           SizedBox(
-              height: 150,
+              height: screenHeight * 0.2,
               child: Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-          const SizedBox(
-              height: 50,
-              child: Text("Choose the fuel that you want.",
+          SizedBox(
+              height: screenHeight * 0.045,
+              child: Text("Choose the fuel",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.redAccent,
-                      fontSize: 15))),
-          FuelButton(value: "Oil"),
-          FuelButton(value: "Methane"),
-          FuelButton(value: "Diesel"),
-          FuelButton(value: "Electric"),
-          FuelButton(value: "Hibryd")
+                      fontSize: screenText * 22))),
+          FuelButton(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              screenText: screenText,
+              value: "Oil"),
+          SizedBox(height: screenHeight * 0.01),
+          FuelButton(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              screenText: screenText,
+              value: "Methane"),
+          SizedBox(height: screenHeight * 0.01),
+          FuelButton(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              screenText: screenText,
+              value: "Diesel"),
+          SizedBox(height: screenHeight * 0.01),
+          FuelButton(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              screenText: screenText,
+              value: "Electric"),
+          SizedBox(height: screenHeight * 0.01),
+          FuelButton(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              screenText: screenText,
+              value: "Hibryd")
         ]));
   }
 }

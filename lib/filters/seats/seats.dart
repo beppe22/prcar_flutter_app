@@ -11,33 +11,57 @@ class _SeatsState extends State<Seats> {
   late String value;
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text("Seats"),
+            title: Text("Seats", style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back,
+                    color: Colors.white, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context, '');
                 })),
         backgroundColor: Colors.white,
         body: Column(children: [
-          const SizedBox(height: 30),
+          SizedBox(height: screenHeight * 0.03),
           SizedBox(
-              height: 175,
+              height: screenHeight * 0.28,
               child: Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-          const SizedBox(
-              height: 50,
-              child: Text("Choose how many seats do you need.",
+          SizedBox(
+              height: screenHeight * 0.05,
+              child: Text("Choose how many seats",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.redAccent,
-                      fontSize: 20))),
-          SeatsButton(value: '2'),
-          SeatsButton(value: '3'),
-          SeatsButton(value: '4'),
-          SeatsButton(value: '5')
+                      fontSize: screenText * 23))),
+          SizedBox(height: screenHeight * 0.02),
+          SeatsButton(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              screenText: screenText,
+              value: '2'),
+          SizedBox(height: screenHeight * 0.02),
+          SeatsButton(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              screenText: screenText,
+              value: '3'),
+          SizedBox(height: screenHeight * 0.02),
+          SeatsButton(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              screenText: screenText,
+              value: '4'),
+          SizedBox(height: screenHeight * 0.02),
+          SeatsButton(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              screenText: screenText,
+              value: '5')
         ]));
   }
 }

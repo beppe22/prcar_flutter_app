@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                       ? Row(children: [
                           Text('Clear filter!',
                               style: TextStyle(
-                                  fontSize: screenText * 15,
+                                  fontSize: screenText * 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                           IconButton(
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                       : Row(children: [
                           Text('Filters',
                               style: TextStyle(
-                                  fontSize: screenText * 15,
+                                  fontSize: screenText * 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                           IconButton(
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.white,
             drawer: Drawer(
                 child: ListView(padding: EdgeInsets.zero, children: [
-              SizedBox(height: screenHeight * 0.1),
+              SizedBox(height: screenHeight * 0.08),
               SizedBox(
                   child: Text("  Home",
                       style: TextStyle(

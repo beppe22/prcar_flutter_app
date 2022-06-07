@@ -22,26 +22,30 @@ class MessagePageState extends State<MessagePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('All Booking'),
+            title: Text('All Booking',
+                style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context);
                 })),
         body: Center(
             child: Column(children: [
-          const SizedBox(height: 30),
+          SizedBox(height: screenHeight * 0.05),
           SizedBox(
-              height: 300,
+              height: screenHeight * 0.35,
               child: Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
           Container(
-              height: 80,
-              width: 350,
+              height: screenHeight * 0.12,
+              width: screenWidth * 0.85,
               decoration: BoxDecoration(
                   color: Colors.redAccent,
                   border: Border.all(width: 5.0, color: Colors.grey)),
@@ -57,19 +61,23 @@ class MessagePageState extends State<MessagePage> {
                                 res: res,
                                 fromHp: false)));
                   },
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  padding: EdgeInsets.fromLTRB(
+                      screenHeight * 0.01,
+                      screenWidth * 0.03,
+                      screenWidth * 0.03,
+                      screenHeight * 0.01),
                   shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
-                  child: const Text("Here for others reservations!",
+                  child: Text("Here for others reservations!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: screenText * 20,
                           color: Colors.white,
                           fontWeight: FontWeight.bold))))),
-          const SizedBox(height: 40),
+          SizedBox(height: screenHeight * 0.06),
           Container(
-              height: 80,
-              width: 350,
+              height: screenHeight * 0.12,
+              width: screenWidth * 0.85,
               decoration: BoxDecoration(
                   color: Colors.redAccent,
                   border: Border.all(width: 5.0, color: Colors.grey)),
@@ -81,13 +89,17 @@ class MessagePageState extends State<MessagePage> {
                         MaterialPageRoute(
                             builder: (context) => BookingOutPage(res: res)));
                   },
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  padding: EdgeInsets.fromLTRB(
+                      screenHeight * 0.01,
+                      screenWidth * 0.03,
+                      screenWidth * 0.03,
+                      screenHeight * 0.01),
                   shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
-                  child: const Text("Here for your reservations!",
+                  child: Text("Here for your reservations!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: screenText * 20,
                           color: Colors.white,
                           fontWeight: FontWeight.bold)))))
         ])));
