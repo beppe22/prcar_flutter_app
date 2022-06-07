@@ -23,22 +23,27 @@ class _Position extends State<Position> {
   Set<Marker> _markers = {};
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text("Position"),
+            title:
+                Text("Position", style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back,
+                    color: Colors.white, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context, '');
                 }),
             actions: [
               Row(children: [
-                const Text('This Place!',
+                Text('Okay!',
                     style: TextStyle(
-                        fontSize: 17,
+                        fontSize: screenText * 20,
                         color: Colors.white,
                         fontWeight: FontWeight.bold)),
                 IconButton(
@@ -52,12 +57,11 @@ class _Position extends State<Position> {
                         Navigator.pop(context, position);
                       } else {
                         Fluttertoast.showToast(
-                            msg:
-                                'No place choosen :( Please search a place on a map, click on the lens to move the map to that place and then click here',
-                            fontSize: 20);
+                            msg: 'No place choosen :(', fontSize: 20);
                       }
                     },
-                    icon: const Icon(Icons.add_location_alt_outlined))
+                    icon: Icon(Icons.add_location_alt_outlined,
+                        size: screenText * 25))
               ])
             ]),
         body: Column(children: [
@@ -66,8 +70,9 @@ class _Position extends State<Position> {
                 child: TextFormField(
                     controller: _searchcontroller,
                     textCapitalization: TextCapitalization.words,
-                    decoration:
-                        const InputDecoration(hintText: 'Search Car Position'),
+                    decoration: InputDecoration(
+                        hintText: ' Search Car Position',
+                        hintStyle: TextStyle(fontSize: screenText * 18)),
                     onChanged: (value) {})),
             IconButton(
                 onPressed: () async {
@@ -80,7 +85,7 @@ class _Position extends State<Position> {
                     print(e);
                   }
                 },
-                icon: const Icon(Icons.search))
+                icon: Icon(Icons.search, size: screenText * 25))
           ]),
           Expanded(
               child: GoogleMap(

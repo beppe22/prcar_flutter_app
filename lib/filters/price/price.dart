@@ -10,15 +10,19 @@ class Price extends StatefulWidget {
 class _PriceState extends State<Price> {
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         body: const Counter(),
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text("Price"),
+            title: Text("Price", style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back,
+                    color: Colors.white, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context, '');
                 })));
@@ -59,40 +63,52 @@ class _CounterState extends State<Counter> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(screenHeight * 0.005),
         child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              SizedBox(height: screenHeight * 0.05),
               SizedBox(
-                  height: 300,
+                  height: screenHeight * 0.3,
                   child:
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-              const SizedBox(
-                  height: 50,
-                  child: Text("Choose the price for you possibility. (€/day)",
+              SizedBox(
+                  height: screenHeight * 0.05,
+                  child: Text("Choose the price (€/day)",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.redAccent,
-                          fontSize: 15))),
-              PriceButton(value: counter.toString()),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                          fontSize: screenText * 24))),
+              SizedBox(height: screenHeight * 0.05),
+              PriceButton(
+                  screenHeight: screenHeight,
+                  screenWidth: screenWidth,
+                  screenText: screenText,
+                  value: counter.toString()),
+              SizedBox(height: screenHeight * 0.03),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 TextButton(
                     style: TextButton.styleFrom(
                         primary: Colors.white,
                         backgroundColor: Colors.redAccent,
-                        padding: const EdgeInsets.all(16.0)),
-                    child: const Icon(Icons.remove),
+                        padding: EdgeInsets.all(screenWidth * 0.04)),
+                    child: Icon(Icons.remove, size: screenText * 25),
                     onPressed: counter == 0 ? null : decrementCounter),
+                SizedBox(width: screenWidth * 0.2),
                 TextButton(
                     style: TextButton.styleFrom(
                         primary: Colors.white,
                         backgroundColor: Colors.redAccent,
-                        padding: const EdgeInsets.all(16.0)),
-                    child: const Icon(Icons.add),
+                        padding: EdgeInsets.all(screenWidth * 0.04)),
+                    child: Icon(Icons.add, size: screenText * 25),
                     onPressed: counter == 100 ? null : incrementCounter)
               ]),
+              SizedBox(height: screenHeight * 0.03),
               Slider(
                   activeColor: Colors.redAccent,
                   inactiveColor: Colors.blueGrey,

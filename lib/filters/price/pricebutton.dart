@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 
 class PriceButton extends StatelessWidget {
   String value;
-  PriceButton({Key? key, required this.value}) : super(key: key);
+  double screenHeight, screenWidth, screenText;
+  PriceButton(
+      {Key? key,
+      required this.value,
+      required this.screenHeight,
+      required this.screenWidth,
+      required this.screenText})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -11,17 +18,20 @@ class PriceButton extends StatelessWidget {
           Navigator.pop(context, value);
         },
         child: Container(
-            width: double.maxFinite,
-            height: 70,
-            margin:
-                const EdgeInsets.only(top: 15, left: 40, right: 40, bottom: 15),
+            width: screenWidth * 0.8,
+            height: screenHeight * 0.08,
+            margin: EdgeInsets.only(
+                top: screenHeight * 0.01,
+                left: screenWidth * 0.03,
+                right: screenWidth * 0.03,
+                bottom: screenHeight * 0.01),
             decoration: BoxDecoration(
                 color: Colors.redAccent,
                 borderRadius: BorderRadius.circular(20)),
             child: Center(
                 child: Text(value,
-                    style: const TextStyle(
-                        fontSize: 20,
+                    style: TextStyle(
+                        fontSize: screenText * 20,
                         color: Colors.white,
                         fontWeight: FontWeight.bold)))));
   }

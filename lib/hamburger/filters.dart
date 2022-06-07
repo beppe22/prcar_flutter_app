@@ -38,12 +38,17 @@ class _FiltersState extends State<Filters> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     String? user = _auth.currentUser!.uid.toString();
     //least button field
     final leastButton = Container(
         width: screenWidth * 0.8,
         height: screenHeight * 0.07,
-        margin: const EdgeInsets.only(top: 20, left: 40, right: 40, bottom: 10),
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.03,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -62,22 +67,27 @@ class _FiltersState extends State<Filters> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text(
                 _printLeast(SearchCar.date1Search, SearchCar.date2Search),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: screenText * 22,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
     //position button field
     final positionButton = Container(
-        width: double.maxFinite,
-        height: 50,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -90,13 +100,14 @@ class _FiltersState extends State<Filters> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Position: " + search.position.toString(),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: screenText * 22,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -104,7 +115,11 @@ class _FiltersState extends State<Filters> {
     final vehicleButton = Container(
         width: screenWidth * 0.8,
         height: screenHeight * 0.07,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -119,21 +134,30 @@ class _FiltersState extends State<Filters> {
                 }
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Vehicle: " + search.vehicle.toString(),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold))));
+            child: Expanded(
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text("Vehicle: " + search.vehicle.toString(),
+                        overflow: TextOverflow.clip,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: screenText * 22,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold))))));
 
     //seats button field
     final seatsButton = Container(
         width: screenWidth * 0.8,
         height: screenHeight * 0.07,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -146,13 +170,14 @@ class _FiltersState extends State<Filters> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Seats: " + search.seats.toString(),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: screenText * 22,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -160,7 +185,11 @@ class _FiltersState extends State<Filters> {
     final fuelButton = Container(
         width: screenWidth * 0.8,
         height: screenHeight * 0.07,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -173,13 +202,14 @@ class _FiltersState extends State<Filters> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Fuel: " + search.fuel.toString(),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: screenText * 22,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -187,7 +217,11 @@ class _FiltersState extends State<Filters> {
     final priceButton = Container(
         width: screenWidth * 0.8,
         height: screenHeight * 0.07,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -200,13 +234,14 @@ class _FiltersState extends State<Filters> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Price: " + search.price.toString(),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: screenText * 22,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -214,7 +249,11 @@ class _FiltersState extends State<Filters> {
     final clearButton = Container(
         width: screenWidth * 0.8,
         height: screenHeight * 0.07,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.grey, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -233,13 +272,14 @@ class _FiltersState extends State<Filters> {
                 SearchCar.date2Search = '';
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: const Text("Clear All",
+            child: Text("Clear All",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: screenText * 22,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -250,10 +290,11 @@ class _FiltersState extends State<Filters> {
             backgroundColor: Colors.white,
             appBar: AppBar(
                 backgroundColor: Colors.redAccent,
-                title: const Text('PrCar'),
+                title:
+                    Text('Filter', style: TextStyle(fontSize: screenText * 20)),
                 automaticallyImplyLeading: false,
                 leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: Icon(Icons.arrow_back, size: screenText * 25),
                     onPressed: () {
                       setState(() {
                         search.fuel = '';
@@ -272,9 +313,9 @@ class _FiltersState extends State<Filters> {
                     }),
                 actions: [
                   Row(children: [
-                    const Text('Search!',
+                    Text('Search!',
                         style: TextStyle(
-                            fontSize: 17,
+                            fontSize: screenText * 17,
                             color: Colors.white,
                             fontWeight: FontWeight.bold)),
                     IconButton(
@@ -308,32 +349,32 @@ class _FiltersState extends State<Filters> {
                                 fontSize: 20);
                           }
                         },
-                        icon: const Icon(Icons.add_task))
+                        icon: Icon(Icons.add_task, size: screenText * 25))
                   ])
                 ]),
             body: Center(
                 child: Column(children: <Widget>[
-              SizedBox(height: screenHeight * 0.02),
+              SizedBox(height: screenHeight * 0.04),
               SizedBox(
                   height: screenHeight * 0.04,
-                  child: const Text("Apply filters for your need.",
+                  child: Text("Apply filters for your need",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.redAccent,
-                          fontSize: 25))),
-              SizedBox(height: screenHeight * 0.01),
+                          color: Colors.grey,
+                          fontSize: screenText * 25))),
+              SizedBox(height: screenHeight * 0.015),
               leastButton,
-              SizedBox(height: screenHeight * 0.01),
+              SizedBox(height: screenHeight * 0.015),
               vehicleButton,
-              SizedBox(height: screenHeight * 0.01),
+              SizedBox(height: screenHeight * 0.015),
               positionButton,
-              SizedBox(height: screenHeight * 0.01),
+              SizedBox(height: screenHeight * 0.015),
               seatsButton,
-              SizedBox(height: screenHeight * 0.01),
+              SizedBox(height: screenHeight * 0.015),
               fuelButton,
-              SizedBox(height: screenHeight * 0.01),
+              SizedBox(height: screenHeight * 0.015),
               priceButton,
-              SizedBox(height: screenHeight * 0.01),
+              SizedBox(height: screenHeight * 0.015),
               clearButton
             ]))));
   }

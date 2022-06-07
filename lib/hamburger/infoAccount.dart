@@ -15,14 +15,15 @@ class InfoAccount extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('Account'),
+            title: Text('Account', style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context);
                 })),
@@ -33,10 +34,10 @@ class InfoAccount extends StatelessWidget {
                 children: [
               SizedBox(height: screenHeight * 0.04),
               SizedBox(
-                  height: screenHeight * 0.22,
+                  height: screenHeight * 0.25,
                   child:
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-              SizedBox(height: screenHeight * 0.04),
+              SizedBox(height: screenHeight * 0.02),
               Container(
                   height: screenHeight * 0.07,
                   width: screenWidth * 0.9,
@@ -45,7 +46,8 @@ class InfoAccount extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                         SizedBox(width: screenWidth * 0.02),
-                        const Icon(Icons.mail, color: Colors.grey),
+                        Icon(Icons.mail,
+                            color: Colors.grey, size: screenText * 25),
                         SizedBox(width: screenWidth * 0.02),
                         Expanded(
                             child: SingleChildScrollView(
@@ -54,9 +56,9 @@ class InfoAccount extends StatelessWidget {
                                     'Email: ' + StaticUser.email.toString(),
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Colors.red,
-                                        fontSize: 24,
+                                        fontSize: screenText * 22,
                                         fontWeight: FontWeight.w500,
                                         backgroundColor: Colors.white))))
                       ])),
@@ -78,7 +80,8 @@ class InfoAccount extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                         SizedBox(width: screenWidth * 0.02),
-                        const Icon(Icons.account_circle, color: Colors.grey),
+                        Icon(Icons.account_circle,
+                            color: Colors.grey, size: screenText * 25),
                         SizedBox(width: screenWidth * 0.02),
                         Expanded(
                             child: SingleChildScrollView(
@@ -88,9 +91,9 @@ class InfoAccount extends StatelessWidget {
                                         StaticUser.firstName.toString(),
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Colors.red,
-                                        fontSize: 25,
+                                        fontSize: screenText * 22,
                                         fontWeight: FontWeight.w500,
                                         backgroundColor: Colors.white))))
                       ])),
@@ -112,7 +115,8 @@ class InfoAccount extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                         SizedBox(width: screenWidth * 0.02),
-                        const Icon(Icons.account_circle, color: Colors.grey),
+                        Icon(Icons.account_circle,
+                            color: Colors.grey, size: screenText * 25),
                         SizedBox(width: screenWidth * 0.02),
                         Expanded(
                             child: SingleChildScrollView(
@@ -122,9 +126,9 @@ class InfoAccount extends StatelessWidget {
                                         StaticUser.secondName.toString(),
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Colors.red,
-                                        fontSize: 25,
+                                        fontSize: screenText * 22,
                                         fontWeight: FontWeight.w500,
                                         backgroundColor: Colors.white))))
                       ])),
@@ -140,10 +144,10 @@ class InfoAccount extends StatelessWidget {
               SizedBox(height: screenHeight * 0.04),
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(
-                    height: 50,
-                    width: 250,
+                    height: screenHeight * 0.07,
+                    width: screenWidth * 0.7,
                     child: MaterialButton(
-                        color: Colors.grey,
+                        color: Colors.grey.shade500,
                         onPressed: () async {
                           FirebaseAuth.instance.signOut();
                           Navigator.of(context).pushAndRemoveUntil(
@@ -151,9 +155,10 @@ class InfoAccount extends StatelessWidget {
                                   builder: (context) => const Login()),
                               (Route<dynamic> route) => false);
                         },
-                        child: const Text("Logout",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 25))),
+                        child: Text("Logout",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: screenText * 22))),
                     decoration: BoxDecoration(
                         color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(12),
@@ -165,17 +170,17 @@ class InfoAccount extends StatelessWidget {
                         ])),
                 SizedBox(height: screenHeight * 0.04),
                 Container(
-                    height: 50,
-                    width: 250,
+                    height: screenHeight * 0.07,
+                    width: screenWidth * 0.7,
                     child: MaterialButton(
                         color: Colors.redAccent,
                         onPressed: () {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
-                                      title: const Text('!!! Warning !!!',
+                                      title: Text('!!! Warning !!!',
                                           style: TextStyle(
-                                              fontSize: 28,
+                                              fontSize: screenText * 28,
                                               color: Colors.redAccent,
                                               fontWeight: FontWeight.bold),
                                           textAlign: TextAlign.center),
@@ -183,10 +188,11 @@ class InfoAccount extends StatelessWidget {
                                           mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
-                                          children: const <Widget>[
+                                          children: <Widget>[
                                             Text(
                                                 'If you press \'Confirm!\' your account will be deleted. Do you want to continue?',
-                                                style: TextStyle(fontSize: 20),
+                                                style: TextStyle(
+                                                    fontSize: screenText * 20),
                                                 textAlign: TextAlign.center)
                                           ]),
                                       actions: <Widget>[
@@ -195,10 +201,11 @@ class InfoAccount extends StatelessWidget {
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
-                                              child: const Text('Close',
-                                                  style:
-                                                      TextStyle(fontSize: 24))),
-                                          const SizedBox(width: 110),
+                                              child: Text('Close',
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          screenText * 24))),
+                                          SizedBox(width: screenWidth * 0.20),
                                           TextButton(
                                               onPressed: () async {
                                                 int i = 0;
@@ -220,15 +227,17 @@ class InfoAccount extends StatelessWidget {
                                                           const InactiveCar());
                                                 }
                                               },
-                                              child: const Text('Confirm!',
-                                                  style:
-                                                      TextStyle(fontSize: 24)))
+                                              child: Text('Confirm!',
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          screenText * 24)))
                                         ])
                                       ]));
                         },
-                        child: const Text("Delete Account",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 25))),
+                        child: Text("Delete Account",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: screenText * 22))),
                     decoration: BoxDecoration(
                         color: Colors.black87,
                         borderRadius: BorderRadius.circular(12),

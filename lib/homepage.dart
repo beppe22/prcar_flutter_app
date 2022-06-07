@@ -87,115 +87,133 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     GoogleMapController _controller;
-    return Scaffold(
-        appBar: AppBar(
-            title: const Text("PrCar"),
-            backgroundColor: Colors.redAccent,
-            actions: [
-              !PassMarker.from
-                  ? Row(children: [
-                      const Text('Clear filter!',
-                          style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
-                      IconButton(
-                          onPressed: () {
-                            PassMarker.from = true;
-                            _updateMarkers();
-                          },
-                          icon: const Icon(Icons.autorenew_rounded))
-                    ])
-                  : Row(children: [
-                      const Text('Filters',
-                          style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Filters()));
-                          },
-                          icon: const Icon(Icons.search))
-                    ])
-            ]),
-        backgroundColor: Colors.white,
-        drawer: Drawer(
-            child: ListView(padding: EdgeInsets.zero, children: [
-          const SizedBox(height: 20.0),
-          ListTile(
-              title: const Text("Home",
-                  style: TextStyle(fontSize: 30, color: Colors.redAccent)),
-              onTap: () {}),
-          ListTile(
-              title: const Text("Account"),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const InfoAccount()));
-              }),
-          ListTile(
-              title: const Text("Booking"),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const MessagePage()));
-              }),
-          ListTile(
-              title: const Text("About your car"),
-              onTap: () async {
-                List<CarModel> cars = await _fetchInfoCar();
-                if (cars != []) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Cars_user(cars))).then((data) {
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+            appBar: AppBar(
+                title:
+                    Text("PrCar", style: TextStyle(fontSize: screenText * 20)),
+                backgroundColor: Colors.redAccent,
+                actions: [
+                  !PassMarker.from
+                      ? Row(children: [
+                          Text('Clear filter!',
+                              style: TextStyle(
+                                  fontSize: screenText * 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          IconButton(
+                              onPressed: () {
+                                PassMarker.from = true;
+                                _updateMarkers();
+                              },
+                              icon: Icon(Icons.autorenew_rounded,
+                                  size: screenText * 25))
+                        ])
+                      : Row(children: [
+                          Text('Filters',
+                              style: TextStyle(
+                                  fontSize: screenText * 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const Filters()));
+                              },
+                              icon: Icon(Icons.search, size: screenText * 25))
+                        ])
+                ]),
+            backgroundColor: Colors.white,
+            drawer: Drawer(
+                child: ListView(padding: EdgeInsets.zero, children: [
+              SizedBox(height: screenHeight * 0.08),
+              SizedBox(
+                  child: Text("  Home",
+                      style: TextStyle(
+                          fontSize: screenText * 30,
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold))),
+              SizedBox(height: screenHeight * 0.02),
+              ListTile(
+                  title: Text("Account",
+                      style: TextStyle(fontSize: screenText * 16)),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const InfoAccount()));
+                  }),
+              ListTile(
+                  title: Text("Booking",
+                      style: TextStyle(fontSize: screenText * 16)),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MessagePage()));
+                  }),
+              ListTile(
+                  title: Text("About your car",
+                      style: TextStyle(fontSize: screenText * 16)),
+                  onTap: () async {
+                    List<CarModel> cars = await _fetchInfoCar();
+                    if (cars != []) {
+                      Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Cars_user(cars)))
+                          .then((data) {
+                        setState(() {
+                          _updateMarkers();
+                        });
+                      });
+                    }
+                  }),
+              ListTile(
+                  title: Text("Configuration",
+                      style: TextStyle(fontSize: screenText * 16)),
+                  onTap: () async {
+                    PassMarker.driveInserted = await listFiles();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Configuration()));
+                  }),
+              ListTile(
+                  title:
+                      Text("Help", style: TextStyle(fontSize: screenText * 16)),
+                  onTap: () async {})
+            ])),
+            body: Stack(children: [
+              GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: const CameraPosition(
+                      target: LatLng(45.47811155714095, 9.227444681728846),
+                      zoom: 16),
+                  markers: _markers,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller = controller;
+                  },
+                  onTap: (LatLng loc) {
                     setState(() {
-                      _updateMarkers();
+                      pinPillPosition = pinInvisiblePosition;
                     });
-                  });
-                }
-              }),
-          ListTile(
-              title: const Text("Configuration"),
-              onTap: () async {
-                PassMarker.driveInserted = await listFiles();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const Configuration()));
-              }),
-          ListTile(title: const Text("Help"), onTap: () async {})
-        ])),
-        body: Stack(children: [
-          GoogleMap(
-              mapType: MapType.normal,
-              initialCameraPosition: const CameraPosition(
-                  target: LatLng(45.47811155714095, 9.227444681728846),
-                  zoom: 16),
-              markers: _markers,
-              onMapCreated: (GoogleMapController controller) {
-                _controller = controller;
-              },
-              onTap: (LatLng loc) {
-                setState(() {
-                  pinPillPosition = pinInvisiblePosition;
-                });
-              }),
-          AnimatedPositioned(
-              left: 0,
-              curve: Curves.easeInOut,
-              right: 0,
-              bottom: pinPillPosition,
-              child: const MapBottomPill(),
-              duration: const Duration(milliseconds: 500))
-        ]));
+                  }),
+              AnimatedPositioned(
+                  left: 0,
+                  curve: Curves.easeInOut,
+                  right: 0,
+                  bottom: pinPillPosition,
+                  child: const MapBottomPill(),
+                  duration: const Duration(milliseconds: 500))
+            ])));
   }
 
   _fetchUserInfo() async {

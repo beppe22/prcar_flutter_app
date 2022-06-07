@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 
 class SeatsButton extends StatelessWidget {
   String value;
-  SeatsButton({Key? key, required this.value}) : super(key: key);
+  double screenHeight, screenWidth, screenText;
+  SeatsButton(
+      {Key? key,
+      required this.value,
+      required this.screenHeight,
+      required this.screenWidth,
+      required this.screenText})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -11,17 +18,20 @@ class SeatsButton extends StatelessWidget {
           Navigator.pop(context, value);
         },
         child: Container(
-            width: double.maxFinite,
-            height: 50,
-            margin:
-                const EdgeInsets.only(top: 15, left: 40, right: 40, bottom: 15),
+            width: screenWidth * 0.8,
+            height: screenHeight * 0.07,
+            margin: EdgeInsets.only(
+                top: screenHeight * 0.01,
+                left: screenWidth * 0.15,
+                right: screenWidth * 0.15,
+                bottom: screenHeight * 0.01),
             decoration: BoxDecoration(
                 color: Colors.redAccent,
                 borderRadius: BorderRadius.circular(20)),
             child: Center(
                 child: Text(value,
-                    style: const TextStyle(
-                        fontSize: 20,
+                    style: TextStyle(
+                        fontSize: screenText * 20,
                         color: Colors.white,
                         fontWeight: FontWeight.bold)))));
   }
