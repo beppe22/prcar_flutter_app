@@ -202,6 +202,10 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
+<<<<<<< HEAD
+                  setState(() {});
+=======
+>>>>>>> 6d464c9dd6644e55cbc43517470f849e787d3945
                   Navigator.pop(context, carModel);
                 }),
             actions: [
