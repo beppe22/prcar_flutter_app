@@ -9,24 +9,29 @@ import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_6.dart';
 
 class ChatDetail extends StatefulWidget {
-  final friendUid;
-  final friendName;
-
-  const ChatDetail({Key? key, this.friendUid, this.friendName})
+  final String friendUid;
+  final String friendName;
+  final bool hp;
+  const ChatDetail(
+      {Key? key,
+      required this.friendUid,
+      required this.friendName,
+      required this.hp})
       : super(key: key);
 
   @override
-  _ChatDetailState createState() => _ChatDetailState(friendUid, friendName);
+  _ChatDetailState createState() => _ChatDetailState(friendUid, friendName, hp);
 }
 
 class _ChatDetailState extends State<ChatDetail> {
   CollectionReference chats = FirebaseFirestore.instance.collection('chats');
-  final friendUid;
-  final friendName;
+  final String friendUid;
+  final String friendName;
+  final bool hp;
   final currentUserId = FirebaseAuth.instance.currentUser?.uid;
   var chatDocId;
   var textController = TextEditingController();
-  _ChatDetailState(this.friendUid, this.friendName);
+  _ChatDetailState(this.friendUid, this.friendName, this.hp);
   @override
   void initState() {
     super.initState();
@@ -109,7 +114,9 @@ class _ChatDetailState extends State<ChatDetail> {
                 title: Text(friendName, style: const TextStyle(fontSize: 20)),
                 automaticallyImplyLeading: false,
                 leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: hp
+                        ? const Icon(Icons.cancel)
+                        : const Icon(Icons.arrow_back),
                     onPressed: () {
                       Navigator.pop(context);
                     })),

@@ -13,17 +13,24 @@ import '../chatImplementation/chatDetail.dart';
 class BookingInPage extends StatefulWidget {
   List<String> res;
   String bookingId;
-  BookingInPage({Key? key, required this.res, required this.bookingId})
+  bool fromHp;
+  BookingInPage(
+      {Key? key,
+      required this.res,
+      required this.bookingId,
+      required this.fromHp})
       : super(key: key);
 
   @override
-  State<BookingInPage> createState() => BookingInPageState(res, bookingId);
+  State<BookingInPage> createState() =>
+      BookingInPageState(res, bookingId, fromHp);
 }
 
 class BookingInPageState extends State<BookingInPage> {
   List<String> res;
   String bookingId;
-  BookingInPageState(this.res, this.bookingId);
+  bool fromHp;
+  BookingInPageState(this.res, this.bookingId, this.fromHp);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +44,9 @@ class BookingInPageState extends State<BookingInPage> {
                 style: TextStyle(fontSize: screenWidth * 0.06)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: fromHp
+                    ? const Icon(Icons.cancel)
+                    : const Icon(Icons.arrow_back),
                 onPressed: () {
                   Navigator.pop(context);
                 })),
@@ -143,7 +152,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                 child: MaterialButton(
                                                                                   onPressed: () async {
                                                                                     String nameFriend = (UserModel.fromMap(await FirebaseFirestore.instance.collection('users').doc(PassMarker.uidFriend[index]).get())).firstName!;
-                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index])));
+                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index], hp: false)));
                                                                                   },
                                                                                   child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                                   shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),

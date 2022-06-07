@@ -52,8 +52,10 @@ class MessagePageState extends State<MessagePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                BookingInPage(bookingId: bookingId, res: res)));
+                            builder: (context) => BookingInPage(
+                                bookingId: bookingId,
+                                res: res,
+                                fromHp: false)));
                   },
                   padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                   shape: ContinuousRectangleBorder(
