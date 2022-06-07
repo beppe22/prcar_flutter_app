@@ -70,15 +70,16 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      BookingInPage(bookingId: bookingId, res: bookIn)));
+                  builder: (context) => BookingInPage(
+                      bookingId: bookingId, res: bookIn, fromHp: true)));
         } else {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => ChatDetail(
                       friendName: message.data['friendName'],
-                      friendUid: message.data['friendId'])));
+                      friendUid: message.data['friendId'],
+                      hp: true)));
         }
       });
     }
@@ -276,7 +277,8 @@ class _HomePageState extends State<HomePage> {
                                     MaterialPageRoute(
                                         builder: (context) => BookingInPage(
                                             bookingId: bookingId,
-                                            res: bookIn)));
+                                            res: bookIn,
+                                            fromHp: true)));
                                 Navigator.of(context).pop();
                               },
                               child: const Text('Go!',
@@ -310,8 +312,8 @@ class _HomePageState extends State<HomePage> {
                                         builder: (context) => ChatDetail(
                                             friendName:
                                                 event.data['friendName'],
-                                            friendUid:
-                                                event.data['friendId'])));
+                                            friendUid: event.data['friendId'],
+                                            hp: true)));
                                 Navigator.of(context).pop();
                               },
                               child: const Text('Go!',
@@ -399,8 +401,8 @@ class _HomePageState extends State<HomePage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-                  BookingInPage(bookingId: bookingId, res: bookIn)));
+              builder: (context) => BookingInPage(
+                  bookingId: bookingId, res: bookIn, fromHp: true)));
     }
   }
 
@@ -448,7 +450,7 @@ class _HomePageState extends State<HomePage> {
   }
 
 //Function that fecth only user's car
-  static Future<List<CarModel>> _fetchInfoCar() async {
+  Future<List<CarModel>> _fetchInfoCar() async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     final _auth = FirebaseAuth.instance;
     User? user = _auth.currentUser;

@@ -47,6 +47,8 @@ class _AddNewCarState extends State<AddNewCar> {
       cid: '',
       activeOrNot: '',
     );
+    SearchCar.vehicle = '';
+    SearchCar.model = '';
     PassMarker.photoCount = 0;
   }
 
@@ -97,8 +99,12 @@ class _AddNewCarState extends State<AddNewCar> {
                 setState(() {
                   car.vehicle = SearchCar.vehicle;
                   car.model = SearchCar.model;
-                  vehicleString =
-                      car.vehicle.toString() + ',' + car.model.toString();
+                  if (car.vehicle != '' && car.model != '') {
+                    vehicleString =
+                        car.vehicle.toString() + '-' + car.model.toString();
+                  } else {
+                    vehicleString = '';
+                  }
                 });
               });
             },
@@ -250,6 +256,17 @@ class _AddNewCarState extends State<AddNewCar> {
                 onPressed: () {
                   List<CarModel> valueNull = [];
                   Navigator.pop(context, valueNull);
+                  setState(() {
+                    car.fuel = '';
+                    car.price = '';
+                    car.vehicle = '';
+                    car.seats = '';
+                    car.position = '';
+                    car.model = '';
+                    positionString = '';
+                    vehicleString = '';
+                    PassMarker.photoCount = 0;
+                  });
                 }),
             actions: [
               Row(children: [

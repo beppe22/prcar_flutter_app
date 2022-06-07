@@ -55,8 +55,10 @@ class _FiltersState extends State<Filters> {
                       MaterialPageRoute(builder: (context) => const Least()))
                   .then((data) {
                 setState(() {
-                  SearchCar.date1Search = data[0];
-                  SearchCar.date2Search = data[1];
+                  if (data != '') {
+                    SearchCar.date1Search = data[0];
+                    SearchCar.date2Search = data[1];
+                  }
                 });
               });
             },

@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, no_logic_in_create_state
+// ignore_for_file: no_logic_in_create_state
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -12,26 +12,38 @@ import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
 
 class ChangeInfoCar extends StatefulWidget {
-  CarModel carModel;
-  ChangeInfoCar(this.carModel, {Key? key}) : super(key: key);
+  final CarModel carModel;
+  const ChangeInfoCar({Key? key, required this.carModel}) : super(key: key);
   @override
   State<ChangeInfoCar> createState() => _ChangeInfoCarState(carModel);
 }
 
 class _ChangeInfoCarState extends State<ChangeInfoCar> {
-  CarModel carModel;
-  CarModel modify = CarModel();
+  final CarModel carModel;
+  String? positionString;
+  String? vehicleString;
+  String? modelString;
+  String? priceString;
+  String? fuelString;
+  String? seatsString;
   _ChangeInfoCarState(this.carModel);
 
   @override
   void initState() {
     super.initState();
-    modify = carModel;
+    SearchCar.vehicle = carModel.vehicle!;
+    SearchCar.model = carModel.model!;
+    positionString = carModel.position;
+    vehicleString = carModel.vehicle;
+    modelString = carModel.model;
+    fuelString = carModel.fuel;
+    priceString = carModel.price;
+    seatsString = carModel.seats;
   }
 
   @override
   Widget build(BuildContext context) {
-    String positionString = modify.position.toString();
+    String nameString = vehicleString.toString() + '-' + modelString.toString();
     final positionButton = Container(
         width: double.maxFinite,
         height: 50,
@@ -44,17 +56,19 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                       MaterialPageRoute(builder: (context) => const Position()))
                   .then((data) {
                 setState(() {
-                  modify.position = SearchCar.latSearch.toString() +
-                      ',' +
-                      SearchCar.lngSearch.toString();
-                  positionString = data;
+                  if (data != '') {
+                    positionString = SearchCar.latSearch.toString() +
+                        ',' +
+                        SearchCar.lngSearch.toString();
+                    positionString = data;
+                  }
                 });
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Position: " + _printPosition(positionString),
+            child: Text("Position: " + _printPosition(positionString!),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -74,19 +88,19 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                       MaterialPageRoute(builder: (context) => const Vehicle()))
                   .then((data) {
                 setState(() {
-                  modify.vehicle = SearchCar.vehicle;
-                  modify.model = SearchCar.model;
+                  if (SearchCar.latSearch != '' && SearchCar.lngSearch != '') {
+                    vehicleString = SearchCar.vehicle;
+                    modelString = SearchCar.model;
+                    nameString =
+                        vehicleString.toString() + '-' + modelString.toString();
+                  }
                 });
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text(
-                "Vehicle: " +
-                    modify.vehicle.toString() +
-                    '-' +
-                    modify.model.toString(),
+            child: Text("Vehicle: " + nameString,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -106,14 +120,16 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                       MaterialPageRoute(builder: (context) => const Seats()))
                   .then((data) {
                 setState(() {
-                  modify.seats = data;
+                  if (data != '') {
+                    seatsString = data;
+                  }
                 });
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Seats: " + modify.seats.toString(),
+            child: Text("Seats: " + seatsString.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -133,14 +149,16 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                       MaterialPageRoute(builder: (context) => const Fuel()))
                   .then((data) {
                 setState(() {
-                  modify.fuel = data;
+                  if (data != '') {
+                    fuelString = data;
+                  }
                 });
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Fuel: " + modify.fuel.toString(),
+            child: Text("Fuel: " + fuelString.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -160,14 +178,16 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                       MaterialPageRoute(builder: (context) => const Price()))
                   .then((data) {
                 setState(() {
-                  modify.price = data;
+                  if (data != '') {
+                    priceString = data;
+                  }
                 });
               });
             },
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Price: " + modify.price.toString(),
+            child: Text("Price: " + priceString.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20,
@@ -177,11 +197,15 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('PrCar'),
+            title: const Text('Change Car'),
             automaticallyImplyLeading: false,
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
+<<<<<<< HEAD
+=======
+                  setState(() {});
+>>>>>>> 0edc0e93eaa62b018830f6d8e038a50f278e46ef
                   Navigator.pop(context, carModel);
                 }),
             actions: [
@@ -194,10 +218,25 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                 IconButton(
                     onPressed: () async {
                       //if (modify != PassMarker.carModel) {
-                      _changeFirebase(modify);
+                      _changeFirebase(
+                          carModel,
+                          seatsString!,
+                          fuelString!,
+                          modelString!,
+                          vehicleString!,
+                          priceString!,
+                          positionString!);
                       Fluttertoast.showToast(
                           msg: 'New car\'s update :)', fontSize: 20);
-                      Navigator.pop(context, modify);
+                      setState(() {
+                        carModel.fuel = fuelString.toString();
+                        carModel.price = priceString.toString();
+                        carModel.model = modelString.toString();
+                        carModel.vehicle = vehicleString.toString();
+                        carModel.seats = seatsString.toString();
+                        carModel.position = positionString.toString();
+                      });
+                      Navigator.pop(context, carModel);
                       /*} else {
                         Fluttertoast.showToast(
                             msg: 'You change nothing :(', fontSize: 20);
@@ -239,12 +278,15 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
 
   String _printPosition(String position) {
     String newPos = '';
-    List<String> splitted = position.split(',');
-    newPos = splitted[0].substring(0, 7) + ',' + splitted[1].substring(0, 7);
+    if (position != '') {
+      List<String> splitted = position.split(',');
+      newPos = splitted[0].substring(0, 7) + ',' + splitted[1].substring(0, 7);
+    }
     return newPos;
   }
 
-  void _changeFirebase(CarModel car) async {
+  void _changeFirebase(CarModel car, String seats, String fuel, String model,
+      String vehicle, String price, String position) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     await firebaseFirestore
         .collection('users')
@@ -252,12 +294,12 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
         .collection('cars')
         .doc(car.cid)
         .update({
-      'fuel': modify.fuel,
-      'price': modify.price,
-      'position': modify.position,
-      'seats': modify.seats,
-      'veicol': modify.vehicle,
-      'model': modify.model
+      'fuel': fuel,
+      'price': price,
+      'position': position,
+      'seats': seats,
+      'veicol': vehicle,
+      'model': model
     });
   }
 }

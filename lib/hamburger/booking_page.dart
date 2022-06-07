@@ -26,7 +26,7 @@ class MessagePageState extends State<MessagePage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('Messages'),
+            title: const Text('All Booking'),
             automaticallyImplyLeading: false,
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
@@ -52,8 +52,10 @@ class MessagePageState extends State<MessagePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                BookingInPage(bookingId: bookingId, res: res)));
+                            builder: (context) => BookingInPage(
+                                bookingId: bookingId,
+                                res: res,
+                                fromHp: false)));
                   },
                   padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                   shape: ContinuousRectangleBorder(

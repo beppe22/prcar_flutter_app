@@ -132,7 +132,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                             child: MaterialButton(
                                                                               onPressed: () async {
                                                                                 String nameFriend = (UserModel.fromMap(await FirebaseFirestore.instance.collection('users').doc(PassMarker.uidFriend[index]).get())).firstName!;
-                                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index])));
+                                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index], hp:false)));
                                                                               },
                                                                               child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
                                                                               shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
