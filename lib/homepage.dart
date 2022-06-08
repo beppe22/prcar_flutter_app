@@ -180,7 +180,6 @@ class _HomePageState extends State<HomePage> {
                   title: Text("Configuration",
                       style: TextStyle(fontSize: screenText * 16)),
                   onTap: () async {
-                    PassMarker.driveInserted = await listFiles();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -237,7 +236,6 @@ class _HomePageState extends State<HomePage> {
     messaging.getToken().then((value) async {
       //popoliamo la variabile staticUser
       await _fetchUserInfo();
-      PassMarker.driveInserted = await listFiles();
       if (value != null) {
         await db.collection('tokens').doc(StaticUser.uid).set({
           'token': value,
@@ -575,20 +573,6 @@ class _HomePageState extends State<HomePage> {
       }
     }
     _markers = PassMarker.markerToPass;
-  }
-
-  Future<bool> listFiles() async {
-    final firebase_storage.FirebaseStorage storage =
-        firebase_storage.FirebaseStorage.instance;
-    final _auth = FirebaseAuth.instance;
-    User? user = _auth.currentUser;
-    firebase_storage.ListResult results =
-        await storage.ref('${user!.uid}/drivingLicenseData/').listAll();
-    if (results.items.length == 4) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }
 

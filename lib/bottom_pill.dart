@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/filters/least/least.dart';
@@ -163,8 +165,16 @@ class MapBottomPill extends StatelessWidget {
                                                     minWidth: screenWidth * 0.4,
                                                     color: Colors.redAccent,
                                                     onPressed: () async {
-                                                      if (PassMarker
-                                                          .driveInserted) {
+                                                      FirebaseFirestore
+                                                          firebaseFirestore =
+                                                          FirebaseFirestore
+                                                              .instance;
+                                                      final _auth =
+                                                          FirebaseAuth.instance;
+                                                      User? user =
+                                                          _auth.currentUser;
+                                                      if (/*user.isConfirmed*/ 1 ==
+                                                          1) {
                                                         PassMarker.hpOrNot =
                                                             true;
                                                         var reserveResult =
@@ -193,7 +203,7 @@ class MapBottomPill extends StatelessWidget {
                                                       } else {
                                                         Fluttertoast.showToast(
                                                             msg:
-                                                                'No driving license info inserted. Go to configuration for more details',
+                                                                'No Driving License Info confirmed :(',
                                                             fontSize: 20);
                                                       }
                                                     },

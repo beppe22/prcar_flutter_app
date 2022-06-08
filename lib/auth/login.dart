@@ -37,6 +37,8 @@ class _LoginState extends State<Login> {
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {}
+      Fluttertoast.showToast(
+          msg: 'Login failed :( wrong email or password', fontSize: 20);
       return null;
     }
 
@@ -127,7 +129,6 @@ class _LoginState extends State<Login> {
                               email: _emailController.text,
                               password: _passwordController.text,
                               context: context);
-                          PassMarker.driveInserted = await listFiles();
                           if (user != null) {
                             await firebaseFirestore
                                 .collection('users')
@@ -165,28 +166,6 @@ class _LoginState extends State<Login> {
                         ]))
               ])
             ])));
-  }
-
-  Future<bool> listFiles() async {
-    int count = 0;
-    final firebase_storage.FirebaseStorage storage =
-        firebase_storage.FirebaseStorage.instance;
-    final _auth = FirebaseAuth.instance;
-    User? user = _auth.currentUser;
-    firebase_storage.ListResult results =
-        await storage.ref('drivingLicenseData/').listAll();
-    for (int i = 0; i < results.items.length; i++) {
-      String temp = results.items[i].name;
-      final splitted = temp.split('.');
-      if (splitted[0] == user!.uid) {
-        count++;
-      }
-    }
-    if (count == 4) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   _finishReservation(User user) async {

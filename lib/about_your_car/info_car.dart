@@ -36,6 +36,7 @@ class _InfoCarState extends State<InfoCar> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -209,11 +210,57 @@ class _InfoCarState extends State<InfoCar> {
                         color: Colors.grey,
                         onPressed: () async {
                           if (await _fetchCarRes(carModel.cid!) == 0) {
-                            User? user = _auth.currentUser;
-                            _deleteCar(user!.uid, carModel.cid!);
-                            Navigator.pop(context, _fetchInfoCar());
-                            Fluttertoast.showToast(
-                                msg: 'Car deleted!', fontSize: 20);
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                        title: Text('!!! Warning !!!',
+                                            style: TextStyle(
+                                                fontSize: screenText * 28,
+                                                color: Colors.redAccent,
+                                                fontWeight: FontWeight.bold),
+                                            textAlign: TextAlign.center),
+                                        content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                  'If you press \'Confirm!\' your car will be deleted. Do you want to continue?',
+                                                  style: TextStyle(
+                                                      fontSize: screenText * 20,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  textAlign: TextAlign.center)
+                                            ]),
+                                        actions: <Widget>[
+                                          Row(children: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text('Close',
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            screenText * 24))),
+                                            SizedBox(width: screenWidth * 0.2),
+                                            TextButton(
+                                                onPressed: () async {
+                                                  User? user =
+                                                      _auth.currentUser;
+                                                  _deleteCar(
+                                                      user!.uid, carModel.cid!);
+                                                  Navigator.pop(
+                                                      context, _fetchInfoCar());
+                                                  Fluttertoast.showToast(
+                                                      msg: 'Car deleted!',
+                                                      fontSize: 20);
+                                                },
+                                                child: Text('Confirm!',
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            screenText * 24)))
+                                          ])
+                                        ]));
                           } else {
                             showDialog(
                                 context: context,
@@ -391,7 +438,7 @@ class InactiveSingleCar extends StatelessWidget {
                   Navigator.of(context).pop();
                 },
                 child: const Text('Close', style: TextStyle(fontSize: 24))),
-            const SizedBox(width: 110),
+            const SizedBox(width: 90),
             TextButton(
                 onPressed: () async {
                   final _auth = FirebaseAuth.instance;

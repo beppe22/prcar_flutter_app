@@ -134,9 +134,10 @@ class _AddNewCarState extends State<AddNewCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Seats()))
-                  .then((data) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Seats(filter: false))).then((data) {
                 setState(() {
                   car.seats = data;
                 });
@@ -188,9 +189,10 @@ class _AddNewCarState extends State<AddNewCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Price()))
-                  .then((data) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Price(filter: false))).then((data) {
                 setState(() {
                   car.price = data;
                 });

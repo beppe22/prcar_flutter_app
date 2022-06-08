@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import 'pricebutton.dart';
 
 class Price extends StatefulWidget {
-  const Price({Key? key}) : super(key: key);
+  bool filter;
+  Price({Key? key, required this.filter}) : super(key: key);
   @override
-  _PriceState createState() => _PriceState();
+  _PriceState createState() => _PriceState(filter);
 }
 
 class _PriceState extends State<Price> {
+  bool filter;
+  _PriceState(this.filter);
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
-        body: const Counter(),
+        body: Counter(filter: filter),
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
@@ -30,14 +34,18 @@ class _PriceState extends State<Price> {
 }
 
 class Counter extends StatefulWidget {
-  const Counter({Key? key}) : super(key: key);
+  bool filter;
+  Counter({Key? key, required this.filter}) : super(key: key);
 
   @override
-  _CounterState createState() => _CounterState();
+  _CounterState createState() => _CounterState(filter);
 }
 
 class _CounterState extends State<Counter> {
+  bool filter;
   int counter = 0;
+
+  _CounterState(this.filter);
 
   void incrementCounter() {
     setState(() {
@@ -78,12 +86,13 @@ class _CounterState extends State<Counter> {
                   child:
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
               SizedBox(
-                  height: screenHeight * 0.05,
-                  child: Text("Choose the price (€/day)",
+                  height: screenHeight * 0.1,
+                  child: Text(_priceString(filter),
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.redAccent,
-                          fontSize: screenText * 24))),
+                          fontSize: screenText * 22))),
               SizedBox(height: screenHeight * 0.05),
               PriceButton(
                   screenHeight: screenHeight,
@@ -118,5 +127,13 @@ class _CounterState extends State<Counter> {
                   divisions: 100,
                   onChanged: setCounter)
             ]));
+  }
+
+  String _priceString(bool filter) {
+    if (filter) {
+      return 'Choose the maximum car\'s price (€/day)';
+    } else {
+      return 'Choose car\'s price (€/day)';
+    }
   }
 }

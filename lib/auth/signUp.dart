@@ -247,7 +247,6 @@ class _SignUpState extends State<SignUp> {
     StaticUser.uid = userModel.uid!;
     StaticUser.firstName = userModel.firstName!;
     StaticUser.secondName = userModel.secondName!;
-    PassMarker.driveInserted = false;
     PassMarker.from = true;
     await firebaseFirestore
         .collection("users")

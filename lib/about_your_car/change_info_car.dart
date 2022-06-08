@@ -115,9 +115,10 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Seats()))
-                  .then((data) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Seats(filter: false))).then((data) {
                 setState(() {
                   if (data != '') {
                     seatsString = data;
@@ -173,9 +174,10 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Price()))
-                  .then((data) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Price(filter: false))).then((data) {
                 setState(() {
                   if (data != '') {
                     priceString = data;

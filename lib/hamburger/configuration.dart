@@ -46,7 +46,7 @@ class _ConfigurationState extends State<Configuration> {
     final expiryDateEditingField = TextFormField(
         autofocus: false,
         controller: expiryDateEditingController,
-        //keyboardType: TextInputType.name,
+        keyboardType: TextInputType.datetime,
         validator: (value) {
           if (value!.isEmpty) {
             return ("Expiry Date can't be Empty");
@@ -94,7 +94,7 @@ class _ConfigurationState extends State<Configuration> {
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
-    return !PassMarker.driveInserted
+    return /*user.isConfirmer*/ 1 == 1
         ? Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
@@ -202,7 +202,7 @@ class _ConfigurationState extends State<Configuration> {
                       onPressed: () {
                         final _auth = FirebaseAuth.instance;
                         User? user = _auth.currentUser;
-                        PassMarker.driveInserted = false;
+                        //update user.isConfirmed to false
                         _deleteDrivingLicense(user!.uid);
                         Fluttertoast.showToast(
                             msg: 'Driving license info resetted succesfully :)',

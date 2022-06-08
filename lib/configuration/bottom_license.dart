@@ -131,7 +131,6 @@ class _BottomLicenseState extends State<BottomLicense> {
             child: (MaterialButton(
                 onPressed: () {
                   if (ok!) {
-                    PassMarker.driveInserted = true;
                     final _auth = FirebaseAuth.instance;
                     User? user = _auth.currentUser;
                     String uidCode = user!.uid;
@@ -145,7 +144,9 @@ class _BottomLicenseState extends State<BottomLicense> {
                     storage.uploadString(
                         drivingCodePath, 'drivingCode', uidCode);
                     Fluttertoast.showToast(
-                        msg: 'Driving license inserted :)', fontSize: 20);
+                        msg:
+                            'Driving license inserted :) the administrator will check soon your information and will confirm',
+                        fontSize: 20);
                     Navigator.pushAndRemoveUntil(
                         (context),
                         MaterialPageRoute(builder: (context) => HomePage()),
