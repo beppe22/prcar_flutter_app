@@ -20,7 +20,6 @@ import 'bottom_pill.dart';
 import 'hamburger/cars_user.dart';
 import 'hamburger/filters.dart';
 import 'dart:io' show Platform;
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 const double pinVisiblePosition = 50;
 const double pinInvisiblePosition = -220;

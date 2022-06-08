@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/homepage.dart';
-import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class BottomLicense extends StatefulWidget {

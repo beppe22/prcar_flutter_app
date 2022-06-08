@@ -63,6 +63,8 @@ class MapBottomPill extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20)),
                       child: ElevatedButton(
                           onPressed: () async {
+                            String name =
+                                await _nameString(PassMarker.carModel.uid!);
                             await showDialog(
                                 context: context,
                                 builder: (context) {
@@ -83,6 +85,13 @@ class MapBottomPill extends StatelessWidget {
                                                             screenText * 25,
                                                         fontWeight:
                                                             FontWeight.bold))),
+                                            SizedBox(
+                                                height: screenHeight * 0.001),
+                                            Text(name,
+                                                style: TextStyle(
+                                                    fontSize: screenText * 14,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
                                             SizedBox(
                                                 height: screenHeight * 0.01),
                                             _buildRow(
@@ -155,7 +164,7 @@ class MapBottomPill extends StatelessWidget {
                                                 },
                                                 backgroundColor:
                                                     Colors.redAccent,
-                                                child: Icon(Icons.photo_album,
+                                                child: Icon(Icons.photo_library,
                                                     size: screenText * 25)),
                                             SizedBox(
                                                 height: screenHeight * 0.04),
@@ -227,37 +236,6 @@ class MapBottomPill extends StatelessWidget {
                                                           spreadRadius: 6,
                                                           blurRadius: 3)
                                                     ])),
-                                            SizedBox(
-                                                height: screenHeight * 0.05),
-                                            Container(
-                                                child: MaterialButton(
-                                                    height: screenHeight * 0.07,
-                                                    minWidth: screenWidth * 0.4,
-                                                    color: Colors.redAccent,
-                                                    onPressed: () async {
-                                                      Navigator.pop(
-                                                          context, '');
-                                                    },
-                                                    child: Text("Return",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize:
-                                                                screenText *
-                                                                    23))),
-                                                decoration: BoxDecoration(
-                                                    color: Colors
-                                                        .deepPurple.shade200,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Colors
-                                                              .deepPurple
-                                                              .shade300,
-                                                          spreadRadius: 6,
-                                                          blurRadius: 3)
-                                                    ]))
                                           ]));
                                 });
                           },
@@ -309,5 +287,14 @@ class MapBottomPill extends StatelessWidget {
       urlList.insert(i, url);
     }
     return urlList;
+  }
+
+  Future<String> _nameString(String uid) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await firebaseFirestore.collection('users').doc(uid).get();
+    String name = snapshot.data()!['firstName'].toString();
+    String surname = snapshot.data()!['secondName'].toString();
+    return name + ' ' + surname;
   }
 }

@@ -214,7 +214,6 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                         fontWeight: FontWeight.bold)),
                 IconButton(
                     onPressed: () async {
-                      //if (modify != PassMarker.carModel) {
                       _changeFirebase(
                           carModel,
                           seatsString!,
@@ -234,32 +233,22 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                         carModel.position = positionString.toString();
                       });
                       Navigator.pop(context, carModel);
-                      /*} else {
-                        Fluttertoast.showToast(
-                            msg: 'You change nothing :(', fontSize: 20);
-                      }*/
                     },
                     icon: const Icon(Icons.add_task))
               ])
             ]),
         body: Center(
-            child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-          const SizedBox(
-              height: 40,
-              child: Text("Change your car's",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.redAccent,
-                      fontSize: 35))),
-          const SizedBox(height: 15),
-          const SizedBox(
-              height: 40,
-              child: Text("information",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.redAccent,
-                      fontSize: 35))),
+            child: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
           const SizedBox(height: 35),
+          const SizedBox(
+              height: 70,
+              child: Text("Change your car's \n information",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                      fontSize: 26))),
+          const SizedBox(height: 20),
           vehicleButton,
           const SizedBox(height: 15),
           positionButton,
@@ -269,7 +258,11 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
           fuelButton,
           const SizedBox(height: 15),
           priceButton,
-          const SizedBox(height: 15)
+          const SizedBox(height: 15),
+          FloatingActionButton(
+              onPressed: () async {},
+              backgroundColor: Colors.redAccent,
+              child: const Icon(Icons.photo_album, size: 25))
         ])));
   }
 

@@ -7,7 +7,6 @@ import 'package:prcarpolimi/auth/forgot_password.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 import 'package:prcarpolimi/homepage.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../models/static_user.dart';
 import 'package:intl/intl.dart';
 

@@ -5,7 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/configuration/front_license.dart';
-import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class Configuration extends StatefulWidget {
   const Configuration({Key? key}) : super(key: key);
