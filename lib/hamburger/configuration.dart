@@ -94,7 +94,7 @@ class _ConfigurationState extends State<Configuration> {
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
-    return /*user.isConfirmer*/ 1 == 1
+    return /*user.isConfirmed*/ 1 == 1
         ? Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
