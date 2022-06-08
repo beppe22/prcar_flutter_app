@@ -50,6 +50,7 @@ class _HomePageState extends State<HomePage> {
 
     pinPillPosition = -220;
     _updateMarkers();
+    _updateTimer();
 
     _saveToken();
     if (Platform.isAndroid) {
@@ -572,6 +573,15 @@ class _HomePageState extends State<HomePage> {
       }
     }
     _markers = PassMarker.markerToPass;
+  }
+
+  _updateTimer() {
+    const time = Duration(seconds: 3);
+    Timer.periodic(time, (Timer t) {
+      if (mounted) {
+        _updateMarkers();
+      }
+    });
   }
 }
 

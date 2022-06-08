@@ -258,7 +258,7 @@ class _AddNewCarState extends State<AddNewCar> {
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('PrCar'),
+            title: const Text('Add Car'),
             automaticallyImplyLeading: false,
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
@@ -336,7 +336,7 @@ class _AddNewCarState extends State<AddNewCar> {
               ])
             ]),
         body: Center(
-            child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
           const SizedBox(
               height: 30,
               child: Text("Insert a new car",
