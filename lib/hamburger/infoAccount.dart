@@ -211,7 +211,8 @@ class InfoAccount extends StatelessWidget {
                                                 int i = 0;
                                                 if (await _fetchAllRes(i) ==
                                                     0) {
-                                                  await deleteAccount();
+                                                  await deleteAccount(context);
+
                                                   Navigator.pushAndRemoveUntil(
                                                       context,
                                                       MaterialPageRoute(
@@ -251,11 +252,49 @@ class InfoAccount extends StatelessWidget {
             ])));
   }
 
-  deleteAccount() async {
+  deleteAccount(context) async {
     User? user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
     await user?.delete();
+    await firebaseFirestore
+        .collection("users")
+        .doc(StaticUser.uid)
+        .collection('cars')
+        .get()
+        .then((exit) async {
+      for (var car in exit.docs) {
+        await firebaseFirestore
+            .collection('users')
+            .doc(StaticUser.uid)
+            .collection('cars')
+            .doc(car.data()['cid'])
+            .collection('booking-in')
+            .get()
+            .then((snap) async {
+          for (var bookingIn in snap.docs) {
+            bookingIn.reference.delete();
+          }
+        });
+        car.reference.delete();
+      }
+    });
+    await firebaseFirestore
+        .collection("users")
+        .doc(StaticUser.uid)
+        .collection('booking-out')
+        .get()
+        .then((snap) async {
+      for (var bookingOut in snap.docs) {
+        bookingOut.reference.delete();
+      }
+    });
     await firebaseFirestore.collection("users").doc(StaticUser.uid).delete();
   }
 

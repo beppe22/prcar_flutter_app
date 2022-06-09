@@ -43,7 +43,6 @@ class _HomePageState extends State<HomePage> {
   Set<Marker> _markers = {};
   late FirebaseMessaging messaging;
   FirebaseFirestore db = FirebaseFirestore.instance;
-  List<String> messages = [];
 
   @override
   void initState() {
@@ -61,9 +60,6 @@ class _HomePageState extends State<HomePage> {
       FirebaseMessaging.onMessageOpenedApp.listen((message) async {
         print('Message clicked!');
         print(message.notification!.body);
-        setState(() {
-          messages.add(message.notification!.body.toString());
-        });
         if (message.data["type"] == 'booking') {
           List<String> bookIn = await _fetchOtherRes();
           //bookingId in input
@@ -345,9 +341,6 @@ class _HomePageState extends State<HomePage> {
                         ])
                       ]));
         }
-        setState(() {
-          messages.add(event.notification!.body.toString());
-        });
       });
     } else {
       print('User declined or has not accepted permission');
@@ -418,15 +411,32 @@ class _HomePageState extends State<HomePage> {
 
     if (initialMessage != null) {
       print('Message ripreso!');
-      print(initialMessage.notification!.body);
-      List<String> bookIn = await _fetchOtherRes();
+      if (initialMessage.data["type"] == 'booking') {
+        List<String> bookIn = await _fetchOtherRes();
+        //bookingId in input
+        String bookingId = initialMessage.data["bookId"];
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BookingInPage(
+                    bookingId: bookingId, res: bookIn, fromHp: true)));
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatDetail(
+                    friendName: initialMessage.data['friendName'],
+                    friendUid: initialMessage.data['friendId'],
+                    hp: true)));
+      }
+      /*List<String> bookIn = await _fetchOtherRes();
       //bookingId in input
       String bookingId = initialMessage.data["bookId"];
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => BookingInPage(
-                  bookingId: bookingId, res: bookIn, fromHp: true)));
+                  bookingId: bookingId, res: bookIn, fromHp: true)));*/
     }
   }
 
