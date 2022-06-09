@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, no_logic_in_create_state, must_be_immutable
 
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -128,7 +129,7 @@ class _BottomLicenseState extends State<BottomLicense> {
                 color: Colors.redAccent,
                 border: Border.all(width: 5.0, color: Colors.grey)),
             child: (MaterialButton(
-                onPressed: () {
+                onPressed: () async {
                   if (ok!) {
                     final _auth = FirebaseAuth.instance;
                     User? user = _auth.currentUser;
@@ -137,6 +138,7 @@ class _BottomLicenseState extends State<BottomLicense> {
                     final bottomPath = bottomImage!.path;
                     final expiryPath = expiryDate;
                     final drivingCodePath = drivingCode;
+                    await _updateIsConfirmed(user);
                     storage.uploadFile(frontPath, 'frontLicense', uidCode);
                     storage.uploadFile(bottomPath, 'bottomLicense', uidCode);
                     storage.uploadString(expiryPath, 'expiryDate', uidCode);
@@ -166,5 +168,13 @@ class _BottomLicenseState extends State<BottomLicense> {
                         fontWeight: FontWeight.bold)))))
       ])),
     );
+  }
+
+  _updateIsConfirmed(User user) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    await firebaseFirestore
+        .collection('users')
+        .doc(user.uid)
+        .update({'isConfirmed': 'underControl'});
   }
 }
