@@ -502,7 +502,7 @@ class _HomePageState extends State<HomePage> {
 
   String _printInfoWindow(String owner, String user, String carOwner) {
     if (owner == user) {
-      return 'My car';
+      return 'My car: click for details';
     } else {
       return carOwner;
     }
