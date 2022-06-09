@@ -45,7 +45,6 @@ class BookingOutPageState extends State<BookingOutPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-              SizedBox(height: screenHeight * 0.05),
               (res.isEmpty)
                   ? Container(
                       height: screenHeight * 0.1,
@@ -68,8 +67,8 @@ class BookingOutPageState extends State<BookingOutPage> {
                                 blurRadius: 2)
                           ]))
                   : Expanded(
-                      child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
+                      child: (ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: res == [] ? 0 : res.length,
                           itemBuilder: (context, index) {
@@ -250,7 +249,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                       ]));
                             }
                             return const SizedBox(height: 1);
-                          }))
+                          })))
             ])));
   }
 

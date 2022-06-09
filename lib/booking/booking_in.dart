@@ -62,7 +62,6 @@ class BookingInPageState extends State<BookingInPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                      SizedBox(height: screenHeight * 0.03),
                       (res.isEmpty)
                           ? Container(
                               height: screenHeight * 0.07,
