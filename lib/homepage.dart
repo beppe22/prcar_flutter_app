@@ -181,8 +181,8 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(fontSize: screenText * 16)),
                   onTap: () async {
                     User? user = FirebaseAuth.instance.currentUser;
-                    bool confirmed = await _isConfirmed(user!);
-                    print(confirmed);
+                    String confirmed = await _isConfirmed(user!);
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -617,7 +617,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<bool> _isConfirmed(User user) async {
+  Future<String> _isConfirmed(User user) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     DocumentSnapshot<Map<String, dynamic>> snapshot =
         await firebaseFirestore.collection('users').doc(user.uid).get();

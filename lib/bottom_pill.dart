@@ -179,7 +179,8 @@ class MapBottomPill extends StatelessWidget {
                                                       User? user =
                                                           _auth.currentUser;
                                                       if (await _isConfirmed(
-                                                          user!)) {
+                                                              user!) ==
+                                                          'confirmed') {
                                                         PassMarker.hpOrNot =
                                                             true;
                                                         var reserveResult =
@@ -208,7 +209,7 @@ class MapBottomPill extends StatelessWidget {
                                                       } else {
                                                         Fluttertoast.showToast(
                                                             msg:
-                                                                'Driving License Info isn\'t confirmed yet :(',
+                                                                'Driving License isn\'t confirmed yet :(',
                                                             fontSize: 20);
                                                       }
                                                     },
@@ -294,7 +295,7 @@ class MapBottomPill extends StatelessWidget {
     return name + ' ' + surname;
   }
 
-  Future<bool> _isConfirmed(User user) async {
+  Future<String> _isConfirmed(User user) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     DocumentSnapshot<Map<String, dynamic>> snapshot =
         await firebaseFirestore.collection('users').doc(user.uid).get();

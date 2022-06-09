@@ -5,7 +5,7 @@ class UserModel {
   String? email;
   String? firstName;
   String? secondName;
-  bool? isConfirmed;
+  String? isConfirmed;
 
   UserModel(
       {this.uid,

@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/configuration/front_license.dart';
 
 class Configuration extends StatefulWidget {
-  bool isConfirmed;
+  String isConfirmed;
   Configuration({Key? key, required this.isConfirmed}) : super(key: key);
 
   @override
@@ -20,7 +20,7 @@ class _ConfigurationState extends State<Configuration> {
   final expiryDateEditingController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   DateTime date = DateTime.now();
-  bool isConfirmed;
+  String isConfirmed;
   _ConfigurationState(this.isConfirmed);
   @override
   Widget build(BuildContext context) {
@@ -97,11 +97,11 @@ class _ConfigurationState extends State<Configuration> {
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
-    return !isConfirmed
+    return isConfirmed == 'negative'
         ? Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-                title: const Text('Driving license'),
+                title: const Text('Configuration'),
                 backgroundColor: Colors.redAccent,
                 leading: IconButton(
                     icon: const Icon(Icons.arrow_back),
@@ -171,7 +171,7 @@ class _ConfigurationState extends State<Configuration> {
             backgroundColor: Colors.white,
             appBar: AppBar(
                 backgroundColor: Colors.redAccent,
-                title: const Text('PrCar'),
+                title: const Text('Configuration'),
                 automaticallyImplyLeading: false,
                 leading: IconButton(
                     icon: const Icon(Icons.arrow_back),
@@ -181,46 +181,58 @@ class _ConfigurationState extends State<Configuration> {
             body: Center(
                 child: Column(children: [
               const SizedBox(height: 35),
-              const Text(
-                'Driving License info already inserted, click below for reset your info',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.redAccent),
-              ),
+              isConfirmed == 'confirmed'
+                  ? const Text(
+                      'Driving License info already inserted, click below for reset your info',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.redAccent),
+                    )
+                  : const Text(
+                      'Driving License is under administrator\'s control',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.redAccent),
+                    ),
               const SizedBox(height: 35),
               SizedBox(
                   height: 250,
                   child:
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
               const SizedBox(height: 35),
-              Container(
-                  height: 70,
-                  width: 300,
-                  decoration: BoxDecoration(
-                      color: Colors.redAccent,
-                      border: Border.all(width: 5.0, color: Colors.grey)),
-                  child: (MaterialButton(
-                      onPressed: () {
-                        final _auth = FirebaseAuth.instance;
-                        User? user = _auth.currentUser;
-                        _updateIsConfirmed(user!);
-                        _deleteDrivingLicense(user.uid);
-                        Fluttertoast.showToast(
-                            msg: 'Driving license info resetted succesfully :)',
-                            fontSize: 20);
-                        Navigator.pop(context);
-                      },
-                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      shape: ContinuousRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: const Text("Reset driving license info!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)))))
+              isConfirmed == 'confirmed'
+                  ? Container(
+                      height: 70,
+                      width: 300,
+                      decoration: BoxDecoration(
+                          color: Colors.redAccent,
+                          border: Border.all(width: 5.0, color: Colors.grey)),
+                      child: (MaterialButton(
+                          onPressed: () {
+                            final _auth = FirebaseAuth.instance;
+                            User? user = _auth.currentUser;
+                            _updateIsConfirmed(user!);
+                            _deleteDrivingLicense(user.uid);
+                            Fluttertoast.showToast(
+                                msg:
+                                    'Driving license info resetted succesfully :)',
+                                fontSize: 20);
+                            Navigator.pop(context);
+                          },
+                          padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                          shape: ContinuousRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          child: const Text("Reset driving license info!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)))))
+                  : Container()
             ])));
   }
 
@@ -253,6 +265,6 @@ class _ConfigurationState extends State<Configuration> {
     await firebaseFirestore
         .collection('users')
         .doc(user.uid)
-        .update({'isConfirmed': false});
+        .update({'isConfirmed': 'negative'});
   }
 }
