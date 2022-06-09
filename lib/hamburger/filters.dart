@@ -343,11 +343,7 @@ class _FiltersState extends State<Filters> {
                           });
                           if (searchCars.isNotEmpty) {
                             PassMarker.from = false;
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        HomePage(searchCar: searchCars)));
+                            Navigator.pop(context, searchCars);
                           } else {
                             Fluttertoast.showToast(
                                 msg: 'No car found :( try with less parameters',
