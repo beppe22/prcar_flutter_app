@@ -45,11 +45,7 @@ class _ConfigurationState extends State<Configuration> {
     final expiryDateEditingField = TextFormField(
         autofocus: false,
         controller: expiryDateEditingController,
-<<<<<<< HEAD
-        //keyboardType: TextInputType.datetime,
-=======
         keyboardType: TextInputType.datetime,
->>>>>>> d13e42943294c0f7a16302e93e240b5f643b6af5
         validator: (value) {
           if (value!.isEmpty) {
             return ("Expiry Date can't be Empty");

@@ -22,14 +22,16 @@ class _Cars_userState extends State<Cars_user> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('Your cars'),
+            title:
+                Text('Your cars', style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context);
                 })),
@@ -39,18 +41,22 @@ class _Cars_userState extends State<Cars_user> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-              SizedBox(height: screenHeight * 0.05),
+              SizedBox(height: screenHeight * 0.03),
               (cars.isEmpty)
                   ? Container(
-                      height: 70,
-                      width: 350,
-                      child: const Text('No cars yet :(',
+                      height: screenHeight * 0.1,
+                      width: screenWidth * 0.9,
+                      child: Text('No cars yet :(',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.redAccent,
-                              fontSize: 24,
+                              fontSize: screenText * 24,
                               fontWeight: FontWeight.bold)),
-                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                      padding: EdgeInsets.fromLTRB(
+                          screenWidth * 0.02,
+                          screenHeight * 0.02,
+                          screenWidth * 0.02,
+                          screenHeight * 0.02),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           border:
@@ -72,10 +78,10 @@ class _Cars_userState extends State<Cars_user> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const SizedBox(height: 20),
+                                  SizedBox(height: screenHeight * 0.03),
                                   Container(
-                                      height: 50,
-                                      width: 350,
+                                      height: screenHeight * 0.07,
+                                      width: screenWidth * 0.85,
                                       child: MaterialButton(
                                           color: Colors.grey.shade200,
                                           onPressed: () async {
@@ -101,15 +107,25 @@ class _Cars_userState extends State<Cars_user> {
                                               });
                                             }
                                           },
-                                          child: Text(
-                                              cars[index].vehicle.toString() +
-                                                  '-' +
-                                                  cars[index].model.toString(),
-                                              style: const TextStyle(
-                                                  color: Colors.redAccent,
-                                                  fontSize: 35,
-                                                  fontWeight:
-                                                      FontWeight.w500))),
+                                          child: Expanded(
+                                              child: SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Text(
+                                                      cars[index]
+                                                              .vehicle
+                                                              .toString() +
+                                                          '-' +
+                                                          cars[index]
+                                                              .model
+                                                              .toString(),
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.redAccent,
+                                                          fontSize:
+                                                              screenText * 35,
+                                                          fontWeight: FontWeight
+                                                              .w500))))),
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(12),
@@ -134,6 +150,9 @@ class _Cars_userState extends State<Cars_user> {
             },
             backgroundColor: Colors.grey,
             tooltip: 'Add new car',
-            child: const Icon(Icons.add)));
+            child: Icon(
+              Icons.add,
+              size: screenText * 25,
+            )));
   }
 }

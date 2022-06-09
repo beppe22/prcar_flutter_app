@@ -48,12 +48,19 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     List<File?> images = [];
     String nameString = vehicleString.toString() + '-' + modelString.toString();
     final positionButton = Container(
-        width: double.maxFinite,
-        height: 50,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -78,16 +85,20 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                     scrollDirection: Axis.horizontal,
                     child: Text("Position: " + _printPosition(positionString!),
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontSize: 20,
+                        style: TextStyle(
+                            fontSize: screenText * 20,
                             color: Colors.white,
                             fontWeight: FontWeight.bold))))));
 
 //vehicle button field
     final vehicleButton = Container(
-        width: double.maxFinite,
-        height: 50,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -105,7 +116,8 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Expanded(
@@ -113,16 +125,20 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                     scrollDirection: Axis.horizontal,
                     child: Text("Vehicle: " + nameString,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontSize: 20,
+                        style: TextStyle(
+                            fontSize: screenText * 20,
                             color: Colors.white,
                             fontWeight: FontWeight.bold))))));
 
     //seats button field
     final seatsButton = Container(
-        width: double.maxFinite,
-        height: 50,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -138,21 +154,26 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Seats: " + seatsString.toString(),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: screenText * 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
     //fuel button field
     final fuelButton = Container(
-        width: double.maxFinite,
-        height: 50,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -167,21 +188,26 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Fuel: " + fuelString.toString(),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: screenText * 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
     //price button field
     final priceButton = Container(
-        width: double.maxFinite,
-        height: 50,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -197,31 +223,36 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Price: " + priceString.toString(),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: screenText * 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('Change Car'),
+            title:
+                Text('Change Car', style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: screenText * 25,
+                ),
                 onPressed: () {
                   Navigator.pop(context, carModel);
                 }),
             actions: [
               Row(children: [
-                const Text('Change!',
+                Text('Change!',
                     style: TextStyle(
-                        fontSize: 17,
+                        fontSize: screenText * 20,
                         color: Colors.white,
                         fontWeight: FontWeight.bold)),
                 IconButton(
@@ -260,31 +291,31 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                         Navigator.pop(context, carModel);
                       }
                     },
-                    icon: const Icon(Icons.add_task))
+                    icon: Icon(Icons.add_task, size: screenText * 25))
               ])
             ]),
         body: Center(
             child: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
-          const SizedBox(height: 35),
-          const SizedBox(
-              height: 70,
+          SizedBox(height: screenHeight * 0.04),
+          SizedBox(
+              height: screenHeight * 0.1,
               child: Text("Change your car's \n information",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.grey,
-                      fontSize: 26))),
-          const SizedBox(height: 20),
+                      fontSize: screenText * 26))),
+          SizedBox(height: screenHeight * 0.02),
           vehicleButton,
-          const SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.015),
           positionButton,
-          const SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.015),
           seatsButton,
-          const SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.015),
           fuelButton,
-          const SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.015),
           priceButton,
-          const SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.015),
           FloatingActionButton(
               onPressed: () async {
                 Navigator.push(
@@ -296,7 +327,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                 });
               },
               backgroundColor: Colors.redAccent,
-              child: const Icon(Icons.photo_album, size: 25))
+              child: Icon(Icons.photo_album, size: screenText * 25))
         ])));
   }
 
