@@ -5,7 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/configuration/front_license.dart';
-import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class Configuration extends StatefulWidget {
   const Configuration({Key? key}) : super(key: key);
@@ -46,7 +45,11 @@ class _ConfigurationState extends State<Configuration> {
     final expiryDateEditingField = TextFormField(
         autofocus: false,
         controller: expiryDateEditingController,
+<<<<<<< HEAD
         //keyboardType: TextInputType.datetime,
+=======
+        keyboardType: TextInputType.datetime,
+>>>>>>> d13e42943294c0f7a16302e93e240b5f643b6af5
         validator: (value) {
           if (value!.isEmpty) {
             return ("Expiry Date can't be Empty");
@@ -94,7 +97,7 @@ class _ConfigurationState extends State<Configuration> {
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
-    return !PassMarker.driveInserted
+    return /*!user.isConfirmed*/ 1 == 1
         ? Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
@@ -202,7 +205,7 @@ class _ConfigurationState extends State<Configuration> {
                       onPressed: () {
                         final _auth = FirebaseAuth.instance;
                         User? user = _auth.currentUser;
-                        PassMarker.driveInserted = false;
+                        //update user.isConfirmed to false
                         _deleteDrivingLicense(user!.uid);
                         Fluttertoast.showToast(
                             msg: 'Driving license info resetted succesfully :)',

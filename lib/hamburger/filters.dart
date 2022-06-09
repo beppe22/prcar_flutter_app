@@ -165,9 +165,10 @@ class _FiltersState extends State<Filters> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Seats()))
-                  .then((data) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Seats(filter: true))).then((data) {
                 setState(() {
                   search.seats = data;
                 });
@@ -229,9 +230,10 @@ class _FiltersState extends State<Filters> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Price()))
-                  .then((data) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Price(filter: true))).then((data) {
                 setState(() {
                   search.price = data;
                 });

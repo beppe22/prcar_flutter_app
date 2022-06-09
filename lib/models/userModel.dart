@@ -5,13 +5,14 @@ class UserModel {
   String? email;
   String? firstName;
   String? secondName;
+  bool? isConfirmed;
 
-  UserModel({
-    this.uid,
-    this.email,
-    this.firstName,
-    this.secondName,
-  });
+  UserModel(
+      {this.uid,
+      this.email,
+      this.firstName,
+      this.secondName,
+      this.isConfirmed});
 
   //receiving data from server
   factory UserModel.fromMap(map) {
@@ -20,6 +21,7 @@ class UserModel {
       email: map['email'],
       firstName: map['firstName'],
       secondName: map['secondName'],
+      isConfirmed: map['isConfirmed'],
     );
   }
 
@@ -30,6 +32,7 @@ class UserModel {
       'email': email,
       'firstName': firstName,
       'secondName': secondName,
+      'isConfirmed': isConfirmed
     };
   }
 }

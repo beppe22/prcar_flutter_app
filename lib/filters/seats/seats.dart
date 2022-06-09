@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'seatsbotton.dart';
 
 class Seats extends StatefulWidget {
-  const Seats({Key? key}) : super(key: key);
+  bool filter;
+  Seats({Key? key, required this.filter}) : super(key: key);
   @override
-  _SeatsState createState() => _SeatsState();
+  _SeatsState createState() => _SeatsState(filter);
 }
 
 class _SeatsState extends State<Seats> {
   late String value;
+  bool filter;
+  _SeatsState(this.filter);
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -32,12 +35,13 @@ class _SeatsState extends State<Seats> {
               height: screenHeight * 0.28,
               child: Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
           SizedBox(
-              height: screenHeight * 0.05,
-              child: Text("Choose how many seats",
+              height: screenHeight * 0.07,
+              child: Text(_seatsString(filter),
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.redAccent,
-                      fontSize: screenText * 23))),
+                      fontSize: screenText * 22))),
           SizedBox(height: screenHeight * 0.02),
           SeatsButton(
               screenHeight: screenHeight,
@@ -63,5 +67,13 @@ class _SeatsState extends State<Seats> {
               screenText: screenText,
               value: '5')
         ]));
+  }
+
+  String _seatsString(bool filter) {
+    if (filter) {
+      return 'Choose the minimum car\'s seats';
+    } else {
+      return 'Choose car\'s seats ';
+    }
   }
 }

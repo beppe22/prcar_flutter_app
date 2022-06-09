@@ -115,7 +115,7 @@ class BookingInPageState extends State<BookingInPage> {
                                             SizedBox(
                                                 height: screenHeight * 0.01),
                                             Container(
-                                                height: screenHeight * 0.16,
+                                                height: screenHeight * 0.2,
                                                 width: screenWidth * 0.9,
                                                 padding: EdgeInsets.fromLTRB(
                                                     screenWidth * 0.008,
@@ -176,12 +176,33 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                       DateTime day = DateTime.now();
                                                                                       DateTime day3 = DateTime(day.year, day.month, day.day + 3);
                                                                                       if (dayStart.compareTo(day3) > 0) {
-                                                                                        setState(() {
-                                                                                          _annulmentMessage(index);
-                                                                                          PassMarker.status[index] = 'a';
-                                                                                        });
+                                                                                        showDialog(
+                                                                                            context: context,
+                                                                                            builder: (BuildContext context) => AlertDialog(
+                                                                                                    title: Text('!!! Warning !!!', style: TextStyle(fontSize: screenText * 28, color: Colors.redAccent, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                                                                                                    content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
+                                                                                                      Text('If you press \'Confirm!\' your reservation will be abolished. Do you want to continue?', style: TextStyle(fontSize: screenText * 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center)
+                                                                                                    ]),
+                                                                                                    actions: <Widget>[
+                                                                                                      Row(children: [
+                                                                                                        TextButton(
+                                                                                                            onPressed: () {
+                                                                                                              Navigator.of(context).pop();
+                                                                                                            },
+                                                                                                            child: Text('Close', style: TextStyle(fontSize: screenText * 24))),
+                                                                                                        SizedBox(width: screenWidth * 0.2),
+                                                                                                        TextButton(
+                                                                                                            onPressed: () async {
+                                                                                                              setState(() {
+                                                                                                                _annulmentMessage(index);
+                                                                                                                PassMarker.status[index] = 'a';
+                                                                                                              });
 
-                                                                                        Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
+                                                                                                              Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
+                                                                                                            },
+                                                                                                            child: Text('Confirm!', style: TextStyle(fontSize: screenText * 24)))
+                                                                                                      ])
+                                                                                                    ]));
                                                                                       } else {
                                                                                         Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
                                                                                       }
@@ -227,7 +248,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             fontSize:
-                                                                screenText * 20,
+                                                                screenText * 16,
                                                             color: _colorReservation(
                                                                 index, bookingId))))),
                                                 decoration: BoxDecoration(

@@ -1,8 +1,13 @@
 // ignore_for_file: no_logic_in_create_state
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/about_your_car/image_car.dart';
+import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/filters/fuel/fuel.dart';
 import 'package:prcarpolimi/filters/position/position.dart';
 import 'package:prcarpolimi/filters/price/price.dart';
@@ -43,6 +48,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
 
   @override
   Widget build(BuildContext context) {
+    List<File?> images = [];
     String nameString = vehicleString.toString() + '-' + modelString.toString();
     final positionButton = Container(
         width: double.maxFinite,
@@ -67,12 +73,15 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Position: " + _printPosition(positionString!),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold))));
+            child: Expanded(
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text("Position: " + _printPosition(positionString!),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold))))));
 
 //vehicle button field
     final vehicleButton = Container(
@@ -99,12 +108,15 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Text("Vehicle: " + nameString,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold))));
+            child: Expanded(
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text("Vehicle: " + nameString,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold))))));
 
     //seats button field
     final seatsButton = Container(
@@ -115,9 +127,10 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Seats()))
-                  .then((data) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Seats(filter: false))).then((data) {
                 setState(() {
                   if (data != '') {
                     seatsString = data;
@@ -173,9 +186,10 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Price()))
-                  .then((data) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Price(filter: false))).then((data) {
                 setState(() {
                   if (data != '') {
                     priceString = data;
@@ -212,52 +226,55 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                         fontWeight: FontWeight.bold)),
                 IconButton(
                     onPressed: () async {
-                      //if (modify != PassMarker.carModel) {
-                      _changeFirebase(
-                          carModel,
-                          seatsString!,
-                          fuelString!,
-                          modelString!,
-                          vehicleString!,
-                          priceString!,
-                          positionString!);
-                      Fluttertoast.showToast(
-                          msg: 'New car\'s update :)', fontSize: 20);
-                      setState(() {
-                        carModel.fuel = fuelString.toString();
-                        carModel.price = priceString.toString();
-                        carModel.model = modelString.toString();
-                        carModel.vehicle = vehicleString.toString();
-                        carModel.seats = seatsString.toString();
-                        carModel.position = positionString.toString();
-                      });
-                      Navigator.pop(context, carModel);
-                      /*} else {
+                      if (carModel.fuel == fuelString &&
+                          carModel.model == modelString &&
+                          carModel.position == positionString &&
+                          carModel.price == priceString &&
+                          carModel.seats == seatsString &&
+                          carModel.vehicle == vehicleString &&
+                          images.isEmpty) {
                         Fluttertoast.showToast(
                             msg: 'You change nothing :(', fontSize: 20);
-                      }*/
+                      } else {
+                        _changeFirebase(
+                            carModel,
+                            seatsString!,
+                            fuelString!,
+                            modelString!,
+                            vehicleString!,
+                            priceString!,
+                            positionString!);
+                        if (images.isNotEmpty) {
+                          _updateImages(images, carModel.uid!, carModel.cid!);
+                        }
+                        Fluttertoast.showToast(
+                            msg: 'New car\'s update :)', fontSize: 20);
+                        setState(() {
+                          carModel.fuel = fuelString.toString();
+                          carModel.price = priceString.toString();
+                          carModel.model = modelString.toString();
+                          carModel.vehicle = vehicleString.toString();
+                          carModel.seats = seatsString.toString();
+                          carModel.position = positionString.toString();
+                        });
+                        Navigator.pop(context, carModel);
+                      }
                     },
                     icon: const Icon(Icons.add_task))
               ])
             ]),
         body: Center(
-            child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-          const SizedBox(
-              height: 40,
-              child: Text("Change your car's",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.redAccent,
-                      fontSize: 35))),
-          const SizedBox(height: 15),
-          const SizedBox(
-              height: 40,
-              child: Text("information",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.redAccent,
-                      fontSize: 35))),
+            child: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
           const SizedBox(height: 35),
+          const SizedBox(
+              height: 70,
+              child: Text("Change your car's \n information",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                      fontSize: 26))),
+          const SizedBox(height: 20),
           vehicleButton,
           const SizedBox(height: 15),
           positionButton,
@@ -267,7 +284,19 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
           fuelButton,
           const SizedBox(height: 15),
           priceButton,
-          const SizedBox(height: 15)
+          const SizedBox(height: 15),
+          FloatingActionButton(
+              onPressed: () async {
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ImageCar(add: false)))
+                    .then((data) {
+                  images = data;
+                });
+              },
+              backgroundColor: Colors.redAccent,
+              child: const Icon(Icons.photo_album, size: 25))
         ])));
   }
 
@@ -296,5 +325,19 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
       'veicol': vehicle,
       'model': model
     });
+  }
+
+  void _updateImages(List<File?> images, String uid, String cid) {
+    final Storage storage = Storage();
+    FirebaseStorage.instance.ref("$uid/$cid/").listAll().then((value) {
+      for (int i = 0; value.items.isEmpty; i++) {
+        String path = value.items[i].fullPath;
+        FirebaseStorage.instance.ref(path).delete();
+      }
+    });
+    for (int i = 0; images[i] != null && i < 6; i++) {
+      final tempPath = images[i]!.path;
+      storage.uploadCarPic(tempPath, 'imageCar$i', uid, cid);
+    }
   }
 }

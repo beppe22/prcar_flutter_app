@@ -8,10 +8,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class ImageCar extends StatefulWidget {
-  const ImageCar({Key? key}) : super(key: key);
+  bool add;
+  ImageCar({Key? key, required this.add}) : super(key: key);
 
   @override
-  State<ImageCar> createState() => _ImageCarState();
+  State<ImageCar> createState() => _ImageCarState(add);
 }
 
 class _ImageCarState extends State<ImageCar> {
@@ -21,6 +22,9 @@ class _ImageCarState extends State<ImageCar> {
   File? image4;
   File? image5;
   File? image6;
+  bool add;
+
+  _ImageCarState(this.add);
 
   @override
   void initState() {
@@ -116,48 +120,31 @@ class _ImageCarState extends State<ImageCar> {
         backgroundColor: Colors.white,
         body: Center(
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-              const Text('Insert your car\'s pictures (min. 1, max 6)',
-                  style: TextStyle(
-                      fontSize: 29,
+              const SizedBox(height: 75),
+              Text(_printTitle(add),
+                  style: const TextStyle(
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Colors.redAccent),
+                      color: Colors.grey),
                   textAlign: TextAlign.center),
               const SizedBox(height: 20),
               SizedBox(
                   child: Row(children: [
                 const SizedBox(width: 15),
                 image1 != null
-                    ? Image.file(image1!,
-                        width: 150, height: 150, fit: BoxFit.cover)
+                    ? ClipOval(
+                        child: Image.file(image1!,
+                            width: 120, height: 120, fit: BoxFit.cover))
                     : SizedBox(
-                        height: 150,
-                        child: Image.asset("assets/prcarlogo.png",
-                            fit: BoxFit.contain)),
-                const SizedBox(width: 70),
-                image2 != null
-                    ? Image.file(image2!,
-                        width: 150, height: 150, fit: BoxFit.cover)
-                    : SizedBox(
-                        height: 150,
-                        child: Image.asset("assets/prcarlogo.png",
-                            fit: BoxFit.contain)),
-              ])),
-              const SizedBox(height: 20),
-              SizedBox(
-                  child: Row(children: [
-                const SizedBox(width: 15),
-                image3 != null
-                    ? Image.file(image3!,
-                        width: 150, height: 150, fit: BoxFit.cover)
-                    : SizedBox(
-                        height: 150,
+                        height: 120,
                         child: Image.asset("assets/prcarlogo.png",
                             fit: BoxFit.contain)),
                 const SizedBox(width: 10),
                 FloatingActionButton(
+                  heroTag: "btn1",
                   onPressed: () async {
                     if (PassMarker.photoCount <= 5) {
                       pickImage(ImageSource.camera, PassMarker.photoCount);
@@ -170,11 +157,34 @@ class _ImageCarState extends State<ImageCar> {
                   child: const Icon(Icons.photo_camera),
                 ),
                 const SizedBox(width: 10),
-                image4 != null
-                    ? Image.file(image4!,
-                        width: 150, height: 150, fit: BoxFit.cover)
+                image2 != null
+                    ? ClipOval(
+                        child: Image.file(image2!,
+                            width: 120, height: 120, fit: BoxFit.cover))
                     : SizedBox(
-                        height: 150,
+                        height: 120,
+                        child: Image.asset("assets/prcarlogo.png",
+                            fit: BoxFit.contain)),
+              ])),
+              const SizedBox(height: 20),
+              SizedBox(
+                  child: Row(children: [
+                const SizedBox(width: 15),
+                image3 != null
+                    ? ClipOval(
+                        child: Image.file(image3!,
+                            width: 120, height: 120, fit: BoxFit.cover))
+                    : SizedBox(
+                        height: 120,
+                        child: Image.asset("assets/prcarlogo.png",
+                            fit: BoxFit.contain)),
+                const SizedBox(width: 70),
+                image4 != null
+                    ? ClipOval(
+                        child: Image.file(image4!,
+                            width: 120, height: 120, fit: BoxFit.cover))
+                    : SizedBox(
+                        height: 120,
                         child: Image.asset("assets/prcarlogo.png",
                             fit: BoxFit.contain)),
               ])),
@@ -183,21 +193,45 @@ class _ImageCarState extends State<ImageCar> {
                   child: Row(children: [
                 const SizedBox(width: 15),
                 image5 != null
-                    ? Image.file(image5!,
-                        width: 150, height: 150, fit: BoxFit.cover)
+                    ? ClipOval(
+                        child: Image.file(image5!,
+                            width: 120, height: 120, fit: BoxFit.cover))
                     : SizedBox(
-                        height: 150,
+                        height: 120,
                         child: Image.asset("assets/prcarlogo.png",
                             fit: BoxFit.contain)),
-                const SizedBox(width: 70),
+                const SizedBox(width: 10),
+                FloatingActionButton(
+                  heroTag: "btn2",
+                  onPressed: () async {
+                    if (PassMarker.photoCount <= 5) {
+                      pickImage(ImageSource.gallery, PassMarker.photoCount);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: 'Max number of photo\'s loaded', fontSize: 20);
+                    }
+                  },
+                  backgroundColor: Colors.redAccent,
+                  child: const Icon(Icons.photo_library),
+                ),
+                const SizedBox(width: 10),
                 image6 != null
-                    ? Image.file(image6!,
-                        width: 150, height: 150, fit: BoxFit.cover)
+                    ? ClipOval(
+                        child: Image.file(image6!,
+                            width: 120, height: 120, fit: BoxFit.cover))
                     : SizedBox(
-                        height: 150,
+                        height: 120,
                         child: Image.asset("assets/prcarlogo.png",
                             fit: BoxFit.contain)),
               ]))
             ])));
+  }
+
+  String _printTitle(bool where) {
+    if (where) {
+      return 'Insert your car\'s pictures \n (min. 1, max 6)';
+    } else {
+      return 'Reset and add new car\' pictures \n (min. 1, max 6)';
+    }
   }
 }

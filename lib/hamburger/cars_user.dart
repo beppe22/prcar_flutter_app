@@ -91,8 +91,10 @@ class _Cars_userState extends State<Cars_user> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            InfoCar(cars[index],
-                                                                suspOrAct)));
+                                                            InfoCar(
+                                                                cars[index],
+                                                                suspOrAct,
+                                                                false)));
                                             if (newCars != []) {
                                               setState(() {
                                                 cars = newCars;

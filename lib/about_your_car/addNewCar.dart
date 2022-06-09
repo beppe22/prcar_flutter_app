@@ -67,7 +67,6 @@ class _AddNewCarState extends State<AddNewCar> {
                       MaterialPageRoute(builder: (context) => const Position()))
                   .then((data) {
                 setState(() {
-                  print(data);
                   car.position = SearchCar.latSearch.toString() +
                       ',' +
                       SearchCar.lngSearch.toString();
@@ -134,9 +133,10 @@ class _AddNewCarState extends State<AddNewCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Seats()))
-                  .then((data) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Seats(filter: false))).then((data) {
                 setState(() {
                   car.seats = data;
                 });
@@ -188,9 +188,10 @@ class _AddNewCarState extends State<AddNewCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Price()))
-                  .then((data) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Price(filter: false))).then((data) {
                 setState(() {
                   car.price = data;
                 });
@@ -210,7 +211,7 @@ class _AddNewCarState extends State<AddNewCar> {
     final photoButton = FloatingActionButton(
       onPressed: () async {
         Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ImageCar()))
+                MaterialPageRoute(builder: (context) => ImageCar(add: true)))
             .then((data) {
           images = data;
         });
@@ -256,7 +257,7 @@ class _AddNewCarState extends State<AddNewCar> {
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('PrCar'),
+            title: const Text('Add Car'),
             automaticallyImplyLeading: false,
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
@@ -334,7 +335,7 @@ class _AddNewCarState extends State<AddNewCar> {
               ])
             ]),
         body: Center(
-            child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
           const SizedBox(
               height: 30,
               child: Text("Insert a new car",
