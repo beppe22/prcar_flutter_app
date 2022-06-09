@@ -14,20 +14,21 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 class InfoCar extends StatefulWidget {
   CarModel carModel;
   String supOrActive;
+  bool homepage;
 
-  InfoCar(this.carModel, this.supOrActive, {Key? key}) : super(key: key);
+  InfoCar(this.carModel, this.supOrActive, this.homepage, {Key? key})
+      : super(key: key);
   @override
-  State<InfoCar> createState() => _InfoCarState(carModel, supOrActive);
+  State<InfoCar> createState() =>
+      _InfoCarState(carModel, supOrActive, homepage);
 }
 
 class _InfoCarState extends State<InfoCar> {
   CarModel carModel;
   String supOrActive;
+  bool homepage;
 
-  _InfoCarState(
-    this.carModel,
-    this.supOrActive,
-  );
+  _InfoCarState(this.carModel, this.supOrActive, this.homepage);
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
@@ -46,7 +47,9 @@ class _InfoCarState extends State<InfoCar> {
                 style: TextStyle(fontSize: screenWidth * 0.07)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: Icon(Icons.arrow_back, size: screenHeight * 0.04),
+                icon: homepage
+                    ? Icon(Icons.cancel, size: screenHeight * 0.04)
+                    : Icon(Icons.arrow_back, size: screenHeight * 0.04),
                 onPressed: () async {
                   Navigator.pop(context, await _fetchInfoCar());
                 })),

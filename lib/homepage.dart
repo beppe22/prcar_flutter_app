@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:prcarpolimi/about_your_car/info_car.dart';
 import 'package:prcarpolimi/booking/booking_in.dart';
 import 'package:prcarpolimi/chatImplementation/chatDetail.dart';
 import 'package:prcarpolimi/hamburger/configuration.dart';
@@ -527,7 +528,22 @@ class _HomePageState extends State<HomePage> {
                       userAuth,
                       cars[i].vehicle.toString() +
                           '-' +
-                          cars[i].model.toString())),
+                          cars[i].model.toString()),
+                  onTap: () {
+                    if (cars[i].uid == userAuth) {
+                      String suspOrAct = '';
+                      if (cars[i].activeOrNot == 't') {
+                        suspOrAct = 'Suspend';
+                      } else {
+                        suspOrAct = 'Active';
+                      }
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  InfoCar(cars[i], suspOrAct, true)));
+                    }
+                  }),
               position: LatLng(lat, lng),
               icon: _iconColor(cars[i].uid.toString(), userAuth),
               onTap: () {

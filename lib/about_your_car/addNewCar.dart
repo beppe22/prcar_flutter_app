@@ -67,7 +67,6 @@ class _AddNewCarState extends State<AddNewCar> {
                       MaterialPageRoute(builder: (context) => const Position()))
                   .then((data) {
                 setState(() {
-                  print(data);
                   car.position = SearchCar.latSearch.toString() +
                       ',' +
                       SearchCar.lngSearch.toString();
@@ -212,7 +211,7 @@ class _AddNewCarState extends State<AddNewCar> {
     final photoButton = FloatingActionButton(
       onPressed: () async {
         Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ImageCar()))
+                MaterialPageRoute(builder: (context) => ImageCar(add: true)))
             .then((data) {
           images = data;
         });

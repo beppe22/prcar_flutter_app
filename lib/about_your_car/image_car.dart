@@ -8,10 +8,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class ImageCar extends StatefulWidget {
-  const ImageCar({Key? key}) : super(key: key);
+  bool add;
+  ImageCar({Key? key, required this.add}) : super(key: key);
 
   @override
-  State<ImageCar> createState() => _ImageCarState();
+  State<ImageCar> createState() => _ImageCarState(add);
 }
 
 class _ImageCarState extends State<ImageCar> {
@@ -21,6 +22,9 @@ class _ImageCarState extends State<ImageCar> {
   File? image4;
   File? image5;
   File? image6;
+  bool add;
+
+  _ImageCarState(this.add);
 
   @override
   void initState() {
@@ -116,12 +120,13 @@ class _ImageCarState extends State<ImageCar> {
         backgroundColor: Colors.white,
         body: Center(
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-              const Text('Insert your car\'s pictures \n (min. 1, max 6)',
-                  style: TextStyle(
-                      fontSize: 24,
+              const SizedBox(height: 75),
+              Text(_printTitle(add),
+                  style: const TextStyle(
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.grey),
                   textAlign: TextAlign.center),
@@ -139,6 +144,7 @@ class _ImageCarState extends State<ImageCar> {
                             fit: BoxFit.contain)),
                 const SizedBox(width: 10),
                 FloatingActionButton(
+                  heroTag: "btn1",
                   onPressed: () async {
                     if (PassMarker.photoCount <= 5) {
                       pickImage(ImageSource.camera, PassMarker.photoCount);
@@ -196,6 +202,7 @@ class _ImageCarState extends State<ImageCar> {
                             fit: BoxFit.contain)),
                 const SizedBox(width: 10),
                 FloatingActionButton(
+                  heroTag: "btn2",
                   onPressed: () async {
                     if (PassMarker.photoCount <= 5) {
                       pickImage(ImageSource.gallery, PassMarker.photoCount);
@@ -218,5 +225,13 @@ class _ImageCarState extends State<ImageCar> {
                             fit: BoxFit.contain)),
               ]))
             ])));
+  }
+
+  String _printTitle(bool where) {
+    if (where) {
+      return 'Insert your car\'s pictures \n (min. 1, max 6)';
+    } else {
+      return 'Reset and add new car\' pictures \n (min. 1, max 6)';
+    }
   }
 }
