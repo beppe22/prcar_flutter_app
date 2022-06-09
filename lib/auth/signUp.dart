@@ -242,6 +242,7 @@ class _SignUpState extends State<SignUp> {
     userModel.uid = user.uid;
     userModel.firstName = firstNameEditingController.text;
     userModel.secondName = secondNameEditingController.text;
+    userModel.isConfirmed = 'negative';
 
     StaticUser.email = userModel.email!;
     StaticUser.uid = userModel.uid!;
