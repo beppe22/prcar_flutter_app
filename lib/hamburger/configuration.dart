@@ -1,5 +1,6 @@
 // ignore_for_file: body_might_complete_normally_nullable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/configuration/front_license.dart';
 
 class Configuration extends StatefulWidget {
-  const Configuration({Key? key}) : super(key: key);
+  bool isConfirmed;
+  Configuration({Key? key, required this.isConfirmed}) : super(key: key);
 
   @override
-  State<Configuration> createState() => _ConfigurationState();
+  State<Configuration> createState() => _ConfigurationState(isConfirmed);
 }
 
 class _ConfigurationState extends State<Configuration> {
@@ -18,6 +20,8 @@ class _ConfigurationState extends State<Configuration> {
   final expiryDateEditingController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   DateTime date = DateTime.now();
+  bool isConfirmed;
+  _ConfigurationState(this.isConfirmed);
   @override
   Widget build(BuildContext context) {
     final licenseCodeField = TextFormField(
@@ -93,7 +97,7 @@ class _ConfigurationState extends State<Configuration> {
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
-    return /*!user.isConfirmed*/ 1 == 1
+    return !isConfirmed
         ? Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
@@ -201,8 +205,8 @@ class _ConfigurationState extends State<Configuration> {
                       onPressed: () {
                         final _auth = FirebaseAuth.instance;
                         User? user = _auth.currentUser;
-                        //update user.isConfirmed to false
-                        _deleteDrivingLicense(user!.uid);
+                        _updateIsConfirmed(user!);
+                        _deleteDrivingLicense(user.uid);
                         Fluttertoast.showToast(
                             msg: 'Driving license info resetted succesfully :)',
                             fontSize: 20);
@@ -242,5 +246,13 @@ class _ConfigurationState extends State<Configuration> {
     await delete3.delete();
     final delete4 = storage.ref().child("$uid/drivingLicenseData/drivingCode");
     await delete4.delete();
+  }
+
+  _updateIsConfirmed(User user) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    await firebaseFirestore
+        .collection('users')
+        .doc(user.uid)
+        .update({'isConfirmed': false});
   }
 }

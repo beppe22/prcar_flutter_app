@@ -174,16 +174,12 @@ class MapBottomPill extends StatelessWidget {
                                                     minWidth: screenWidth * 0.4,
                                                     color: Colors.redAccent,
                                                     onPressed: () async {
-                                                      FirebaseFirestore
-                                                          firebaseFirestore =
-                                                          FirebaseFirestore
-                                                              .instance;
                                                       final _auth =
                                                           FirebaseAuth.instance;
                                                       User? user =
                                                           _auth.currentUser;
-                                                      if (/*user.isConfirmed*/ 1 ==
-                                                          1) {
+                                                      if (await _isConfirmed(
+                                                          user!)) {
                                                         PassMarker.hpOrNot =
                                                             true;
                                                         var reserveResult =
@@ -212,7 +208,7 @@ class MapBottomPill extends StatelessWidget {
                                                       } else {
                                                         Fluttertoast.showToast(
                                                             msg:
-                                                                'No Driving License Info confirmed :(',
+                                                                'Driving License Info isn\'t confirmed yet :(',
                                                             fontSize: 20);
                                                       }
                                                     },
@@ -296,5 +292,12 @@ class MapBottomPill extends StatelessWidget {
     String name = snapshot.data()!['firstName'].toString();
     String surname = snapshot.data()!['secondName'].toString();
     return name + ' ' + surname;
+  }
+
+  Future<bool> _isConfirmed(User user) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await firebaseFirestore.collection('users').doc(user.uid).get();
+    return snapshot.data()!['isConfirmed'];
   }
 }

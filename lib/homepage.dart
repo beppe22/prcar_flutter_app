@@ -184,10 +184,14 @@ class _HomePageState extends State<HomePage> {
                   title: Text("Configuration",
                       style: TextStyle(fontSize: screenText * 16)),
                   onTap: () async {
+                    User? user = FirebaseAuth.instance.currentUser;
+                    bool confirmed = await _isConfirmed(user!);
+                    print(confirmed);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Configuration()));
+                            builder: (context) =>
+                                Configuration(isConfirmed: confirmed)));
                   }),
               ListTile(
                   title:
@@ -601,6 +605,13 @@ class _HomePageState extends State<HomePage> {
         _updateMarkers();
       }
     });
+  }
+
+  Future<bool> _isConfirmed(User user) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await firebaseFirestore.collection('users').doc(user.uid).get();
+    return snapshot.data()!['isConfirmed'];
   }
 }
 
