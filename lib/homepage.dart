@@ -126,7 +126,10 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const Filters()));
+                                        builder: (context) =>
+                                            const Filters())).then((data) {
+                                  searchCar = data;
+                                });
                               },
                               icon: Icon(Icons.search, size: screenText * 25))
                         ])
@@ -592,7 +595,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _updateTimer() {
-    const time = Duration(seconds: 3);
+    const time = Duration(milliseconds: 50);
     Timer.periodic(time, (Timer t) {
       if (mounted) {
         _updateMarkers();
