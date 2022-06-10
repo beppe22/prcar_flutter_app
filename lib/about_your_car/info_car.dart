@@ -217,25 +217,13 @@ class _InfoCarState extends State<InfoCar> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
-                                        title: Text('!!! Warning !!!',
+                                        title: Text(
+                                            'Are you sure to delete this car?',
                                             style: TextStyle(
-                                                fontSize: screenText * 28,
-                                                color: Colors.redAccent,
+                                                fontSize: screenText * 26,
+                                                color: Colors.grey,
                                                 fontWeight: FontWeight.bold),
                                             textAlign: TextAlign.center),
-                                        content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                  'If you press \'Confirm!\' your car will be deleted. Do you want to continue?',
-                                                  style: TextStyle(
-                                                      fontSize: screenText * 20,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  textAlign: TextAlign.center)
-                                            ]),
                                         actions: <Widget>[
                                           Row(children: [
                                             TextButton(
@@ -245,8 +233,8 @@ class _InfoCarState extends State<InfoCar> {
                                                 child: Text('Close',
                                                     style: TextStyle(
                                                         fontSize:
-                                                            screenText * 24))),
-                                            SizedBox(width: screenWidth * 0.2),
+                                                            screenText * 22))),
+                                            SizedBox(width: screenWidth * 0.35),
                                             TextButton(
                                                 onPressed: () async {
                                                   User? user =
@@ -259,10 +247,10 @@ class _InfoCarState extends State<InfoCar> {
                                                       msg: 'Car deleted!',
                                                       fontSize: 20);
                                                 },
-                                                child: Text('Confirm!',
+                                                child: Text('Yes!',
                                                     style: TextStyle(
                                                         fontSize:
-                                                            screenText * 23)))
+                                                            screenText * 22)))
                                           ])
                                         ]));
                           } else {

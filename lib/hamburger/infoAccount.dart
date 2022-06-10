@@ -190,7 +190,7 @@ class InfoAccount extends StatelessWidget {
                                               CrossAxisAlignment.center,
                                           children: <Widget>[
                                             Text(
-                                                'If you press \'Confirm!\' your account will be deleted. Do you want to continue?',
+                                                'If you press \'Confirm!\' your account will be delete. Do you want to continue?',
                                                 style: TextStyle(
                                                     fontSize: screenText * 20),
                                                 textAlign: TextAlign.center)

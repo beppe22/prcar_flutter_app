@@ -22,52 +22,29 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
           backgroundColor: Colors.redAccent,
-          title: const Text('Calendar'),
+          title: Text('Calendar', style: TextStyle(fontSize: screenText * 20)),
           automaticallyImplyLeading: false,
           leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
+              icon: Icon(Icons.arrow_back, size: screenText * 25),
               onPressed: () {
                 Navigator.pop(context, ['', '']);
               }),
-        ),
-        backgroundColor: Colors.white,
-        body: Column(children: [
-          const SizedBox(height: 120),
-          SfDateRangePicker(
-              view: DateRangePickerView.month,
-              controller: _controller,
-              onSelectionChanged: selectionChanged,
-              selectionMode: DateRangePickerSelectionMode.range,
-              enablePastDates: false,
-              extendableRangeSelectionDirection:
-                  ExtendableRangeSelectionDirection.forward,
-              monthViewSettings: DateRangePickerMonthViewSettings(
-                  blackoutDates: _takeDateList(blackout)),
-              monthCellStyle: const DateRangePickerMonthCellStyle(
-                textStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black),
-                blackoutDateTextStyle: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
-              ),
-              backgroundColor: Colors.blueGrey.shade200),
-          const SizedBox(height: 70),
-          Container(
-              width: double.maxFinite,
-              height: 50,
-              margin: const EdgeInsets.only(
-                  top: 10, left: 40, right: 40, bottom: 10),
-              decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(20)),
-              child: MaterialButton(
+          actions: [
+            Row(children: [
+              Text('Save!',
+                  style: TextStyle(
+                      fontSize: screenText * 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold)),
+              IconButton(
                   onPressed: () async {
+                    print(blackout);
                     if (_startDate == '' && _endDate == '') {
                       Fluttertoast.showToast(
                           msg: 'No date selected :(', fontSize: 20);
@@ -84,23 +61,35 @@ class _CalendarState extends State<Calendar> {
                       }
                     }
                   },
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                  shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  child: const Text("Ok",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold))))
-        ]));
+                  icon: const Icon(Icons.add_task))
+            ])
+          ]),
+      backgroundColor: Colors.grey.shade100,
+      body: SfDateRangePicker(
+          view: DateRangePickerView.month,
+          controller: _controller,
+          onSelectionChanged: selectionChanged,
+          selectionMode: DateRangePickerSelectionMode.range,
+          enablePastDates: false,
+          extendableRangeSelectionDirection:
+              ExtendableRangeSelectionDirection.forward,
+          monthViewSettings: DateRangePickerMonthViewSettings(
+              blackoutDates: _takeDateList(blackout)),
+          monthCellStyle: DateRangePickerMonthCellStyle(
+            textStyle:
+                TextStyle(fontSize: screenText * 22, color: Colors.black),
+            blackoutDateTextStyle: TextStyle(
+                color: Colors.grey.shade200, fontSize: screenText * 22),
+          ),
+          backgroundColor: Colors.white),
+    );
   }
 
   List<DateTime> _takeDateList(List<String> date) {
     if (PassMarker.hpOrNot) {
-      List<DateTime> blackList = [];
+      List<DateTime> blackList = [DateTime.now()];
       if (date.isEmpty) {
-        return [];
+        return [DateTime.now()];
       }
       for (int i = 0; i < date.length; i++) {
         final splitted = date[i].split('-');
@@ -116,7 +105,7 @@ class _CalendarState extends State<Calendar> {
       }
       return blackList;
     } else {
-      return [];
+      return [DateTime.now()];
     }
   }
 

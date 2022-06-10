@@ -49,13 +49,17 @@ class BookingOutPageState extends State<BookingOutPage> {
                   ? Container(
                       height: screenHeight * 0.1,
                       width: screenWidth * 0.9,
-                      child: const Text('No messages yet :(',
+                      child: Text('No messages yet :(',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.redAccent,
-                              fontSize: 24,
+                              fontSize: screenText * 24,
                               fontWeight: FontWeight.bold)),
-                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                      padding: EdgeInsets.fromLTRB(
+                          screenWidth * 0.02,
+                          screenHeight * 0.02,
+                          screenWidth * 0.02,
+                          screenHeight * 0.02),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           border:
@@ -103,8 +107,8 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                       style: TextStyle(
                                                                           color: Colors
                                                                               .redAccent,
-                                                                          fontSize: screenWidth *
-                                                                              0.08,
+                                                                          fontSize: screenText *
+                                                                              25,
                                                                           fontWeight: FontWeight
                                                                               .bold),
                                                                       textAlign:
@@ -134,7 +138,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                 String nameFriend = (UserModel.fromMap(await FirebaseFirestore.instance.collection('users').doc(PassMarker.uidFriend[index]).get())).firstName!;
                                                                                 Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index], hp: false)));
                                                                               },
-                                                                              child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
+                                                                              child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
                                                                               shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                             )),
                                                                         SizedBox(
@@ -159,31 +163,26 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                   if (dayStart.compareTo(day3) > 0) {
                                                                                     showDialog(
                                                                                         context: context,
-                                                                                        builder: (BuildContext context) => AlertDialog(
-                                                                                                title: Text('!!! Warning !!!', style: TextStyle(fontSize: screenText * 28, color: Colors.redAccent, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                                                                                                content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-                                                                                                  Text('If you press \'Confirm!\' this reservation will be abolished. Do you want to continue?', style: TextStyle(fontSize: screenText * 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center)
-                                                                                                ]),
-                                                                                                actions: <Widget>[
-                                                                                                  Row(children: [
-                                                                                                    TextButton(
-                                                                                                        onPressed: () {
-                                                                                                          Navigator.of(context).pop();
-                                                                                                        },
-                                                                                                        child: Text('Close', style: TextStyle(fontSize: screenText * 24))),
-                                                                                                    SizedBox(width: screenWidth * 0.2),
-                                                                                                    TextButton(
-                                                                                                        onPressed: () async {
-                                                                                                          setState(() {
-                                                                                                            _annulmentMessage(index);
-                                                                                                            PassMarker.status[index] = 'a';
-                                                                                                          });
+                                                                                        builder: (BuildContext context) => AlertDialog(title: Text('Are you sure?', style: TextStyle(fontSize: screenText * 28, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center), actions: <Widget>[
+                                                                                              Row(children: [
+                                                                                                TextButton(
+                                                                                                    onPressed: () {
+                                                                                                      Navigator.of(context).pop();
+                                                                                                    },
+                                                                                                    child: Text('Close', style: TextStyle(fontSize: screenText * 24))),
+                                                                                                SizedBox(width: screenWidth * 0.32),
+                                                                                                TextButton(
+                                                                                                    onPressed: () async {
+                                                                                                      setState(() {
+                                                                                                        _annulmentMessage(index);
+                                                                                                        PassMarker.status[index] = 'a';
+                                                                                                      });
 
-                                                                                                          Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
-                                                                                                        },
-                                                                                                        child: Text('Confirm!', style: TextStyle(fontSize: screenText * 24)))
-                                                                                                  ])
-                                                                                                ]));
+                                                                                                      Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
+                                                                                                    },
+                                                                                                    child: Text('Yes!', style: TextStyle(fontSize: screenText * 24)))
+                                                                                              ])
+                                                                                            ]));
                                                                                   } else {
                                                                                     Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
                                                                                   }
@@ -191,7 +190,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                   Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
                                                                                 }
                                                                               },
-                                                                              child: Text('Annulment', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
+                                                                              child: Text('Annulment', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
                                                                               shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                             )),
                                                                         SizedBox(
@@ -220,7 +219,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                   Fluttertoast.showToast(msg: 'Impossible operation: you can\'t eliminate this message while the reservation isn\'t finished :(', fontSize: 20);
                                                                                 }
                                                                               },
-                                                                              child: Text('Elimination', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.065, color: Colors.black)),
+                                                                              child: Text('Elimination', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
                                                                               shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                             ))
                                                                       ])));
@@ -233,7 +232,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontSize:
-                                                            screenWidth * 0.05,
+                                                            screenText * 18,
                                                         color: Colors
                                                             .redAccent)))),
                                             decoration: BoxDecoration(

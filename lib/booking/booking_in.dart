@@ -170,31 +170,26 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                       if (dayStart.compareTo(day3) > 0) {
                                                                                         showDialog(
                                                                                             context: context,
-                                                                                            builder: (BuildContext context) => AlertDialog(
-                                                                                                    title: Text('!!! Warning !!!', style: TextStyle(fontSize: screenText * 28, color: Colors.redAccent, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                                                                                                    content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-                                                                                                      Text('If you press \'Confirm!\' your reservation will be abolished. Do you want to continue?', style: TextStyle(fontSize: screenText * 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center)
-                                                                                                    ]),
-                                                                                                    actions: <Widget>[
-                                                                                                      Row(children: [
-                                                                                                        TextButton(
-                                                                                                            onPressed: () {
-                                                                                                              Navigator.of(context).pop();
-                                                                                                            },
-                                                                                                            child: Text('Close', style: TextStyle(fontSize: screenText * 24))),
-                                                                                                        SizedBox(width: screenWidth * 0.2),
-                                                                                                        TextButton(
-                                                                                                            onPressed: () async {
-                                                                                                              setState(() {
-                                                                                                                _annulmentMessage(index);
-                                                                                                                PassMarker.status[index] = 'a';
-                                                                                                              });
+                                                                                            builder: (BuildContext context) => AlertDialog(title: Text('Are you sure?', style: TextStyle(fontSize: screenText * 28, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center), actions: <Widget>[
+                                                                                                  Row(children: [
+                                                                                                    TextButton(
+                                                                                                        onPressed: () {
+                                                                                                          Navigator.of(context).pop();
+                                                                                                        },
+                                                                                                        child: Text('Close', style: TextStyle(fontSize: screenText * 24))),
+                                                                                                    SizedBox(width: screenWidth * 0.32),
+                                                                                                    TextButton(
+                                                                                                        onPressed: () async {
+                                                                                                          setState(() {
+                                                                                                            _annulmentMessage(index);
+                                                                                                            PassMarker.status[index] = 'a';
+                                                                                                          });
 
-                                                                                                              Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
-                                                                                                            },
-                                                                                                            child: Text('Confirm!', style: TextStyle(fontSize: screenText * 24)))
-                                                                                                      ])
-                                                                                                    ]));
+                                                                                                          Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
+                                                                                                        },
+                                                                                                        child: Text('Yes!', style: TextStyle(fontSize: screenText * 24)))
+                                                                                                  ])
+                                                                                                ]));
                                                                                       } else {
                                                                                         Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
                                                                                       }
@@ -240,7 +235,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                         .bold,
                                                                 fontSize:
                                                                     screenText *
-                                                                        16,
+                                                                        18,
                                                                 color: _colorReservation(
                                                                     index, bookingId))))),
                                                     decoration: BoxDecoration(

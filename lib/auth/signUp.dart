@@ -29,6 +29,9 @@ class _SignUpState extends State<SignUp> {
   bool from = true;
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     //first name field
     final firstNameField = TextFormField(
         autofocus: false,
@@ -49,8 +52,9 @@ class _SignUpState extends State<SignUp> {
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.account_circle),
-            contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            prefixIcon: Icon(Icons.account_circle, size: screenText * 25),
+            contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "First Name",
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
@@ -71,8 +75,9 @@ class _SignUpState extends State<SignUp> {
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.account_circle),
-            contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            prefixIcon: Icon(Icons.account_circle, size: screenText * 25),
+            contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Second Name",
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
@@ -98,8 +103,9 @@ class _SignUpState extends State<SignUp> {
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.mail),
-            contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            prefixIcon: Icon(Icons.mail, size: screenText * 25),
+            contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Email",
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
@@ -124,8 +130,9 @@ class _SignUpState extends State<SignUp> {
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.vpn_key),
-            contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            prefixIcon: Icon(Icons.vpn_key, size: screenText * 25),
+            contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Password",
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
@@ -147,8 +154,9 @@ class _SignUpState extends State<SignUp> {
         },
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.vpn_key),
-            contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            prefixIcon: Icon(Icons.vpn_key, size: screenText * 25),
+            contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Confirm Password",
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
@@ -163,25 +171,28 @@ class _SignUpState extends State<SignUp> {
               signUp(
                   emailEditingController.text, passwordEditingController.text);
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             minWidth: MediaQuery.of(context).size.width,
-            child: const Text("Sign Up",
+            child: Text("Sign Up",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: screenText * 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
     return MaterialApp(
         //padding: const EdgeInsets.all(16.0),
         home: Scaffold(
-            resizeToAvoidBottomInset: false,
+            resizeToAvoidBottomInset: true,
             appBar: AppBar(
                 backgroundColor: Colors.redAccent,
-                title: const Text("Sign Up"),
+                title: Text("Sign Up",
+                    style: TextStyle(fontSize: screenText * 20)),
                 automaticallyImplyLeading: false,
                 leading: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    icon: Icon(Icons.arrow_back,
+                        color: Colors.white, size: screenText * 25),
                     onPressed: () {
                       Navigator.pop(context);
                     })),
@@ -189,7 +200,7 @@ class _SignUpState extends State<SignUp> {
                 child: Container(
                     color: Colors.white,
                     child: Padding(
-                        padding: const EdgeInsets.all(36.0),
+                        padding: EdgeInsets.all(screenHeight * 0.05),
                         child: Form(
                             key: _formKey,
                             child: Column(
@@ -197,22 +208,22 @@ class _SignUpState extends State<SignUp> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   SizedBox(
-                                      height: 150,
+                                      height: screenHeight * 0.2,
                                       child: Image.asset("assets/prcarlogo.png",
                                           fit: BoxFit.contain)),
-                                  const SizedBox(height: 45),
+                                  SizedBox(height: screenHeight * 0.05),
                                   firstNameField,
-                                  const SizedBox(height: 20),
+                                  SizedBox(height: screenHeight * 0.02),
                                   secondNameField,
-                                  const SizedBox(height: 20),
+                                  SizedBox(height: screenHeight * 0.02),
                                   emailField,
-                                  const SizedBox(height: 20),
+                                  SizedBox(height: screenHeight * 0.02),
                                   passwordField,
-                                  const SizedBox(height: 20),
+                                  SizedBox(height: screenHeight * 0.02),
                                   confirmPasswordField,
-                                  const SizedBox(height: 20),
+                                  SizedBox(height: screenHeight * 0.02),
                                   signUpButton,
-                                  const SizedBox(height: 15)
+                                  SizedBox(height: screenHeight * 0.02),
                                 ])))))));
   }
 

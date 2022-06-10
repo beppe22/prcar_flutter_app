@@ -48,38 +48,57 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return isEmailVerified
         ? HomePage()
         : Scaffold(
             appBar: AppBar(
-                title: const Text('Verify Email'),
-                backgroundColor: Colors.redAccent),
-            backgroundColor: Colors.black45,
+                title: Text('Verify Email',
+                    style: TextStyle(fontSize: screenText * 20)),
+                backgroundColor: Colors.redAccent,
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back,
+                        color: Colors.white, size: screenText * 25),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    })),
+            backgroundColor: Colors.white,
             body: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(screenHeight * 0.03),
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text(
-                          'A verification mail has been sent to your email.',
-                          style: TextStyle(fontSize: 20),
+                      SizedBox(height: screenHeight * 0.08),
+                      Text('A verification mail has been sent to your email.',
+                          style: TextStyle(
+                              fontSize: screenText * 18,
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center),
-                      const SizedBox(height: 24),
+                      SizedBox(height: screenHeight * 0.05),
+                      SizedBox(
+                          height: screenHeight * 0.3,
+                          child: Image.asset("assets/prcarlogo.png",
+                              fit: BoxFit.contain)),
+                      SizedBox(height: screenHeight * 0.05),
                       ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
-                              minimumSize: const Size.fromHeight(50)),
-                          icon: const Icon(Icons.mail, size: 32),
-                          label: const Text('Resent Email',
-                              style: TextStyle(fontSize: 24)),
+                              minimumSize: Size.fromHeight(screenText * 45)),
+                          icon: Icon(Icons.mail, size: screenText * 28),
+                          label: Text('Resent Email',
+                              style: TextStyle(fontSize: screenText * 24)),
                           onPressed:
                               canResendEmail ? sendVerificationEmail : null),
-                      const SizedBox(height: 20),
+                      SizedBox(height: screenHeight * 0.06),
                       ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
-                              minimumSize: const Size.fromHeight(50)),
-                          icon: const Icon(Icons.mail, size: 32),
-                          label: const Text('Cancel',
-                              style: TextStyle(fontSize: 24)),
+                              minimumSize: Size.fromHeight(screenText * 45)),
+                          icon: Icon(Icons.cancel, size: screenText * 28),
+                          label: Text('Cancel',
+                              style: TextStyle(fontSize: screenText * 24)),
                           onPressed: () {
                             FirebaseAuth.instance.signOut();
                           })

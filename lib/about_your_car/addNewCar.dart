@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/about_your_car/image_car.dart';
+import 'package:prcarpolimi/about_your_car/info_car.dart';
 import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/filters/fuel/fuel.dart';
 import 'package:prcarpolimi/filters/position/position.dart';
@@ -54,11 +55,18 @@ class _AddNewCarState extends State<AddNewCar> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     //position button field
     final positionButton = Container(
-        width: double.maxFinite,
-        height: 50,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -74,7 +82,8 @@ class _AddNewCarState extends State<AddNewCar> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Expanded(
@@ -82,16 +91,20 @@ class _AddNewCarState extends State<AddNewCar> {
                     scrollDirection: Axis.horizontal,
                     child: Text("Position: " + positionString.toString(),
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontSize: 20,
+                        style: TextStyle(
+                            fontSize: screenText * 20,
                             color: Colors.white,
                             fontWeight: FontWeight.bold))))));
 
 //vehicle button field
     final vehicleButton = Container(
-        width: double.maxFinite,
-        height: 50,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -111,7 +124,8 @@ class _AddNewCarState extends State<AddNewCar> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Expanded(
@@ -119,16 +133,20 @@ class _AddNewCarState extends State<AddNewCar> {
                     scrollDirection: Axis.horizontal,
                     child: Text("Vehicle: " + vehicleString,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontSize: 20,
+                        style: TextStyle(
+                            fontSize: screenText * 20,
                             color: Colors.white,
                             fontWeight: FontWeight.bold))))));
 
     //seats button field
     final seatsButton = Container(
-        width: double.maxFinite,
-        height: 50,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -142,21 +160,26 @@ class _AddNewCarState extends State<AddNewCar> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Seats: " + car.seats.toString(),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: screenText * 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
     //fuel button field
     final fuelButton = Container(
-        width: double.maxFinite,
-        height: 50,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -169,21 +192,26 @@ class _AddNewCarState extends State<AddNewCar> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Fuel: " + car.fuel.toString(),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: screenText * 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
     //price button field
     final priceButton = Container(
-        width: double.maxFinite,
-        height: 50,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -197,13 +225,14 @@ class _AddNewCarState extends State<AddNewCar> {
                 });
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Price: " + car.price.toString(),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: screenText * 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -217,14 +246,18 @@ class _AddNewCarState extends State<AddNewCar> {
         });
       },
       backgroundColor: Colors.redAccent,
-      child: const Icon(Icons.photo_camera),
+      child: Icon(Icons.photo_camera, size: screenText * 25),
     );
 
 //clear button field
     final clearButton = Container(
-        width: double.maxFinite,
-        height: 50,
-        margin: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.07,
+        margin: EdgeInsets.only(
+            top: screenHeight * 0.01,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
             color: Colors.grey, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
@@ -241,13 +274,14 @@ class _AddNewCarState extends State<AddNewCar> {
                 PassMarker.photoCount = 0;
               });
             },
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
+                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: const Text("Clear All",
+            child: Text("Clear All",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: screenText * 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -257,10 +291,10 @@ class _AddNewCarState extends State<AddNewCar> {
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('Add Car'),
+            title: Text('Add Car', style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back, size: screenText * 25),
                 onPressed: () {
                   List<CarModel> valueNull = [];
                   Navigator.pop(context, valueNull);
@@ -278,9 +312,9 @@ class _AddNewCarState extends State<AddNewCar> {
                 }),
             actions: [
               Row(children: [
-                const Text('Done!',
+                Text('Done!',
                     style: TextStyle(
-                        fontSize: 17,
+                        fontSize: screenText * 20,
                         color: Colors.white,
                         fontWeight: FontWeight.bold)),
                 IconButton(
@@ -304,7 +338,17 @@ class _AddNewCarState extends State<AddNewCar> {
                           double lng = double.parse(splitted[1]);
                           PassMarker.markerToPass.add(Marker(
                               markerId: MarkerId('marker$i'),
-                              infoWindow: const InfoWindow(title: 'My car'),
+                              infoWindow: InfoWindow(
+                                  title: 'My car: click for details',
+                                  onTap: () {
+                                    String suspOrAct = 'Active';
+
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                InfoCar(car, suspOrAct, true)));
+                                  }),
                               position: LatLng(lat, lng),
                               icon: BitmapDescriptor.defaultMarkerWithHue(
                                   BitmapDescriptor.hueBlue),
@@ -336,28 +380,27 @@ class _AddNewCarState extends State<AddNewCar> {
             ]),
         body: Center(
             child: Column(mainAxisSize: MainAxisSize.min, children: [
-          const SizedBox(
-              height: 30,
+          SizedBox(
+              height: screenHeight * 0.07,
               child: Text("Insert a new car",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.redAccent,
-                      fontSize: 25))),
-          const SizedBox(height: 15),
+                      color: Colors.grey,
+                      fontSize: screenText * 25))),
+          SizedBox(height: screenHeight * 0.015),
           vehicleButton,
-          const SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.015),
           positionButton,
-          const SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.015),
           seatsButton,
-          const SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.015),
           fuelButton,
-          const SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.015),
           priceButton,
-          const SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.015),
           photoButton,
-          const SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.015),
           clearButton,
-          const SizedBox(height: 10),
         ])));
   }
 
