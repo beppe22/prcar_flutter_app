@@ -89,6 +89,9 @@ class _ChatDetailState extends State<ChatDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return StreamBuilder<QuerySnapshot>(
       stream: chats
           .doc(chatDocId)
@@ -111,12 +114,13 @@ class _ChatDetailState extends State<ChatDetail> {
           return Scaffold(
             appBar: AppBar(
                 backgroundColor: Colors.redAccent,
-                title: Text(friendName, style: const TextStyle(fontSize: 20)),
+                title: Text(friendName,
+                    style: TextStyle(fontSize: screenText * 20)),
                 automaticallyImplyLeading: false,
                 leading: IconButton(
                     icon: hp
-                        ? const Icon(Icons.cancel)
-                        : const Icon(Icons.arrow_back),
+                        ? Icon(Icons.cancel, size: screenText * 25)
+                        : Icon(Icons.arrow_back, size: screenText * 25),
                     onPressed: () {
                       Navigator.pop(context);
                     })),
@@ -124,90 +128,93 @@ class _ChatDetailState extends State<ChatDetail> {
               child: Column(
                 children: [
                   Expanded(
-                    child: ListView(
-                      reverse: true,
-                      children: snapshot.data!.docs.map(
-                        (DocumentSnapshot document) {
-                          data = document.data()!;
-                          return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: ChatBubble(
-                              clipper: ChatBubbleClipper6(
-                                nipSize: 0,
-                                radius: 0,
-                                type: isSender(data['uid'].toString())
-                                    ? BubbleType.sendBubble
-                                    : BubbleType.receiverBubble,
-                              ),
-                              alignment: getAlignment(data['uid'].toString()),
-                              margin: const EdgeInsets.only(top: 20),
-                              backGroundColor: isSender(data['uid'].toString())
-                                  ? Colors.redAccent
-                                  : Colors.grey.shade200,
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth:
-                                      MediaQuery.of(context).size.width * 0.7,
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Flexible(
-                                            child: Text(data['msg'],
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: isSender(data['uid']
-                                                            .toString())
-                                                        ? Colors.white
-                                                        : Colors.black),
-                                                maxLines: 100,
-                                                overflow: TextOverflow.fade))
-                                      ],
+                      child: ListView(
+                          reverse: true,
+                          children: snapshot.data!.docs
+                              .map((DocumentSnapshot document) {
+                            data = document.data()!;
+                            return Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: screenWidth * 0.02),
+                                child: ChatBubble(
+                                    clipper: ChatBubbleClipper6(
+                                      nipSize: 0,
+                                      radius: 0,
+                                      type: isSender(data['uid'].toString())
+                                          ? BubbleType.sendBubble
+                                          : BubbleType.receiverBubble,
                                     ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          data['createdOn'] == null
-                                              ? DateTime.now().toString()
-                                              : data['createdOn']
-                                                  .toDate()
-                                                  .toString(),
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: isSender(
-                                                      data['uid'].toString())
-                                                  ? Colors.white
-                                                  : Colors.black),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  ),
+                                    alignment:
+                                        getAlignment(data['uid'].toString()),
+                                    margin: EdgeInsets.only(
+                                        top: screenHeight * 0.02),
+                                    backGroundColor:
+                                        isSender(data['uid'].toString())
+                                            ? Colors.redAccent
+                                            : Colors.grey.shade200,
+                                    child: Container(
+                                        constraints: BoxConstraints(
+                                          maxWidth: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.7,
+                                        ),
+                                        child: Column(children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Flexible(
+                                                  child: Text(data['msg'],
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: isSender(data[
+                                                                      'uid']
+                                                                  .toString())
+                                                              ? Colors.white
+                                                              : Colors.black),
+                                                      maxLines: 100,
+                                                      overflow:
+                                                          TextOverflow.fade))
+                                            ],
+                                          ),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                    data['createdOn'] == null
+                                                        ? DateTime.now()
+                                                            .toString()
+                                                            .substring(0, 16)
+                                                        : data['createdOn']
+                                                            .toDate()
+                                                            .toString()
+                                                            .substring(0, 16),
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            screenText * 14,
+                                                        color: isSender(
+                                                                data['uid']
+                                                                    .toString())
+                                                            ? Colors.white
+                                                            : Colors.black))
+                                              ])
+                                        ]))));
+                          }).toList())),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 18.0),
+                          padding: EdgeInsets.only(left: screenWidth * 0.08),
                           child: CupertinoTextField(
                             controller: textController,
                           ),
                         ),
                       ),
                       CupertinoButton(
-                          child: const Icon(Icons.send_sharp),
+                          child: Icon(Icons.send_sharp, size: screenText * 25),
                           onPressed: () => sendMessage(textController.text))
                     ],
                   )

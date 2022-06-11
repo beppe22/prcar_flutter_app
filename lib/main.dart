@@ -44,7 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
             future: _initializeFirebase(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                if (FirebaseAuth.instance.currentUser != null) {
+                if (FirebaseAuth.instance.currentUser != null &&
+                    FirebaseAuth.instance.currentUser!.emailVerified) {
                   return HomePage();
                 } else {
                   return const Login();

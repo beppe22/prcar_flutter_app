@@ -24,6 +24,9 @@ class _ConfigurationState extends State<Configuration> {
   _ConfigurationState(this.isConfirmed);
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     final licenseCodeField = TextFormField(
         autofocus: false,
         controller: drivingLicenseCodeEditingController,
@@ -39,8 +42,9 @@ class _ConfigurationState extends State<Configuration> {
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.key),
-            contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            prefixIcon: Icon(Icons.key, size: screenText * 25),
+            contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Driving License Code",
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
@@ -91,63 +95,52 @@ class _ConfigurationState extends State<Configuration> {
         },
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.calendar_today),
-            contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            prefixIcon: Icon(Icons.calendar_today, size: screenText * 25),
+            contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Expiry date (dd/MM/yyyy)",
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
     return isConfirmed == 'negative'
         ? Scaffold(
-            resizeToAvoidBottomInset: false,
+            resizeToAvoidBottomInset: true,
             appBar: AppBar(
-                title: const Text('Configuration'),
+                title: Text('Configuration',
+                    style: TextStyle(fontSize: screenText * 20)),
                 backgroundColor: Colors.redAccent,
                 leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: Icon(Icons.arrow_back, size: screenText * 25),
                     onPressed: () {
                       Navigator.pop(context);
                     })),
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
                 child: Center(
                     child: Form(
                         key: _formKey,
                         child: Column(children: [
-                          const SizedBox(height: 20),
-                          const Text(
-                              'You need to insert your driving license code, the  ',
+                          SizedBox(height: screenHeight * 0.05),
+                          Text('Insert your driving license info!',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.redAccent,
+                                  fontSize: screenText * 24,
+                                  color: Colors.grey,
                                   fontWeight: FontWeight.bold)),
-                          const Text('expiry date of your driving license and ',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.redAccent,
-                                  fontWeight: FontWeight.bold)),
-                          const Text(
-                              'front/bottom picture of your driving license',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.redAccent,
-                                  fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 20),
+                          SizedBox(height: screenHeight * 0.05),
                           SizedBox(
-                              height: 250,
+                              height: screenHeight * 0.3,
                               child: Image.asset("assets/prcarlogo.png",
                                   fit: BoxFit.contain)),
-                          const SizedBox(height: 20),
+                          SizedBox(height: screenHeight * 0.04),
                           licenseCodeField,
-                          const SizedBox(height: 20),
+                          SizedBox(height: screenHeight * 0.02),
                           expiryDateEditingField,
-                          const SizedBox(height: 20),
+                          SizedBox(height: screenHeight * 0.05),
                           Container(
-                              height: 90,
-                              width: 300,
+                              height: screenHeight * 0.13,
+                              width: screenWidth * 0.8,
                               decoration: BoxDecoration(
                                   color: Colors.redAccent,
                                   borderRadius: BorderRadius.circular(30),
@@ -157,82 +150,108 @@ class _ConfigurationState extends State<Configuration> {
                                   onPressed: () {
                                     nextPage();
                                   },
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                                  child: const Text(
-                                      "Insert driving license picture",
+                                  padding: EdgeInsets.fromLTRB(
+                                      screenWidth * 0.02,
+                                      screenHeight * 0.015,
+                                      screenWidth * 0.02,
+                                      screenHeight * 0.015),
+                                  child: Text("Insert driving license pictures",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          fontSize: 20,
+                                          fontSize: screenText * 20,
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold)))))
                         ])))))
         : Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
+                title: Text('Configuration',
+                    style: TextStyle(fontSize: screenText * 20)),
                 backgroundColor: Colors.redAccent,
-                title: const Text('Configuration'),
-                automaticallyImplyLeading: false,
                 leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: Icon(Icons.arrow_back, size: screenText * 25),
                     onPressed: () {
                       Navigator.pop(context);
                     })),
             body: Center(
                 child: Column(children: [
-              const SizedBox(height: 35),
+              SizedBox(height: screenHeight * 0.05),
               isConfirmed == 'confirmed'
-                  ? const Text(
-                      'Driving License info already inserted, click below for reset your info',
+                  ? Text('Your driving license has been approved :)',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 30,
+                          fontSize: screenText * 26,
                           fontWeight: FontWeight.bold,
-                          color: Colors.redAccent),
-                    )
-                  : const Text(
+                          color: Colors.grey))
+                  : Text(
                       'Driving License is under administrator\'s control',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 30,
+                          fontSize: screenText * 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.redAccent),
+                          color: Colors.grey),
                     ),
-              const SizedBox(height: 35),
-              SizedBox(
-                  height: 250,
-                  child:
-                      Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-              const SizedBox(height: 35),
+              SizedBox(height: screenHeight * 0.1),
               isConfirmed == 'confirmed'
-                  ? Container(
-                      height: 70,
-                      width: 300,
-                      decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          border: Border.all(width: 5.0, color: Colors.grey)),
-                      child: (MaterialButton(
-                          onPressed: () {
-                            final _auth = FirebaseAuth.instance;
-                            User? user = _auth.currentUser;
-                            _updateIsConfirmed(user!);
-                            _deleteDrivingLicense(user.uid);
-                            Fluttertoast.showToast(
-                                msg:
-                                    'Driving license info resetted succesfully :)',
-                                fontSize: 20);
-                            Navigator.pop(context);
-                          },
-                          padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                          shape: ContinuousRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                          child: const Text("Reset driving license info!",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)))))
-                  : Container()
+                  ? Column(children: [
+                      SizedBox(
+                          height: screenHeight * 0.4,
+                          child: Image.asset("assets/prcarlogo.png",
+                              fit: BoxFit.contain)),
+                      SizedBox(height: screenHeight * 0.04),
+                      Container(
+                          height: screenHeight * 0.1,
+                          width: screenWidth * 0.85,
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              border:
+                                  Border.all(width: 5.0, color: Colors.grey)),
+                          child: (MaterialButton(
+                              onPressed: () {
+                                final _auth = FirebaseAuth.instance;
+                                User? user = _auth.currentUser;
+                                _updateIsConfirmed(user!);
+                                _deleteDrivingLicense(user.uid);
+                                Fluttertoast.showToast(
+                                    msg:
+                                        'Driving license info resetted succesfully :)',
+                                    fontSize: 20);
+                                Navigator.pop(context);
+                              },
+                              padding: EdgeInsets.fromLTRB(
+                                  screenWidth * 0.02,
+                                  screenHeight * 0.015,
+                                  screenWidth * 0.02,
+                                  screenHeight * 0.015),
+                              shape: ContinuousRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Text("Reset driving license info!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: screenText * 20,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold)))))
+                    ])
+                  : Column(children: [
+                      SizedBox(
+                          height: screenHeight * 0.25,
+                          child: Image.asset("assets/prcarlogo.png",
+                              fit: BoxFit.contain)),
+                      SizedBox(height: screenHeight * 0.03),
+                      Text(
+                        'Your driving license\'s control will \n be fast :)',
+                        style: TextStyle(
+                            fontSize: screenText * 18, color: Colors.redAccent),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: screenHeight * 0.05),
+                      SizedBox(
+                          height: screenHeight * 0.1,
+                          width: screenWidth * 0.2,
+                          child: const CircularProgressIndicator(
+                            color: Colors.grey,
+                          ))
+                    ])
             ])));
   }
 

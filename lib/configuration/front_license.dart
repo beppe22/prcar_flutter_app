@@ -46,12 +46,16 @@ class _FrontLicenseState extends State<FrontLicense> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         appBar: AppBar(
-            title: const Text('Driving license'),
+            title: Text('Front picture',
+                style: TextStyle(fontSize: screenText * 20)),
             backgroundColor: Colors.redAccent,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context);
                 })),
@@ -59,21 +63,26 @@ class _FrontLicenseState extends State<FrontLicense> {
         body: Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const Text('Insert your front driving license picture',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          Text('Insert your front license picture',
+              style: TextStyle(
+                  fontSize: screenText * 28,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold),
               textAlign: TextAlign.center),
-          const SizedBox(height: 20),
+          SizedBox(height: screenHeight * 0.05),
           frontImage != null
               ? Image.file(frontImage!,
-                  width: 160, height: 160, fit: BoxFit.cover)
+                  width: screenHeight * 0.28,
+                  height: screenHeight * 0.28,
+                  fit: BoxFit.cover)
               : SizedBox(
-                  height: 175,
+                  height: screenHeight * 0.28,
                   child:
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-          const SizedBox(height: 20),
+          SizedBox(height: screenHeight * 0.05),
           Container(
-              height: 60,
-              width: 300,
+              height: screenHeight * 0.1,
+              width: screenWidth * 0.8,
               decoration: BoxDecoration(
                   color: Colors.redAccent,
                   borderRadius: BorderRadius.circular(30),
@@ -82,19 +91,23 @@ class _FrontLicenseState extends State<FrontLicense> {
                   onPressed: () {
                     pickImage(ImageSource.gallery);
                   },
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  padding: EdgeInsets.fromLTRB(
+                      screenWidth * 0.02,
+                      screenHeight * 0.015,
+                      screenWidth * 0.02,
+                      screenHeight * 0.015),
                   shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
-                  child: const Text("Take from Gallery",
+                  child: Text("Take from Gallery",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: screenText * 20,
                           color: Colors.white,
                           fontWeight: FontWeight.bold))))),
-          const SizedBox(height: 40),
+          SizedBox(height: screenHeight * 0.02),
           Container(
-              height: 60,
-              width: 300,
+              height: screenHeight * 0.1,
+              width: screenWidth * 0.8,
               decoration: BoxDecoration(
                   color: Colors.redAccent,
                   borderRadius: BorderRadius.circular(30),
@@ -103,21 +116,25 @@ class _FrontLicenseState extends State<FrontLicense> {
                   onPressed: () {
                     pickImage(ImageSource.camera);
                   },
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  padding: EdgeInsets.fromLTRB(
+                      screenWidth * 0.02,
+                      screenHeight * 0.015,
+                      screenWidth * 0.02,
+                      screenHeight * 0.015),
                   shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
-                  child: const Text("Take from Camera",
+                  child: Text("Take from Camera",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: screenText * 20,
                           color: Colors.white,
                           fontWeight: FontWeight.bold))))),
-          const SizedBox(height: 40),
+          SizedBox(height: screenHeight * 0.05),
           Container(
-              height: 60,
-              width: 150,
+              height: screenHeight * 0.08,
+              width: screenWidth * 0.6,
               decoration: BoxDecoration(
-                  color: Colors.redAccent,
+                  color: Colors.grey.shade200,
                   border: Border.all(width: 5.0, color: Colors.grey)),
               child: (MaterialButton(
                   onPressed: () {
@@ -134,14 +151,18 @@ class _FrontLicenseState extends State<FrontLicense> {
                           msg: 'No picture inserted :(', fontSize: 20);
                     }
                   },
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  padding: EdgeInsets.fromLTRB(
+                      screenWidth * 0.02,
+                      screenHeight * 0.015,
+                      screenWidth * 0.02,
+                      screenHeight * 0.015),
                   shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
-                  child: const Text("Next!",
+                  child: Text("Next!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
+                          fontSize: screenText * 20,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold)))))
         ])));
   }

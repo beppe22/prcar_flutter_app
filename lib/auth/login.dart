@@ -51,76 +51,87 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
+    final TextEditingController _emailController = TextEditingController();
+    final TextEditingController _passwordController = TextEditingController();
+    @override
+    final emailField = TextFormField(
+        textInputAction: TextInputAction.next,
+        controller: _emailController,
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+            hintText: "User Email",
+            prefixIcon:
+                Icon(Icons.mail, color: Colors.black, size: screenText * 25),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+
+    final passwordField = TextFormField(
+        controller: _passwordController,
+        obscureText: true,
+        decoration: InputDecoration(
+            hintText: "Password",
+            prefixIcon:
+                Icon(Icons.lock, color: Colors.black, size: screenText * 25),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-              const SizedBox(height: 80),
-              const Text("Welcome to PrCar!",
+              SizedBox(height: screenHeight * 0.1),
+              Text("Welcome to PrCar!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 50.8,
+                      fontSize: screenText * 45,
                       fontWeight: FontWeight.bold)),
-              const SizedBox(height: 25),
+              SizedBox(height: screenHeight * 0.05),
               SizedBox(
-                  height: 175,
+                  height: screenHeight * 0.2,
                   child:
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-              const SizedBox(height: 25.0),
-              TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: "User Email",
-                      prefixIcon: const Icon(Icons.mail, color: Colors.black),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)))),
-              const SizedBox(height: 26.0),
-              TextFormField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      hintText: "Password",
-                      prefixIcon: const Icon(Icons.lock, color: Colors.black),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)))),
-              const SizedBox(height: 25),
+              SizedBox(height: screenHeight * 0.05),
+              emailField,
+              SizedBox(height: screenHeight * 0.02),
+              passwordField,
+              SizedBox(height: screenHeight * 0.05),
               Row(children: [
+                SizedBox(width: screenWidth * 0.06),
                 GestureDetector(
-                    child: const Text('Forgot password?',
+                    child: Text('Forgot password?',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             color: Colors.redAccent,
-                            fontSize: 20)),
+                            fontSize: screenText * 16)),
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const ForgotPasswordPage(),
                         ))),
-                const Text(' or ', style: TextStyle(fontSize: 16)),
+                Text(' or ', style: TextStyle(fontSize: screenText * 12)),
                 GestureDetector(
-                    child: const Text("Don't have an account?",
+                    child: Text("Don't have an account?",
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             color: Colors.redAccent,
-                            fontSize: 20)),
+                            fontSize: screenText * 16)),
                     onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const SignUp())))
               ]),
-              const SizedBox(height: 35),
+              SizedBox(height: screenHeight * 0.06),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(
-                    height: 50,
-                    width: 250,
+                    height: screenHeight * 0.07,
+                    width: screenWidth * 0.85,
                     child: MaterialButton(
                         color: Colors.redAccent,
                         onPressed: () async {
@@ -151,9 +162,10 @@ class _LoginState extends State<Login> {
                                 msg: 'No user found :(', fontSize: 20);
                           }
                         },
-                        child: const Text("Login",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 25))),
+                        child: Text("Login",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: screenText * 25))),
                     decoration: BoxDecoration(
                         color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(12),

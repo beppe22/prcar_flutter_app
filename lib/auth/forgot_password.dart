@@ -24,36 +24,46 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
-            title: const Text('Reset Password'),
+            title: Text('Reset Password',
+                style: TextStyle(fontSize: screenText * 20)),
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back,
+                    color: Colors.white, size: screenText * 25),
                 onPressed: () {
                   Navigator.pop(context);
                 })),
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const SizedBox(height: 70),
-          const Text('Receive an email to reset your password',
-              textAlign: TextAlign.center, style: TextStyle(fontSize: 24)),
-          const SizedBox(height: 40),
+          SizedBox(height: screenHeight * 0.08),
+          Text('Receive an email to reset your password',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: screenText * 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey)),
+          SizedBox(height: screenHeight * 0.05),
           SizedBox(
-              height: 250,
+              height: screenHeight * 0.32,
               child: Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-          const SizedBox(height: 30),
+          SizedBox(height: screenHeight * 0.05),
           TextFormField(
               controller: emailController,
               cursorColor: Colors.white,
               textInputAction: TextInputAction.done,
               decoration: InputDecoration(
                   hintText: "Email",
-                  prefixIcon: const Icon(Icons.mail, color: Colors.black),
+                  prefixIcon: Icon(Icons.mail,
+                      color: Colors.black, size: screenText * 25),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10))),
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -61,29 +71,28 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   email != null && !EmailValidator.validate(email)
                       ? 'Enter a valid email'
                       : null),
-          const SizedBox(height: 20),
+          SizedBox(height: screenHeight * 0.05),
           Container(
               child: MaterialButton(
-                  height: 50,
-                  minWidth: 250,
-                  color: Colors.redAccent,
-                  child: const Text("Reset Password",
+                  height: screenHeight * 0.08,
+                  minWidth: screenWidth * 0.85,
+                  elevation: 6,
+                  color: Colors.grey.shade200,
+                  child: Text("Reset Password",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
+                          fontSize: screenText * 20,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold)),
                   onPressed: () {
                     resetPassword();
                   }),
               decoration: BoxDecoration(
-                  color: Colors.deepPurple,
+                  color: Colors.grey,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: const [
                     BoxShadow(
-                        color: Colors.deepPurple,
-                        spreadRadius: 6,
-                        blurRadius: 3)
+                        color: Colors.grey, spreadRadius: 6, blurRadius: 3)
                   ]))
         ])));
   }

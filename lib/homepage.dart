@@ -265,81 +265,66 @@ class _HomePageState extends State<HomePage> {
       print('User granted permission');
 
       FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+        final screenHeight = MediaQuery.of(context).size.height;
+        final screenWidth = MediaQuery.of(context).size.width;
+        final screenText = MediaQuery.of(context).textScaleFactor;
         print("message recieved");
         print(event.notification!.body);
         //print(event.data["bookId"]);
         if (event.data['type'] == 'booking') {
           showDialog(
+              barrierDismissible: true,
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                      title: Text(event.notification!.body.toString(),
-                          style: const TextStyle(
-                              fontSize: 28,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      actions: <Widget>[
-                        Row(children: [
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Close',
-                                  style: TextStyle(fontSize: 24))),
-                          const SizedBox(width: 110),
-                          TextButton(
-                              onPressed: () async {
-                                List<String> bookIn = await _fetchOtherRes();
-                                //bookingId in input
-                                String bookingId = event.data["bookId"];
-                                await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BookingInPage(
-                                            bookingId: bookingId,
-                                            res: bookIn,
-                                            fromHp: true)));
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Go!',
-                                  style: TextStyle(fontSize: 24))),
-                        ])
-                      ]));
+                  title: Text(event.notification!.body.toString(),
+                      style: TextStyle(
+                          fontSize: screenText * 25,
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center),
+                  content: FloatingActionButton(
+                    onPressed: () async {
+                      List<String> bookIn = await _fetchOtherRes();
+                      //bookingId in input
+                      String bookingId = event.data["bookId"];
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BookingInPage(
+                                  bookingId: bookingId,
+                                  res: bookIn,
+                                  fromHp: true)));
+                      Navigator.of(context).pop();
+                    },
+                    backgroundColor: Colors.redAccent,
+                    child: Icon(Icons.add_location_alt_outlined,
+                        size: screenText * 25),
+                  )));
         } else {
           showDialog(
+              barrierDismissible: true,
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                      title: Text(event.notification!.body.toString(),
-                          style: const TextStyle(
-                              fontSize: 28,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      actions: <Widget>[
-                        Row(children: [
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Close',
-                                  style: TextStyle(fontSize: 24))),
-                          const SizedBox(width: 110),
-                          TextButton(
-                              onPressed: () async {
-                                await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ChatDetail(
-                                            friendName:
-                                                event.data['friendName'],
-                                            friendUid: event.data['friendId'],
-                                            hp: true)));
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Go!',
-                                  style: TextStyle(fontSize: 24))),
-                        ])
-                      ]));
+                  title: Text(event.notification!.body.toString(),
+                      style: const TextStyle(
+                          fontSize: 28,
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center),
+                  content: FloatingActionButton(
+                    onPressed: () async {
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatDetail(
+                                  friendName: event.data['friendName'],
+                                  friendUid: event.data['friendId'],
+                                  hp: true)));
+                      Navigator.of(context).pop();
+                    },
+                    backgroundColor: Colors.redAccent,
+                    child: Icon(Icons.message_rounded, size: screenText * 25),
+                  )));
         }
       });
     } else {
@@ -527,83 +512,87 @@ class _HomePageState extends State<HomePage> {
 
   void _updateMarkers() async {
     final _auth = FirebaseAuth.instance;
-    String? userAuth = _auth.currentUser!.uid.toString();
-    if (PassMarker.from) {
-      PassMarker.markerToPass = {};
-      List<CarModel> cars = await _fetchCar();
-      for (int i = 0; i < cars.length; i++) {
-        String? carLatLng = cars[i].position;
-        final splitted = carLatLng!.split(',');
-        double lat = double.parse(splitted[0]);
-        double lng = double.parse(splitted[1]);
-        setState(() {
-          PassMarker.markerToPass.add(Marker(
-              markerId: MarkerId('marker$i'),
-              infoWindow: InfoWindow(
-                  title: _printInfoWindow(
-                      cars[i].uid.toString(),
-                      userAuth,
-                      cars[i].vehicle.toString() +
-                          '-' +
-                          cars[i].model.toString()),
-                  onTap: () {
-                    if (cars[i].uid == userAuth) {
-                      String suspOrAct = '';
-                      if (cars[i].activeOrNot == 't') {
-                        suspOrAct = 'Suspend';
-                      } else {
-                        suspOrAct = 'Active';
+    try {
+      String? userAuth = _auth.currentUser?.uid.toString();
+      if (PassMarker.from) {
+        PassMarker.markerToPass = {};
+        List<CarModel> cars = await _fetchCar();
+        for (int i = 0; i < cars.length; i++) {
+          String? carLatLng = cars[i].position;
+          final splitted = carLatLng!.split(',');
+          double lat = double.parse(splitted[0]);
+          double lng = double.parse(splitted[1]);
+          setState(() {
+            PassMarker.markerToPass.add(Marker(
+                markerId: MarkerId('marker$i'),
+                infoWindow: InfoWindow(
+                    title: _printInfoWindow(
+                        cars[i].uid.toString(),
+                        userAuth!,
+                        cars[i].vehicle.toString() +
+                            '-' +
+                            cars[i].model.toString()),
+                    onTap: () {
+                      if (cars[i].uid == userAuth) {
+                        String suspOrAct = '';
+                        if (cars[i].activeOrNot == 't') {
+                          suspOrAct = 'Suspend';
+                        } else {
+                          suspOrAct = 'Active';
+                        }
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    InfoCar(cars[i], suspOrAct, true)));
                       }
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  InfoCar(cars[i], suspOrAct, true)));
-                    }
-                  }),
-              position: LatLng(lat, lng),
-              icon: _iconColor(cars[i].uid.toString(), userAuth),
-              onTap: () {
-                if (userAuth != cars[i].uid.toString()) {
-                  PassMarker.carModel = cars[i];
+                    }),
+                position: LatLng(lat, lng),
+                icon: _iconColor(cars[i].uid.toString(), userAuth),
+                onTap: () {
+                  if (userAuth != cars[i].uid.toString()) {
+                    PassMarker.carModel = cars[i];
+                    setState(() {
+                      pinPillPosition = pinVisiblePosition;
+                    });
+                  } else {
+                    setState(() {
+                      pinPillPosition = pinInvisiblePosition;
+                    });
+                  }
+                }));
+            PassMarker.markerId = PassMarker.markerId + 1;
+          });
+        }
+      } else {
+        PassMarker.markerToPass = {};
+        for (int i = 0; i < searchCar!.length; i++) {
+          String? carLatLng = searchCar![i].position;
+          final splitted = carLatLng!.split(',');
+          double lat = double.parse(splitted[0]);
+          double lng = double.parse(splitted[1]);
+          setState(() {
+            PassMarker.markerToPass.add(Marker(
+                markerId: MarkerId('marker$i'),
+                infoWindow: InfoWindow(
+                    title: _printInfoWindow(
+                        searchCar![i].uid.toString(),
+                        userAuth!,
+                        searchCar![i].vehicle.toString() +
+                            '-' +
+                            searchCar![i].model.toString())),
+                position: LatLng(lat, lng),
+                icon: _iconColor(searchCar![i].uid.toString(), userAuth),
+                onTap: () {
                   setState(() {
                     pinPillPosition = pinVisiblePosition;
                   });
-                } else {
-                  setState(() {
-                    pinPillPosition = pinInvisiblePosition;
-                  });
-                }
-              }));
-          PassMarker.markerId = PassMarker.markerId + 1;
-        });
+                }));
+          });
+        }
       }
-    } else {
-      PassMarker.markerToPass = {};
-      for (int i = 0; i < searchCar!.length; i++) {
-        String? carLatLng = searchCar![i].position;
-        final splitted = carLatLng!.split(',');
-        double lat = double.parse(splitted[0]);
-        double lng = double.parse(splitted[1]);
-        setState(() {
-          PassMarker.markerToPass.add(Marker(
-              markerId: MarkerId('marker$i'),
-              infoWindow: InfoWindow(
-                  title: _printInfoWindow(
-                      searchCar![i].uid.toString(),
-                      userAuth,
-                      searchCar![i].vehicle.toString() +
-                          '-' +
-                          searchCar![i].model.toString())),
-              position: LatLng(lat, lng),
-              icon: _iconColor(searchCar![i].uid.toString(), userAuth),
-              onTap: () {
-                setState(() {
-                  pinPillPosition = pinVisiblePosition;
-                });
-              }));
-        });
-      }
+    } on FirebaseAuthException catch (e) {
+      print(e);
     }
     _markers = PassMarker.markerToPass;
   }

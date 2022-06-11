@@ -51,19 +51,19 @@ class BookingInPageState extends State<BookingInPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 })),
-        body: RefreshIndicator(
-            onRefresh: () async {
-              res = await _fetchOtherRes();
-            },
-            child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                      (res.isEmpty)
-                          ? Container(
+        body: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              (res.isEmpty)
+                  ? RefreshIndicator(
+                      onRefresh: () async {
+                        res = await _fetchOtherRes();
+                      },
+                      child: SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Container(
                               height: screenHeight * 0.07,
                               width: screenWidth * 0.9,
                               child: Text('No messages yet :(',
@@ -86,41 +86,44 @@ class BookingInPageState extends State<BookingInPage> {
                                         color: Colors.grey.shade200,
                                         spreadRadius: 6,
                                         blurRadius: 2)
-                                  ]))
-                          : RefreshIndicator(
-                              onRefresh: () async {
-                                res = await _fetchOtherRes();
-                              },
-                              child: Expanded(
-                                  child: ListView.builder(
-                                      physics:
-                                          const AlwaysScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: res == [] ? 0 : res.length,
-                                      itemBuilder: (context, index) {
-                                        if (PassMarker.status[index] != 'e') {
-                                          return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                    height:
-                                                        screenHeight * 0.03),
-                                                Container(
-                                                    height: screenHeight * 0.2,
-                                                    width: screenWidth * 0.9,
-                                                    padding: EdgeInsets.fromLTRB(
-                                                        screenWidth * 0.008,
-                                                        screenHeight * 0.008,
-                                                        screenWidth * 0.008,
-                                                        screenHeight * 0.008),
-                                                    child: (MaterialButton(
-                                                        onPressed: () async {
-                                                          showDialog(
-                                                              context: context,
-                                                              builder: (BuildContext context) =>
+                                  ]))))
+                  : Expanded(
+                      child: RefreshIndicator(
+                          onRefresh: () async {
+                            res = await _fetchOtherRes();
+                          },
+                          child: ListView.builder(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: res == [] ? 0 : res.length,
+                              itemBuilder: (context, index) {
+                                if (PassMarker.status[index] != 'e') {
+                                  return Container(
+                                      padding:
+                                          EdgeInsets.all(screenHeight * 0.008),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                                height: screenHeight * 0.01),
+                                            Container(
+                                                height: screenHeight * 0.16,
+                                                width: screenWidth * 0.9,
+                                                padding: EdgeInsets.fromLTRB(
+                                                    screenWidth * 0.008,
+                                                    screenHeight * 0.008,
+                                                    screenWidth * 0.008,
+                                                    screenHeight * 0.008),
+                                                child: (MaterialButton(
+                                                    onPressed: () async {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder:
+                                                              (BuildContext
+                                                                      context) =>
                                                                   AlertDialog(
                                                                       title: Text(
                                                                           'What do you want to do?',
@@ -170,36 +173,35 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                       if (dayStart.compareTo(day3) > 0) {
                                                                                         showDialog(
                                                                                             context: context,
-                                                                                            builder: (BuildContext context) => AlertDialog(
-                                                                                                    title: Text('!!! Warning !!!', style: TextStyle(fontSize: screenText * 28, color: Colors.redAccent, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                                                                                                    content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-                                                                                                      Text('If you press \'Confirm!\' your reservation will be abolished. Do you want to continue?', style: TextStyle(fontSize: screenText * 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center)
-                                                                                                    ]),
-                                                                                                    actions: <Widget>[
-                                                                                                      Row(children: [
-                                                                                                        TextButton(
-                                                                                                            onPressed: () {
-                                                                                                              Navigator.of(context).pop();
-                                                                                                            },
-                                                                                                            child: Text('Close', style: TextStyle(fontSize: screenText * 24))),
-                                                                                                        SizedBox(width: screenWidth * 0.2),
-                                                                                                        TextButton(
-                                                                                                            onPressed: () async {
-                                                                                                              setState(() {
-                                                                                                                _annulmentMessage(index);
-                                                                                                                PassMarker.status[index] = 'a';
-                                                                                                              });
+                                                                                            builder: (BuildContext context) => AlertDialog(title: Text('Are you sure?', style: TextStyle(fontSize: screenText * 28, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center), actions: <Widget>[
+                                                                                                  Row(children: [
+                                                                                                    TextButton(
+                                                                                                        onPressed: () {
+                                                                                                          Navigator.of(context).pop();
+                                                                                                        },
+                                                                                                        child: Text('Close', style: TextStyle(fontSize: screenText * 24))),
+                                                                                                    SizedBox(width: screenWidth * 0.32),
+                                                                                                    TextButton(
+                                                                                                        onPressed: () async {
+                                                                                                          setState(() {
+                                                                                                            _annulmentMessage(index);
+                                                                                                            PassMarker.status[index] = 'a';
+                                                                                                          });
 
-                                                                                                              Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
-                                                                                                            },
-                                                                                                            child: Text('Confirm!', style: TextStyle(fontSize: screenText * 24)))
-                                                                                                      ])
-                                                                                                    ]));
+                                                                                                          Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
+                                                                                                        },
+                                                                                                        child: Text('Yes!', style: TextStyle(fontSize: screenText * 24)))
+                                                                                                  ])
+                                                                                                ]));
                                                                                       } else {
                                                                                         Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
                                                                                       }
                                                                                     } else {
-                                                                                      Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
+                                                                                      if (PassMarker.status[index] == 'a') {
+                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
+                                                                                      } else {
+                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: reservation already finished', fontSize: 20);
+                                                                                      }
                                                                                     }
                                                                                   },
                                                                                   child: Text('Annulment', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
@@ -230,35 +232,34 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                   shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                                 )),
                                                                           ])));
-                                                        },
-                                                        child: Text(_seeReservation(index, res[index]),
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize:
-                                                                    screenText *
-                                                                        16,
-                                                                color: _colorReservation(
-                                                                    index, bookingId))))),
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 5.0,
-                                                            color: Colors.grey),
-                                                        boxShadow: const [
-                                                          BoxShadow(
-                                                              color:
-                                                                  Colors.white,
-                                                              spreadRadius: 6,
-                                                              blurRadius: 2)
-                                                        ]))
-                                              ]);
-                                        }
-                                        return const SizedBox(height: 1);
-                                      })))
-                    ])))));
+                                                    },
+                                                    child: Text(
+                                                        _seeReservation(
+                                                            index, res[index]),
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize:
+                                                                screenText * 18,
+                                                            color: _colorReservation(
+                                                                index, bookingId))))),
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        width: 5.0,
+                                                        color: Colors.grey),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                          color: Colors.white,
+                                                          spreadRadius: 6,
+                                                          blurRadius: 2)
+                                                    ]))
+                                          ]));
+                                }
+                                return const SizedBox(height: 1);
+                              }))),
+            ])));
   }
 
   String _seeReservation(int i, String message) {
@@ -285,7 +286,7 @@ class BookingInPageState extends State<BookingInPage> {
     }
     if (PassMarker.status[i] == 'c' &&
         dayStart.compareTo(DateTime.now()) <= 0 &&
-        dayEnd.compareTo(DateTime.now()) > 0) {
+        dayEnd.compareTo(DateTime.now()) >= 0) {
       return i.toString() +
           '. Date: ' +
           date +
@@ -330,7 +331,8 @@ class BookingInPageState extends State<BookingInPage> {
   }
 
   _colorAnulment(int i) {
-    if (PassMarker.status[i] == 'a') {
+    print(PassMarker.status[i]);
+    if (PassMarker.status[i] == 'a' || PassMarker.status[i] == 'f') {
       return Colors.red.shade100;
     } else {
       return Colors.redAccent;
