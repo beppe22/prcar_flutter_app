@@ -3,6 +3,7 @@ import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/filters/least/least.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -174,42 +175,51 @@ class MapBottomPill extends StatelessWidget {
                                                     minWidth: screenWidth * 0.4,
                                                     color: Colors.redAccent,
                                                     onPressed: () async {
-                                                      final _auth =
-                                                          FirebaseAuth.instance;
-                                                      User? user =
-                                                          _auth.currentUser;
-                                                      if (await _isConfirmed(
-                                                              user!) ==
-                                                          'confirmed') {
-                                                        PassMarker.hpOrNot =
-                                                            true;
-                                                        var reserveResult =
-                                                            'start';
-                                                        reserveResult =
-                                                            await Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            const Least()));
+                                                      if (await NetworkCheck()
+                                                          .check()) {
+                                                        final _auth =
+                                                            FirebaseAuth
+                                                                .instance;
+                                                        User? user =
+                                                            _auth.currentUser;
+                                                        if (await _isConfirmed(
+                                                                user!) ==
+                                                            'confirmed') {
+                                                          PassMarker.hpOrNot =
+                                                              true;
+                                                          var reserveResult =
+                                                              'start';
+                                                          reserveResult = await Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          const Least()));
 
-                                                        if (reserveResult ==
-                                                            '1') {
-                                                          Navigator.of(context,
-                                                                  rootNavigator:
-                                                                      true)
-                                                              .pop('dialog');
-                                                        } else if (reserveResult ==
-                                                            '0') {
+                                                          if (reserveResult ==
+                                                              '1') {
+                                                            Navigator.of(
+                                                                    context,
+                                                                    rootNavigator:
+                                                                        true)
+                                                                .pop('dialog');
+                                                          } else if (reserveResult ==
+                                                              '0') {
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                    'Something went wrong, try again later',
+                                                                fontSize: 20);
+                                                          }
+                                                        } else {
                                                           Fluttertoast.showToast(
                                                               msg:
-                                                                  'Something went wrong, try again later',
+                                                                  'Driving License isn\'t confirmed yet :(',
                                                               fontSize: 20);
                                                         }
                                                       } else {
                                                         Fluttertoast.showToast(
                                                             msg:
-                                                                'Driving License isn\'t confirmed yet :(',
+                                                                'No internet connection',
                                                             fontSize: 20);
                                                       }
                                                     },

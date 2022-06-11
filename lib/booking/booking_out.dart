@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 import '../chatImplementation/chatDetail.dart';
@@ -134,8 +135,12 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                 BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                             child: MaterialButton(
                                                                               onPressed: () async {
-                                                                                String nameFriend = (UserModel.fromMap(await FirebaseFirestore.instance.collection('users').doc(PassMarker.uidFriend[index]).get())).firstName!;
-                                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index], hp: false)));
+                                                                                if (await NetworkCheck().check()) {
+                                                                                  String nameFriend = (UserModel.fromMap(await FirebaseFirestore.instance.collection('users').doc(PassMarker.uidFriend[index]).get())).firstName!;
+                                                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index], hp: false)));
+                                                                                } else {
+                                                                                  Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
+                                                                                }
                                                                               },
                                                                               child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
                                                                               shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -172,12 +177,16 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                                 SizedBox(width: screenWidth * 0.32),
                                                                                                 TextButton(
                                                                                                     onPressed: () async {
-                                                                                                      setState(() {
-                                                                                                        _annulmentMessage(index);
-                                                                                                        PassMarker.status[index] = 'a';
-                                                                                                      });
+                                                                                                      if (await NetworkCheck().check()) {
+                                                                                                        setState(() {
+                                                                                                          _annulmentMessage(index);
+                                                                                                          PassMarker.status[index] = 'a';
+                                                                                                        });
 
-                                                                                                      Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
+                                                                                                        Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
+                                                                                                      } else {
+                                                                                                        Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
+                                                                                                      }
                                                                                                     },
                                                                                                     child: Text('Yes!', style: TextStyle(fontSize: screenText * 24)))
                                                                                               ])
@@ -208,18 +217,22 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                 BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                             child: MaterialButton(
                                                                               onPressed: () async {
-                                                                                Navigator.pop(context);
-                                                                                final splitted = res[index].split('.');
-                                                                                String date = splitted[0];
-                                                                                DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(date.substring(11));
-                                                                                if (dayEnd.compareTo(DateTime.now()) < 0 || PassMarker.status[index] == 'a') {
-                                                                                  setState(() {
-                                                                                    _eliminationMessage(index);
-                                                                                    PassMarker.status[index] = 'e';
-                                                                                  });
-                                                                                  Fluttertoast.showToast(msg: 'This message has been eliminated!', fontSize: 20);
+                                                                                if (await NetworkCheck().check()) {
+                                                                                  Navigator.pop(context);
+                                                                                  final splitted = res[index].split('.');
+                                                                                  String date = splitted[0];
+                                                                                  DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(date.substring(11));
+                                                                                  if (dayEnd.compareTo(DateTime.now()) < 0 || PassMarker.status[index] == 'a') {
+                                                                                    setState(() {
+                                                                                      _eliminationMessage(index);
+                                                                                      PassMarker.status[index] = 'e';
+                                                                                    });
+                                                                                    Fluttertoast.showToast(msg: 'This message has been eliminated!', fontSize: 20);
+                                                                                  } else {
+                                                                                    Fluttertoast.showToast(msg: 'Impossible operation: you can\'t eliminate this message while the reservation isn\'t finished :(', fontSize: 20);
+                                                                                  }
                                                                                 } else {
-                                                                                  Fluttertoast.showToast(msg: 'Impossible operation: you can\'t eliminate this message while the reservation isn\'t finished :(', fontSize: 20);
+                                                                                  Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
                                                                                 }
                                                                               },
                                                                               child: Text('Elimination', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),

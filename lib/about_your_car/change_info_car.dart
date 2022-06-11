@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/about_your_car/image_car.dart';
 import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/filters/fuel/fuel.dart';
@@ -257,38 +258,43 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                         fontWeight: FontWeight.bold)),
                 IconButton(
                     onPressed: () async {
-                      if (carModel.fuel == fuelString &&
-                          carModel.model == modelString &&
-                          carModel.position == positionString &&
-                          carModel.price == priceString &&
-                          carModel.seats == seatsString &&
-                          carModel.vehicle == vehicleString &&
-                          images.isEmpty) {
-                        Fluttertoast.showToast(
-                            msg: 'You change nothing :(', fontSize: 20);
-                      } else {
-                        _changeFirebase(
-                            carModel,
-                            seatsString!,
-                            fuelString!,
-                            modelString!,
-                            vehicleString!,
-                            priceString!,
-                            positionString!);
-                        if (images.isNotEmpty) {
-                          _updateImages(images, carModel.uid!, carModel.cid!);
+                      if (await NetworkCheck().check()) {
+                        if (carModel.fuel == fuelString &&
+                            carModel.model == modelString &&
+                            carModel.position == positionString &&
+                            carModel.price == priceString &&
+                            carModel.seats == seatsString &&
+                            carModel.vehicle == vehicleString &&
+                            images.isEmpty) {
+                          Fluttertoast.showToast(
+                              msg: 'You change nothing :(', fontSize: 20);
+                        } else {
+                          _changeFirebase(
+                              carModel,
+                              seatsString!,
+                              fuelString!,
+                              modelString!,
+                              vehicleString!,
+                              priceString!,
+                              positionString!);
+                          if (images.isNotEmpty) {
+                            _updateImages(images, carModel.uid!, carModel.cid!);
+                          }
+                          Fluttertoast.showToast(
+                              msg: 'New car\'s update :)', fontSize: 20);
+                          setState(() {
+                            carModel.fuel = fuelString.toString();
+                            carModel.price = priceString.toString();
+                            carModel.model = modelString.toString();
+                            carModel.vehicle = vehicleString.toString();
+                            carModel.seats = seatsString.toString();
+                            carModel.position = positionString.toString();
+                          });
+                          Navigator.pop(context, carModel);
                         }
+                      } else {
                         Fluttertoast.showToast(
-                            msg: 'New car\'s update :)', fontSize: 20);
-                        setState(() {
-                          carModel.fuel = fuelString.toString();
-                          carModel.price = priceString.toString();
-                          carModel.model = modelString.toString();
-                          carModel.vehicle = vehicleString.toString();
-                          carModel.seats = seatsString.toString();
-                          carModel.position = positionString.toString();
-                        });
-                        Navigator.pop(context, carModel);
+                            msg: 'No internet connection', fontSize: 20);
                       }
                     },
                     icon: Icon(Icons.add_task, size: screenText * 25))

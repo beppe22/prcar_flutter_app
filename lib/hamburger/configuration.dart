@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/configuration/front_license.dart';
 
 class Configuration extends StatefulWidget {
@@ -207,16 +208,22 @@ class _ConfigurationState extends State<Configuration> {
                               border:
                                   Border.all(width: 5.0, color: Colors.grey)),
                           child: (MaterialButton(
-                              onPressed: () {
-                                final _auth = FirebaseAuth.instance;
-                                User? user = _auth.currentUser;
-                                _updateIsConfirmed(user!);
-                                _deleteDrivingLicense(user.uid);
-                                Fluttertoast.showToast(
-                                    msg:
-                                        'Driving license info resetted succesfully :)',
-                                    fontSize: 20);
-                                Navigator.pop(context);
+                              onPressed: () async {
+                                if (await NetworkCheck().check()) {
+                                  final _auth = FirebaseAuth.instance;
+                                  User? user = _auth.currentUser;
+                                  _updateIsConfirmed(user!);
+                                  _deleteDrivingLicense(user.uid);
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          'Driving license info resetted succesfully :)',
+                                      fontSize: 20);
+                                  Navigator.pop(context);
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: 'No internet connection',
+                                      fontSize: 20);
+                                }
                               },
                               padding: EdgeInsets.fromLTRB(
                                   screenWidth * 0.02,

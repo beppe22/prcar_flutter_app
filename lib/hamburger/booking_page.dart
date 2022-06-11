@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import '../booking/booking_in.dart';
 import 'package:intl/intl.dart';
@@ -53,22 +55,27 @@ class MessagePageState extends State<MessagePage> {
                   border: Border.all(width: 5.0, color: Colors.grey)),
               child: (MaterialButton(
                   onPressed: () async {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) =>
-                          const Center(child: CircularProgressIndicator()),
-                    );
-                    List<String> res = await _fetchOtherRes();
-                    String bookingId = '';
-                    await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BookingInPage(
-                                bookingId: bookingId,
-                                res: res,
-                                fromHp: false)));
-                    Navigator.pop(context);
+                    if (await NetworkCheck().check()) {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) =>
+                            const Center(child: CircularProgressIndicator()),
+                      );
+                      List<String> res = await _fetchOtherRes();
+                      String bookingId = '';
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BookingInPage(
+                                  bookingId: bookingId,
+                                  res: res,
+                                  fromHp: false)));
+                      Navigator.pop(context);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: 'No internet connection', fontSize: 20);
+                    }
                   },
                   padding: EdgeInsets.fromLTRB(
                       screenHeight * 0.01,
@@ -92,18 +99,23 @@ class MessagePageState extends State<MessagePage> {
                   border: Border.all(width: 5.0, color: Colors.grey)),
               child: (MaterialButton(
                   onPressed: () async {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) =>
-                          const Center(child: CircularProgressIndicator()),
-                    );
-                    List<String> res = await _fetchMyRes();
-                    await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BookingOutPage(res: res)));
-                    Navigator.pop(context);
+                    if (await NetworkCheck().check()) {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) =>
+                            const Center(child: CircularProgressIndicator()),
+                      );
+                      List<String> res = await _fetchMyRes();
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BookingOutPage(res: res)));
+                      Navigator.pop(context);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: 'No internet connection', fontSize: 20);
+                    }
                   },
                   padding: EdgeInsets.fromLTRB(
                       screenHeight * 0.01,

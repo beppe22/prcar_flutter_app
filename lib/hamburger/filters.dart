@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/homepage.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
@@ -325,29 +326,35 @@ class _FiltersState extends State<Filters> {
                             fontWeight: FontWeight.bold)),
                     IconButton(
                         onPressed: () async {
-                          List<CarModel> cars = await _fetchCar();
-                          List<CarModel> searchCars =
-                              await _searchCar(cars, search, user);
-                          setState(() {
-                            search.fuel = '';
-                            search.model = '';
-                            search.least = '';
-                            search.price = '';
-                            search.vehicle = '';
-                            search.seats = '';
-                            search.position = '';
-                            SearchCar.latSearch = '';
-                            SearchCar.lngSearch = '';
-                            SearchCar.date1Search = '';
-                            SearchCar.date2Search = '';
-                          });
-                          if (searchCars.isNotEmpty) {
-                            PassMarker.from = false;
-                            Navigator.pop(context, searchCars);
+                          if (await NetworkCheck().check()) {
+                            List<CarModel> cars = await _fetchCar();
+                            List<CarModel> searchCars =
+                                await _searchCar(cars, search, user);
+                            setState(() {
+                              search.fuel = '';
+                              search.model = '';
+                              search.least = '';
+                              search.price = '';
+                              search.vehicle = '';
+                              search.seats = '';
+                              search.position = '';
+                              SearchCar.latSearch = '';
+                              SearchCar.lngSearch = '';
+                              SearchCar.date1Search = '';
+                              SearchCar.date2Search = '';
+                            });
+                            if (searchCars.isNotEmpty) {
+                              PassMarker.from = false;
+                              Navigator.pop(context, searchCars);
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg:
+                                      'No car found :( try with less parameters',
+                                  fontSize: 20);
+                            }
                           } else {
                             Fluttertoast.showToast(
-                                msg: 'No car found :( try with less parameters',
-                                fontSize: 20);
+                                msg: 'No internet connection', fontSize: 20);
                           }
                         },
                         icon: Icon(Icons.add_task, size: screenText * 25))

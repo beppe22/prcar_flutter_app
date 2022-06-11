@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/homepage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -147,31 +148,36 @@ class _BottomLicenseState extends State<BottomLicense> {
                 border: Border.all(width: 5.0, color: Colors.grey)),
             child: (MaterialButton(
                 onPressed: () async {
-                  if (ok!) {
-                    final _auth = FirebaseAuth.instance;
-                    User? user = _auth.currentUser;
-                    String uidCode = user!.uid;
-                    final frontPath = frontImage.path;
-                    final bottomPath = bottomImage!.path;
-                    final expiryPath = expiryDate;
-                    final drivingCodePath = drivingCode;
-                    await _updateIsConfirmed(user);
-                    storage.uploadFile(frontPath, 'frontLicense', uidCode);
-                    storage.uploadFile(bottomPath, 'bottomLicense', uidCode);
-                    storage.uploadString(expiryPath, 'expiryDate', uidCode);
-                    storage.uploadString(
-                        drivingCodePath, 'drivingCode', uidCode);
-                    Fluttertoast.showToast(
-                        msg:
-                            'Driving license inserted :) the administrator will check soon your information and will confirm',
-                        fontSize: 20);
-                    Navigator.pushAndRemoveUntil(
-                        (context),
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                        (route) => false);
+                  if (await NetworkCheck().check()) {
+                    if (ok!) {
+                      final _auth = FirebaseAuth.instance;
+                      User? user = _auth.currentUser;
+                      String uidCode = user!.uid;
+                      final frontPath = frontImage.path;
+                      final bottomPath = bottomImage!.path;
+                      final expiryPath = expiryDate;
+                      final drivingCodePath = drivingCode;
+                      await _updateIsConfirmed(user);
+                      storage.uploadFile(frontPath, 'frontLicense', uidCode);
+                      storage.uploadFile(bottomPath, 'bottomLicense', uidCode);
+                      storage.uploadString(expiryPath, 'expiryDate', uidCode);
+                      storage.uploadString(
+                          drivingCodePath, 'drivingCode', uidCode);
+                      Fluttertoast.showToast(
+                          msg:
+                              'Driving license inserted :) the administrator will check soon your information and will confirm',
+                          fontSize: 20);
+                      Navigator.pushAndRemoveUntil(
+                          (context),
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                          (route) => false);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: 'No picture inserted :(', fontSize: 20);
+                    }
                   } else {
                     Fluttertoast.showToast(
-                        msg: 'No picture inserted :(', fontSize: 20);
+                        msg: 'No internet connection', fontSize: 20);
                   }
                 },
                 padding: EdgeInsets.fromLTRB(

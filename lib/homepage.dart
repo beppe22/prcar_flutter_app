@@ -131,6 +131,7 @@ class _HomePageState extends State<HomePage> {
                         ])
                 ]),
             backgroundColor: Colors.white,
+            drawerEnableOpenDragGesture: false,
             drawer: Drawer(
                 child: ListView(padding: EdgeInsets.zero, children: [
               SizedBox(height: screenHeight * 0.08),

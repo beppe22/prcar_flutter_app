@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/about_your_car/image_car.dart';
 import 'package:prcarpolimi/about_your_car/info_car.dart';
 import 'package:prcarpolimi/auth/storage_service.dart';
@@ -319,60 +320,65 @@ class _AddNewCarState extends State<AddNewCar> {
                         fontWeight: FontWeight.bold)),
                 IconButton(
                     onPressed: () async {
-                      if (car.fuel != '' &&
-                          car.position != '' &&
-                          car.model != '' &&
-                          car.price != '' &&
-                          car.seats != '' &&
-                          images.isNotEmpty) {
-                        List<CarModel> cars = await _addCar(car);
-                        Fluttertoast.showToast(
-                            msg: 'Car added succesfully :)', fontSize: 20);
-                        PassMarker.from = true;
-                        setState(() {
-                          int i = PassMarker.markerId;
-                          PassMarker.markerId = PassMarker.markerId + 1;
-                          String? carLatLng = car.position;
-                          final splitted = carLatLng!.split(',');
-                          double lat = double.parse(splitted[0]);
-                          double lng = double.parse(splitted[1]);
-                          PassMarker.markerToPass.add(Marker(
-                              markerId: MarkerId('marker$i'),
-                              infoWindow: InfoWindow(
-                                  title: 'My car: click for details',
-                                  onTap: () {
-                                    String suspOrAct = 'Active';
+                      if (await NetworkCheck().check()) {
+                        if (car.fuel != '' &&
+                            car.position != '' &&
+                            car.model != '' &&
+                            car.price != '' &&
+                            car.seats != '' &&
+                            images.isNotEmpty) {
+                          List<CarModel> cars = await _addCar(car);
+                          Fluttertoast.showToast(
+                              msg: 'Car added succesfully :)', fontSize: 20);
+                          PassMarker.from = true;
+                          setState(() {
+                            int i = PassMarker.markerId;
+                            PassMarker.markerId = PassMarker.markerId + 1;
+                            String? carLatLng = car.position;
+                            final splitted = carLatLng!.split(',');
+                            double lat = double.parse(splitted[0]);
+                            double lng = double.parse(splitted[1]);
+                            PassMarker.markerToPass.add(Marker(
+                                markerId: MarkerId('marker$i'),
+                                infoWindow: InfoWindow(
+                                    title: 'My car: click for details',
+                                    onTap: () {
+                                      String suspOrAct = 'Active';
 
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                InfoCar(car, suspOrAct, true)));
-                                  }),
-                              position: LatLng(lat, lng),
-                              icon: BitmapDescriptor.defaultMarkerWithHue(
-                                  BitmapDescriptor.hueBlue),
-                              onTap: () {
-                                setState(() {
-                                  pinPillPosition = pinInvisiblePosition;
-                                });
-                              }));
-                        });
-                        final _auth = FirebaseAuth.instance;
-                        User? user = _auth.currentUser;
-                        for (int i = 0; images[i] != null && i < 6; i++) {
-                          final tempPath = images[i]!.path;
-                          storage.uploadCarPic(tempPath, 'imageCar$i',
-                              user!.uid, PassMarker.cidAdd);
-                        }
-                        if (cars != []) {
-                          Navigator.pop(context, cars);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => InfoCar(
+                                                  car, suspOrAct, true)));
+                                    }),
+                                position: LatLng(lat, lng),
+                                icon: BitmapDescriptor.defaultMarkerWithHue(
+                                    BitmapDescriptor.hueBlue),
+                                onTap: () {
+                                  setState(() {
+                                    pinPillPosition = pinInvisiblePosition;
+                                  });
+                                }));
+                          });
+                          final _auth = FirebaseAuth.instance;
+                          User? user = _auth.currentUser;
+                          for (int i = 0; images[i] != null && i < 6; i++) {
+                            final tempPath = images[i]!.path;
+                            storage.uploadCarPic(tempPath, 'imageCar$i',
+                                user!.uid, PassMarker.cidAdd);
+                          }
+                          if (cars != []) {
+                            Navigator.pop(context, cars);
+                          }
+                        } else {
+                          Fluttertoast.showToast(
+                              msg:
+                                  'Invalid Insert: You can\'t insert a car without all the parameters choosen',
+                              fontSize: 20);
                         }
                       } else {
                         Fluttertoast.showToast(
-                            msg:
-                                'Invalid Insert: You can\'t insert a car without all the parameters choosen',
-                            fontSize: 20);
+                            msg: 'No internet connection', fontSize: 20);
                       }
                     },
                     icon: const Icon(Icons.add_task))

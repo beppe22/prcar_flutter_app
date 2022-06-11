@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/login.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import '../models/static_user.dart';
@@ -149,11 +150,16 @@ class InfoAccount extends StatelessWidget {
                     child: MaterialButton(
                         color: Colors.grey.shade500,
                         onPressed: () async {
-                          FirebaseAuth.instance.signOut();
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => const Login()),
-                              (Route<dynamic> route) => false);
+                          if (await NetworkCheck().check()) {
+                            FirebaseAuth.instance.signOut();
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => const Login()),
+                                (Route<dynamic> route) => false);
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: 'No internet connection', fontSize: 20);
+                          }
                         },
                         child: Text("Logout",
                             style: TextStyle(
@@ -208,24 +214,34 @@ class InfoAccount extends StatelessWidget {
                                           SizedBox(width: screenWidth * 0.20),
                                           TextButton(
                                               onPressed: () async {
-                                                int i = 0;
-                                                if (await _fetchAllRes(i) ==
-                                                    0) {
-                                                  await deleteAccount(context);
+                                                if (await NetworkCheck()
+                                                    .check()) {
+                                                  int i = 0;
+                                                  if (await _fetchAllRes(i) ==
+                                                      0) {
+                                                    await deleteAccount(
+                                                        context);
 
-                                                  Navigator.pushAndRemoveUntil(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              const Login()),
-                                                      (Route<dynamic> route) =>
-                                                          false);
+                                                    Navigator.pushAndRemoveUntil(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                const Login()),
+                                                        (Route<dynamic>
+                                                                route) =>
+                                                            false);
+                                                  } else {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            const InactiveCar());
+                                                  }
                                                 } else {
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          const InactiveCar());
+                                                  Fluttertoast.showToast(
+                                                      msg:
+                                                          'No internet connection',
+                                                      fontSize: 20);
                                                 }
                                               },
                                               child: Text('Confirm!',

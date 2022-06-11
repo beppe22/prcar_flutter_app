@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/about_your_car/change_info_car.dart';
 import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/models/carModel.dart';
@@ -172,22 +173,27 @@ class _InfoCarState extends State<InfoCar> {
                     child: MaterialButton(
                         color: Colors.grey,
                         onPressed: () async {
-                          if (supOrActive == 'Active') {
-                            setState(() {
-                              carModel.activeOrNot = 't';
-                              supOrActive = 'Suspend';
-                            });
+                          if (await NetworkCheck().check()) {
+                            if (supOrActive == 'Active') {
+                              setState(() {
+                                carModel.activeOrNot = 't';
+                                supOrActive = 'Suspend';
+                              });
+                            } else {
+                              setState(() {
+                                carModel.activeOrNot = 'f';
+                                supOrActive = 'Active';
+                              });
+                            }
+                            _suspendOrActiveCar();
+                            Fluttertoast.showToast(
+                                msg:
+                                    'Car\'s status changed! Pay attention to its reservations because those are still available!',
+                                fontSize: 20);
                           } else {
-                            setState(() {
-                              carModel.activeOrNot = 'f';
-                              supOrActive = 'Active';
-                            });
+                            Fluttertoast.showToast(
+                                msg: 'No internet connection', fontSize: 20);
                           }
-                          _suspendOrActiveCar();
-                          Fluttertoast.showToast(
-                              msg:
-                                  'Car\'s status changed! Pay attention to its reservations because those are still available!',
-                              fontSize: 20);
                         },
                         child: Text(supOrActive,
                             textAlign: TextAlign.center,
@@ -237,15 +243,23 @@ class _InfoCarState extends State<InfoCar> {
                                             SizedBox(width: screenWidth * 0.35),
                                             TextButton(
                                                 onPressed: () async {
-                                                  User? user =
-                                                      _auth.currentUser;
-                                                  _deleteCar(
-                                                      user!.uid, carModel.cid!);
-                                                  Navigator.pop(
-                                                      context, _fetchInfoCar());
-                                                  Fluttertoast.showToast(
-                                                      msg: 'Car deleted!',
-                                                      fontSize: 20);
+                                                  if (await NetworkCheck()
+                                                      .check()) {
+                                                    User? user =
+                                                        _auth.currentUser;
+                                                    _deleteCar(user!.uid,
+                                                        carModel.cid!);
+                                                    Navigator.pop(context,
+                                                        _fetchInfoCar());
+                                                    Fluttertoast.showToast(
+                                                        msg: 'Car deleted!',
+                                                        fontSize: 20);
+                                                  } else {
+                                                    Fluttertoast.showToast(
+                                                        msg:
+                                                            'No internet connection',
+                                                        fontSize: 20);
+                                                  }
                                                 },
                                                 child: Text('Yes!',
                                                     style: TextStyle(
@@ -276,16 +290,21 @@ class _InfoCarState extends State<InfoCar> {
                 SizedBox(width: screenWidth * 0.08),
                 FloatingActionButton(
                     onPressed: () async {
-                      List<String> files =
-                          await urlFile(carModel.uid!, carModel.cid!);
-                      final List<ImageProvider> _imageProviders = [];
-                      for (int i = 0; i < files.length; i++) {
-                        _imageProviders.insert(
-                            i, Image.network(files[i]).image);
+                      if (await NetworkCheck().check()) {
+                        List<String> files =
+                            await urlFile(carModel.uid!, carModel.cid!);
+                        final List<ImageProvider> _imageProviders = [];
+                        for (int i = 0; i < files.length; i++) {
+                          _imageProviders.insert(
+                              i, Image.network(files[i]).image);
+                        }
+                        MultiImageProvider multiImageProvider =
+                            MultiImageProvider(_imageProviders);
+                        await showImageViewerPager(context, multiImageProvider);
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: 'No internet connection', fontSize: 20);
                       }
-                      MultiImageProvider multiImageProvider =
-                          MultiImageProvider(_imageProviders);
-                      await showImageViewerPager(context, multiImageProvider);
                     },
                     backgroundColor: Colors.redAccent,
                     child: Icon(Icons.photo_album, size: screenText * 25))

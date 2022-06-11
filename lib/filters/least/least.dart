@@ -80,18 +80,23 @@ class _LeastState extends State<Least> {
                         borderRadius: BorderRadius.circular(20)),
                     child: MaterialButton(
                         onPressed: () async {
-                          List<String> blackout = await _fetchDates();
-                          Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Calendar(blackout: blackout)))
-                              .then((data) {
-                            setState(() {
-                              dateStart = data[0];
-                              dateEnd = data[1];
+                          if (await NetworkCheck().check()) {
+                            List<String> blackout = await _fetchDates();
+                            Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Calendar(blackout: blackout)))
+                                .then((data) {
+                              setState(() {
+                                dateStart = data[0];
+                                dateEnd = data[1];
+                              });
                             });
-                          });
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: 'No internet connection', fontSize: 20);
+                          }
                         },
                         shape: ContinuousRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
@@ -114,12 +119,17 @@ class _LeastState extends State<Least> {
                         borderRadius: BorderRadius.circular(20)),
                     child: MaterialButton(
                         onPressed: () async {
-                          final List<String> blackout = await _fetchDates();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      Calendar(blackout: blackout)));
+                          if (await NetworkCheck().check()) {
+                            final List<String> blackout = await _fetchDates();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Calendar(blackout: blackout)));
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: 'No internet connection', fontSize: 20);
+                          }
                         },
                         shape: ContinuousRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
@@ -170,8 +180,7 @@ class _LeastState extends State<Least> {
                           }
                         } else {
                           Fluttertoast.showToast(
-                              msg: "You are not connected on internet",
-                              fontSize: 20);
+                              msg: 'No internet connection', fontSize: 20);
                         }
                       },
                       shape: ContinuousRectangleBorder(
