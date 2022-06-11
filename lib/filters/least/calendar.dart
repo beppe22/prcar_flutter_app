@@ -22,8 +22,8 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+    //final screenHeight = MediaQuery.of(context).size.height;
+    //final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +44,6 @@ class _CalendarState extends State<Calendar> {
                       fontWeight: FontWeight.bold)),
               IconButton(
                   onPressed: () async {
-                    print(blackout);
                     if (_startDate == '' && _endDate == '') {
                       Fluttertoast.showToast(
                           msg: 'No date selected :(', fontSize: 20);

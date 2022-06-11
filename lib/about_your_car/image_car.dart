@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, avoid_print
+// ignore_for_file: must_be_immutable, avoid_print, no_logic_in_create_state
 
 import 'dart:io';
 import 'package:flutter/material.dart';

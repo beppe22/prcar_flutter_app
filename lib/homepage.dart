@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+    //final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
     GoogleMapController _controller;
     return WillPopScope(
@@ -266,8 +266,8 @@ class _HomePageState extends State<HomePage> {
       print('User granted permission');
 
       FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-        final screenHeight = MediaQuery.of(context).size.height;
-        final screenWidth = MediaQuery.of(context).size.width;
+        //final screenHeight = MediaQuery.of(context).size.height;
+        //final screenWidth = MediaQuery.of(context).size.width;
         final screenText = MediaQuery.of(context).textScaleFactor;
         print("message recieved");
         print(event.notification!.body);

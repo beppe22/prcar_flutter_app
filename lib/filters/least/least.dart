@@ -59,8 +59,9 @@ class _LeastState extends State<Least> {
                   child:
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
               SizedBox(
-                  height: screenHeight * 0.05,
+                  height: screenHeight * 0.07,
                   child: Text("Choose for how long are you in need",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.grey,
