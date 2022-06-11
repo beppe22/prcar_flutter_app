@@ -53,15 +53,22 @@ class MessagePageState extends State<MessagePage> {
                   border: Border.all(width: 5.0, color: Colors.grey)),
               child: (MaterialButton(
                   onPressed: () async {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) =>
+                          const Center(child: CircularProgressIndicator()),
+                    );
                     List<String> res = await _fetchOtherRes();
                     String bookingId = '';
-                    Navigator.push(
+                    await Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => BookingInPage(
                                 bookingId: bookingId,
                                 res: res,
                                 fromHp: false)));
+                    Navigator.pop(context);
                   },
                   padding: EdgeInsets.fromLTRB(
                       screenHeight * 0.01,
@@ -85,11 +92,18 @@ class MessagePageState extends State<MessagePage> {
                   border: Border.all(width: 5.0, color: Colors.grey)),
               child: (MaterialButton(
                   onPressed: () async {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) =>
+                          const Center(child: CircularProgressIndicator()),
+                    );
                     List<String> res = await _fetchMyRes();
-                    Navigator.push(
+                    await Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => BookingOutPage(res: res)));
+                    Navigator.pop(context);
                   },
                   padding: EdgeInsets.fromLTRB(
                       screenHeight * 0.01,
