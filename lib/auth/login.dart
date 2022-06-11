@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/signUp.dart';
 import 'package:prcarpolimi/auth/forgot_password.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
@@ -135,31 +136,36 @@ class _LoginState extends State<Login> {
                     child: MaterialButton(
                         color: Colors.redAccent,
                         onPressed: () async {
-                          User? user = await loginUsingEmailPassword(
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                              context: context);
-                          if (user != null) {
-                            await firebaseFirestore
-                                .collection('users')
-                                .doc(user.uid)
-                                .get()
-                                .then((ds) {
-                              userModel = UserModel.fromMap(ds);
-                              StaticUser.email = userModel.email!;
-                              StaticUser.uid = userModel.uid!;
-                              StaticUser.firstName = userModel.firstName!;
-                              StaticUser.secondName = userModel.secondName!;
-                              PassMarker.from = true;
-                              _finishReservation(user);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage()));
-                            });
+                          if (await NetworkCheck().check()) {
+                            User? user = await loginUsingEmailPassword(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                context: context);
+                            if (user != null) {
+                              await firebaseFirestore
+                                  .collection('users')
+                                  .doc(user.uid)
+                                  .get()
+                                  .then((ds) {
+                                userModel = UserModel.fromMap(ds);
+                                StaticUser.email = userModel.email!;
+                                StaticUser.uid = userModel.uid!;
+                                StaticUser.firstName = userModel.firstName!;
+                                StaticUser.secondName = userModel.secondName!;
+                                PassMarker.from = true;
+                                _finishReservation(user);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()));
+                              });
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: 'No user found :(', fontSize: 20);
+                            }
                           } else {
                             Fluttertoast.showToast(
-                                msg: 'No user found :(', fontSize: 20);
+                                msg: 'No internet connection', fontSize: 20);
                           }
                         },
                         child: Text("Login",

@@ -3,6 +3,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/verify_email.dart';
 import 'package:prcarpolimi/models/static_user.dart';
 import 'package:prcarpolimi/models/userModel.dart';
@@ -168,8 +170,13 @@ class _SignUpState extends State<SignUp> {
         color: Colors.redAccent,
         child: MaterialButton(
             onPressed: () async {
-              signUp(
-                  emailEditingController.text, passwordEditingController.text);
+              if (await NetworkCheck().check()) {
+                signUp(emailEditingController.text,
+                    passwordEditingController.text);
+              } else {
+                Fluttertoast.showToast(
+                    msg: 'No internet connection', fontSize: 20);
+              }
             },
             padding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),

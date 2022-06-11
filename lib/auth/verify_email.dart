@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/login.dart';
 import 'package:prcarpolimi/homepage.dart';
 
@@ -99,17 +100,22 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
                           label: Text('Cancel',
                               style: TextStyle(fontSize: screenText * 24)),
                           onPressed: () async {
-                            User? user = FirebaseAuth.instance.currentUser;
-                            await FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(user?.uid)
-                                .delete();
-                            await user?.delete();
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Login()),
-                                (Route<dynamic> route) => false);
+                            if (await NetworkCheck().check()) {
+                              User? user = FirebaseAuth.instance.currentUser;
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(user?.uid)
+                                  .delete();
+                              await user?.delete();
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Login()),
+                                  (Route<dynamic> route) => false);
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: 'No internet connection', fontSize: 20);
+                            }
                           })
                     ])));
   }

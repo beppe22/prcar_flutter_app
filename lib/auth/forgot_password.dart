@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -84,8 +85,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           fontSize: screenText * 20,
                           color: Colors.black,
                           fontWeight: FontWeight.bold)),
-                  onPressed: () {
-                    resetPassword();
+                  onPressed: () async {
+                    if (await NetworkCheck().check()) {
+                      resetPassword();
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: 'No internet connection', fontSize: 20);
+                    }
                   }),
               decoration: BoxDecoration(
                   color: Colors.grey,
