@@ -263,36 +263,44 @@ class InfoAccount extends StatelessWidget {
     );
 
     await user?.delete();
+    await firebaseFirestore.collection("tokens").doc(StaticUser.uid).delete();
     await firebaseFirestore
         .collection("users")
         .doc(StaticUser.uid)
         .collection('cars')
         .get()
-        .then((exit) async {
-      for (var car in exit.docs) {
-        await firebaseFirestore
-            .collection('users')
-            .doc(StaticUser.uid)
-            .collection('cars')
-            .doc(car.data()['cid'])
-            .collection('booking-in')
-            .get()
-            .then((snap) async {
-          for (var bookingIn in snap.docs) {
-            bookingIn.reference.delete();
-          }
-        });
-        car.reference.delete();
+        .then((snap1) async {
+      if (snap1.docs.isNotEmpty) {
+        for (var car in snap1.docs) {
+          await firebaseFirestore
+              .collection('users')
+              .doc(StaticUser.uid)
+              .collection('cars')
+              .doc(car.data()['cid'])
+              .collection('booking-in')
+              .get()
+              .then((snap) async {
+            if (snap.docs.isNotEmpty) {
+              for (var bookingIn in snap.docs) {
+                bookingIn.reference.delete();
+              }
+            }
+          });
+          car.reference.delete();
+        }
       }
     });
+
     await firebaseFirestore
         .collection("users")
         .doc(StaticUser.uid)
         .collection('booking-out')
         .get()
         .then((snap) async {
-      for (var bookingOut in snap.docs) {
-        bookingOut.reference.delete();
+      if (snap.docs.isNotEmpty) {
+        for (var bookingOut in snap.docs) {
+          bookingOut.reference.delete();
+        }
       }
     });
     await firebaseFirestore.collection("users").doc(StaticUser.uid).delete();

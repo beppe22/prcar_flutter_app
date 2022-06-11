@@ -265,9 +265,9 @@ class _SignUpState extends State<SignUp> {
         .doc(user.uid)
         .set(userModel.toMap());
 
-    Navigator.pushAndRemoveUntil(
-        (context),
-        MaterialPageRoute(builder: (context) => const VerifyEmailPage()),
-        (route) => false);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const VerifyEmailPage()),
+    );
   }
 }

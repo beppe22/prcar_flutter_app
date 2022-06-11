@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prcarpolimi/auth/login.dart';
+import 'package:prcarpolimi/auth/signUp.dart';
 import 'package:prcarpolimi/homepage.dart';
 
 class VerifyEmailPage extends StatefulWidget {
@@ -39,11 +42,14 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
   }
 
   Future checkEmailVerified() async {
-    await FirebaseAuth.instance.currentUser!.reload();
-    setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    });
-    if (isEmailVerified) timer?.cancel();
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      user.reload();
+      setState(() {
+        isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      });
+      if (isEmailVerified) timer?.cancel();
+    }
   }
 
   @override
@@ -58,13 +64,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
                 title: Text('Verify Email',
                     style: TextStyle(fontSize: screenText * 20)),
                 backgroundColor: Colors.redAccent,
-                automaticallyImplyLeading: false,
-                leading: IconButton(
-                    icon: Icon(Icons.arrow_back,
-                        color: Colors.white, size: screenText * 25),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    })),
+                automaticallyImplyLeading: false),
             backgroundColor: Colors.white,
             body: Padding(
                 padding: EdgeInsets.all(screenHeight * 0.03),
@@ -99,8 +99,18 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
                           icon: Icon(Icons.cancel, size: screenText * 28),
                           label: Text('Cancel',
                               style: TextStyle(fontSize: screenText * 24)),
-                          onPressed: () {
-                            FirebaseAuth.instance.signOut();
+                          onPressed: () async {
+                            User? user = FirebaseAuth.instance.currentUser;
+                            await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(user?.uid)
+                                .delete();
+                            await user?.delete();
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Login()),
+                                (Route<dynamic> route) => false);
                           })
                     ])));
   }
