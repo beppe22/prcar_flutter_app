@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/auth/login.dart';
-import 'package:prcarpolimi/auth/signUp.dart';
 import 'package:prcarpolimi/homepage.dart';
 
 class VerifyEmailPage extends StatefulWidget {
@@ -55,7 +54,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+    //final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
     return isEmailVerified
         ? HomePage()

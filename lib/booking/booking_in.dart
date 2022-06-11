@@ -331,7 +331,6 @@ class BookingInPageState extends State<BookingInPage> {
   }
 
   _colorAnulment(int i) {
-    print(PassMarker.status[i]);
     if (PassMarker.status[i] == 'a' || PassMarker.status[i] == 'f') {
       return Colors.red.shade100;
     } else {
