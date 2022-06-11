@@ -265,81 +265,66 @@ class _HomePageState extends State<HomePage> {
       print('User granted permission');
 
       FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+        final screenHeight = MediaQuery.of(context).size.height;
+        final screenWidth = MediaQuery.of(context).size.width;
+        final screenText = MediaQuery.of(context).textScaleFactor;
         print("message recieved");
         print(event.notification!.body);
         //print(event.data["bookId"]);
         if (event.data['type'] == 'booking') {
           showDialog(
+              barrierDismissible: true,
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                      title: Text(event.notification!.body.toString(),
-                          style: const TextStyle(
-                              fontSize: 28,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      actions: <Widget>[
-                        Row(children: [
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Close',
-                                  style: TextStyle(fontSize: 24))),
-                          const SizedBox(width: 110),
-                          TextButton(
-                              onPressed: () async {
-                                List<String> bookIn = await _fetchOtherRes();
-                                //bookingId in input
-                                String bookingId = event.data["bookId"];
-                                await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BookingInPage(
-                                            bookingId: bookingId,
-                                            res: bookIn,
-                                            fromHp: true)));
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Go!',
-                                  style: TextStyle(fontSize: 24))),
-                        ])
-                      ]));
+                  title: Text(event.notification!.body.toString(),
+                      style: TextStyle(
+                          fontSize: screenText * 25,
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center),
+                  content: FloatingActionButton(
+                    onPressed: () async {
+                      List<String> bookIn = await _fetchOtherRes();
+                      //bookingId in input
+                      String bookingId = event.data["bookId"];
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BookingInPage(
+                                  bookingId: bookingId,
+                                  res: bookIn,
+                                  fromHp: true)));
+                      Navigator.of(context).pop();
+                    },
+                    backgroundColor: Colors.redAccent,
+                    child: Icon(Icons.add_location_alt_outlined,
+                        size: screenText * 25),
+                  )));
         } else {
           showDialog(
+              barrierDismissible: true,
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                      title: Text(event.notification!.body.toString(),
-                          style: const TextStyle(
-                              fontSize: 28,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      actions: <Widget>[
-                        Row(children: [
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Close',
-                                  style: TextStyle(fontSize: 24))),
-                          const SizedBox(width: 110),
-                          TextButton(
-                              onPressed: () async {
-                                await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ChatDetail(
-                                            friendName:
-                                                event.data['friendName'],
-                                            friendUid: event.data['friendId'],
-                                            hp: true)));
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Go!',
-                                  style: TextStyle(fontSize: 24))),
-                        ])
-                      ]));
+                  title: Text(event.notification!.body.toString(),
+                      style: const TextStyle(
+                          fontSize: 28,
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center),
+                  content: FloatingActionButton(
+                    onPressed: () async {
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatDetail(
+                                  friendName: event.data['friendName'],
+                                  friendUid: event.data['friendId'],
+                                  hp: true)));
+                      Navigator.of(context).pop();
+                    },
+                    backgroundColor: Colors.redAccent,
+                    child: Icon(Icons.message_rounded, size: screenText * 25),
+                  )));
         }
       });
     } else {

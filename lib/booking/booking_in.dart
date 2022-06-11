@@ -51,19 +51,19 @@ class BookingInPageState extends State<BookingInPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 })),
-        body: RefreshIndicator(
-            onRefresh: () async {
-              res = await _fetchOtherRes();
-            },
-            child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                      (res.isEmpty)
-                          ? Container(
+        body: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              (res.isEmpty)
+                  ? RefreshIndicator(
+                      onRefresh: () async {
+                        res = await _fetchOtherRes();
+                      },
+                      child: SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Container(
                               height: screenHeight * 0.07,
                               width: screenWidth * 0.9,
                               child: Text('No messages yet :(',
@@ -86,41 +86,44 @@ class BookingInPageState extends State<BookingInPage> {
                                         color: Colors.grey.shade200,
                                         spreadRadius: 6,
                                         blurRadius: 2)
-                                  ]))
-                          : RefreshIndicator(
-                              onRefresh: () async {
-                                res = await _fetchOtherRes();
-                              },
-                              child: Expanded(
-                                  child: ListView.builder(
-                                      physics:
-                                          const AlwaysScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: res == [] ? 0 : res.length,
-                                      itemBuilder: (context, index) {
-                                        if (PassMarker.status[index] != 'e') {
-                                          return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                    height:
-                                                        screenHeight * 0.03),
-                                                Container(
-                                                    height: screenHeight * 0.2,
-                                                    width: screenWidth * 0.9,
-                                                    padding: EdgeInsets.fromLTRB(
-                                                        screenWidth * 0.008,
-                                                        screenHeight * 0.008,
-                                                        screenWidth * 0.008,
-                                                        screenHeight * 0.008),
-                                                    child: (MaterialButton(
-                                                        onPressed: () async {
-                                                          showDialog(
-                                                              context: context,
-                                                              builder: (BuildContext context) =>
+                                  ]))))
+                  : Expanded(
+                      child: RefreshIndicator(
+                          onRefresh: () async {
+                            res = await _fetchOtherRes();
+                          },
+                          child: ListView.builder(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: res == [] ? 0 : res.length,
+                              itemBuilder: (context, index) {
+                                if (PassMarker.status[index] != 'e') {
+                                  return Container(
+                                      padding:
+                                          EdgeInsets.all(screenHeight * 0.008),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                                height: screenHeight * 0.01),
+                                            Container(
+                                                height: screenHeight * 0.16,
+                                                width: screenWidth * 0.9,
+                                                padding: EdgeInsets.fromLTRB(
+                                                    screenWidth * 0.008,
+                                                    screenHeight * 0.008,
+                                                    screenWidth * 0.008,
+                                                    screenHeight * 0.008),
+                                                child: (MaterialButton(
+                                                    onPressed: () async {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder:
+                                                              (BuildContext
+                                                                      context) =>
                                                                   AlertDialog(
                                                                       title: Text(
                                                                           'What do you want to do?',
@@ -225,35 +228,34 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                   shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                                 )),
                                                                           ])));
-                                                        },
-                                                        child: Text(_seeReservation(index, res[index]),
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize:
-                                                                    screenText *
-                                                                        18,
-                                                                color: _colorReservation(
-                                                                    index, bookingId))))),
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 5.0,
-                                                            color: Colors.grey),
-                                                        boxShadow: const [
-                                                          BoxShadow(
-                                                              color:
-                                                                  Colors.white,
-                                                              spreadRadius: 6,
-                                                              blurRadius: 2)
-                                                        ]))
-                                              ]);
-                                        }
-                                        return const SizedBox(height: 1);
-                                      })))
-                    ])))));
+                                                    },
+                                                    child: Text(
+                                                        _seeReservation(
+                                                            index, res[index]),
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize:
+                                                                screenText * 18,
+                                                            color: _colorReservation(
+                                                                index, bookingId))))),
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        width: 5.0,
+                                                        color: Colors.grey),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                          color: Colors.white,
+                                                          spreadRadius: 6,
+                                                          blurRadius: 2)
+                                                    ]))
+                                          ]));
+                                }
+                                return const SizedBox(height: 1);
+                              }))),
+            ])));
   }
 
   String _seeReservation(int i, String message) {
