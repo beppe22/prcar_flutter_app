@@ -7,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/models/userModel.dart';
-
 import '../chatImplementation/chatDetail.dart';
 
 class BookingOutPage extends StatefulWidget {
@@ -187,7 +186,11 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                     Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
                                                                                   }
                                                                                 } else {
-                                                                                  Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
+                                                                                  if (PassMarker.status[index] == 'a') {
+                                                                                    Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
+                                                                                  } else {
+                                                                                    Fluttertoast.showToast(msg: 'Impossible operation: reservation already finished', fontSize: 20);
+                                                                                  }
                                                                                 }
                                                                               },
                                                                               child: Text('Annulment', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
@@ -276,7 +279,7 @@ class BookingOutPageState extends State<BookingOutPage> {
     }
     if (PassMarker.status[i] == 'c' &&
         dayStart.compareTo(DateTime.now()) <= 0 &&
-        dayEnd.compareTo(DateTime.now()) > 0) {
+        dayEnd.compareTo(DateTime.now()) >= 0) {
       return i.toString() +
           '. Date: ' +
           date +
@@ -317,7 +320,7 @@ class BookingOutPageState extends State<BookingOutPage> {
   }
 
   _colorAnulment(int i) {
-    if (PassMarker.status[i] == 'a') {
+    if (PassMarker.status[i] == 'a' || PassMarker.status[i] == 'f') {
       return Colors.red.shade100;
     } else {
       return Colors.redAccent;

@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import '../booking/booking_in.dart';
+import 'package:intl/intl.dart';
 import '../booking/booking_out.dart';
 
 class MessagePage extends StatefulWidget {
@@ -126,7 +127,17 @@ class MessagePageState extends State<MessagePage> {
       if (data.docs.isNotEmpty) {
         for (var bookOut in data.docs) {
           String insert = bookOut.data()['date'];
-
+          final splitted = insert.split('-');
+          DateTime dayEnd =
+              DateFormat("dd/MM/yyyy").parse(splitted[1].substring(0, 10));
+          if (dayEnd.compareTo(DateTime.now()) < 0) {
+            await firebaseFirestore
+                .collection('users')
+                .doc(user.uid)
+                .collection('booking-out')
+                .doc(bookOut.id)
+                .update({'status': 'f'});
+          }
           var data1 = await firebaseFirestore
               .collection('users')
               .doc(bookOut.data()['uidOwner'])
@@ -180,6 +191,19 @@ class MessagePageState extends State<MessagePage> {
             if (ds.docs.isNotEmpty) {
               for (var book in ds.docs) {
                 String insert = book.data()['date'];
+                final splitted = insert.split('-');
+                DateTime dayEnd = DateFormat("dd/MM/yyyy")
+                    .parse(splitted[1].substring(0, 10));
+                if (dayEnd.compareTo(DateTime.now()) < 0) {
+                  await firebaseFirestore
+                      .collection('users')
+                      .doc(user.uid)
+                      .collection('cars')
+                      .doc(car.data()['cid'])
+                      .collection('booking-in')
+                      .doc(book.id)
+                      .update({'status': 'f'});
+                }
                 var data1 = await firebaseFirestore
                     .collection('users')
                     .doc(book.data()['uidOwner'])

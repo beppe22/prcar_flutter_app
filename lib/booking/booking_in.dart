@@ -197,7 +197,11 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                         Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
                                                                                       }
                                                                                     } else {
-                                                                                      Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
+                                                                                      if (PassMarker.status[index] == 'a') {
+                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
+                                                                                      } else {
+                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: reservation already finished', fontSize: 20);
+                                                                                      }
                                                                                     }
                                                                                   },
                                                                                   child: Text('Annulment', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
@@ -282,7 +286,7 @@ class BookingInPageState extends State<BookingInPage> {
     }
     if (PassMarker.status[i] == 'c' &&
         dayStart.compareTo(DateTime.now()) <= 0 &&
-        dayEnd.compareTo(DateTime.now()) > 0) {
+        dayEnd.compareTo(DateTime.now()) >= 0) {
       return i.toString() +
           '. Date: ' +
           date +
@@ -327,7 +331,8 @@ class BookingInPageState extends State<BookingInPage> {
   }
 
   _colorAnulment(int i) {
-    if (PassMarker.status[i] == 'a') {
+    print(PassMarker.status[i]);
+    if (PassMarker.status[i] == 'a' || PassMarker.status[i] == 'f') {
       return Colors.red.shade100;
     } else {
       return Colors.redAccent;
