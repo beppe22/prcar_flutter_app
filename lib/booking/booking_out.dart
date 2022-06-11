@@ -48,7 +48,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                   ? Container(
                       height: screenHeight * 0.1,
                       width: screenWidth * 0.9,
-                      child: Text('No messages yet :(',
+                      child: Text('No booking-out yet :(',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.redAccent,
