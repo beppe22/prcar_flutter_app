@@ -365,7 +365,7 @@ exports.chatMessage = functions.firestore
           },
           "notification": {
               "title": "Message arrived",
-              "body": "You received a message from" + name,
+              "body": "You received a message from " + name,
               "sound": "default"
           }}
       
