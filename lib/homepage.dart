@@ -131,7 +131,6 @@ class _HomePageState extends State<HomePage> {
                         ])
                 ]),
             backgroundColor: Colors.white,
-            drawerEnableOpenDragGesture: false,
             drawer: Drawer(
                 child: ListView(padding: EdgeInsets.zero, children: [
               SizedBox(height: screenHeight * 0.08),
@@ -266,8 +265,8 @@ class _HomePageState extends State<HomePage> {
       print('User granted permission');
 
       FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-        //final screenHeight = MediaQuery.of(context).size.height;
-        //final screenWidth = MediaQuery.of(context).size.width;
+        final screenHeight = MediaQuery.of(context).size.height;
+        final screenWidth = MediaQuery.of(context).size.width;
         final screenText = MediaQuery.of(context).textScaleFactor;
         print("message recieved");
         print(event.notification!.body);
