@@ -59,7 +59,7 @@ class BookingInPageState extends State<BookingInPage> {
                 children: [
               (res.isEmpty)
                   ? Column(children: [
-                      SizedBox(height: screenHeight * 0.1),
+                      SizedBox(height: screenHeight * 0.05),
                       Container(
                           height: screenHeight * 0.1,
                           width: screenWidth * 0.9,

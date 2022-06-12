@@ -82,14 +82,14 @@ class _BottomLicenseState extends State<BottomLicense> {
         SizedBox(height: screenHeight * 0.05),
         bottomImage != null
             ? Image.file(bottomImage!,
-                width: screenHeight * 0.28,
-                height: screenHeight * 0.28,
+                width: screenHeight * 0.23,
+                height: screenHeight * 0.23,
                 fit: BoxFit.cover)
             : SizedBox(
-                height: screenHeight * 0.28,
+                height: screenHeight * 0.23,
                 child:
                     Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-        SizedBox(height: screenHeight * 0.05),
+        SizedBox(height: screenHeight * 0.03),
         Container(
             height: screenHeight * 0.1,
             width: screenWidth * 0.8,
