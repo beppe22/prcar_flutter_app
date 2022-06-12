@@ -52,15 +52,15 @@ class BookingInPageState extends State<BookingInPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 })),
-        body: Column(
+        body: Center(child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               (res.isEmpty)
-                  ? SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Container(
-                          height: screenHeight * 0.07,
+                  ? Column(children: [
+                      SizedBox(height: screenHeight * 0.1),
+                      Container(
+                          height: screenHeight * 0.1,
                           width: screenWidth * 0.9,
                           child: Text('No booking-in yet :(',
                               textAlign: TextAlign.center,
@@ -82,7 +82,8 @@ class BookingInPageState extends State<BookingInPage> {
                                     color: Colors.grey.shade200,
                                     spreadRadius: 6,
                                     blurRadius: 2)
-                              ])))
+                              ]))
+                    ])
                   : Expanded(
                       child: ListView.builder(
                           physics: const AlwaysScrollableScrollPhysics(),
@@ -280,7 +281,7 @@ class BookingInPageState extends State<BookingInPage> {
                             }
                             return const SizedBox(height: 1);
                           })),
-            ]));
+            ])));
   }
 
   String _seeReservation(int i, String message) {

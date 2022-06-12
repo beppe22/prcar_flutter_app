@@ -46,30 +46,33 @@ class BookingOutPageState extends State<BookingOutPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
               (res.isEmpty)
-                  ? Container(
-                      height: screenHeight * 0.1,
-                      width: screenWidth * 0.9,
-                      child: Text('No booking-out yet :(',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.redAccent,
-                              fontSize: screenText * 24,
-                              fontWeight: FontWeight.bold)),
-                      padding: EdgeInsets.fromLTRB(
-                          screenWidth * 0.02,
-                          screenHeight * 0.02,
-                          screenWidth * 0.02,
-                          screenHeight * 0.02),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border:
-                              Border.all(width: 5.0, color: Colors.redAccent),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.shade200,
-                                spreadRadius: 6,
-                                blurRadius: 2)
-                          ]))
+                  ? Column(children: [
+                      SizedBox(height: screenHeight * 0.1),
+                      Container(
+                          height: screenHeight * 0.1,
+                          width: screenWidth * 0.9,
+                          child: Text('No booking-out yet :(',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontSize: screenText * 24,
+                                  fontWeight: FontWeight.bold)),
+                          padding: EdgeInsets.fromLTRB(
+                              screenWidth * 0.02,
+                              screenHeight * 0.02,
+                              screenWidth * 0.02,
+                              screenHeight * 0.02),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                  width: 5.0, color: Colors.redAccent),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.shade200,
+                                    spreadRadius: 6,
+                                    blurRadius: 2)
+                              ]))
+                    ])
                   : Expanded(
                       child: (ListView.builder(
                           physics: const AlwaysScrollableScrollPhysics(),
