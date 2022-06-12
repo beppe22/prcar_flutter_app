@@ -52,10 +52,11 @@ class BookingInPageState extends State<BookingInPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 })),
-        body: Center(child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+        body: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
               (res.isEmpty)
                   ? Column(children: [
                       SizedBox(height: screenHeight * 0.1),
@@ -366,62 +367,5 @@ class BookingInPageState extends State<BookingInPage> {
     } else {
       return Colors.redAccent;
     }
-  }
-
-  Future<List<String>> _fetchOtherRes() async {
-    final _auth = FirebaseAuth.instance;
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-    List<String> otherRes = [];
-    PassMarker.uidFriend = [];
-    PassMarker.cid = [];
-    PassMarker.bookId = [];
-    PassMarker.status = [];
-
-    if (user != null) {
-      var data = await firebaseFirestore
-          .collection('users')
-          .doc(user.uid)
-          .collection('cars')
-          .get();
-      if (data.docs.isNotEmpty) {
-        for (var car in data.docs) {
-          await firebaseFirestore
-              .collection('users')
-              .doc(car.data()['uid'])
-              .collection('cars')
-              .doc(car.data()['cid'])
-              .collection('booking-in')
-              .get()
-              .then((ds) async {
-            if (ds.docs.isNotEmpty) {
-              for (var book in ds.docs) {
-                String insert = book.data()['date'];
-                var data1 = await firebaseFirestore
-                    .collection('users')
-                    .doc(book.data()['uidOwner'])
-                    .collection('cars')
-                    .doc(book.data()['cid'])
-                    .get();
-                if (book.data()['status'] != 'e') {
-                  PassMarker.uidFriend.add(book.data()['uidBooking']);
-                  PassMarker.cid.add(book.data()['cid']);
-                  PassMarker.bookId.add(book.data()['bookingId']);
-                  PassMarker.status.add(book.data()['status']);
-                  insert = insert +
-                      '.' +
-                      data1.data()!['veicol'] +
-                      '-' +
-                      data1.data()!['model'];
-
-                  otherRes.add(insert);
-                }
-              }
-            }
-          });
-        }
-      }
-    }
-    return otherRes;
   }
 }
