@@ -90,43 +90,42 @@ class _ChatDetailState extends State<ChatDetail> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: chats
-          .doc(chatDocId)
-          .collection('messages')
-          .orderBy('createdOn', descending: true)
-          .snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return const Center(
-            child: Text("Something went wrong"),
-          );
-        }
+        stream: chats
+            .doc(chatDocId)
+            .collection('messages')
+            .orderBy('createdOn', descending: true)
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text("Something went wrong"),
+            );
+          }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-        if (snapshot.hasData) {
-          final screenHeight = MediaQuery.of(context).size.height;
-          final screenWidth = MediaQuery.of(context).size.width;
-          final screenText = MediaQuery.of(context).textScaleFactor;
-          var data;
-          return Scaffold(
-            appBar: AppBar(
-                backgroundColor: Colors.redAccent,
-                title: Text(friendName,
-                    style: TextStyle(fontSize: screenText * 20)),
-                automaticallyImplyLeading: false,
-                leading: IconButton(
-                    icon: hp
-                        ? Icon(Icons.cancel, size: screenText * 25)
-                        : Icon(Icons.arrow_back, size: screenText * 25),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    })),
-            body: SafeArea(
-              child: Column(
-                children: [
+          if (snapshot.hasData) {
+            final screenHeight = MediaQuery.of(context).size.height;
+            final screenWidth = MediaQuery.of(context).size.width;
+            final screenText = MediaQuery.of(context).textScaleFactor;
+            var data;
+            return Scaffold(
+                appBar: AppBar(
+                    backgroundColor: Colors.redAccent,
+                    title: Text(friendName,
+                        style: TextStyle(fontSize: screenText * 20)),
+                    automaticallyImplyLeading: false,
+                    leading: IconButton(
+                        icon: hp
+                            ? Icon(Icons.cancel, size: screenText * 25)
+                            : Icon(Icons.arrow_back, size: screenText * 25),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        })),
+                body: SafeArea(
+                    child: Column(children: [
                   Expanded(
                       child: ListView(
                           reverse: true,
@@ -202,29 +201,23 @@ class _ChatDetailState extends State<ChatDetail> {
                             },
                           ).toList())),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: screenWidth * 0.01),
-                          child: CupertinoTextField(
-                            controller: textController,
-                          ),
-                        ),
-                      ),
-                      CupertinoButton(
-                          child: Icon(Icons.send_sharp, size: screenText * 25),
-                          onPressed: () => sendMessage(textController.text))
-                    ],
-                  )
-                ],
-              ),
-            ),
-          );
-        } else {
-          return Container();
-        }
-      },
-    );
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                            child: SizedBox(
+                                width: screenWidth * 0.9,
+                                height: screenHeight * 0.04,
+                                child: CupertinoTextField(
+                                    controller: textController))),
+                        CupertinoButton(
+                            child:
+                                Icon(Icons.send_sharp, size: screenText * 25),
+                            onPressed: () => sendMessage(textController.text))
+                      ])
+                ])));
+          } else {
+            return Container();
+          }
+        });
   }
 }
