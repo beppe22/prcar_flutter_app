@@ -381,16 +381,17 @@ exports.chatMessage = functions.firestore
 
 
   } )
+})
 
-  exports.driverLicenceConfirmed = functions.firestore
-  .document('users/{IdUser}')
-  .onUpdate(async (snap) => {
+exports.driverLicenceConfirmed = functions.firestore
+.document('users/{IdUser}')
+.onUpdate(async (snap) => {
 
   
   const preStatus= snap.before.get('isConfirmed');
   const postStatus= snap.after.get('isConfirmed');
   
-  if(preStatus== 'undercontrol' && postStatus== 'true'){
+  if(preStatus== 'undercontrol' && postStatus== 'confirmed'){
 
   const email= snap.after.get('email');
   const nameUser= snap.after.get('firstName')
@@ -420,10 +421,6 @@ exports.chatMessage = functions.firestore
 
 
   
-
-  })
-  
-
 
 })
 
