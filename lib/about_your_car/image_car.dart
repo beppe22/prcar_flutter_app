@@ -136,6 +136,7 @@ class _ImageCarState extends State<ImageCar> {
                   textAlign: TextAlign.center),
               SizedBox(height: screenHeight * 0.05),
               Row(children: [
+                SizedBox(width: screenWidth * 0.05),
                 Column(children: [
                   image1 != null
                       ? ClipOval(

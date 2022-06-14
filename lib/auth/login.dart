@@ -59,8 +59,12 @@ class _LoginState extends State<Login> {
     final TextEditingController _passwordController = TextEditingController();
     @override
     final emailField = TextFormField(
+        autofocus: false,
         textInputAction: TextInputAction.next,
         controller: _emailController,
+        onSaved: (value) {
+          _emailController.text = value!;
+        },
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             hintText: "User Email",
@@ -70,8 +74,13 @@ class _LoginState extends State<Login> {
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
     final passwordField = TextFormField(
+        autofocus: false,
         controller: _passwordController,
+        textInputAction: TextInputAction.done,
         obscureText: true,
+        onSaved: (value) {
+          _passwordController.text = value!;
+        },
         decoration: InputDecoration(
             hintText: "Password",
             prefixIcon:
@@ -159,9 +168,6 @@ class _LoginState extends State<Login> {
                                     MaterialPageRoute(
                                         builder: (context) => HomePage()));
                               });
-                            } else {
-                              Fluttertoast.showToast(
-                                  msg: 'No user found :(', fontSize: 20);
                             }
                           } else {
                             Fluttertoast.showToast(

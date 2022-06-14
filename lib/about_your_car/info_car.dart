@@ -291,6 +291,12 @@ class _InfoCarState extends State<InfoCar> {
                 FloatingActionButton(
                     onPressed: () async {
                       if (await NetworkCheck().check()) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) =>
+                              const Center(child: CircularProgressIndicator()),
+                        );
                         List<String> files =
                             await urlFile(carModel.uid!, carModel.cid!);
                         final List<ImageProvider> _imageProviders = [];
@@ -301,6 +307,7 @@ class _InfoCarState extends State<InfoCar> {
                         MultiImageProvider multiImageProvider =
                             MultiImageProvider(_imageProviders);
                         await showImageViewerPager(context, multiImageProvider);
+                        Navigator.pop(context);
                       } else {
                         Fluttertoast.showToast(
                             msg: 'No internet connection', fontSize: 20);

@@ -139,6 +139,14 @@ class MapBottomPill extends StatelessWidget {
                                                 height: screenHeight * 0.02),
                                             FloatingActionButton(
                                                 onPressed: () async {
+                                                  showDialog(
+                                                    context: context,
+                                                    barrierDismissible: false,
+                                                    builder: (context) =>
+                                                        const Center(
+                                                            child:
+                                                                CircularProgressIndicator()),
+                                                  );
                                                   List<String> files =
                                                       await urlFile(
                                                           PassMarker
@@ -162,6 +170,7 @@ class MapBottomPill extends StatelessWidget {
                                                   await showImageViewerPager(
                                                       context,
                                                       multiImageProvider);
+                                                  Navigator.pop(context);
                                                 },
                                                 backgroundColor:
                                                     Colors.redAccent,
