@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
@@ -247,7 +248,7 @@ class _InfoCarState extends State<InfoCar> {
                                                       .check()) {
                                                     User? user =
                                                         _auth.currentUser;
-                                                    _deleteCar(user!.uid,
+                                                    await _deleteCar(user!.uid,
                                                         carModel.cid!);
                                                     Navigator.pop(context,
                                                         _fetchInfoCar());
@@ -319,14 +320,7 @@ class _InfoCarState extends State<InfoCar> {
             ])));
   }
 
-  void _deleteCar(String uid, String cid) async {
-    /* await FirebaseStorage.instance.ref("$uid/$cid/").listAll().then((value) {
-      for (int i = 0; value.items.isEmpty; i++) {
-        String path = value.items[i].fullPath;
-        FirebaseStorage.instance.ref(path).delete();
-      }
-    });*/
-
+  Future<void> _deleteCar(String uid, String cid) async {
     await firebaseFirestore
         .collection('users')
         .doc(uid)

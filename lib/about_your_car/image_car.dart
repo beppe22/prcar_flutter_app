@@ -141,37 +141,37 @@ class _ImageCarState extends State<ImageCar> {
                   image1 != null
                       ? ClipOval(
                           child: Image.file(image1!,
-                              width: screenHeight * 0.17,
-                              height: screenHeight * 0.17,
+                              width: screenHeight * 0.16,
+                              height: screenHeight * 0.16,
                               fit: BoxFit.cover))
                       : SizedBox(
-                          height: screenHeight * 0.17,
+                          height: screenHeight * 0.16,
                           child: Image.asset("assets/prcarlogo.png",
                               fit: BoxFit.contain)),
                   SizedBox(height: screenHeight * 0.08),
                   image3 != null
                       ? ClipOval(
                           child: Image.file(image3!,
-                              width: screenHeight * 0.17,
-                              height: screenHeight * 0.17,
+                              width: screenHeight * 0.16,
+                              height: screenHeight * 0.16,
                               fit: BoxFit.cover))
                       : SizedBox(
-                          height: screenHeight * 0.17,
+                          height: screenHeight * 0.16,
                           child: Image.asset("assets/prcarlogo.png",
                               fit: BoxFit.contain)),
                   SizedBox(height: screenHeight * 0.08),
                   image5 != null
                       ? ClipOval(
                           child: Image.file(image5!,
-                              width: screenHeight * 0.17,
-                              height: screenHeight * 0.17,
+                              width: screenHeight * 0.16,
+                              height: screenHeight * 0.16,
                               fit: BoxFit.cover))
                       : SizedBox(
-                          height: screenHeight * 0.17,
+                          height: screenHeight * 0.16,
                           child: Image.asset("assets/prcarlogo.png",
                               fit: BoxFit.contain))
                 ]),
-                SizedBox(width: screenWidth * 0.06),
+                SizedBox(width: screenWidth * 0.03),
                 Column(children: [
                   FloatingActionButton(
                     heroTag: "btn1",
@@ -201,38 +201,38 @@ class _ImageCarState extends State<ImageCar> {
                     child: Icon(Icons.photo_library, size: screenText * 25),
                   )
                 ]),
-                SizedBox(width: screenWidth * 0.06),
+                SizedBox(width: screenWidth * 0.03),
                 Column(children: [
                   image2 != null
                       ? ClipOval(
                           child: Image.file(image2!,
-                              width: screenHeight * 0.17,
-                              height: screenHeight * 0.17,
+                              width: screenHeight * 0.16,
+                              height: screenHeight * 0.16,
                               fit: BoxFit.cover))
                       : SizedBox(
-                          height: screenHeight * 0.17,
+                          height: screenHeight * 0.16,
                           child: Image.asset("assets/prcarlogo.png",
                               fit: BoxFit.contain)),
                   SizedBox(height: screenHeight * 0.08),
                   image4 != null
                       ? ClipOval(
                           child: Image.file(image4!,
-                              width: screenHeight * 0.17,
-                              height: screenHeight * 0.17,
+                              width: screenHeight * 0.16,
+                              height: screenHeight * 0.16,
                               fit: BoxFit.cover))
                       : SizedBox(
-                          height: screenHeight * 0.17,
+                          height: screenHeight * 0.16,
                           child: Image.asset("assets/prcarlogo.png",
                               fit: BoxFit.contain)),
                   SizedBox(height: screenHeight * 0.08),
                   image6 != null
                       ? ClipOval(
                           child: Image.file(image6!,
-                              width: screenHeight * 0.17,
-                              height: screenHeight * 0.17,
+                              width: screenHeight * 0.16,
+                              height: screenHeight * 0.16,
                               fit: BoxFit.cover))
                       : SizedBox(
-                          height: screenHeight * 0.17,
+                          height: screenHeight * 0.16,
                           child: Image.asset("assets/prcarlogo.png",
                               fit: BoxFit.contain))
                 ])
