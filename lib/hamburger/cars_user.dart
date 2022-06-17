@@ -93,14 +93,18 @@ class _Cars_userState extends State<Cars_user> {
                                               suspOrAct = 'Active';
                                             }
                                             final newCars =
-                                                await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            InfoCar(
-                                                                cars[index],
-                                                                suspOrAct,
-                                                                false)));
+                                                await Navigator.of(context)
+                                                    .push(
+                                              MaterialPageRoute(
+                                                settings: const RouteSettings(
+                                                    name: "/Page1"),
+                                                builder: (context) => InfoCar(
+                                                    cars[index],
+                                                    suspOrAct,
+                                                    false),
+                                              ),
+                                            );
+
                                             if (newCars != []) {
                                               setState(() {
                                                 cars = newCars;

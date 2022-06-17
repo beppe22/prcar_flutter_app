@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
@@ -250,6 +249,7 @@ class _InfoCarState extends State<InfoCar> {
                                                         _auth.currentUser;
                                                     await _deleteCar(user!.uid,
                                                         carModel.cid!);
+                                                    Navigator.pop(context);
                                                     Navigator.pop(context,
                                                         _fetchInfoCar());
                                                     Fluttertoast.showToast(
