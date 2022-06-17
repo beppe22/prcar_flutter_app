@@ -13,4 +13,5 @@ class PassMarker {
   static List<String> status = [];
   static int photoCount = 0;
   static String cidAdd = '';
+  static bool? useMobileLayout;
 }

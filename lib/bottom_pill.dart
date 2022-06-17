@@ -17,249 +17,274 @@ class MapBottomPill extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    return Container(
-        margin: EdgeInsets.all(screenWidth * 0.02),
-        padding: EdgeInsets.all(screenWidth * 0.08),
-        decoration: BoxDecoration(
-            color: Colors.redAccent,
-            borderRadius: BorderRadius.circular(screenWidth * 0.2),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 80,
-                  offset: Offset.zero)
-            ]),
-        child: Column(children: [
-          Container(
-              color: Colors.redAccent,
-              child: Row(children: [
-                ClipOval(
-                    child: Image.asset('assets/prcarlogo.png',
-                        width: screenWidth * 0.3,
-                        height: screenHeight * 0.15,
-                        fit: BoxFit.fill,
-                        alignment: Alignment.topCenter)),
-                Column(children: [
-                  Text('Selected car, click below for',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: screenText * 12,
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold)),
-                  Text('more details: ',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: screenText * 12,
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold)),
-                  Container(
-                      width: screenWidth * 0.3,
-                      margin: EdgeInsets.only(
-                          top: screenHeight * 0.005,
-                          left: screenWidth * 0.015,
-                          right: screenWidth * 0.005,
-                          bottom: screenHeight * 0.005),
-                      decoration: BoxDecoration(
-                          color: Colors.purple,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            String name =
-                                await _nameString(PassMarker.carModel.uid!);
-                            await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      elevation: 6,
-                                      content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            SizedBox(
-                                                height: screenHeight * 0.02),
-                                            Center(
-                                                child: Text('Car Information',
+    return PassMarker.useMobileLayout!
+        ? Container(
+            margin: EdgeInsets.all(screenWidth * 0.02),
+            padding: EdgeInsets.all(screenWidth * 0.08),
+            decoration: BoxDecoration(
+                color: Colors.redAccent,
+                borderRadius: BorderRadius.circular(screenWidth * 0.2),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 80,
+                      offset: Offset.zero)
+                ]),
+            child: Column(children: [
+              Container(
+                  color: Colors.redAccent,
+                  child: Row(children: [
+                    ClipOval(
+                        child: Image.asset('assets/prcarlogo.png',
+                            width: screenWidth * 0.3,
+                            height: screenHeight * 0.15,
+                            fit: BoxFit.fill,
+                            alignment: Alignment.topCenter)),
+                    Column(children: [
+                      Text('Selected car, click below for',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: screenText * 12,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold)),
+                      Text('more details: ',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: screenText * 12,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold)),
+                      Container(
+                          width: screenWidth * 0.3,
+                          margin: EdgeInsets.only(
+                              top: screenHeight * 0.005,
+                              left: screenWidth * 0.015,
+                              right: screenWidth * 0.005,
+                              bottom: screenHeight * 0.005),
+                          decoration: BoxDecoration(
+                              color: Colors.purple,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                String name =
+                                    await _nameString(PassMarker.carModel.uid!);
+                                await showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
+                                          elevation: 6,
+                                          content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                SizedBox(
+                                                    height:
+                                                        screenHeight * 0.02),
+                                                Center(
+                                                    child: Text(
+                                                        'Car Information',
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                screenText * 25,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))),
+                                                SizedBox(
+                                                    height:
+                                                        screenHeight * 0.001),
+                                                Text(name,
                                                     style: TextStyle(
                                                         fontSize:
-                                                            screenText * 25,
+                                                            screenText * 14,
                                                         fontWeight:
-                                                            FontWeight.bold))),
-                                            SizedBox(
-                                                height: screenHeight * 0.001),
-                                            Text(name,
-                                                style: TextStyle(
-                                                    fontSize: screenText * 14,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(
-                                                height: screenHeight * 0.01),
-                                            _buildRow(
-                                                'assets/choc.png',
-                                                PassMarker.carModel.vehicle
-                                                    .toString(),
-                                                'VEHICLE',
-                                                screenWidth,
-                                                screenHeight,
-                                                screenText),
-                                            _buildRow(
-                                                'assets/choc.png',
-                                                PassMarker.carModel.model
-                                                    .toString(),
-                                                'MODEL',
-                                                screenWidth,
-                                                screenHeight,
-                                                screenText),
-                                            _buildRow(
-                                                'assets/choc.png',
-                                                PassMarker.carModel.fuel
-                                                    .toString(),
-                                                'FUEL',
-                                                screenWidth,
-                                                screenHeight,
-                                                screenText),
-                                            _buildRow(
-                                                'assets/choc.png',
-                                                PassMarker.carModel.seats
-                                                    .toString(),
-                                                'SEATS',
-                                                screenWidth,
-                                                screenHeight,
-                                                screenText),
-                                            _buildRow(
-                                                'assets/choc.png',
-                                                PassMarker.carModel.price
-                                                    .toString(),
-                                                'PRICE FOR DAY',
-                                                screenWidth,
-                                                screenHeight,
-                                                screenText),
-                                            SizedBox(
-                                                height: screenHeight * 0.02),
-                                            FloatingActionButton(
-                                                onPressed: () async {
-                                                  showDialog(
-                                                    context: context,
-                                                    barrierDismissible: false,
-                                                    builder: (context) =>
-                                                        const Center(
-                                                            child:
-                                                                CircularProgressIndicator()),
-                                                  );
-                                                  List<String> files =
-                                                      await urlFile(
-                                                          PassMarker
-                                                              .carModel.uid!,
-                                                          PassMarker
-                                                              .carModel.cid!);
-                                                  final List<ImageProvider>
-                                                      _imageProviders = [];
-                                                  for (int i = 0;
-                                                      i < files.length;
-                                                      i++) {
-                                                    _imageProviders.insert(
-                                                        i,
-                                                        Image.network(files[i])
-                                                            .image);
-                                                  }
-                                                  MultiImageProvider
-                                                      multiImageProvider =
-                                                      MultiImageProvider(
-                                                          _imageProviders);
-                                                  await showImageViewerPager(
-                                                      context,
-                                                      multiImageProvider);
-                                                  Navigator.pop(context);
-                                                },
-                                                backgroundColor:
-                                                    Colors.redAccent,
-                                                child: Icon(Icons.photo_library,
-                                                    size: screenText * 25)),
-                                            SizedBox(
-                                                height: screenHeight * 0.04),
-                                            Container(
-                                                child: MaterialButton(
-                                                    height: screenHeight * 0.07,
-                                                    minWidth: screenWidth * 0.4,
-                                                    color: Colors.redAccent,
+                                                            FontWeight.bold)),
+                                                SizedBox(
+                                                    height:
+                                                        screenHeight * 0.01),
+                                                _buildRow(
+                                                    'assets/choc.png',
+                                                    PassMarker.carModel.vehicle
+                                                        .toString(),
+                                                    'VEHICLE',
+                                                    screenWidth,
+                                                    screenHeight,
+                                                    screenText),
+                                                _buildRow(
+                                                    'assets/choc.png',
+                                                    PassMarker.carModel.model
+                                                        .toString(),
+                                                    'MODEL',
+                                                    screenWidth,
+                                                    screenHeight,
+                                                    screenText),
+                                                _buildRow(
+                                                    'assets/choc.png',
+                                                    PassMarker.carModel.fuel
+                                                        .toString(),
+                                                    'FUEL',
+                                                    screenWidth,
+                                                    screenHeight,
+                                                    screenText),
+                                                _buildRow(
+                                                    'assets/choc.png',
+                                                    PassMarker.carModel.seats
+                                                        .toString(),
+                                                    'SEATS',
+                                                    screenWidth,
+                                                    screenHeight,
+                                                    screenText),
+                                                _buildRow(
+                                                    'assets/choc.png',
+                                                    PassMarker.carModel.price
+                                                        .toString(),
+                                                    'PRICE FOR DAY',
+                                                    screenWidth,
+                                                    screenHeight,
+                                                    screenText),
+                                                SizedBox(
+                                                    height:
+                                                        screenHeight * 0.02),
+                                                FloatingActionButton(
                                                     onPressed: () async {
-                                                      if (await NetworkCheck()
-                                                          .check()) {
-                                                        final _auth =
-                                                            FirebaseAuth
-                                                                .instance;
-                                                        User? user =
-                                                            _auth.currentUser;
-                                                        if (await _isConfirmed(
-                                                                user!) ==
-                                                            'confirmed') {
-                                                          PassMarker.hpOrNot =
-                                                              true;
-                                                          var reserveResult =
-                                                              'start';
-                                                          reserveResult = await Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          const Least()));
+                                                      showDialog(
+                                                        context: context,
+                                                        barrierDismissible:
+                                                            false,
+                                                        builder: (context) =>
+                                                            const Center(
+                                                                child:
+                                                                    CircularProgressIndicator()),
+                                                      );
+                                                      List<String> files =
+                                                          await urlFile(
+                                                              PassMarker
+                                                                  .carModel
+                                                                  .uid!,
+                                                              PassMarker
+                                                                  .carModel
+                                                                  .cid!);
+                                                      final List<ImageProvider>
+                                                          _imageProviders = [];
+                                                      for (int i = 0;
+                                                          i < files.length;
+                                                          i++) {
+                                                        _imageProviders.insert(
+                                                            i,
+                                                            Image.network(
+                                                                    files[i])
+                                                                .image);
+                                                      }
+                                                      MultiImageProvider
+                                                          multiImageProvider =
+                                                          MultiImageProvider(
+                                                              _imageProviders);
+                                                      await showImageViewerPager(
+                                                          context,
+                                                          multiImageProvider);
+                                                      Navigator.pop(context);
+                                                    },
+                                                    backgroundColor:
+                                                        Colors.redAccent,
+                                                    child: Icon(
+                                                        Icons.photo_library,
+                                                        size: screenText * 25)),
+                                                SizedBox(
+                                                    height:
+                                                        screenHeight * 0.04),
+                                                Container(
+                                                    child: MaterialButton(
+                                                        height:
+                                                            screenHeight * 0.07,
+                                                        minWidth:
+                                                            screenWidth * 0.4,
+                                                        color: Colors.redAccent,
+                                                        onPressed: () async {
+                                                          if (await NetworkCheck()
+                                                              .check()) {
+                                                            final _auth =
+                                                                FirebaseAuth
+                                                                    .instance;
+                                                            User? user = _auth
+                                                                .currentUser;
+                                                            if (await _isConfirmed(
+                                                                    user!) ==
+                                                                'confirmed') {
+                                                              PassMarker
+                                                                      .hpOrNot =
+                                                                  true;
+                                                              var reserveResult =
+                                                                  'start';
+                                                              reserveResult = await Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              const Least()));
 
-                                                          if (reserveResult ==
-                                                              '1') {
-                                                            Navigator.of(
-                                                                    context,
-                                                                    rootNavigator:
-                                                                        true)
-                                                                .pop('dialog');
-                                                          } else if (reserveResult ==
-                                                              '0') {
+                                                              if (reserveResult ==
+                                                                  '1') {
+                                                                Navigator.of(
+                                                                        context,
+                                                                        rootNavigator:
+                                                                            true)
+                                                                    .pop(
+                                                                        'dialog');
+                                                              } else if (reserveResult ==
+                                                                  '0') {
+                                                                Fluttertoast
+                                                                    .showToast(
+                                                                        msg:
+                                                                            'Something went wrong, try again later',
+                                                                        fontSize:
+                                                                            20);
+                                                              }
+                                                            } else {
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                      msg:
+                                                                          'Driving License isn\'t confirmed yet :(',
+                                                                      fontSize:
+                                                                          20);
+                                                            }
+                                                          } else {
                                                             Fluttertoast.showToast(
                                                                 msg:
-                                                                    'Something went wrong, try again later',
+                                                                    'No internet connection',
                                                                 fontSize: 20);
                                                           }
-                                                        } else {
-                                                          Fluttertoast.showToast(
-                                                              msg:
-                                                                  'Driving License isn\'t confirmed yet :(',
-                                                              fontSize: 20);
-                                                        }
-                                                      } else {
-                                                        Fluttertoast.showToast(
-                                                            msg:
-                                                                'No internet connection',
-                                                            fontSize: 20);
-                                                      }
-                                                    },
-                                                    child: Text("Reserve",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize:
-                                                                screenText *
-                                                                    23))),
-                                                decoration: BoxDecoration(
-                                                    color: Colors
-                                                        .deepPurple.shade200,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Colors
-                                                              .deepPurple
-                                                              .shade300,
-                                                          spreadRadius: 6,
-                                                          blurRadius: 3)
-                                                    ])),
-                                          ]));
-                                });
-                          },
-                          child: Text('Reserve',
-                              style: TextStyle(fontSize: screenText * 14)))),
-                ], mainAxisAlignment: MainAxisAlignment.center)
-              ]))
-        ]));
+                                                        },
+                                                        child: Text("Reserve",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize:
+                                                                    screenText *
+                                                                        23))),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.deepPurple
+                                                            .shade200,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              color: Colors
+                                                                  .deepPurple
+                                                                  .shade300,
+                                                              spreadRadius: 6,
+                                                              blurRadius: 3)
+                                                        ])),
+                                              ]));
+                                    });
+                              },
+                              child: Text('Reserve',
+                                  style:
+                                      TextStyle(fontSize: screenText * 14)))),
+                    ], mainAxisAlignment: MainAxisAlignment.center)
+                  ]))
+            ]))
+        : Container();
   }
 
   Widget _buildRow(String imageAsset, String value, String type,

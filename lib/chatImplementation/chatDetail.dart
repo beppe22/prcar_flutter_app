@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_6.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class ChatDetail extends StatefulWidget {
   final String friendUid;
@@ -89,135 +90,147 @@ class _ChatDetailState extends State<ChatDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: chats
-            .doc(chatDocId)
-            .collection('messages')
-            .orderBy('createdOn', descending: true)
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return const Center(
-              child: Text("Something went wrong"),
-            );
-          }
+    return PassMarker.useMobileLayout!
+        ? StreamBuilder<QuerySnapshot>(
+            stream: chats
+                .doc(chatDocId)
+                .collection('messages')
+                .orderBy('createdOn', descending: true)
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return const Center(
+                  child: Text("Something went wrong"),
+                );
+              }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-          if (snapshot.hasData) {
-            final screenHeight = MediaQuery.of(context).size.height;
-            final screenWidth = MediaQuery.of(context).size.width;
-            final screenText = MediaQuery.of(context).textScaleFactor;
-            var data;
-            return Scaffold(
-                appBar: AppBar(
-                    backgroundColor: Colors.redAccent,
-                    title: Text(friendName,
-                        style: TextStyle(fontSize: screenText * 20)),
-                    automaticallyImplyLeading: false,
-                    leading: IconButton(
-                        icon: hp
-                            ? Icon(Icons.cancel, size: screenText * 25)
-                            : Icon(Icons.arrow_back, size: screenText * 25),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        })),
-                body: SafeArea(
-                    child: Column(children: [
-                  Expanded(
-                      child: ListView(
-                          reverse: true,
-                          children: snapshot.data!.docs.map(
-                            (DocumentSnapshot document) {
-                              data = document.data()!;
-                              return Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.001),
-                                  child: ChatBubble(
-                                      clipper: ChatBubbleClipper6(
-                                        nipSize: 0,
-                                        radius: 0,
-                                        type: isSender(data['uid'].toString())
-                                            ? BubbleType.sendBubble
-                                            : BubbleType.receiverBubble,
-                                      ),
-                                      alignment:
-                                          getAlignment(data['uid'].toString()),
-                                      margin: EdgeInsets.only(
-                                          top: screenHeight * 0.012),
-                                      backGroundColor:
-                                          isSender(data['uid'].toString())
-                                              ? Colors.redAccent
-                                              : Colors.grey.shade200,
-                                      child: Container(
-                                          constraints: BoxConstraints(
-                                            maxWidth: screenWidth * 0.7,
+              if (snapshot.hasData) {
+                final screenHeight = MediaQuery.of(context).size.height;
+                final screenWidth = MediaQuery.of(context).size.width;
+                final screenText = MediaQuery.of(context).textScaleFactor;
+                var data;
+                return Scaffold(
+                    appBar: AppBar(
+                        backgroundColor: Colors.redAccent,
+                        title: Text(friendName,
+                            style: TextStyle(fontSize: screenText * 20)),
+                        automaticallyImplyLeading: false,
+                        leading: IconButton(
+                            icon: hp
+                                ? Icon(Icons.cancel, size: screenText * 25)
+                                : Icon(Icons.arrow_back, size: screenText * 25),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            })),
+                    body: SafeArea(
+                        child: Column(children: [
+                      Expanded(
+                          child: ListView(
+                              reverse: true,
+                              children: snapshot.data!.docs.map(
+                                (DocumentSnapshot document) {
+                                  data = document.data()!;
+                                  return Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: screenWidth * 0.001),
+                                      child: ChatBubble(
+                                          clipper: ChatBubbleClipper6(
+                                            nipSize: 0,
+                                            radius: 0,
+                                            type:
+                                                isSender(data['uid'].toString())
+                                                    ? BubbleType.sendBubble
+                                                    : BubbleType.receiverBubble,
                                           ),
-                                          child: Column(children: [
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Flexible(
-                                                      child: Text(data['msg'],
+                                          alignment: getAlignment(
+                                              data['uid'].toString()),
+                                          margin: EdgeInsets.only(
+                                              top: screenHeight * 0.012),
+                                          backGroundColor:
+                                              isSender(data['uid'].toString())
+                                                  ? Colors.redAccent
+                                                  : Colors.grey.shade200,
+                                          child: Container(
+                                              constraints: BoxConstraints(
+                                                maxWidth: screenWidth * 0.7,
+                                              ),
+                                              child: Column(children: [
+                                                Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Flexible(
+                                                          child: Text(
+                                                              data['msg'],
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      screenText *
+                                                                          14,
+                                                                  color: isSender(data[
+                                                                              'uid']
+                                                                          .toString())
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .black),
+                                                              maxLines: 100,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .fade))
+                                                    ]),
+                                                Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                          data['createdOn'] ==
+                                                                  null
+                                                              ? DateTime.now()
+                                                                  .toString()
+                                                                  .substring(
+                                                                      0, 16)
+                                                              : data['createdOn']
+                                                                  .toDate()
+                                                                  .toString()
+                                                                  .substring(
+                                                                      0, 16),
                                                           style: TextStyle(
-                                                              fontSize:
-                                                                  screenText *
-                                                                      14,
+                                                              fontSize: 10,
                                                               color: isSender(data[
                                                                           'uid']
                                                                       .toString())
                                                                   ? Colors.white
                                                                   : Colors
-                                                                      .black),
-                                                          maxLines: 100,
-                                                          overflow: TextOverflow
-                                                              .fade))
-                                                ]),
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Text(
-                                                      data['createdOn'] == null
-                                                          ? DateTime.now()
-                                                              .toString()
-                                                              .substring(0, 16)
-                                                          : data['createdOn']
-                                                              .toDate()
-                                                              .toString()
-                                                              .substring(0, 16),
-                                                      style: TextStyle(
-                                                          fontSize: 10,
-                                                          color: isSender(data[
-                                                                      'uid']
-                                                                  .toString())
-                                                              ? Colors.white
-                                                              : Colors.black))
-                                                ])
-                                          ]))));
-                            },
-                          ).toList())),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                            child: SizedBox(
-                                width: screenWidth * 0.9,
-                                height: screenHeight * 0.04,
-                                child: CupertinoTextField(
-                                    controller: textController))),
-                        CupertinoButton(
-                            child:
-                                Icon(Icons.send_sharp, size: screenText * 25),
-                            onPressed: () => sendMessage(textController.text))
-                      ])
-                ])));
-          } else {
-            return Container();
-          }
-        });
+                                                                      .black))
+                                                    ])
+                                              ]))));
+                                },
+                              ).toList())),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                                child: SizedBox(
+                                    width: screenWidth * 0.9,
+                                    height: screenHeight * 0.04,
+                                    child: CupertinoTextField(
+                                        controller: textController))),
+                            CupertinoButton(
+                                child: Icon(Icons.send_sharp,
+                                    size: screenText * 25),
+                                onPressed: () =>
+                                    sendMessage(textController.text))
+                          ])
+                    ])));
+              } else {
+                return Container();
+              }
+            })
+        : Container();
   }
 }

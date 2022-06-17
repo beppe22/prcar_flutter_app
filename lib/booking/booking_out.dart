@@ -28,7 +28,8 @@ class BookingOutPageState extends State<BookingOutPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    return Scaffold(
+    return PassMarker.useMobileLayout!
+        ? Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.redAccent,
@@ -268,7 +269,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                             }
                             return const SizedBox(height: 1);
                           })))
-            ])));
+            ]))) : Container();
   }
 
   String _seeReservation(int i, String message) {

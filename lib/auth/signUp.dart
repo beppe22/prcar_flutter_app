@@ -188,50 +188,54 @@ class _SignUpState extends State<SignUp> {
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
-    return MaterialApp(
-        //padding: const EdgeInsets.all(16.0),
-        home: Scaffold(
-            resizeToAvoidBottomInset: true,
-            appBar: AppBar(
-                backgroundColor: Colors.redAccent,
-                title: Text("Sign Up",
-                    style: TextStyle(fontSize: screenText * 20)),
-                automaticallyImplyLeading: false,
-                leading: IconButton(
-                    icon: Icon(Icons.arrow_back,
-                        color: Colors.white, size: screenText * 25),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    })),
-            body: SingleChildScrollView(
-                child: Container(
-                    color: Colors.white,
-                    child: Padding(
-                        padding: EdgeInsets.all(screenHeight * 0.05),
-                        child: Form(
-                            key: _formKey,
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  SizedBox(
-                                      height: screenHeight * 0.2,
-                                      child: Image.asset("assets/prcarlogo.png",
-                                          fit: BoxFit.contain)),
-                                  SizedBox(height: screenHeight * 0.05),
-                                  firstNameField,
-                                  SizedBox(height: screenHeight * 0.02),
-                                  secondNameField,
-                                  SizedBox(height: screenHeight * 0.02),
-                                  emailField,
-                                  SizedBox(height: screenHeight * 0.02),
-                                  passwordField,
-                                  SizedBox(height: screenHeight * 0.02),
-                                  confirmPasswordField,
-                                  SizedBox(height: screenHeight * 0.02),
-                                  signUpButton,
-                                  SizedBox(height: screenHeight * 0.02),
-                                ])))))));
+    return PassMarker.useMobileLayout!
+        ? MaterialApp(
+            //padding: const EdgeInsets.all(16.0),
+            home: Scaffold(
+                resizeToAvoidBottomInset: true,
+                appBar: AppBar(
+                    backgroundColor: Colors.redAccent,
+                    title: Text("Sign Up",
+                        style: TextStyle(fontSize: screenText * 20)),
+                    automaticallyImplyLeading: false,
+                    leading: IconButton(
+                        icon: Icon(Icons.arrow_back,
+                            color: Colors.white, size: screenText * 25),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        })),
+                body: SingleChildScrollView(
+                    child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                            padding: EdgeInsets.all(screenHeight * 0.05),
+                            child: Form(
+                                key: _formKey,
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      SizedBox(
+                                          height: screenHeight * 0.2,
+                                          child: Image.asset(
+                                              "assets/prcarlogo.png",
+                                              fit: BoxFit.contain)),
+                                      SizedBox(height: screenHeight * 0.05),
+                                      firstNameField,
+                                      SizedBox(height: screenHeight * 0.02),
+                                      secondNameField,
+                                      SizedBox(height: screenHeight * 0.02),
+                                      emailField,
+                                      SizedBox(height: screenHeight * 0.02),
+                                      passwordField,
+                                      SizedBox(height: screenHeight * 0.02),
+                                      confirmPasswordField,
+                                      SizedBox(height: screenHeight * 0.02),
+                                      signUpButton,
+                                      SizedBox(height: screenHeight * 0.02),
+                                    ])))))))
+        : Container();
   }
 
   void signUp(String email, String password) async {

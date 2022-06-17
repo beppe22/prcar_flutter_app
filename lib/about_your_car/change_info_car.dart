@@ -16,6 +16,7 @@ import 'package:prcarpolimi/filters/seats/seats.dart';
 import 'package:prcarpolimi/filters/vehicle/vehicle.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class ChangeInfoCar extends StatefulWidget {
   final CarModel carModel;
@@ -234,107 +235,111 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                     fontSize: screenText * 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-            backgroundColor: Colors.redAccent,
-            title:
-                Text('Change Car', style: TextStyle(fontSize: screenText * 20)),
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  size: screenText * 25,
-                ),
-                onPressed: () {
-                  Navigator.pop(context, carModel);
-                }),
-            actions: [
-              Row(children: [
-                Text('Change!',
-                    style: TextStyle(
-                        fontSize: screenText * 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold)),
-                IconButton(
-                    onPressed: () async {
-                      if (await NetworkCheck().check()) {
-                        if (carModel.fuel == fuelString &&
-                            carModel.model == modelString &&
-                            carModel.position == positionString &&
-                            carModel.price == priceString &&
-                            carModel.seats == seatsString &&
-                            carModel.vehicle == vehicleString &&
-                            images.isEmpty) {
-                          Fluttertoast.showToast(
-                              msg: 'You change nothing :(', fontSize: 20);
-                        } else {
-                          _changeFirebase(
-                              carModel,
-                              seatsString!,
-                              fuelString!,
-                              modelString!,
-                              vehicleString!,
-                              priceString!,
-                              positionString!);
-                          if (images.isNotEmpty) {
-                            _updateImages(images, carModel.uid!, carModel.cid!);
+    return PassMarker.useMobileLayout!
+        ? Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+                backgroundColor: Colors.redAccent,
+                title: Text('Change Car',
+                    style: TextStyle(fontSize: screenText * 20)),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      size: screenText * 25,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context, carModel);
+                    }),
+                actions: [
+                  Row(children: [
+                    Text('Change!',
+                        style: TextStyle(
+                            fontSize: screenText * 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                    IconButton(
+                        onPressed: () async {
+                          if (await NetworkCheck().check()) {
+                            if (carModel.fuel == fuelString &&
+                                carModel.model == modelString &&
+                                carModel.position == positionString &&
+                                carModel.price == priceString &&
+                                carModel.seats == seatsString &&
+                                carModel.vehicle == vehicleString &&
+                                images.isEmpty) {
+                              Fluttertoast.showToast(
+                                  msg: 'You change nothing :(', fontSize: 20);
+                            } else {
+                              _changeFirebase(
+                                  carModel,
+                                  seatsString!,
+                                  fuelString!,
+                                  modelString!,
+                                  vehicleString!,
+                                  priceString!,
+                                  positionString!);
+                              if (images.isNotEmpty) {
+                                _updateImages(
+                                    images, carModel.uid!, carModel.cid!);
+                              }
+                              Fluttertoast.showToast(
+                                  msg: 'New car\'s update :)', fontSize: 20);
+                              setState(() {
+                                carModel.fuel = fuelString.toString();
+                                carModel.price = priceString.toString();
+                                carModel.model = modelString.toString();
+                                carModel.vehicle = vehicleString.toString();
+                                carModel.seats = seatsString.toString();
+                                carModel.position = positionString.toString();
+                              });
+                              Navigator.pop(context, carModel);
+                            }
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: 'No internet connection', fontSize: 20);
                           }
-                          Fluttertoast.showToast(
-                              msg: 'New car\'s update :)', fontSize: 20);
-                          setState(() {
-                            carModel.fuel = fuelString.toString();
-                            carModel.price = priceString.toString();
-                            carModel.model = modelString.toString();
-                            carModel.vehicle = vehicleString.toString();
-                            carModel.seats = seatsString.toString();
-                            carModel.position = positionString.toString();
-                          });
-                          Navigator.pop(context, carModel);
-                        }
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: 'No internet connection', fontSize: 20);
-                      }
-                    },
-                    icon: Icon(Icons.add_task, size: screenText * 25))
-              ])
-            ]),
-        body: Center(
-            child: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
-          SizedBox(height: screenHeight * 0.04),
-          SizedBox(
-              height: screenHeight * 0.1,
-              child: Text("Change your car's \n information",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                      fontSize: screenText * 26))),
-          SizedBox(height: screenHeight * 0.02),
-          vehicleButton,
-          SizedBox(height: screenHeight * 0.015),
-          positionButton,
-          SizedBox(height: screenHeight * 0.015),
-          seatsButton,
-          SizedBox(height: screenHeight * 0.015),
-          fuelButton,
-          SizedBox(height: screenHeight * 0.015),
-          priceButton,
-          SizedBox(height: screenHeight * 0.015),
-          FloatingActionButton(
-              onPressed: () async {
-                Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ImageCar(add: false)))
-                    .then((data) {
-                  images = data;
-                });
-              },
-              backgroundColor: Colors.redAccent,
-              child: Icon(Icons.photo_album, size: screenText * 25))
-        ])));
+                        },
+                        icon: Icon(Icons.add_task, size: screenText * 25))
+                  ])
+                ]),
+            body: Center(
+                child:
+                    Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
+              SizedBox(height: screenHeight * 0.04),
+              SizedBox(
+                  height: screenHeight * 0.1,
+                  child: Text("Change your car's \n information",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                          fontSize: screenText * 26))),
+              SizedBox(height: screenHeight * 0.02),
+              vehicleButton,
+              SizedBox(height: screenHeight * 0.015),
+              positionButton,
+              SizedBox(height: screenHeight * 0.015),
+              seatsButton,
+              SizedBox(height: screenHeight * 0.015),
+              fuelButton,
+              SizedBox(height: screenHeight * 0.015),
+              priceButton,
+              SizedBox(height: screenHeight * 0.015),
+              FloatingActionButton(
+                  onPressed: () async {
+                    Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ImageCar(add: false)))
+                        .then((data) {
+                      images = data;
+                    });
+                  },
+                  backgroundColor: Colors.redAccent,
+                  child: Icon(Icons.photo_album, size: screenText * 25))
+            ])))
+        : Container();
   }
 
   String _printPosition(String position) {

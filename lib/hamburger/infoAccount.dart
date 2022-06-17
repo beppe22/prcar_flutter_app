@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/login.dart';
 import 'package:prcarpolimi/models/carModel.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 import '../models/static_user.dart';
 
 class InfoAccount extends StatelessWidget {
@@ -17,255 +18,276 @@ class InfoAccount extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-            backgroundColor: Colors.redAccent,
-            title: Text('Account', style: TextStyle(fontSize: screenText * 20)),
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-                icon: Icon(Icons.arrow_back, size: screenText * 25),
-                onPressed: () {
-                  Navigator.pop(context);
-                })),
-        body: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-              SizedBox(height: screenHeight * 0.04),
-              SizedBox(
-                  height: screenHeight * 0.25,
-                  child:
-                      Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-              SizedBox(height: screenHeight * 0.02),
-              Container(
-                  height: screenHeight * 0.07,
-                  width: screenWidth * 0.9,
-                  child: Center(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                        SizedBox(width: screenWidth * 0.02),
-                        Icon(Icons.mail,
-                            color: Colors.grey, size: screenText * 25),
-                        SizedBox(width: screenWidth * 0.02),
-                        Expanded(
-                            child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Text(
-                                    'Email: ' + StaticUser.email.toString(),
-                                    maxLines: 1,
-                                    textAlign: TextAlign.center,
+    return PassMarker.useMobileLayout!
+        ? Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+                backgroundColor: Colors.redAccent,
+                title: Text('Account',
+                    style: TextStyle(fontSize: screenText * 20)),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back, size: screenText * 25),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    })),
+            body: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                  SizedBox(height: screenHeight * 0.04),
+                  SizedBox(
+                      height: screenHeight * 0.25,
+                      child: Image.asset("assets/prcarlogo.png",
+                          fit: BoxFit.contain)),
+                  SizedBox(height: screenHeight * 0.02),
+                  Container(
+                      height: screenHeight * 0.07,
+                      width: screenWidth * 0.9,
+                      child: Center(
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                            SizedBox(width: screenWidth * 0.02),
+                            Icon(Icons.mail,
+                                color: Colors.grey, size: screenText * 25),
+                            SizedBox(width: screenWidth * 0.02),
+                            Expanded(
+                                child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text(
+                                        'Email: ' + StaticUser.email.toString(),
+                                        maxLines: 1,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: screenText * 22,
+                                            fontWeight: FontWeight.w500,
+                                            backgroundColor: Colors.white))))
+                          ])),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Colors.redAccent,
+                                spreadRadius: 4,
+                                blurRadius: 2)
+                          ])),
+                  SizedBox(height: screenHeight * 0.04),
+                  Container(
+                      height: screenHeight * 0.07,
+                      width: screenWidth * 0.9,
+                      child: Center(
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                            SizedBox(width: screenWidth * 0.02),
+                            Icon(Icons.account_circle,
+                                color: Colors.grey, size: screenText * 25),
+                            SizedBox(width: screenWidth * 0.02),
+                            Expanded(
+                                child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text(
+                                        'First Name: ' +
+                                            StaticUser.firstName.toString(),
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: screenText * 22,
+                                            fontWeight: FontWeight.w500,
+                                            backgroundColor: Colors.white))))
+                          ])),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Colors.redAccent,
+                                spreadRadius: 4,
+                                blurRadius: 2)
+                          ])),
+                  SizedBox(height: screenHeight * 0.04),
+                  Container(
+                      height: screenHeight * 0.07,
+                      width: screenWidth * 0.9,
+                      child: Center(
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                            SizedBox(width: screenWidth * 0.02),
+                            Icon(Icons.account_circle,
+                                color: Colors.grey, size: screenText * 25),
+                            SizedBox(width: screenWidth * 0.02),
+                            Expanded(
+                                child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text(
+                                        'Second Name: ' +
+                                            StaticUser.secondName.toString(),
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: screenText * 22,
+                                            fontWeight: FontWeight.w500,
+                                            backgroundColor: Colors.white))))
+                          ])),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Colors.redAccent,
+                                spreadRadius: 4,
+                                blurRadius: 2)
+                          ])),
+                  SizedBox(height: screenHeight * 0.04),
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                            height: screenHeight * 0.07,
+                            width: screenWidth * 0.7,
+                            child: MaterialButton(
+                                color: Colors.grey.shade500,
+                                onPressed: () async {
+                                  if (await NetworkCheck().check()) {
+                                    FirebaseAuth.instance.signOut();
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Login()),
+                                        (Route<dynamic> route) => false);
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: 'No internet connection',
+                                        fontSize: 20);
+                                  }
+                                },
+                                child: Text("Logout",
                                     style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: screenText * 22,
-                                        fontWeight: FontWeight.w500,
-                                        backgroundColor: Colors.white))))
-                      ])),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Colors.redAccent,
-                            spreadRadius: 4,
-                            blurRadius: 2)
-                      ])),
-              SizedBox(height: screenHeight * 0.04),
-              Container(
-                  height: screenHeight * 0.07,
-                  width: screenWidth * 0.9,
-                  child: Center(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                        SizedBox(width: screenWidth * 0.02),
-                        Icon(Icons.account_circle,
-                            color: Colors.grey, size: screenText * 25),
-                        SizedBox(width: screenWidth * 0.02),
-                        Expanded(
-                            child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Text(
-                                    'First Name: ' +
-                                        StaticUser.firstName.toString(),
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: screenText * 22,
-                                        fontWeight: FontWeight.w500,
-                                        backgroundColor: Colors.white))))
-                      ])),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Colors.redAccent,
-                            spreadRadius: 4,
-                            blurRadius: 2)
-                      ])),
-              SizedBox(height: screenHeight * 0.04),
-              Container(
-                  height: screenHeight * 0.07,
-                  width: screenWidth * 0.9,
-                  child: Center(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                        SizedBox(width: screenWidth * 0.02),
-                        Icon(Icons.account_circle,
-                            color: Colors.grey, size: screenText * 25),
-                        SizedBox(width: screenWidth * 0.02),
-                        Expanded(
-                            child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Text(
-                                    'Second Name: ' +
-                                        StaticUser.secondName.toString(),
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: screenText * 22,
-                                        fontWeight: FontWeight.w500,
-                                        backgroundColor: Colors.white))))
-                      ])),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Colors.redAccent,
-                            spreadRadius: 4,
-                            blurRadius: 2)
-                      ])),
-              SizedBox(height: screenHeight * 0.04),
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Container(
-                    height: screenHeight * 0.07,
-                    width: screenWidth * 0.7,
-                    child: MaterialButton(
-                        color: Colors.grey.shade500,
-                        onPressed: () async {
-                          if (await NetworkCheck().check()) {
-                            FirebaseAuth.instance.signOut();
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => const Login()),
-                                (Route<dynamic> route) => false);
-                          } else {
-                            Fluttertoast.showToast(
-                                msg: 'No internet connection', fontSize: 20);
-                          }
-                        },
-                        child: Text("Logout",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: screenText * 22))),
-                    decoration: BoxDecoration(
-                        color: Colors.deepPurple,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.deepPurple,
-                              spreadRadius: 6,
-                              blurRadius: 3)
-                        ])),
-                SizedBox(height: screenHeight * 0.04),
-                Container(
-                    height: screenHeight * 0.07,
-                    width: screenWidth * 0.7,
-                    child: MaterialButton(
-                        color: Colors.redAccent,
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                      title: Text('!!! Warning !!!',
-                                          style: TextStyle(
-                                              fontSize: screenText * 28,
-                                              color: Colors.redAccent,
-                                              fontWeight: FontWeight.bold),
-                                          textAlign: TextAlign.center),
-                                      content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text(
-                                                'If you press \'Confirm!\' your account will be delete. Do you want to continue?',
-                                                style: TextStyle(
-                                                    fontSize: screenText * 20),
-                                                textAlign: TextAlign.center)
-                                          ]),
-                                      actions: <Widget>[
-                                        Row(children: [
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text('Close',
+                                        color: Colors.white,
+                                        fontSize: screenText * 22))),
+                            decoration: BoxDecoration(
+                                color: Colors.deepPurple,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.deepPurple,
+                                      spreadRadius: 6,
+                                      blurRadius: 3)
+                                ])),
+                        SizedBox(height: screenHeight * 0.04),
+                        Container(
+                            height: screenHeight * 0.07,
+                            width: screenWidth * 0.7,
+                            child: MaterialButton(
+                                color: Colors.redAccent,
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                              title: Text('!!! Warning !!!',
                                                   style: TextStyle(
-                                                      fontSize:
-                                                          screenText * 24))),
-                                          SizedBox(width: screenWidth * 0.20),
-                                          TextButton(
-                                              onPressed: () async {
-                                                if (await NetworkCheck()
-                                                    .check()) {
-                                                  int i = 0;
-                                                  if (await _fetchAllRes(i) ==
-                                                      0) {
-                                                    await deleteAccount(
-                                                        context);
+                                                      fontSize: screenText * 28,
+                                                      color: Colors.redAccent,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  textAlign: TextAlign.center),
+                                              content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text(
+                                                        'If you press \'Confirm!\' your account will be delete. Do you want to continue?',
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                screenText *
+                                                                    20),
+                                                        textAlign:
+                                                            TextAlign.center)
+                                                  ]),
+                                              actions: <Widget>[
+                                                Row(children: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text('Close',
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  screenText *
+                                                                      24))),
+                                                  SizedBox(
+                                                      width:
+                                                          screenWidth * 0.20),
+                                                  TextButton(
+                                                      onPressed: () async {
+                                                        if (await NetworkCheck()
+                                                            .check()) {
+                                                          int i = 0;
+                                                          if (await _fetchAllRes(
+                                                                  i) ==
+                                                              0) {
+                                                            await deleteAccount(
+                                                                context);
 
-                                                    Navigator.pushAndRemoveUntil(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                const Login()),
-                                                        (Route<dynamic>
-                                                                route) =>
-                                                            false);
-                                                  } else {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            const InactiveCar());
-                                                  }
-                                                } else {
-                                                  Fluttertoast.showToast(
-                                                      msg:
-                                                          'No internet connection',
-                                                      fontSize: 20);
-                                                }
-                                              },
-                                              child: Text('Confirm!',
-                                                  style: TextStyle(
-                                                      fontSize:
-                                                          screenText * 24)))
-                                        ])
-                                      ]));
-                        },
-                        child: Text("Delete Account",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: screenText * 22))),
-                    decoration: BoxDecoration(
-                        color: Colors.black87,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black87,
-                              spreadRadius: 6,
-                              blurRadius: 3)
-                        ]))
-              ])
-            ])));
+                                                            Navigator.pushAndRemoveUntil(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            const Login()),
+                                                                (Route<dynamic>
+                                                                        route) =>
+                                                                    false);
+                                                          } else {
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder: (BuildContext
+                                                                        context) =>
+                                                                    const InactiveCar());
+                                                          }
+                                                        } else {
+                                                          Fluttertoast.showToast(
+                                                              msg:
+                                                                  'No internet connection',
+                                                              fontSize: 20);
+                                                        }
+                                                      },
+                                                      child: Text('Confirm!',
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  screenText *
+                                                                      24)))
+                                                ])
+                                              ]));
+                                },
+                                child: Text("Delete Account",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: screenText * 22))),
+                            decoration: BoxDecoration(
+                                color: Colors.black87,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black87,
+                                      spreadRadius: 6,
+                                      blurRadius: 3)
+                                ]))
+                      ])
+                ])))
+        : Container();
   }
 
   deleteAccount(context) async {

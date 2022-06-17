@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/login.dart';
 import 'package:prcarpolimi/homepage.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({Key? key}) : super(key: key);
@@ -57,67 +58,75 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     //final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    return isEmailVerified
-        ? HomePage()
-        : Scaffold(
-            appBar: AppBar(
-                title: Text('Verify Email',
-                    style: TextStyle(fontSize: screenText * 20)),
-                backgroundColor: Colors.redAccent,
-                automaticallyImplyLeading: false),
-            backgroundColor: Colors.white,
-            body: Padding(
-                padding: EdgeInsets.all(screenHeight * 0.03),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(height: screenHeight * 0.08),
-                      Text('A verification mail has been sent to your email.',
-                          style: TextStyle(
-                              fontSize: screenText * 18,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      SizedBox(height: screenHeight * 0.05),
-                      SizedBox(
-                          height: screenHeight * 0.3,
-                          child: Image.asset("assets/prcarlogo.png",
-                              fit: BoxFit.contain)),
-                      SizedBox(height: screenHeight * 0.05),
-                      ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: Size.fromHeight(screenText * 45)),
-                          icon: Icon(Icons.mail, size: screenText * 28),
-                          label: Text('Resent Email',
-                              style: TextStyle(fontSize: screenText * 24)),
-                          onPressed:
-                              canResendEmail ? sendVerificationEmail : null),
-                      SizedBox(height: screenHeight * 0.06),
-                      ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: Size.fromHeight(screenText * 45)),
-                          icon: Icon(Icons.cancel, size: screenText * 28),
-                          label: Text('Cancel',
-                              style: TextStyle(fontSize: screenText * 24)),
-                          onPressed: () async {
-                            if (await NetworkCheck().check()) {
-                              User? user = FirebaseAuth.instance.currentUser;
-                              await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(user?.uid)
-                                  .delete();
-                              await user?.delete();
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Login()),
-                                  (Route<dynamic> route) => false);
-                            } else {
-                              Fluttertoast.showToast(
-                                  msg: 'No internet connection', fontSize: 20);
-                            }
-                          })
-                    ])));
+    return PassMarker.useMobileLayout!
+        ? isEmailVerified
+            ? HomePage()
+            : Scaffold(
+                appBar: AppBar(
+                    title: Text('Verify Email',
+                        style: TextStyle(fontSize: screenText * 20)),
+                    backgroundColor: Colors.redAccent,
+                    automaticallyImplyLeading: false),
+                backgroundColor: Colors.white,
+                body: Padding(
+                    padding: EdgeInsets.all(screenHeight * 0.03),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(height: screenHeight * 0.08),
+                          Text(
+                              'A verification mail has been sent to your email.',
+                              style: TextStyle(
+                                  fontSize: screenText * 18,
+                                  color: Colors.redAccent,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center),
+                          SizedBox(height: screenHeight * 0.05),
+                          SizedBox(
+                              height: screenHeight * 0.3,
+                              child: Image.asset("assets/prcarlogo.png",
+                                  fit: BoxFit.contain)),
+                          SizedBox(height: screenHeight * 0.05),
+                          ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize:
+                                      Size.fromHeight(screenText * 45)),
+                              icon: Icon(Icons.mail, size: screenText * 28),
+                              label: Text('Resent Email',
+                                  style: TextStyle(fontSize: screenText * 24)),
+                              onPressed: canResendEmail
+                                  ? sendVerificationEmail
+                                  : null),
+                          SizedBox(height: screenHeight * 0.06),
+                          ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize:
+                                      Size.fromHeight(screenText * 45)),
+                              icon: Icon(Icons.cancel, size: screenText * 28),
+                              label: Text('Cancel',
+                                  style: TextStyle(fontSize: screenText * 24)),
+                              onPressed: () async {
+                                if (await NetworkCheck().check()) {
+                                  User? user =
+                                      FirebaseAuth.instance.currentUser;
+                                  await FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(user?.uid)
+                                      .delete();
+                                  await user?.delete();
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Login()),
+                                      (Route<dynamic> route) => false);
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: 'No internet connection',
+                                      fontSize: 20);
+                                }
+                              })
+                        ])))
+        : Container();
   }
 
   Future sendVerificationEmail() async {

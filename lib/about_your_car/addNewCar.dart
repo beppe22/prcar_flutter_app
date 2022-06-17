@@ -288,126 +288,130 @@ class _AddNewCarState extends State<AddNewCar> {
 
     final Storage storage = Storage();
 
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-            backgroundColor: Colors.redAccent,
-            title: Text('Add Car', style: TextStyle(fontSize: screenText * 20)),
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-                icon: Icon(Icons.arrow_back, size: screenText * 25),
-                onPressed: () {
-                  List<CarModel> valueNull = [];
-                  Navigator.pop(context, valueNull);
-                  setState(() {
-                    car.fuel = '';
-                    car.price = '';
-                    car.vehicle = '';
-                    car.seats = '';
-                    car.position = '';
-                    car.model = '';
-                    positionString = '';
-                    vehicleString = '';
-                    PassMarker.photoCount = 0;
-                  });
-                }),
-            actions: [
-              Row(children: [
-                Text('Done!',
-                    style: TextStyle(
-                        fontSize: screenText * 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold)),
-                IconButton(
-                    onPressed: () async {
-                      if (await NetworkCheck().check()) {
-                        if (car.fuel != '' &&
-                            car.position != '' &&
-                            car.model != '' &&
-                            car.price != '' &&
-                            car.seats != '' &&
-                            images.isNotEmpty) {
-                          List<CarModel> cars = await _addCar(car);
-                          Fluttertoast.showToast(
-                              msg: 'Car added succesfully :)', fontSize: 20);
-                          PassMarker.from = true;
-                          setState(() {
-                            int i = PassMarker.markerId;
-                            PassMarker.markerId = PassMarker.markerId + 1;
-                            String? carLatLng = car.position;
-                            final splitted = carLatLng!.split(',');
-                            double lat = double.parse(splitted[0]);
-                            double lng = double.parse(splitted[1]);
-                            PassMarker.markerToPass.add(Marker(
-                                markerId: MarkerId('marker$i'),
-                                infoWindow: InfoWindow(
-                                    title: 'My car: click for details',
-                                    onTap: () {
-                                      String suspOrAct = 'Active';
+    return PassMarker.useMobileLayout!
+        ? Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+                backgroundColor: Colors.redAccent,
+                title: Text('Add Car',
+                    style: TextStyle(fontSize: screenText * 20)),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back, size: screenText * 25),
+                    onPressed: () {
+                      List<CarModel> valueNull = [];
+                      Navigator.pop(context, valueNull);
+                      setState(() {
+                        car.fuel = '';
+                        car.price = '';
+                        car.vehicle = '';
+                        car.seats = '';
+                        car.position = '';
+                        car.model = '';
+                        positionString = '';
+                        vehicleString = '';
+                        PassMarker.photoCount = 0;
+                      });
+                    }),
+                actions: [
+                  Row(children: [
+                    Text('Done!',
+                        style: TextStyle(
+                            fontSize: screenText * 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                    IconButton(
+                        onPressed: () async {
+                          if (await NetworkCheck().check()) {
+                            if (car.fuel != '' &&
+                                car.position != '' &&
+                                car.model != '' &&
+                                car.price != '' &&
+                                car.seats != '' &&
+                                images.isNotEmpty) {
+                              List<CarModel> cars = await _addCar(car);
+                              Fluttertoast.showToast(
+                                  msg: 'Car added succesfully :)',
+                                  fontSize: 20);
+                              PassMarker.from = true;
+                              setState(() {
+                                int i = PassMarker.markerId;
+                                PassMarker.markerId = PassMarker.markerId + 1;
+                                String? carLatLng = car.position;
+                                final splitted = carLatLng!.split(',');
+                                double lat = double.parse(splitted[0]);
+                                double lng = double.parse(splitted[1]);
+                                PassMarker.markerToPass.add(Marker(
+                                    markerId: MarkerId('marker$i'),
+                                    infoWindow: InfoWindow(
+                                        title: 'My car: click for details',
+                                        onTap: () {
+                                          String suspOrAct = 'Active';
 
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => InfoCar(
-                                                  car, suspOrAct, true)));
-                                    }),
-                                position: LatLng(lat, lng),
-                                icon: BitmapDescriptor.defaultMarkerWithHue(
-                                    BitmapDescriptor.hueBlue),
-                                onTap: () {
-                                  setState(() {
-                                    pinPillPosition = pinInvisiblePosition;
-                                  });
-                                }));
-                          });
-                          final _auth = FirebaseAuth.instance;
-                          User? user = _auth.currentUser;
-                          for (int i = 0; images[i] != null && i < 6; i++) {
-                            final tempPath = images[i]!.path;
-                            storage.uploadCarPic(tempPath, 'imageCar$i',
-                                user!.uid, PassMarker.cidAdd);
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => InfoCar(
+                                                      car, suspOrAct, true)));
+                                        }),
+                                    position: LatLng(lat, lng),
+                                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                                        BitmapDescriptor.hueBlue),
+                                    onTap: () {
+                                      setState(() {
+                                        pinPillPosition = pinInvisiblePosition;
+                                      });
+                                    }));
+                              });
+                              final _auth = FirebaseAuth.instance;
+                              User? user = _auth.currentUser;
+                              for (int i = 0; images[i] != null && i < 6; i++) {
+                                final tempPath = images[i]!.path;
+                                storage.uploadCarPic(tempPath, 'imageCar$i',
+                                    user!.uid, PassMarker.cidAdd);
+                              }
+                              if (cars != []) {
+                                Navigator.pop(context, cars);
+                              }
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg:
+                                      'Invalid Insert: You can\'t insert a car without all the parameters choosen',
+                                  fontSize: 20);
+                            }
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: 'No internet connection', fontSize: 20);
                           }
-                          if (cars != []) {
-                            Navigator.pop(context, cars);
-                          }
-                        } else {
-                          Fluttertoast.showToast(
-                              msg:
-                                  'Invalid Insert: You can\'t insert a car without all the parameters choosen',
-                              fontSize: 20);
-                        }
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: 'No internet connection', fontSize: 20);
-                      }
-                    },
-                    icon: const Icon(Icons.add_task))
-              ])
-            ]),
-        body: Center(
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-          SizedBox(
-              height: screenHeight * 0.07,
-              child: Text("Insert a new car",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                      fontSize: screenText * 25))),
-          SizedBox(height: screenHeight * 0.015),
-          vehicleButton,
-          SizedBox(height: screenHeight * 0.015),
-          positionButton,
-          SizedBox(height: screenHeight * 0.015),
-          seatsButton,
-          SizedBox(height: screenHeight * 0.015),
-          fuelButton,
-          SizedBox(height: screenHeight * 0.015),
-          priceButton,
-          SizedBox(height: screenHeight * 0.015),
-          photoButton,
-          SizedBox(height: screenHeight * 0.015),
-          clearButton,
-        ])));
+                        },
+                        icon: const Icon(Icons.add_task))
+                  ])
+                ]),
+            body: Center(
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
+              SizedBox(
+                  height: screenHeight * 0.07,
+                  child: Text("Insert a new car",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                          fontSize: screenText * 25))),
+              SizedBox(height: screenHeight * 0.015),
+              vehicleButton,
+              SizedBox(height: screenHeight * 0.015),
+              positionButton,
+              SizedBox(height: screenHeight * 0.015),
+              seatsButton,
+              SizedBox(height: screenHeight * 0.015),
+              fuelButton,
+              SizedBox(height: screenHeight * 0.015),
+              priceButton,
+              SizedBox(height: screenHeight * 0.015),
+              photoButton,
+              SizedBox(height: screenHeight * 0.015),
+              clearButton,
+            ])))
+        : Container();
   }
 
   Future<List<CarModel>> _addCar(CarModel carModel) async {

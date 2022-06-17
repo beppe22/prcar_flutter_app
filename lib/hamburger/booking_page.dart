@@ -29,108 +29,112 @@ class MessagePageState extends State<MessagePage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-            backgroundColor: Colors.redAccent,
-            title: Text('All Booking',
-                style: TextStyle(fontSize: screenText * 20)),
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-                icon: Icon(Icons.arrow_back, size: screenText * 25),
-                onPressed: () {
-                  Navigator.pop(context);
-                })),
-        body: Center(
-            child: Column(children: [
-          SizedBox(height: screenHeight * 0.05),
-          SizedBox(
-              height: screenHeight * 0.35,
-              child: Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-          Container(
-              height: screenHeight * 0.12,
-              width: screenWidth * 0.85,
-              decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  border: Border.all(width: 5.0, color: Colors.grey)),
-              child: (MaterialButton(
-                  onPressed: () async {
-                    if (await NetworkCheck().check()) {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) =>
-                            const Center(child: CircularProgressIndicator()),
-                      );
-                      List<String> res = await _fetchOtherRes();
-                      String bookingId = '';
-                      await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BookingInPage(
-                                  bookingId: bookingId,
-                                  res: res,
-                                  fromHp: false)));
+    return PassMarker.useMobileLayout!
+        ? Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+                backgroundColor: Colors.redAccent,
+                title: Text('All Booking',
+                    style: TextStyle(fontSize: screenText * 20)),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back, size: screenText * 25),
+                    onPressed: () {
                       Navigator.pop(context);
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: 'No internet connection', fontSize: 20);
-                    }
-                  },
-                  padding: EdgeInsets.fromLTRB(
-                      screenHeight * 0.01,
-                      screenWidth * 0.03,
-                      screenWidth * 0.03,
-                      screenHeight * 0.01),
-                  shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Text("Here for others reservations!",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: screenText * 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold))))),
-          SizedBox(height: screenHeight * 0.06),
-          Container(
-              height: screenHeight * 0.12,
-              width: screenWidth * 0.85,
-              decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  border: Border.all(width: 5.0, color: Colors.grey)),
-              child: (MaterialButton(
-                  onPressed: () async {
-                    if (await NetworkCheck().check()) {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) =>
-                            const Center(child: CircularProgressIndicator()),
-                      );
-                      List<String> res = await _fetchMyRes();
-                      await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BookingOutPage(res: res)));
-                      Navigator.pop(context);
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: 'No internet connection', fontSize: 20);
-                    }
-                  },
-                  padding: EdgeInsets.fromLTRB(
-                      screenHeight * 0.01,
-                      screenWidth * 0.03,
-                      screenWidth * 0.03,
-                      screenHeight * 0.01),
-                  shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Text("Here for your reservations!",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: screenText * 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold)))))
-        ])));
+                    })),
+            body: Center(
+                child: Column(children: [
+              SizedBox(height: screenHeight * 0.05),
+              SizedBox(
+                  height: screenHeight * 0.35,
+                  child:
+                      Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
+              Container(
+                  height: screenHeight * 0.12,
+                  width: screenWidth * 0.85,
+                  decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      border: Border.all(width: 5.0, color: Colors.grey)),
+                  child: (MaterialButton(
+                      onPressed: () async {
+                        if (await NetworkCheck().check()) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => const Center(
+                                child: CircularProgressIndicator()),
+                          );
+                          List<String> res = await _fetchOtherRes();
+                          String bookingId = '';
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BookingInPage(
+                                      bookingId: bookingId,
+                                      res: res,
+                                      fromHp: false)));
+                          Navigator.pop(context);
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: 'No internet connection', fontSize: 20);
+                        }
+                      },
+                      padding: EdgeInsets.fromLTRB(
+                          screenHeight * 0.01,
+                          screenWidth * 0.03,
+                          screenWidth * 0.03,
+                          screenHeight * 0.01),
+                      shape: ContinuousRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text("Here for others reservations!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: screenText * 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold))))),
+              SizedBox(height: screenHeight * 0.06),
+              Container(
+                  height: screenHeight * 0.12,
+                  width: screenWidth * 0.85,
+                  decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      border: Border.all(width: 5.0, color: Colors.grey)),
+                  child: (MaterialButton(
+                      onPressed: () async {
+                        if (await NetworkCheck().check()) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => const Center(
+                                child: CircularProgressIndicator()),
+                          );
+                          List<String> res = await _fetchMyRes();
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      BookingOutPage(res: res)));
+                          Navigator.pop(context);
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: 'No internet connection', fontSize: 20);
+                        }
+                      },
+                      padding: EdgeInsets.fromLTRB(
+                          screenHeight * 0.01,
+                          screenWidth * 0.03,
+                          screenWidth * 0.03,
+                          screenHeight * 0.01),
+                      shape: ContinuousRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text("Here for your reservations!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: screenText * 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)))))
+            ])))
+        : Container();
   }
 
   Future<List<String>> _fetchMyRes() async {

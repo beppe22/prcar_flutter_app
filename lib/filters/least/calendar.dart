@@ -25,63 +25,66 @@ class _CalendarState extends State<Calendar> {
     //final screenHeight = MediaQuery.of(context).size.height;
     //final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.redAccent,
-          title: Text('Calendar', style: TextStyle(fontSize: screenText * 20)),
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-              icon: Icon(Icons.arrow_back, size: screenText * 25),
-              onPressed: () {
-                Navigator.pop(context, ['', '']);
-              }),
-          actions: [
-            Row(children: [
-              Text('Save!',
-                  style: TextStyle(
-                      fontSize: screenText * 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold)),
-              IconButton(
-                  onPressed: () async {
-                    if (_startDate == '' && _endDate == '') {
-                      Fluttertoast.showToast(
-                          msg: 'No date selected :(', fontSize: 20);
-                    } else {
-                      if (await _checkFreeDate(
-                          _takeDateList(blackout),
-                          DateFormat("dd/MM/yyyy").parse(_startDate),
-                          DateFormat("dd/MM/yyyy").parse(_endDate))) {
-                        Navigator.pop(context, [_startDate, _endDate]);
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: "Don't select day already occupied :(",
-                            fontSize: 20);
-                      }
-                    }
-                  },
-                  icon: const Icon(Icons.add_task))
-            ])
-          ]),
-      backgroundColor: Colors.grey.shade100,
-      body: SfDateRangePicker(
-          view: DateRangePickerView.month,
-          controller: _controller,
-          onSelectionChanged: selectionChanged,
-          selectionMode: DateRangePickerSelectionMode.range,
-          enablePastDates: false,
-          extendableRangeSelectionDirection:
-              ExtendableRangeSelectionDirection.forward,
-          monthViewSettings: DateRangePickerMonthViewSettings(
-              blackoutDates: _takeDateList(blackout)),
-          monthCellStyle: DateRangePickerMonthCellStyle(
-            textStyle:
-                TextStyle(fontSize: screenText * 22, color: Colors.black),
-            blackoutDateTextStyle: TextStyle(
-                color: Colors.grey.shade200, fontSize: screenText * 22),
-          ),
-          backgroundColor: Colors.white),
-    );
+    return PassMarker.useMobileLayout!
+        ? Scaffold(
+            appBar: AppBar(
+                backgroundColor: Colors.redAccent,
+                title: Text('Calendar',
+                    style: TextStyle(fontSize: screenText * 20)),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back, size: screenText * 25),
+                    onPressed: () {
+                      Navigator.pop(context, ['', '']);
+                    }),
+                actions: [
+                  Row(children: [
+                    Text('Save!',
+                        style: TextStyle(
+                            fontSize: screenText * 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                    IconButton(
+                        onPressed: () async {
+                          if (_startDate == '' && _endDate == '') {
+                            Fluttertoast.showToast(
+                                msg: 'No date selected :(', fontSize: 20);
+                          } else {
+                            if (await _checkFreeDate(
+                                _takeDateList(blackout),
+                                DateFormat("dd/MM/yyyy").parse(_startDate),
+                                DateFormat("dd/MM/yyyy").parse(_endDate))) {
+                              Navigator.pop(context, [_startDate, _endDate]);
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "Don't select day already occupied :(",
+                                  fontSize: 20);
+                            }
+                          }
+                        },
+                        icon: const Icon(Icons.add_task))
+                  ])
+                ]),
+            backgroundColor: Colors.grey.shade100,
+            body: SfDateRangePicker(
+                view: DateRangePickerView.month,
+                controller: _controller,
+                onSelectionChanged: selectionChanged,
+                selectionMode: DateRangePickerSelectionMode.range,
+                enablePastDates: false,
+                extendableRangeSelectionDirection:
+                    ExtendableRangeSelectionDirection.forward,
+                monthViewSettings: DateRangePickerMonthViewSettings(
+                    blackoutDates: _takeDateList(blackout)),
+                monthCellStyle: DateRangePickerMonthCellStyle(
+                  textStyle:
+                      TextStyle(fontSize: screenText * 22, color: Colors.black),
+                  blackoutDateTextStyle: TextStyle(
+                      color: Colors.grey.shade200, fontSize: screenText * 22),
+                ),
+                backgroundColor: Colors.white),
+          )
+        : Container();
   }
 
   List<DateTime> _takeDateList(List<String> date) {

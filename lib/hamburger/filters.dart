@@ -288,102 +288,105 @@ class _FiltersState extends State<Filters> {
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
-    return SizedBox(
-        height: screenHeight,
-        width: screenWidth,
-        child: Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-                backgroundColor: Colors.redAccent,
-                title:
-                    Text('Filter', style: TextStyle(fontSize: screenText * 20)),
-                automaticallyImplyLeading: false,
-                leading: IconButton(
-                    icon: Icon(Icons.arrow_back, size: screenText * 25),
-                    onPressed: () {
-                      setState(() {
-                        search.fuel = '';
-                        search.model = '';
-                        search.least = '';
-                        search.price = '';
-                        search.vehicle = '';
-                        search.seats = '';
-                        search.position = '';
-                        SearchCar.latSearch = '';
-                        SearchCar.lngSearch = '';
-                        SearchCar.date1Search = '';
-                        SearchCar.date2Search = '';
-                      });
-                      Navigator.pop(context);
-                    }),
-                actions: [
-                  Row(children: [
-                    Text('Search!',
-                        style: TextStyle(
-                            fontSize: screenText * 17,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold)),
-                    IconButton(
-                        onPressed: () async {
-                          if (await NetworkCheck().check()) {
-                            List<CarModel> cars = await _fetchCar();
-                            List<CarModel> searchCars =
-                                await _searchCar(cars, search, user);
-                            setState(() {
-                              search.fuel = '';
-                              search.model = '';
-                              search.least = '';
-                              search.price = '';
-                              search.vehicle = '';
-                              search.seats = '';
-                              search.position = '';
-                              SearchCar.latSearch = '';
-                              SearchCar.lngSearch = '';
-                              SearchCar.date1Search = '';
-                              SearchCar.date2Search = '';
-                            });
-                            if (searchCars.isNotEmpty) {
-                              PassMarker.from = false;
-                              Navigator.pop(context, searchCars);
-                            } else {
-                              Fluttertoast.showToast(
-                                  msg:
-                                      'No car found :( try with less parameters',
-                                  fontSize: 20);
-                            }
-                          } else {
-                            Fluttertoast.showToast(
-                                msg: 'No internet connection', fontSize: 20);
-                          }
-                        },
-                        icon: Icon(Icons.add_task, size: screenText * 25))
-                  ])
-                ]),
-            body: Center(
-                child: Column(children: <Widget>[
-              SizedBox(height: screenHeight * 0.04),
-              SizedBox(
-                  height: screenHeight * 0.04,
-                  child: Text("Apply filters for your need",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
-                          fontSize: screenText * 25))),
-              SizedBox(height: screenHeight * 0.015),
-              leastButton,
-              SizedBox(height: screenHeight * 0.015),
-              vehicleButton,
-              SizedBox(height: screenHeight * 0.015),
-              positionButton,
-              SizedBox(height: screenHeight * 0.015),
-              seatsButton,
-              SizedBox(height: screenHeight * 0.015),
-              fuelButton,
-              SizedBox(height: screenHeight * 0.015),
-              priceButton,
-              SizedBox(height: screenHeight * 0.015),
-              clearButton
-            ]))));
+    return PassMarker.useMobileLayout!
+        ? SizedBox(
+            height: screenHeight,
+            width: screenWidth,
+            child: Scaffold(
+                backgroundColor: Colors.white,
+                appBar: AppBar(
+                    backgroundColor: Colors.redAccent,
+                    title: Text('Filter',
+                        style: TextStyle(fontSize: screenText * 20)),
+                    automaticallyImplyLeading: false,
+                    leading: IconButton(
+                        icon: Icon(Icons.arrow_back, size: screenText * 25),
+                        onPressed: () {
+                          setState(() {
+                            search.fuel = '';
+                            search.model = '';
+                            search.least = '';
+                            search.price = '';
+                            search.vehicle = '';
+                            search.seats = '';
+                            search.position = '';
+                            SearchCar.latSearch = '';
+                            SearchCar.lngSearch = '';
+                            SearchCar.date1Search = '';
+                            SearchCar.date2Search = '';
+                          });
+                          Navigator.pop(context);
+                        }),
+                    actions: [
+                      Row(children: [
+                        Text('Search!',
+                            style: TextStyle(
+                                fontSize: screenText * 17,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
+                        IconButton(
+                            onPressed: () async {
+                              if (await NetworkCheck().check()) {
+                                List<CarModel> cars = await _fetchCar();
+                                List<CarModel> searchCars =
+                                    await _searchCar(cars, search, user);
+                                setState(() {
+                                  search.fuel = '';
+                                  search.model = '';
+                                  search.least = '';
+                                  search.price = '';
+                                  search.vehicle = '';
+                                  search.seats = '';
+                                  search.position = '';
+                                  SearchCar.latSearch = '';
+                                  SearchCar.lngSearch = '';
+                                  SearchCar.date1Search = '';
+                                  SearchCar.date2Search = '';
+                                });
+                                if (searchCars.isNotEmpty) {
+                                  PassMarker.from = false;
+                                  Navigator.pop(context, searchCars);
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          'No car found :( try with less parameters',
+                                      fontSize: 20);
+                                }
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: 'No internet connection',
+                                    fontSize: 20);
+                              }
+                            },
+                            icon: Icon(Icons.add_task, size: screenText * 25))
+                      ])
+                    ]),
+                body: Center(
+                    child: Column(children: <Widget>[
+                  SizedBox(height: screenHeight * 0.04),
+                  SizedBox(
+                      height: screenHeight * 0.04,
+                      child: Text("Apply filters for your need",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                              fontSize: screenText * 25))),
+                  SizedBox(height: screenHeight * 0.015),
+                  leastButton,
+                  SizedBox(height: screenHeight * 0.015),
+                  vehicleButton,
+                  SizedBox(height: screenHeight * 0.015),
+                  positionButton,
+                  SizedBox(height: screenHeight * 0.015),
+                  seatsButton,
+                  SizedBox(height: screenHeight * 0.015),
+                  fuelButton,
+                  SizedBox(height: screenHeight * 0.015),
+                  priceButton,
+                  SizedBox(height: screenHeight * 0.015),
+                  clearButton
+                ]))))
+        : Container();
   }
 
   String _printLeast(String start, String end) {

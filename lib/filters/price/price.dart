@@ -1,6 +1,7 @@
 // ignore_for_file: no_logic_in_create_state, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'pricebutton.dart';
 
 class Price extends StatefulWidget {
@@ -19,19 +20,22 @@ class _PriceState extends State<Price> {
     //final screenHeight = MediaQuery.of(context).size.height;
     //final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    return Scaffold(
-        body: Counter(filter: filter),
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-            backgroundColor: Colors.redAccent,
-            title: Text("Price", style: TextStyle(fontSize: screenText * 20)),
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-                icon: Icon(Icons.arrow_back,
-                    color: Colors.white, size: screenText * 25),
-                onPressed: () {
-                  Navigator.pop(context, '');
-                })));
+    return PassMarker.useMobileLayout!
+        ? Scaffold(
+            body: Counter(filter: filter),
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+                backgroundColor: Colors.redAccent,
+                title:
+                    Text("Price", style: TextStyle(fontSize: screenText * 20)),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back,
+                        color: Colors.white, size: screenText * 25),
+                    onPressed: () {
+                      Navigator.pop(context, '');
+                    })))
+        : Container();
   }
 }
 
@@ -76,59 +80,61 @@ class _CounterState extends State<Counter> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    return Padding(
-        padding: EdgeInsets.all(screenHeight * 0.005),
-        child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: screenHeight * 0.05),
-              SizedBox(
-                  height: screenHeight * 0.3,
-                  child:
-                      Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
-              SizedBox(
-                  height: screenHeight * 0.1,
-                  child: Text(_priceString(filter),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.redAccent,
-                          fontSize: screenText * 22))),
-              SizedBox(height: screenHeight * 0.05),
-              PriceButton(
-                  screenHeight: screenHeight,
-                  screenWidth: screenWidth,
-                  screenText: screenText,
-                  value: counter.toString()),
-              SizedBox(height: screenHeight * 0.03),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                TextButton(
-                    style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        backgroundColor: Colors.redAccent,
-                        padding: EdgeInsets.all(screenWidth * 0.04)),
-                    child: Icon(Icons.remove, size: screenText * 25),
-                    onPressed: counter == 0 ? null : decrementCounter),
-                SizedBox(width: screenWidth * 0.2),
-                TextButton(
-                    style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        backgroundColor: Colors.redAccent,
-                        padding: EdgeInsets.all(screenWidth * 0.04)),
-                    child: Icon(Icons.add, size: screenText * 25),
-                    onPressed: counter == 100 ? null : incrementCounter)
-              ]),
-              SizedBox(height: screenHeight * 0.03),
-              Slider(
-                  activeColor: Colors.redAccent,
-                  inactiveColor: Colors.blueGrey,
-                  value: counter.toDouble(),
-                  min: 0,
-                  max: 100,
-                  divisions: 100,
-                  onChanged: setCounter)
-            ]));
+    return PassMarker.useMobileLayout!
+        ? Padding(
+            padding: EdgeInsets.all(screenHeight * 0.005),
+            child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(height: screenHeight * 0.05),
+                  SizedBox(
+                      height: screenHeight * 0.3,
+                      child: Image.asset("assets/prcarlogo.png",
+                          fit: BoxFit.contain)),
+                  SizedBox(
+                      height: screenHeight * 0.1,
+                      child: Text(_priceString(filter),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.redAccent,
+                              fontSize: screenText * 22))),
+                  SizedBox(height: screenHeight * 0.05),
+                  PriceButton(
+                      screenHeight: screenHeight,
+                      screenWidth: screenWidth,
+                      screenText: screenText,
+                      value: counter.toString()),
+                  SizedBox(height: screenHeight * 0.03),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    TextButton(
+                        style: TextButton.styleFrom(
+                            primary: Colors.white,
+                            backgroundColor: Colors.redAccent,
+                            padding: EdgeInsets.all(screenWidth * 0.04)),
+                        child: Icon(Icons.remove, size: screenText * 25),
+                        onPressed: counter == 0 ? null : decrementCounter),
+                    SizedBox(width: screenWidth * 0.2),
+                    TextButton(
+                        style: TextButton.styleFrom(
+                            primary: Colors.white,
+                            backgroundColor: Colors.redAccent,
+                            padding: EdgeInsets.all(screenWidth * 0.04)),
+                        child: Icon(Icons.add, size: screenText * 25),
+                        onPressed: counter == 100 ? null : incrementCounter)
+                  ]),
+                  SizedBox(height: screenHeight * 0.03),
+                  Slider(
+                      activeColor: Colors.redAccent,
+                      inactiveColor: Colors.blueGrey,
+                      value: counter.toDouble(),
+                      min: 0,
+                      max: 100,
+                      divisions: 100,
+                      onChanged: setCounter)
+                ]))
+        : Container();
   }
 
   String _priceString(bool filter) {

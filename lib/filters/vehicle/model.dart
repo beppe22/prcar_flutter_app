@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
 import 'package:prcarpolimi/models/car_parameter.dart';
+import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'ProductDataModel.dart';
 
 class Models extends StatefulWidget {
@@ -21,67 +22,76 @@ class _ModelsState extends State<Models> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.redAccent,
-            title: Text("Models", style: TextStyle(fontSize: screenText * 20)),
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-                icon: Icon(Icons.arrow_back,
-                    color: Colors.white, size: screenText * 25),
-                onPressed: () {
-                  Navigator.pop(context, '');
-                })),
-        body: FutureBuilder(
-            future: readJsonData(),
-            builder: (context, data) {
-              if (data.hasError) {
-                return Center(child: Text("${data.error}"));
-              } else if (data.hasData) {
-                var items = data.data as List<VehicleDataModel>;
-                var modelNames = items[indice].models;
-                return ListView.builder(
-                    itemCount: modelNames == null ? 0 : modelNames.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(height: screenHeight * 0.035),
-                            Container(
-                                width: screenWidth * 0.87,
-                                height: screenHeight * 0.1,
-                                decoration: BoxDecoration(
-                                    color: Colors.redAccent,
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context)
-                                              ..pop()
-                                              ..pop();
-                                            SearchCar.vehicle =
-                                                items[indice].brand.toString();
-                                            SearchCar.model =
-                                                modelNames![index].toString();
-                                          },
-                                          child: Text(
-                                              modelNames![index].toString(),
-                                              style: TextStyle(
-                                                  fontSize: screenText * 20,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white)))
-                                    ]))
-                          ]);
-                    });
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            }));
+    return PassMarker.useMobileLayout!
+        ? Scaffold(
+            appBar: AppBar(
+                backgroundColor: Colors.redAccent,
+                title:
+                    Text("Models", style: TextStyle(fontSize: screenText * 20)),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back,
+                        color: Colors.white, size: screenText * 25),
+                    onPressed: () {
+                      Navigator.pop(context, '');
+                    })),
+            body: FutureBuilder(
+                future: readJsonData(),
+                builder: (context, data) {
+                  if (data.hasError) {
+                    return Center(child: Text("${data.error}"));
+                  } else if (data.hasData) {
+                    var items = data.data as List<VehicleDataModel>;
+                    var modelNames = items[indice].models;
+                    return ListView.builder(
+                        itemCount: modelNames == null ? 0 : modelNames.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(height: screenHeight * 0.035),
+                                Container(
+                                    width: screenWidth * 0.87,
+                                    height: screenHeight * 0.1,
+                                    decoration: BoxDecoration(
+                                        color: Colors.redAccent,
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context)
+                                                  ..pop()
+                                                  ..pop();
+                                                SearchCar.vehicle =
+                                                    items[indice]
+                                                        .brand
+                                                        .toString();
+                                                SearchCar.model =
+                                                    modelNames![index]
+                                                        .toString();
+                                              },
+                                              child: Text(
+                                                  modelNames![index].toString(),
+                                                  style: TextStyle(
+                                                      fontSize: screenText * 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white)))
+                                        ]))
+                              ]);
+                        });
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                }))
+        : Container();
   }
 
   Future<List<VehicleDataModel>> readJsonData() async {
