@@ -71,7 +71,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                       MaterialPageRoute(builder: (context) => const Position()))
                   .then((data) {
                 setState(() {
-                  if (data != '') {
+                  if (data != '' && data != null) {
                     positionString = SearchCar.latSearch.toString() +
                         ',' +
                         SearchCar.lngSearch.toString();
@@ -150,7 +150,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                   MaterialPageRoute(
                       builder: (context) => Seats(filter: false))).then((data) {
                 setState(() {
-                  if (data != '') {
+                  if (data != '' && data != null) {
                     seatsString = data;
                   }
                 });
@@ -184,7 +184,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                       MaterialPageRoute(builder: (context) => const Fuel()))
                   .then((data) {
                 setState(() {
-                  if (data != '') {
+                  if (data != '' && data != null) {
                     fuelString = data;
                   }
                 });
@@ -219,7 +219,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                   MaterialPageRoute(
                       builder: (context) => Price(filter: false))).then((data) {
                 setState(() {
-                  if (data != '') {
+                  if (data != '' && data != null) {
                     priceString = data;
                   }
                 });

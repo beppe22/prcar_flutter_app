@@ -197,13 +197,15 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                                   ])
                                                                                                 ]));
                                                                                       } else {
-                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
+                                                                                        if (PassMarker.status[index] != 'f') {
+                                                                                          Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
+                                                                                        } else {
+                                                                                          Fluttertoast.showToast(msg: 'Impossible operation: reservation already finished', fontSize: 20);
+                                                                                        }
                                                                                       }
                                                                                     } else {
-                                                                                      if (PassMarker.status[index] == 'a') {
+                                                                                      {
                                                                                         Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
-                                                                                      } else {
-                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: reservation already finished', fontSize: 20);
                                                                                       }
                                                                                     }
                                                                                   },

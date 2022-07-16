@@ -157,7 +157,11 @@ class _AddNewCarState extends State<AddNewCar> {
                   MaterialPageRoute(
                       builder: (context) => Seats(filter: false))).then((data) {
                 setState(() {
-                  car.seats = data;
+                  if (data != null) {
+                    car.seats = data;
+                  } else {
+                    car.seats = "";
+                  }
                 });
               });
             },
@@ -189,7 +193,11 @@ class _AddNewCarState extends State<AddNewCar> {
                       MaterialPageRoute(builder: (context) => const Fuel()))
                   .then((data) {
                 setState(() {
-                  car.fuel = data;
+                  if (data != null) {
+                    car.fuel = data;
+                  } else {
+                    car.fuel = "";
+                  }
                 });
               });
             },
@@ -222,7 +230,11 @@ class _AddNewCarState extends State<AddNewCar> {
                   MaterialPageRoute(
                       builder: (context) => Price(filter: false))).then((data) {
                 setState(() {
-                  car.price = data;
+                  if (data != null) {
+                    car.price = data;
+                  } else {
+                    car.price = "";
+                  }
                 });
               });
             },

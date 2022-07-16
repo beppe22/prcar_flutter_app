@@ -219,7 +219,13 @@ class _HomePageState extends State<HomePage> {
                       child: const MapBottomPill(),
                       duration: const Duration(milliseconds: 500))
                 ])))
-        : Container();
+        : Scaffold(body: OrientationBuilder(builder: (context, orientation) {
+            if (orientation == Orientation.portrait) {
+              return Container(color: Colors.redAccent);
+            } else {
+              return Container(color: Colors.greenAccent);
+            }
+          }));
   }
 
   _fetchUserInfo() async {

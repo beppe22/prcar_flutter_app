@@ -193,7 +193,24 @@ class _LoginState extends State<Login> {
                             ]))
                   ])
                 ])))
-        : Container();
+        : Scaffold(
+            appBar: AppBar(title: const Text('Prova')),
+            body: OrientationBuilder(
+              builder: (context, orientation) {
+                return GridView.count(
+                  crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
+                  children: List.generate(100, (index) {
+                    return Center(
+                      child: Text(
+                        'Item $index',
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
+                    );
+                  }),
+                );
+              },
+            ),
+          );
   }
 
   _finishReservation(User user) async {

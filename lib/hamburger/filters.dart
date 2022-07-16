@@ -96,7 +96,11 @@ class _FiltersState extends State<Filters> {
                       MaterialPageRoute(builder: (context) => const Position()))
                   .then((data) {
                 setState(() {
-                  search.position = data;
+                  if (data == null) {
+                    search.position = "";
+                  } else {
+                    search.position = data;
+                  }
                 });
               });
             },
@@ -132,7 +136,12 @@ class _FiltersState extends State<Filters> {
                   .then((data) {
                 if (data != '') {
                   setState(() {
-                    search.vehicle = SearchCar.vehicle + '-' + SearchCar.model;
+                    if (data == null) {
+                      search.vehicle = "";
+                    } else {
+                      search.vehicle =
+                          SearchCar.vehicle + '-' + SearchCar.model;
+                    }
                   });
                 }
               });
@@ -170,7 +179,11 @@ class _FiltersState extends State<Filters> {
                   MaterialPageRoute(
                       builder: (context) => Seats(filter: true))).then((data) {
                 setState(() {
-                  search.seats = data;
+                  if (data == null) {
+                    search.seats = "";
+                  } else {
+                    search.seats = data;
+                  }
                 });
               });
             },
@@ -202,7 +215,11 @@ class _FiltersState extends State<Filters> {
                       MaterialPageRoute(builder: (context) => const Fuel()))
                   .then((data) {
                 setState(() {
-                  search.fuel = data;
+                  if (data == null) {
+                    search.fuel = "";
+                  } else {
+                    search.fuel = data;
+                  }
                 });
               });
             },
@@ -235,7 +252,11 @@ class _FiltersState extends State<Filters> {
                   MaterialPageRoute(
                       builder: (context) => Price(filter: true))).then((data) {
                 setState(() {
-                  search.price = data;
+                  if (data == null) {
+                    search.price = "";
+                  } else {
+                    search.price = data;
+                  }
                 });
               });
             },
