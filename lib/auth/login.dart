@@ -22,6 +22,10 @@ class _LoginState extends State<Login> {
   //Login function
   UserModel userModel = UserModel();
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  static final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  static final TextEditingController _emailController = TextEditingController();
+  static final TextEditingController _passwordController =
+      TextEditingController();
   bool from = true;
   static Future<User?> loginUsingEmailPassword(
       {required String email,
@@ -55,8 +59,7 @@ class _LoginState extends State<Login> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    final TextEditingController _emailController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
+
     @override
     final emailField = TextFormField(
         autofocus: false,
@@ -68,6 +71,7 @@ class _LoginState extends State<Login> {
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             hintText: "User Email",
+            hintStyle: TextStyle(fontSize: 20 * screenText),
             prefixIcon:
                 Icon(Icons.mail, color: Colors.black, size: screenText * 25),
             border:
@@ -83,6 +87,7 @@ class _LoginState extends State<Login> {
         },
         decoration: InputDecoration(
             hintText: "Password",
+            hintStyle: TextStyle(fontSize: 20 * screenText),
             prefixIcon:
                 Icon(Icons.lock, color: Colors.black, size: screenText * 25),
             border:
@@ -193,24 +198,132 @@ class _LoginState extends State<Login> {
                             ]))
                   ])
                 ])))
-        : Scaffold(
-            appBar: AppBar(title: const Text('Prova')),
-            body: OrientationBuilder(
-              builder: (context, orientation) {
-                return GridView.count(
-                  crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
-                  children: List.generate(100, (index) {
-                    return Center(
-                      child: Text(
-                        'Item $index',
-                        style: Theme.of(context).textTheme.headline1,
-                      ),
-                    );
-                  }),
-                );
-              },
-            ),
-          );
+        : OrientationBuilder(builder: (_, orientation) {
+            if (orientation == Orientation.portrait) {
+              return Scaffold(
+                  resizeToAvoidBottomInset: true,
+                  backgroundColor: Colors.white,
+                  body: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Form(
+                          key: _key,
+                          child: ListView(shrinkWrap: true, children: [
+                            SizedBox(height: screenHeight * 0.1),
+                            Text("Welcome to PrCar!",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: screenText * 55,
+                                    fontWeight: FontWeight.bold)),
+                            SizedBox(height: screenHeight * 0.05),
+                            SizedBox(
+                                height: screenHeight * 0.3,
+                                child: Image.asset("assets/prcarlogo.png",
+                                    fit: BoxFit.contain)),
+                            SizedBox(height: screenHeight * 0.05),
+                            emailField,
+                            SizedBox(height: screenHeight * 0.02),
+                            passwordField,
+                            SizedBox(height: screenHeight * 0.05),
+                            Row(children: [
+                              SizedBox(width: screenWidth * 0.06),
+                              GestureDetector(
+                                  child: Text('Forgot password?',
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          color: Colors.green,
+                                          fontSize: screenText * 30)),
+                                  onTap: () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ForgotPasswordPage()))),
+                              Text(' or ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: screenText * 22)),
+                              GestureDetector(
+                                  child: Text("Don't have an account?",
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          color: Colors.green,
+                                          fontSize: screenText * 30)),
+                                  onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SignUp())))
+                            ]),
+                            SizedBox(height: screenHeight * 0.06),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      height: screenHeight * 0.07,
+                                      width: screenWidth * 0.85,
+                                      child: MaterialButton(
+                                          color: Colors.green,
+                                          onPressed: () async {
+                                            if (await NetworkCheck().check()) {
+                                              User? user =
+                                                  await loginUsingEmailPassword(
+                                                      email:
+                                                          _emailController.text,
+                                                      password:
+                                                          _passwordController
+                                                              .text,
+                                                      context: context);
+                                              if (user != null) {
+                                                await firebaseFirestore
+                                                    .collection('users')
+                                                    .doc(user.uid)
+                                                    .get()
+                                                    .then((ds) {
+                                                  userModel =
+                                                      UserModel.fromMap(ds);
+                                                  StaticUser.email =
+                                                      userModel.email!;
+                                                  StaticUser.uid =
+                                                      userModel.uid!;
+                                                  StaticUser.firstName =
+                                                      userModel.firstName!;
+                                                  StaticUser.secondName =
+                                                      userModel.secondName!;
+                                                  PassMarker.from = true;
+                                                  _finishReservation(user);
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              HomePage()));
+                                                });
+                                              }
+                                            } else {
+                                              Fluttertoast.showToast(
+                                                  msg: 'No internet connection',
+                                                  fontSize: 20);
+                                            }
+                                          },
+                                          child: Text("Login",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: screenText * 25))),
+                                      decoration: BoxDecoration(
+                                          color: Colors.deepPurple,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                                color: Colors.deepPurple,
+                                                spreadRadius: 6,
+                                                blurRadius: 3)
+                                          ]))
+                                ])
+                          ]))));
+            } else {
+              return Container(color: Colors.greenAccent);
+            }
+          });
   }
 
   _finishReservation(User user) async {
