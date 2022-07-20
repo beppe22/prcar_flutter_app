@@ -59,6 +59,7 @@ class _LoginState extends State<Login> {
     final TextEditingController _passwordController = TextEditingController();
     @override
     final emailField = TextFormField(
+        key: const ValueKey(1),
         autofocus: false,
         textInputAction: TextInputAction.next,
         controller: _emailController,
