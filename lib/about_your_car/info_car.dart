@@ -150,8 +150,10 @@ class _InfoCarState extends State<InfoCar> {
                               CarModel newCar = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          ChangeInfoCar(carModel: carModel)));
+                                      builder: (context) => ChangeInfoCar(
+                                          carModel: carModel,
+                                          changeInfoCarService:
+                                              ChangeInfoCarService())));
                               if (newCar != CarModel()) {
                                 setState(() {
                                   carModel = newCar;

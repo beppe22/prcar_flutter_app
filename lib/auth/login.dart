@@ -93,6 +93,7 @@ class _LoginState extends State<Login> {
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
     final passwordField = TextFormField(
+        key: const ValueKey(2),
         autofocus: false,
         controller: _passwordController,
         textInputAction: TextInputAction.done,
@@ -190,7 +191,9 @@ class _LoginState extends State<Login> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => HomePage()));
+                                            builder: (context) => HomePage(
+                                                homePageService:
+                                                    HomePageService())));
                                   });
                                 }
                               } else {
@@ -312,7 +315,9 @@ class _LoginState extends State<Login> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              HomePage()));
+                                                              HomePage(
+                                                                  homePageService:
+                                                                      HomePageService())));
                                                 });
                                               }
                                             } else {

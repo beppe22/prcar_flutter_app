@@ -23,8 +23,24 @@ import 'package:prcarpolimi/models/marker_to_pass.dart';
 const double pinVisiblePosition = 10;
 const double pinInvisiblePosition = -220;
 
+class AddNewCarService {
+  User? currentUser() {
+    return FirebaseAuth.instance.currentUser;
+  }
+
+  firebasefirestore() {
+    return FirebaseFirestore.instance;
+  }
+
+  storage() {
+    return Storage();
+  }
+}
+
 class AddNewCar extends StatefulWidget {
-  const AddNewCar({Key? key}) : super(key: key);
+  AddNewCarService addNewCarService;
+
+  AddNewCar({Key? key, required this.addNewCarService}) : super(key: key);
   @override
   _AddNewCarState createState() => _AddNewCarState();
 }
@@ -298,8 +314,6 @@ class _AddNewCarState extends State<AddNewCar> {
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
-    final Storage storage = Storage();
-
     return PassMarker.useMobileLayout!
         ? Scaffold(
             backgroundColor: Colors.white,
@@ -375,12 +389,16 @@ class _AddNewCarState extends State<AddNewCar> {
                                       });
                                     }));
                               });
-                              final _auth = FirebaseAuth.instance;
-                              User? user = _auth.currentUser;
+
+                              User? user =
+                                  widget.addNewCarService.currentUser();
                               for (int i = 0; images[i] != null && i < 6; i++) {
                                 final tempPath = images[i]!.path;
-                                storage.uploadCarPic(tempPath, 'imageCar$i',
-                                    user!.uid, PassMarker.cidAdd);
+                                widget.addNewCarService.storage().uploadCarPic(
+                                    tempPath,
+                                    'imageCar$i',
+                                    user!.uid,
+                                    PassMarker.cidAdd);
                               }
                               if (cars != []) {
                                 Navigator.pop(context, cars);
@@ -427,10 +445,8 @@ class _AddNewCarState extends State<AddNewCar> {
   }
 
   Future<List<CarModel>> _addCar(CarModel carModel) async {
-    final _auth = FirebaseAuth.instance;
     var rng = Random();
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
+    User? user = widget.addNewCarService.currentUser();
     PassMarker.cidAdd = '';
     List<CarModel> cars = [];
 
@@ -441,7 +457,8 @@ class _AddNewCarState extends State<AddNewCar> {
           carModel.vehicle.toString() +
           rng.nextInt(1000000).toString();
       try {
-        await firebaseFirestore
+        await widget.addNewCarService
+            .firebasefirestore()
             .collection('users')
             .doc(user.uid)
             //quando non ci sono macchine da errore
@@ -449,7 +466,8 @@ class _AddNewCarState extends State<AddNewCar> {
             .doc(carModel.cid)
             .set(carModel.toMap());
 
-        await firebaseFirestore
+        await widget.addNewCarService
+            .firebasefirestore()
             .collection('users')
             .doc(user.uid)
             //quando non ci sono macchine da errore

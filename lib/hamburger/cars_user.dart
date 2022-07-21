@@ -147,7 +147,9 @@ class _Cars_userState extends State<Cars_user> {
                   final newCars = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AddNewCar()));
+                          builder: (context) => AddNewCar(
+                                addNewCarService: AddNewCarService(),
+                              )));
                   if (newCars.isNotEmpty) {
                     setState(() {
                       cars = newCars;

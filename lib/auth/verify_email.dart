@@ -60,7 +60,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
     final screenText = MediaQuery.of(context).textScaleFactor;
     return PassMarker.useMobileLayout!
         ? isEmailVerified
-            ? HomePage()
+            ? HomePage(homePageService: HomePageService())
             : Scaffold(
                 appBar: AppBar(
                     title: Text('Verify Email',

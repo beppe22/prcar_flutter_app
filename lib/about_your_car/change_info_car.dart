@@ -18,9 +18,19 @@ import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 
+class ChangeInfoCarService {
+  firebasefirestore() {
+    return FirebaseFirestore.instance;
+  }
+}
+
 class ChangeInfoCar extends StatefulWidget {
   final CarModel carModel;
-  const ChangeInfoCar({Key? key, required this.carModel}) : super(key: key);
+  ChangeInfoCarService changeInfoCarService;
+
+  ChangeInfoCar(
+      {Key? key, required this.carModel, required this.changeInfoCarService})
+      : super(key: key);
   @override
   State<ChangeInfoCar> createState() => _ChangeInfoCarState(carModel);
 }
@@ -353,7 +363,8 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
 
   void _changeFirebase(CarModel car, String seats, String fuel, String model,
       String vehicle, String price, String position) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    FirebaseFirestore firebaseFirestore =
+        widget.changeInfoCarService.firebasefirestore();
     await firebaseFirestore
         .collection('users')
         .doc(car.uid)

@@ -25,11 +25,31 @@ import 'dart:io' show Platform;
 const double pinVisiblePosition = 50;
 const double pinInvisiblePosition = -220;
 
+class HomePageService {
+  User? currentUser() {
+    return FirebaseAuth.instance.currentUser;
+  }
+
+  firebasefirestore() {
+    return FirebaseFirestore.instance;
+  }
+
+  firebaseMessaging() {
+    return FirebaseMessaging.instance;
+  }
+}
+
 class HomePage extends StatefulWidget {
   List<CarModel>? searchCar;
   List<String>? positionString;
+  HomePageService homePageService;
 
-  HomePage({Key? key, this.searchCar, this.positionString}) : super(key: key);
+  HomePage(
+      {Key? key,
+      required this.homePageService,
+      this.searchCar,
+      this.positionString})
+      : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState(searchCar, positionString);
@@ -41,8 +61,6 @@ class _HomePageState extends State<HomePage> {
   _HomePageState(this.searchCar, this.positionString);
   double? pinPillPosition;
   Set<Marker> _markers = {};
-  late FirebaseMessaging messaging;
-  FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -55,7 +73,7 @@ class _HomePageState extends State<HomePage> {
     _saveToken();
     if (Platform.isAndroid) {
       _listen();
-      _checkForInitialMessage();
+      //_checkForInitialMessage();
 
       FirebaseMessaging.onMessageOpenedApp.listen((message) async {
         print('Message clicked!');
@@ -182,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                       title: Text("Configuration",
                           style: TextStyle(fontSize: screenText * 16)),
                       onTap: () async {
-                        User? user = FirebaseAuth.instance.currentUser;
+                        User? user = widget.homePageService.currentUser();
                         String confirmed = await _isConfirmed(user!);
 
                         Navigator.push(
@@ -229,12 +247,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   _fetchUserInfo() async {
-    User? user = FirebaseAuth.instance.currentUser;
+    User? user = widget.homePageService.currentUser();
 
     if (user != null) {
-      UserModel userModel = UserModel.fromMap(await FirebaseFirestore.instance
+      UserModel userModel = UserModel.fromMap(await widget.homePageService
+          .firebasefirestore()
           .collection('users')
-          .doc(FirebaseAuth.instance.currentUser?.uid.toString())
+          .doc(widget.homePageService.currentUser()?.uid.toString())
           .get());
 
       StaticUser.email = userModel.email!;
@@ -245,30 +264,35 @@ class _HomePageState extends State<HomePage> {
   }
 
   _saveToken() {
-    messaging = FirebaseMessaging.instance;
-    messaging.getToken().then((value) async {
-      //popoliamo la variabile staticUser
-      await _fetchUserInfo();
-      if (value != null) {
-        await db.collection('tokens').doc(StaticUser.uid).set({
-          'token': value,
-          'createdAt': FieldValue.serverTimestamp(),
-          'platform': Platform.operatingSystem
-        });
-      }
-    });
+    if (widget.homePageService.firebaseMessaging() != null) {
+      widget.homePageService.firebaseMessaging().getToken().then((value) async {
+        //popoliamo la variabile staticUser
+        await _fetchUserInfo();
+        if (value != null) {
+          await widget.homePageService
+              .firebasefirestore()
+              .collection('tokens')
+              .doc(StaticUser.uid)
+              .set({
+            'token': value,
+            'createdAt': FieldValue.serverTimestamp(),
+            'platform': Platform.operatingSystem
+          });
+        }
+      });
+    }
   }
 
   _listen() async {
-    messaging = FirebaseMessaging.instance;
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      badge: true,
-      provisional: false,
-      sound: true,
-    );
+    NotificationSettings settings =
+        await widget.homePageService.firebaseMessaging().requestPermission(
+              alert: true,
+              badge: true,
+              provisional: false,
+              sound: true,
+            );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
@@ -342,9 +366,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<String>> _fetchOtherRes() async {
-    final _auth = FirebaseAuth.instance;
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
+    User? user = widget.homePageService.currentUser();
     List<String> otherRes = [];
     PassMarker.uidFriend = [];
     PassMarker.cid = [];
@@ -352,14 +374,16 @@ class _HomePageState extends State<HomePage> {
     PassMarker.status = [];
 
     if (user != null) {
-      var data = await firebaseFirestore
+      var data = await widget.homePageService
+          .firebasefirestore()
           .collection('users')
           .doc(user.uid)
           .collection('cars')
           .get();
       if (data.docs.isNotEmpty) {
         for (var car in data.docs) {
-          await firebaseFirestore
+          await widget.homePageService
+              .firebasefirestore()
               .collection('users')
               .doc(car.data()['uid'])
               .collection('cars')
@@ -370,7 +394,8 @@ class _HomePageState extends State<HomePage> {
             if (ds.docs.isNotEmpty) {
               for (var book in ds.docs) {
                 String insert = book.data()['date'];
-                var data1 = await firebaseFirestore
+                var data1 = await widget.homePageService
+                    .firebasefirestore()
                     .collection('users')
                     .doc(book.data()['uidOwner'])
                     .collection('cars')
@@ -398,7 +423,7 @@ class _HomePageState extends State<HomePage> {
     return otherRes;
   }
 
-  _checkForInitialMessage() async {
+  /*_checkForInitialMessage() async {
     await Firebase.initializeApp();
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
@@ -432,26 +457,27 @@ class _HomePageState extends State<HomePage> {
               builder: (context) => BookingInPage(
                   bookingId: bookingId, res: bookIn, fromHp: true)));*/
     }
-  }
+  }*/
 
 //Function that fecth all the cars in the database
   Future<List<CarModel>> _fetchCar() async {
-    final _auth = FirebaseAuth.instance;
-
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
+    User? user = widget.homePageService.currentUser();
 
     List<CarModel> cars = [];
 
     if (user != null) {
       try {
-        await firebaseFirestore.collection('users').get()
+        await widget.homePageService
+            .firebasefirestore()
+            .collection('users')
+            .get()
             //quando non ci sono macchine da errore
             .then((ds) async {
           for (var user_1 in ds.docs) {
             //print(user_1.data());
             try {
-              await firebaseFirestore
+              await widget.homePageService
+                  .firebasefirestore()
                   .collection('users')
                   .doc(user_1.data()['uid'])
                   .collection('cars')
@@ -479,14 +505,13 @@ class _HomePageState extends State<HomePage> {
 
 //Function that fecth only user's car
   Future<List<CarModel>> _fetchInfoCar() async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    final _auth = FirebaseAuth.instance;
-    User? user = _auth.currentUser;
+    User? user = widget.homePageService.currentUser();
     List<CarModel> cars = [];
 
     if (user != null) {
       try {
-        await firebaseFirestore
+        await widget.homePageService
+            .firebasefirestore()
             .collection('users')
             .doc(user.uid)
             .collection('cars')
@@ -520,9 +545,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _updateMarkers() async {
-    final _auth = FirebaseAuth.instance;
     try {
-      String? userAuth = _auth.currentUser?.uid.toString();
+      String? userAuth = widget.homePageService.currentUser()?.uid.toString();
       if (PassMarker.from) {
         PassMarker.markerToPass = {};
         List<CarModel> cars = await _fetchCar();
@@ -616,9 +640,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<String> _isConfirmed(User user) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    DocumentSnapshot<Map<String, dynamic>> snapshot =
-        await firebaseFirestore.collection('users').doc(user.uid).get();
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await widget
+        .homePageService
+        .firebasefirestore()
+        .collection('users')
+        .doc(user.uid)
+        .get();
     return snapshot.data()!['isConfirmed'];
   }
 }

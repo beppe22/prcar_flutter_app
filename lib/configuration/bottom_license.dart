@@ -177,7 +177,9 @@ class _BottomLicenseState extends State<BottomLicense> {
                                 Navigator.pushAndRemoveUntil(
                                     (context),
                                     MaterialPageRoute(
-                                        builder: (context) => HomePage()),
+                                        builder: (context) => HomePage(
+                                            homePageService:
+                                                HomePageService())),
                                     (route) => false);
                               } else {
                                 Fluttertoast.showToast(
