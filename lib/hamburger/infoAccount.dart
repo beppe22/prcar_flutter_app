@@ -159,8 +159,9 @@ class InfoAccount extends StatelessWidget {
                                     FirebaseAuth.instance.signOut();
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Login()),
+                                            builder: (context) => Login(
+                                                  loginService: LoginService(),
+                                                )),
                                         (Route<dynamic> route) => false);
                                   } else {
                                     Fluttertoast.showToast(
@@ -240,15 +241,17 @@ class InfoAccount extends StatelessWidget {
                                                             await deleteAccount(
                                                                 context);
 
-                                                            Navigator.pushAndRemoveUntil(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            const Login()),
-                                                                (Route<dynamic>
-                                                                        route) =>
-                                                                    false);
+                                                            Navigator
+                                                                .pushAndRemoveUntil(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) =>
+                                                                            Login(
+                                                                              loginService: LoginService(),
+                                                                            )),
+                                                                    (Route<dynamic>
+                                                                            route) =>
+                                                                        false);
                                                           } else {
                                                             showDialog(
                                                                 context:

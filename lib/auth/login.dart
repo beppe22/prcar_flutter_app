@@ -11,8 +11,26 @@ import 'package:prcarpolimi/homepage.dart';
 import '../models/static_user.dart';
 import 'package:intl/intl.dart';
 
+class LoginService {
+  User? currentUser() {
+    return FirebaseAuth.instance.currentUser;
+  }
+
+  Future<User?> signInWithemailandpass(String email, String password) async {
+    return (await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password))
+        .user;
+  }
+
+  firebasefirestore() {
+    return FirebaseFirestore.instance;
+  }
+}
+
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  final LoginService loginService;
+
+  const Login({Key? key, required this.loginService}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
@@ -21,24 +39,20 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   //Login function
   UserModel userModel = UserModel();
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
   static final GlobalKey<FormState> _key = GlobalKey<FormState>();
   static final TextEditingController _emailController = TextEditingController();
   static final TextEditingController _passwordController =
       TextEditingController();
   bool from = true;
-  static Future<User?> loginUsingEmailPassword(
+  Future<User?> loginUsingEmailPassword(
       {required String email,
       required String password,
       required BuildContext context}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
     try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-
-      user = userCredential.user;
+      user = await widget.loginService.signInWithemailandpass(email, password);
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {}
       Fluttertoast.showToast(
@@ -159,7 +173,8 @@ class _LoginState extends State<Login> {
                                     password: _passwordController.text,
                                     context: context);
                                 if (user != null) {
-                                  await firebaseFirestore
+                                  await widget.loginService
+                                      .firebasefirestore()
                                       .collection('users')
                                       .doc(user.uid)
                                       .get()
@@ -275,7 +290,8 @@ class _LoginState extends State<Login> {
                                                               .text,
                                                       context: context);
                                               if (user != null) {
-                                                await firebaseFirestore
+                                                await widget.loginService
+                                                    .firebasefirestore()
                                                     .collection('users')
                                                     .doc(user.uid)
                                                     .get()
@@ -328,8 +344,8 @@ class _LoginState extends State<Login> {
   }
 
   _finishReservation(User user) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    var data = await firebaseFirestore
+    var data = await widget.loginService
+        .firebasefirestore()
         .collection('users')
         .doc(user.uid)
         .collection('booking-out')
@@ -342,7 +358,8 @@ class _LoginState extends State<Login> {
         String finalDate = splitted[1];
         DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(finalDate);
         if (dayEnd.compareTo(DateTime.now()) < 0) {
-          await firebaseFirestore
+          await widget.loginService
+              .firebasefirestore()
               .collection('users')
               .doc(user.uid)
               .collection('booking-out')
@@ -352,7 +369,8 @@ class _LoginState extends State<Login> {
       }
     }
 
-    var data2 = await firebaseFirestore
+    var data2 = await widget.loginService
+        .firebasefirestore()
         .collection('users')
         .doc(user.uid)
         .collection('cars')
@@ -360,7 +378,8 @@ class _LoginState extends State<Login> {
 
     if (data2.docs.isNotEmpty) {
       for (var car in data.docs) {
-        await firebaseFirestore
+        await widget.loginService
+            .firebasefirestore()
             .collection('users')
             .doc(car.data()['uid'])
             .collection('cars')
@@ -375,7 +394,8 @@ class _LoginState extends State<Login> {
               String finalDate = splitted[1];
               DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(finalDate);
               if (dayEnd.compareTo(DateTime.now()) < 0) {
-                await firebaseFirestore
+                await widget.loginService
+                    .firebasefirestore()
                     .collection('users')
                     .doc(user.uid)
                     .collection('cars')
