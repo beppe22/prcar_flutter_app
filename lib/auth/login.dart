@@ -22,10 +22,12 @@ class _LoginState extends State<Login> {
   //Login function
   UserModel userModel = UserModel();
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  static final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  static final TextEditingController _emailController = TextEditingController();
-  static final TextEditingController _passwordController =
-      TextEditingController();
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _emailControllerT = TextEditingController();
+  final _passwordControllerT = TextEditingController();
+  final _key = GlobalKey<FormState>();
   bool from = true;
   static Future<User?> loginUsingEmailPassword(
       {required String email,
@@ -90,6 +92,36 @@ class _LoginState extends State<Login> {
             hintStyle: TextStyle(fontSize: 20 * screenText),
             prefixIcon:
                 Icon(Icons.lock, color: Colors.black, size: screenText * 25),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+
+    final emailFieldT = TextFormField(
+        autofocus: false,
+        textInputAction: TextInputAction.next,
+        controller: _emailControllerT,
+        onSaved: (value) {
+          _emailControllerT.text = value!;
+        },
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+            hintText: "User Email",
+            hintStyle: TextStyle(fontSize: 20),
+            prefixIcon: Icon(Icons.mail, color: Colors.black, size: 25),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+
+    final passwordFieldT = TextFormField(
+        autofocus: false,
+        controller: _passwordControllerT,
+        textInputAction: TextInputAction.done,
+        obscureText: true,
+        onSaved: (value) {
+          _passwordControllerT.text = value!;
+        },
+        decoration: InputDecoration(
+            hintText: "Password",
+            hintStyle: TextStyle(fontSize: 20),
+            prefixIcon: Icon(Icons.lock, color: Colors.black, size: 25),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
@@ -198,7 +230,25 @@ class _LoginState extends State<Login> {
                             ]))
                   ])
                 ])))
-        : OrientationBuilder(builder: (_, orientation) {
+        : Scaffold(
+            resizeToAvoidBottomInset: true,
+            backgroundColor: Colors.white,
+            body: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Center(
+                    child: Form(
+                        key: _key,
+                        child: ListView(shrinkWrap: true, children: [
+                          SizedBox(height: 100),
+                          SizedBox(
+                              height: 300,
+                              child: Image.asset("assets/prcarlogo.png",
+                                  fit: BoxFit.contain)),
+                          SizedBox(height: 15),
+                          emailFieldT,
+                          SizedBox(height: 15),
+                          passwordFieldT
+                        ]))))); /*OrientationBuilder(builder: (_, orientation) {
             if (orientation == Orientation.portrait) {
               return Scaffold(
                   resizeToAvoidBottomInset: true,
@@ -207,7 +257,7 @@ class _LoginState extends State<Login> {
                       scrollDirection: Axis.vertical,
                       child: Form(
                           key: _key,
-                          child: ListView(shrinkWrap: true, children: [
+                          child: Column(children: [
                             SizedBox(height: screenHeight * 0.1),
                             Text("Welcome to PrCar!",
                                 textAlign: TextAlign.center,
@@ -221,9 +271,9 @@ class _LoginState extends State<Login> {
                                 child: Image.asset("assets/prcarlogo.png",
                                     fit: BoxFit.contain)),
                             SizedBox(height: screenHeight * 0.05),
-                            emailField,
+                            emailFieldT,
                             SizedBox(height: screenHeight * 0.02),
-                            passwordField,
+                            passwordFieldT,
                             SizedBox(height: screenHeight * 0.05),
                             Row(children: [
                               SizedBox(width: screenWidth * 0.06),
@@ -323,7 +373,7 @@ class _LoginState extends State<Login> {
             } else {
               return Container(color: Colors.greenAccent);
             }
-          });
+          });*/
   }
 
   _finishReservation(User user) async {
