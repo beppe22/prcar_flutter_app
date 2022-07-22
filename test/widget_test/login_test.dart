@@ -27,40 +27,28 @@ void main() {
   group("login page test", () {
     PassMarker.useMobileLayout = true;
 
-    testWidgets('email, password and button are found',
-        (WidgetTester tester) async {
+    testWidgets('general test', (WidgetTester tester) async {
+      final addEmail = await find.byKey(ValueKey(1));
+      final addPassword = await find.byKey(ValueKey(2));
+
       await tester.pumpWidget(MaterialApp(
           home: Login(
         loginService: FakeLoginService(),
       )));
 
+      await tester.enterText(addPassword, 'nuova password');
+      await tester.enterText(addEmail, "nuova email");
+
+      expect(find.text('nuova password'), findsOneWidget);
+      expect(find.text("nuova email"), findsOneWidget);
       expect(find.text("User Email"), findsOneWidget);
+      expect(find.text("Password"), findsOneWidget);
+      expect(find.text("Welcome to PrCar!"), findsOneWidget);
+      expect(find.text('Forgot password?'), findsOneWidget);
+      expect(find.text("Don't have an account?"), findsOneWidget);
+      expect(find.text("Login"), findsOneWidget);
+      expect(find.text('Forgot password?'), findsOneWidget);
+      expect(find.text("Don't have an account?"), findsOneWidget);
     });
   });
 }
-/*import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:prcarpolimi/auth/login.dart';
-import 'package:prcarpolimi/main.dart';
-import 'package:prcarpolimi/models/marker_to_pass.dart';
-
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
-  runApp(const MyApp());
-
-  group("aaaaaaa", () {
-    PassMarker.useMobileLayout = true;
-    testWidgets("ciao", (WidgetTester tester) async {
-      final addField = find.byKey(ValueKey(1));
-
-      await tester.pumpWidget(MaterialApp(home: Login()));
-      await tester.enterText(addField, "ciaociao");
-      await tester.pump();
-
-      expect(find.text("ciaociao"), findsOneWidget);
-    });
-  });
-}
-*/

@@ -50,4 +50,17 @@ class CarModel {
       'uid': uid,
     };
   }
+
+  factory CarModel.initialize() {
+    return CarModel(
+        cid: "",
+        model: "",
+        seats: "",
+        vehicle: "",
+        price: "",
+        fuel: "",
+        activeOrNot: "",
+        position: "",
+        uid: "");
+  }
 }

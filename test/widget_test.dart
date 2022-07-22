@@ -32,7 +32,7 @@ void main() {
   Firebase.initializeApp();
   testWidgets('PrCarFirstTest', (tester) async {
     // Create the widget by telling the tester to build it.
-    await tester.pumpWidget(HomePage());
+    await tester.pumpWidget(HomePage(homePageService: HomePageService()));
 
     final prCarFinder = find.text('PrCar');
     expect(prCarFinder, findsOneWidget);

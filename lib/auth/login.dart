@@ -100,6 +100,41 @@ class _LoginState extends State<Login> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
 
+    @override
+    final emailField = TextFormField(
+        key: const ValueKey(1),
+        autofocus: false,
+        textInputAction: TextInputAction.next,
+        controller: _emailController,
+        onSaved: (value) {
+          _emailController.text = value!;
+        },
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+            hintText: "User Email",
+            hintStyle: TextStyle(fontSize: 20 * screenText),
+            prefixIcon:
+                Icon(Icons.mail, color: Colors.black, size: screenText * 25),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+
+    final passwordField = TextFormField(
+        key: const ValueKey(2),
+        autofocus: false,
+        controller: _passwordController,
+        textInputAction: TextInputAction.done,
+        obscureText: true,
+        onSaved: (value) {
+          _passwordController.text = value!;
+        },
+        decoration: InputDecoration(
+            hintText: "Password",
+            hintStyle: TextStyle(fontSize: 20 * screenText),
+            prefixIcon:
+                Icon(Icons.lock, color: Colors.black, size: screenText * 25),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+
     return PassMarker.useMobileLayout!
         ? Scaffold(
             resizeToAvoidBottomInset: true,
@@ -182,7 +217,9 @@ class _LoginState extends State<Login> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => HomePage()));
+                                            builder: (context) => HomePage(
+                                                homePageService:
+                                                    HomePageService())));
                                   });
                                 }
                               } else {
@@ -312,7 +349,9 @@ class _LoginState extends State<Login> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              HomePage()));
+                                                              HomePage(
+                                                                  homePageService:
+                                                                      HomePageService())));
                                                 });
                                               }
                                             } else {

@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state
+// ignore_for_file: no_logic_in_create_state, must_be_immutable
 
 import 'dart:io';
 
@@ -18,9 +18,19 @@ import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 
+class ChangeInfoCarService {
+  firebasefirestore() {
+    return FirebaseFirestore.instance;
+  }
+}
+
 class ChangeInfoCar extends StatefulWidget {
   final CarModel carModel;
-  const ChangeInfoCar({Key? key, required this.carModel}) : super(key: key);
+  ChangeInfoCarService changeInfoCarService;
+
+  ChangeInfoCar(
+      {Key? key, required this.carModel, required this.changeInfoCarService})
+      : super(key: key);
   @override
   State<ChangeInfoCar> createState() => _ChangeInfoCarState(carModel);
 }
@@ -82,15 +92,14 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Expanded(
-                child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Text("Position: " + _printPosition(positionString!),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: screenText * 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold))))));
+            child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text("Position: " + _printPosition(positionString!),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: screenText * 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)))));
 
 //vehicle button field
     final vehicleButton = Container(
@@ -122,15 +131,14 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Expanded(
-                child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Text("Vehicle: " + nameString,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: screenText * 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold))))));
+            child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text("Vehicle: " + nameString,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: screenText * 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)))));
 
     //seats button field
     final seatsButton = Container(
@@ -353,7 +361,8 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
 
   void _changeFirebase(CarModel car, String seats, String fuel, String model,
       String vehicle, String price, String position) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    FirebaseFirestore firebaseFirestore =
+        widget.changeInfoCarService.firebasefirestore();
     await firebaseFirestore
         .collection('users')
         .doc(car.uid)
