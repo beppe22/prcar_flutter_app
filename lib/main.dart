@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     FirebaseAuth.instance.currentUser!.emailVerified) {
                   return HomePage();
                 } else {
-                  return const Login();
+                  return Login(loginService: LoginService());
                 }
               }
               return const Center(child: CircularProgressIndicator());

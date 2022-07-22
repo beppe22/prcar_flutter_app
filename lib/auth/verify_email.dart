@@ -117,7 +117,9 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const Login()),
+                                          builder: (context) => Login(
+                                                loginService: LoginService(),
+                                              )),
                                       (Route<dynamic> route) => false);
                                 } else {
                                   Fluttertoast.showToast(

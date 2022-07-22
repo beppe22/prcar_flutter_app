@@ -11,36 +11,45 @@ import 'package:prcarpolimi/homepage.dart';
 import '../models/static_user.dart';
 import 'package:intl/intl.dart';
 
+class LoginService {
+  User? currentUser() {
+    return FirebaseAuth.instance.currentUser;
+  }
+
+  Future<User?> signInWithemailandpass(String email, String password) async {
+    return (await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password))
+        .user;
+  }
+
+  firebasefirestore() {
+    return FirebaseFirestore.instance;
+  }
+}
+
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  final LoginService loginService;
+
+  const Login({Key? key, required this.loginService}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  //Login function
   UserModel userModel = UserModel();
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _emailControllerT = TextEditingController();
-  final _passwordControllerT = TextEditingController();
-  final _key = GlobalKey<FormState>();
+  static final TextEditingController _emailController = TextEditingController();
+  static final TextEditingController _passwordController =
+      TextEditingController();
   bool from = true;
-  static Future<User?> loginUsingEmailPassword(
+  Future<User?> loginUsingEmailPassword(
       {required String email,
       required String password,
       required BuildContext context}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
     try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-
-      user = userCredential.user;
+      user = await widget.loginService.signInWithemailandpass(email, password);
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {}
       Fluttertoast.showToast(
@@ -56,74 +65,40 @@ class _LoginState extends State<Login> {
     return user;
   }
 
+  final emailField = TextFormField(
+      key: const ValueKey(1),
+      autofocus: false,
+      textInputAction: TextInputAction.next,
+      controller: _emailController,
+      onSaved: (value) {
+        _emailController.text = value!;
+      },
+      keyboardType: TextInputType.emailAddress,
+      decoration: InputDecoration(
+          hintText: "User Email",
+          hintStyle: TextStyle(fontSize: 20),
+          prefixIcon: Icon(Icons.mail, color: Colors.black, size: 25),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+
+  final passwordField = TextFormField(
+      autofocus: false,
+      controller: _passwordController,
+      textInputAction: TextInputAction.done,
+      obscureText: true,
+      onSaved: (value) {
+        _passwordController.text = value!;
+      },
+      decoration: InputDecoration(
+          hintText: "Password",
+          hintStyle: TextStyle(fontSize: 20),
+          prefixIcon: Icon(Icons.lock, color: Colors.black, size: 25),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-
-    @override
-    final emailField = TextFormField(
-        autofocus: false,
-        textInputAction: TextInputAction.next,
-        controller: _emailController,
-        onSaved: (value) {
-          _emailController.text = value!;
-        },
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-            hintText: "User Email",
-            hintStyle: TextStyle(fontSize: 20 * screenText),
-            prefixIcon:
-                Icon(Icons.mail, color: Colors.black, size: screenText * 25),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
-
-    final passwordField = TextFormField(
-        autofocus: false,
-        controller: _passwordController,
-        textInputAction: TextInputAction.done,
-        obscureText: true,
-        onSaved: (value) {
-          _passwordController.text = value!;
-        },
-        decoration: InputDecoration(
-            hintText: "Password",
-            hintStyle: TextStyle(fontSize: 20 * screenText),
-            prefixIcon:
-                Icon(Icons.lock, color: Colors.black, size: screenText * 25),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
-
-    final emailFieldT = TextFormField(
-        autofocus: false,
-        textInputAction: TextInputAction.next,
-        controller: _emailControllerT,
-        onSaved: (value) {
-          _emailControllerT.text = value!;
-        },
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-            hintText: "User Email",
-            hintStyle: TextStyle(fontSize: 20),
-            prefixIcon: Icon(Icons.mail, color: Colors.black, size: 25),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
-
-    final passwordFieldT = TextFormField(
-        autofocus: false,
-        controller: _passwordControllerT,
-        textInputAction: TextInputAction.done,
-        obscureText: true,
-        onSaved: (value) {
-          _passwordControllerT.text = value!;
-        },
-        decoration: InputDecoration(
-            hintText: "Password",
-            hintStyle: TextStyle(fontSize: 20),
-            prefixIcon: Icon(Icons.lock, color: Colors.black, size: 25),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
     return PassMarker.useMobileLayout!
         ? Scaffold(
@@ -190,7 +165,8 @@ class _LoginState extends State<Login> {
                                     password: _passwordController.text,
                                     context: context);
                                 if (user != null) {
-                                  await firebaseFirestore
+                                  await widget.loginService
+                                      .firebasefirestore()
                                       .collection('users')
                                       .doc(user.uid)
                                       .get()
@@ -231,24 +207,14 @@ class _LoginState extends State<Login> {
                   ])
                 ])))
         : Scaffold(
-            resizeToAvoidBottomInset: true,
             backgroundColor: Colors.white,
-            body: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Center(
-                    child: Form(
-                        key: _key,
-                        child: ListView(shrinkWrap: true, children: [
-                          SizedBox(height: 100),
-                          SizedBox(
-                              height: 300,
-                              child: Image.asset("assets/prcarlogo.png",
-                                  fit: BoxFit.contain)),
-                          SizedBox(height: 15),
-                          emailFieldT,
-                          SizedBox(height: 15),
-                          passwordFieldT
-                        ]))))); /*OrientationBuilder(builder: (_, orientation) {
+            body: Center(
+                child:
+                    Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+                        Widget>[
+              Text("Bo", style: Theme.of(context).textTheme.headline4),
+              emailField
+            ]))); /*OrientationBuilder(builder: (_, orientation) {
             if (orientation == Orientation.portrait) {
               return Scaffold(
                   resizeToAvoidBottomInset: true,
@@ -324,7 +290,8 @@ class _LoginState extends State<Login> {
                                                               .text,
                                                       context: context);
                                               if (user != null) {
-                                                await firebaseFirestore
+                                                await widget.loginService
+                                                    .firebasefirestore()
                                                     .collection('users')
                                                     .doc(user.uid)
                                                     .get()
@@ -377,8 +344,8 @@ class _LoginState extends State<Login> {
   }
 
   _finishReservation(User user) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    var data = await firebaseFirestore
+    var data = await widget.loginService
+        .firebasefirestore()
         .collection('users')
         .doc(user.uid)
         .collection('booking-out')
@@ -391,7 +358,8 @@ class _LoginState extends State<Login> {
         String finalDate = splitted[1];
         DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(finalDate);
         if (dayEnd.compareTo(DateTime.now()) < 0) {
-          await firebaseFirestore
+          await widget.loginService
+              .firebasefirestore()
               .collection('users')
               .doc(user.uid)
               .collection('booking-out')
@@ -401,7 +369,8 @@ class _LoginState extends State<Login> {
       }
     }
 
-    var data2 = await firebaseFirestore
+    var data2 = await widget.loginService
+        .firebasefirestore()
         .collection('users')
         .doc(user.uid)
         .collection('cars')
@@ -409,7 +378,8 @@ class _LoginState extends State<Login> {
 
     if (data2.docs.isNotEmpty) {
       for (var car in data.docs) {
-        await firebaseFirestore
+        await widget.loginService
+            .firebasefirestore()
             .collection('users')
             .doc(car.data()['uid'])
             .collection('cars')
@@ -424,7 +394,8 @@ class _LoginState extends State<Login> {
               String finalDate = splitted[1];
               DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(finalDate);
               if (dayEnd.compareTo(DateTime.now()) < 0) {
-                await firebaseFirestore
+                await widget.loginService
+                    .firebasefirestore()
                     .collection('users')
                     .doc(user.uid)
                     .collection('cars')
