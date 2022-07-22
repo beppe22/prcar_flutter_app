@@ -8,6 +8,7 @@ import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/verify_email.dart';
 import 'package:prcarpolimi/models/static_user.dart';
 import 'package:prcarpolimi/models/userModel.dart';
+import 'package:prcarpolimi/services/services.dart';
 
 import '../models/marker_to_pass.dart';
 
@@ -278,7 +279,10 @@ class _SignUpState extends State<SignUp> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const VerifyEmailPage()),
+      MaterialPageRoute(
+          builder: (context) => VerifyEmailPage(
+                service: Service(),
+              )),
     );
   }
 }

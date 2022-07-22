@@ -164,7 +164,9 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const MessagePage()));
+                                builder: (context) => MessagePage(
+                                      service: Service(),
+                                    )));
                       }),
                   ListTile(
                       title: Text("About your car",
@@ -563,8 +565,12 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    InfoCar(cars[i], suspOrAct, true)));
+                                builder: (context) => InfoCar(
+                                      cars[i],
+                                      suspOrAct,
+                                      true,
+                                      service: Service(),
+                                    )));
                       }
                     }),
                 position: LatLng(lat, lng),

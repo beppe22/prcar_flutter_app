@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/about_your_car/change_info_car.dart';
-import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
@@ -17,8 +16,10 @@ class InfoCar extends StatefulWidget {
   CarModel carModel;
   String supOrActive;
   bool homepage;
+  Service service;
 
-  InfoCar(this.carModel, this.supOrActive, this.homepage, {Key? key})
+  InfoCar(this.carModel, this.supOrActive, this.homepage,
+      {required this.service, Key? key})
       : super(key: key);
   @override
   State<InfoCar> createState() =>
@@ -31,9 +32,6 @@ class _InfoCarState extends State<InfoCar> {
   bool homepage;
 
   _InfoCarState(this.carModel, this.supOrActive, this.homepage);
-
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -258,8 +256,9 @@ class _InfoCarState extends State<InfoCar> {
                                                     onPressed: () async {
                                                       if (await NetworkCheck()
                                                           .check()) {
-                                                        User? user =
-                                                            _auth.currentUser;
+                                                        User? user = widget
+                                                            .service
+                                                            .currentUser();
                                                         await _deleteCar(
                                                             user!.uid,
                                                             carModel.cid!);
@@ -338,7 +337,8 @@ class _InfoCarState extends State<InfoCar> {
   }
 
   Future<void> _deleteCar(String uid, String cid) async {
-    await firebaseFirestore
+    await widget.service
+        .firebasefirestore()
         .collection('users')
         .doc(uid)
         .collection('cars')
@@ -347,11 +347,12 @@ class _InfoCarState extends State<InfoCar> {
   }
 
   void _suspendOrActiveCar() async {
-    User? user = _auth.currentUser;
+    User? user = widget.service.currentUser();
 
     if (user != null) {
       try {
-        await firebaseFirestore
+        await widget.service
+            .firebasefirestore()
             .collection('users')
             .doc(user.uid)
             .collection('cars')
@@ -366,13 +367,12 @@ class _InfoCarState extends State<InfoCar> {
   }
 
   Future<List<CarModel>> _fetchInfoCar() async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    final _auth = FirebaseAuth.instance;
-    User? user = _auth.currentUser;
+    User? user = widget.service.currentUser();
     List<CarModel> cars = [];
     if (user != null) {
       try {
-        await firebaseFirestore
+        await widget.service
+            .firebasefirestore()
             .collection('users')
             .doc(user.uid)
             .collection('cars')
@@ -407,12 +407,11 @@ class _InfoCarState extends State<InfoCar> {
   }
 
   Future<int> _fetchCarRes(String cid) async {
-    final _auth = FirebaseAuth.instance;
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
+    User? user = widget.service.currentUser();
     int i = 0;
     if (user != null) {
-      await firebaseFirestore
+      await widget.service
+          .firebasefirestore()
           .collection('users')
           .doc(user.uid)
           .collection('cars')
@@ -435,14 +434,12 @@ class _InfoCarState extends State<InfoCar> {
   }
 
   Future<List<String>> urlFile(String uid, String cid) async {
-    final Storage storage = Storage();
-    final firebase_storage.FirebaseStorage storage2 =
-        firebase_storage.FirebaseStorage.instance;
     List<String> urlList = [];
     firebase_storage.ListResult results =
-        await storage2.ref('$uid/$cid/').listAll();
+        await widget.service.storage().ref('$uid/$cid/').listAll();
     for (int i = 0; i < results.items.length; i++) {
-      String url = await storage.downloadURL(uid, cid, 'imageCar$i');
+      String url =
+          await widget.service.storage().downloadURL(uid, cid, 'imageCar$i');
       urlList.insert(i, url);
     }
     return urlList;

@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 import '../booking/booking_in.dart';
 import 'package:intl/intl.dart';
 import '../booking/booking_out.dart';
 
 class MessagePage extends StatefulWidget {
-  const MessagePage({Key? key}) : super(key: key);
+  Service service;
+  MessagePage({Key? key, required this.service}) : super(key: key);
 
   @override
   State<MessagePage> createState() => MessagePageState();
@@ -20,8 +22,6 @@ class MessagePage extends StatefulWidget {
 class MessagePageState extends State<MessagePage> {
   MessagePageState({Key? key});
 
-  late FirebaseMessaging messaging;
-  FirebaseFirestore db = FirebaseFirestore.instance;
   String messaggio = '';
 
   @override
@@ -138,9 +138,7 @@ class MessagePageState extends State<MessagePage> {
   }
 
   Future<List<String>> _fetchMyRes() async {
-    final _auth = FirebaseAuth.instance;
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
+    User? user = widget.service.currentUser();
     List<String> myRes = [];
     PassMarker.uidFriend = [];
     PassMarker.cid = [];
@@ -148,7 +146,8 @@ class MessagePageState extends State<MessagePage> {
     PassMarker.status = [];
 
     if (user != null) {
-      var data = await firebaseFirestore
+      var data = await widget.service
+          .firebasefirestore()
           .collection('users')
           .doc(user.uid)
           .collection('booking-out')
@@ -161,14 +160,16 @@ class MessagePageState extends State<MessagePage> {
           DateTime dayEnd =
               DateFormat("dd/MM/yyyy").parse(splitted[1].substring(0, 10));
           if (dayEnd.compareTo(DateTime.now()) < 0) {
-            await firebaseFirestore
+            await widget.service
+                .firebasefirestore()
                 .collection('users')
                 .doc(user.uid)
                 .collection('booking-out')
                 .doc(bookOut.id)
                 .update({'status': 'f'});
           }
-          var data1 = await firebaseFirestore
+          var data1 = await widget.service
+              .firebasefirestore()
               .collection('users')
               .doc(bookOut.data()['uidOwner'])
               .collection('cars')
@@ -193,9 +194,7 @@ class MessagePageState extends State<MessagePage> {
   }
 
   Future<List<String>> _fetchOtherRes() async {
-    final _auth = FirebaseAuth.instance;
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
+    User? user = widget.service.currentUser();
     List<String> otherRes = [];
     PassMarker.uidFriend = [];
     PassMarker.cid = [];
@@ -203,14 +202,16 @@ class MessagePageState extends State<MessagePage> {
     PassMarker.status = [];
 
     if (user != null) {
-      var data = await firebaseFirestore
+      var data = await widget.service
+          .firebasefirestore()
           .collection('users')
           .doc(user.uid)
           .collection('cars')
           .get();
       if (data.docs.isNotEmpty) {
         for (var car in data.docs) {
-          await firebaseFirestore
+          await widget.service
+              .firebasefirestore()
               .collection('users')
               .doc(car.data()['uid'])
               .collection('cars')
@@ -225,7 +226,8 @@ class MessagePageState extends State<MessagePage> {
                 DateTime dayEnd = DateFormat("dd/MM/yyyy")
                     .parse(splitted[1].substring(0, 10));
                 if (dayEnd.compareTo(DateTime.now()) < 0) {
-                  await firebaseFirestore
+                  await widget.service
+                      .firebasefirestore()
                       .collection('users')
                       .doc(user.uid)
                       .collection('cars')
@@ -234,7 +236,8 @@ class MessagePageState extends State<MessagePage> {
                       .doc(book.id)
                       .update({'status': 'f'});
                 }
-                var data1 = await firebaseFirestore
+                var data1 = await widget.service
+                    .firebasefirestore()
                     .collection('users')
                     .doc(book.data()['uidOwner'])
                     .collection('cars')

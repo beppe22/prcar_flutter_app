@@ -105,7 +105,7 @@ class _Cars_userState extends State<Cars_user> {
                                                             name: "/Page1"),
                                                     builder: (context) =>
                                                         InfoCar(cars[index],
-                                                            suspOrAct, false),
+                                                            suspOrAct, false, service: Service()),
                                                   ),
                                                 );
 

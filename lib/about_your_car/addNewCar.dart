@@ -361,7 +361,11 @@ class _AddNewCarState extends State<AddNewCar> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) => InfoCar(
-                                                      car, suspOrAct, true)));
+                                                        car,
+                                                        suspOrAct,
+                                                        true,
+                                                        service: Service(),
+                                                      )));
                                         }),
                                     position: LatLng(lat, lng),
                                     icon: BitmapDescriptor.defaultMarkerWithHue(

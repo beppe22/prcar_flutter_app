@@ -10,7 +10,9 @@ import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/services/services.dart';
 
 class VerifyEmailPage extends StatefulWidget {
-  const VerifyEmailPage({Key? key}) : super(key: key);
+  Service service;
+
+  VerifyEmailPage({Key? key, required this.service}) : super(key: key);
 
   @override
   VerifyEmailPageState createState() => VerifyEmailPageState();
@@ -44,7 +46,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
   }
 
   Future checkEmailVerified() async {
-    User? user = FirebaseAuth.instance.currentUser;
+    User? user = widget.service.currentUser();
     if (user != null) {
       user.reload();
       setState(() {
