@@ -8,6 +8,7 @@ import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/login.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 import '../models/static_user.dart';
 
 class InfoAccount extends StatelessWidget {
@@ -160,7 +161,7 @@ class InfoAccount extends StatelessWidget {
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
                                             builder: (context) => Login(
-                                                  loginService: LoginService(),
+                                                  loginService: Service(),
                                                 )),
                                         (Route<dynamic> route) => false);
                                   } else {
@@ -247,7 +248,7 @@ class InfoAccount extends StatelessWidget {
                                                                     MaterialPageRoute(
                                                                         builder: (context) =>
                                                                             Login(
-                                                                              loginService: LoginService(),
+                                                                              loginService: Service(),
                                                                             )),
                                                                     (Route<dynamic>
                                                                             route) =>

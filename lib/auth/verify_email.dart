@@ -7,6 +7,7 @@ import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/login.dart';
 import 'package:prcarpolimi/homepage.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({Key? key}) : super(key: key);
@@ -60,7 +61,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
     final screenText = MediaQuery.of(context).textScaleFactor;
     return PassMarker.useMobileLayout!
         ? isEmailVerified
-            ? HomePage(homePageService: HomePageService())
+            ? HomePage(homePageService: Service())
             : Scaffold(
                 appBar: AppBar(
                     title: Text('Verify Email',
@@ -118,7 +119,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => Login(
-                                                loginService: LoginService(),
+                                                loginService: Service(),
                                               )),
                                       (Route<dynamic> route) => false);
                                 } else {

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:prcarpolimi/auth/login.dart';
 import 'package:prcarpolimi/homepage.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,9 +52,9 @@ class _MyHomePageState extends State<MyHomePage> {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (FirebaseAuth.instance.currentUser != null &&
                     FirebaseAuth.instance.currentUser!.emailVerified) {
-                  return HomePage(homePageService: HomePageService());
+                  return HomePage(homePageService: Service());
                 } else {
-                  return Login(loginService: LoginService());
+                  return Login(loginService: Service());
                 }
               }
               return const Center(child: CircularProgressIndicator());

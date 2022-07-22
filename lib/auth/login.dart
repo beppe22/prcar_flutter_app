@@ -8,27 +8,12 @@ import 'package:prcarpolimi/auth/forgot_password.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 import 'package:prcarpolimi/homepage.dart';
+import 'package:prcarpolimi/services/services.dart';
 import '../models/static_user.dart';
 import 'package:intl/intl.dart';
 
-class LoginService {
-  User? currentUser() {
-    return FirebaseAuth.instance.currentUser;
-  }
-
-  Future<User?> signInWithemailandpass(String email, String password) async {
-    return (await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: password))
-        .user;
-  }
-
-  firebasefirestore() {
-    return FirebaseFirestore.instance;
-  }
-}
-
 class Login extends StatefulWidget {
-  final LoginService loginService;
+  final Service loginService;
 
   const Login({Key? key, required this.loginService}) : super(key: key);
 
@@ -218,8 +203,7 @@ class _LoginState extends State<Login> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => HomePage(
-                                                homePageService:
-                                                    HomePageService())));
+                                                homePageService: Service())));
                                   });
                                 }
                               } else {

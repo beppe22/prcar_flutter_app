@@ -11,6 +11,7 @@ import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/homepage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 
 class BottomLicense extends StatefulWidget {
   String expiryDate, drivingCode;
@@ -178,8 +179,7 @@ class _BottomLicenseState extends State<BottomLicense> {
                                     (context),
                                     MaterialPageRoute(
                                         builder: (context) => HomePage(
-                                            homePageService:
-                                                HomePageService())),
+                                            homePageService: Service())),
                                     (route) => false);
                               } else {
                                 Fluttertoast.showToast(

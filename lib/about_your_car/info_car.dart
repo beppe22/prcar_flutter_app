@@ -11,6 +11,7 @@ import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:prcarpolimi/services/services.dart';
 
 class InfoCar extends StatefulWidget {
   CarModel carModel;
@@ -152,8 +153,7 @@ class _InfoCarState extends State<InfoCar> {
                                   MaterialPageRoute(
                                       builder: (context) => ChangeInfoCar(
                                           carModel: carModel,
-                                          changeInfoCarService:
-                                              ChangeInfoCarService())));
+                                          changeInfoCarService: Service())));
                               if (newCar != CarModel()) {
                                 setState(() {
                                   carModel = newCar;

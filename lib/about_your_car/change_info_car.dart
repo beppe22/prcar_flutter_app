@@ -17,6 +17,7 @@ import 'package:prcarpolimi/filters/vehicle/vehicle.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 
 class ChangeInfoCarService {
   firebasefirestore() {
@@ -26,7 +27,7 @@ class ChangeInfoCarService {
 
 class ChangeInfoCar extends StatefulWidget {
   final CarModel carModel;
-  ChangeInfoCarService changeInfoCarService;
+  Service changeInfoCarService;
 
   ChangeInfoCar(
       {Key? key, required this.carModel, required this.changeInfoCarService})

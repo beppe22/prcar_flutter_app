@@ -5,23 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:prcarpolimi/auth/login.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
-
-class FakeLoginService implements LoginService {
-  @override
-  User? currentUser() {
-    return null;
-  }
-
-  @override
-  Future<User?> signInWithemailandpass(String email, String password) async {
-    return null;
-  }
-
-  @override
-  firebasefirestore() {
-    return null;
-  }
-}
+import 'package:prcarpolimi/services/services.dart';
 
 void main() {
   group("login page test", () {
@@ -33,7 +17,7 @@ void main() {
 
       await tester.pumpWidget(MaterialApp(
           home: Login(
-        loginService: FakeLoginService(),
+        loginService: FakeService(),
       )));
 
       await tester.enterText(addPassword, 'nuova password');

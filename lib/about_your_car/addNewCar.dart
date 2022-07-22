@@ -1,7 +1,6 @@
 // ignore_for_file: file_names, unnecessary_null_comparison, must_be_immutable
 
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -9,7 +8,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/about_your_car/image_car.dart';
 import 'package:prcarpolimi/about_your_car/info_car.dart';
-import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/filters/fuel/fuel.dart';
 import 'package:prcarpolimi/filters/position/position.dart';
 import 'package:prcarpolimi/filters/price/price.dart';
@@ -19,26 +17,13 @@ import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
 import 'dart:math';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 
 const double pinVisiblePosition = 10;
 const double pinInvisiblePosition = -220;
 
-class AddNewCarService {
-  User? currentUser() {
-    return FirebaseAuth.instance.currentUser;
-  }
-
-  firebasefirestore() {
-    return FirebaseFirestore.instance;
-  }
-
-  storage() {
-    return Storage();
-  }
-}
-
 class AddNewCar extends StatefulWidget {
-  AddNewCarService addNewCarService;
+  Service addNewCarService;
 
   AddNewCar({Key? key, required this.addNewCarService}) : super(key: key);
   @override

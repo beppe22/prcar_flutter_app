@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:prcarpolimi/about_your_car/change_info_car.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 
 class FakeChangeInfoCarService implements ChangeInfoCarService {
   @override
@@ -19,7 +20,7 @@ void main() {
     testWidgets('general test', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
           home: ChangeInfoCar(
-        changeInfoCarService: FakeChangeInfoCarService(),
+        changeInfoCarService: FakeService(),
         carModel: CarModel.initialize(),
       )));
 

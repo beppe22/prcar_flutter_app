@@ -1,27 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:prcarpolimi/homepage.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
-
-class FakeHomePageService implements HomePageService {
-  @override
-  User? currentUser() {
-    return null;
-  }
-
-  @override
-  firebaseMessaging() {
-    return null;
-  }
-
-  @override
-  firebasefirestore() {
-    return null;
-  }
-}
+import 'package:prcarpolimi/services/services.dart';
 
 void main() {
   group("homepage test", () {
@@ -39,7 +22,7 @@ void main() {
           builder: (_, snapshot) {
             return MaterialApp(
                 home: HomePage(
-              homePageService: FakeHomePageService(),
+              homePageService: FakeService(),
             ));
           },
         ));

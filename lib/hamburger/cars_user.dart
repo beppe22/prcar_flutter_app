@@ -5,6 +5,7 @@ import 'package:prcarpolimi/about_your_car/addNewCar.dart';
 import 'package:prcarpolimi/about_your_car/info_car.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 import '../about_your_car/addNewCar.dart';
 
 class Cars_user extends StatefulWidget {
@@ -148,7 +149,7 @@ class _Cars_userState extends State<Cars_user> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => AddNewCar(
-                                addNewCarService: AddNewCarService(),
+                                addNewCarService: Service(),
                               )));
                   if (newCars.isNotEmpty) {
                     setState(() {

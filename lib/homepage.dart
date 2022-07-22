@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/about_your_car/info_car.dart';
@@ -16,6 +17,7 @@ import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/models/static_user.dart';
 import 'package:prcarpolimi/models/userModel.dart';
+import 'package:prcarpolimi/services/services.dart';
 import 'bottom_pill.dart';
 import 'hamburger/cars_user.dart';
 import 'hamburger/filters.dart';
@@ -24,24 +26,10 @@ import 'dart:io' show Platform;
 const double pinVisiblePosition = 50;
 const double pinInvisiblePosition = -220;
 
-class HomePageService {
-  User? currentUser() {
-    return FirebaseAuth.instance.currentUser;
-  }
-
-  firebasefirestore() {
-    return FirebaseFirestore.instance;
-  }
-
-  firebaseMessaging() {
-    return FirebaseMessaging.instance;
-  }
-}
-
 class HomePage extends StatefulWidget {
   List<CarModel>? searchCar;
   List<String>? positionString;
-  HomePageService homePageService;
+  Service homePageService;
 
   HomePage(
       {Key? key,
