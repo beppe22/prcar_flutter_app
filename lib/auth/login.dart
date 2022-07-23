@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -23,9 +22,11 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   UserModel userModel = UserModel();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   static final TextEditingController _emailController = TextEditingController();
   static final TextEditingController _passwordController =
       TextEditingController();
+  static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   bool from = true;
   Future<User?> loginUsingEmailPassword(
       {required String email,
@@ -227,15 +228,21 @@ class _LoginState extends State<Login> {
                             ]))
                   ])
                 ])))
-        : Scaffold(
-            backgroundColor: Colors.white,
-            body: Center(
-                child:
-                    Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-                        Widget>[
-              Text("Bo", style: Theme.of(context).textTheme.headline4),
-              emailField
-            ]))); /*OrientationBuilder(builder: (_, orientation) {
+        : OrientationBuilder(builder: (_, orientation) {
+            if (orientation == Orientation.portrait) {
+              return Scaffold(
+                  key: _scaffoldKey,
+                  backgroundColor: Colors.white,
+                  body: Center(
+                      child: Form(
+                          key: _formKey,
+                          child: ListView(children: [emailField]))));
+            } else {
+              return Container(
+                color: Colors.amberAccent,
+              );
+            }
+          }); /*OrientationBuilder(builder: (_, orientation) {
             if (orientation == Orientation.portrait) {
               return Scaffold(
                   resizeToAvoidBottomInset: true,

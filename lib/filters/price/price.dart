@@ -2,11 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 import 'pricebutton.dart';
 
 class Price extends StatefulWidget {
   bool filter;
-  Price({Key? key, required this.filter}) : super(key: key);
+  Service service;
+  Price({Key? key, required this.filter, required this.service})
+      : super(key: key);
   @override
   _PriceState createState() => _PriceState(filter);
 }

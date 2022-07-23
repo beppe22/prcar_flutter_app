@@ -1,11 +1,13 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:math';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
+import 'package:prcarpolimi/services/services.dart';
 import '../filters/fuel/fuel.dart';
 import '../filters/least/least.dart';
 import '../filters/position/position.dart';
@@ -17,16 +19,15 @@ import '../models/search_model.dart';
 import 'package:intl/intl.dart';
 
 class Filters extends StatefulWidget {
-  const Filters({Key? key}) : super(key: key);
+  Service service;
+  Filters({Key? key, required this.service}) : super(key: key);
   @override
   _FiltersState createState() => _FiltersState();
 }
 
 class _FiltersState extends State<Filters> {
   static late SearchModel search;
-  final _auth = FirebaseAuth.instance;
   bool from = false;
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   @override
   void initState() {
     super.initState();
@@ -39,7 +40,7 @@ class _FiltersState extends State<Filters> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    String? user = _auth.currentUser!.uid.toString();
+    String? user = widget.service.currentUser().toString();
     //least button field
     final leastButton = Container(
         width: screenWidth * 0.8,
@@ -56,8 +57,10 @@ class _FiltersState extends State<Filters> {
               PassMarker.hpOrNot = false;
               SearchCar.date1Search = '';
               SearchCar.date2Search = '';
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Least()))
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Least(service: Service())))
                   .then((data) {
                 setState(() {
                   if (data != '') {
@@ -92,8 +95,10 @@ class _FiltersState extends State<Filters> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Position()))
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Position(service: Service())))
                   .then((data) {
                 setState(() {
                   if (data == null) {
@@ -108,15 +113,14 @@ class _FiltersState extends State<Filters> {
                 screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Expanded(
-                child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Text("Position: " + search.position.toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: screenText * 22,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold))))));
+            child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text("Position: " + search.position.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: screenText * 22,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)))));
 
 //vehicle button field
     final vehicleButton = Container(
@@ -131,8 +135,10 @@ class _FiltersState extends State<Filters> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Vehicle()))
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Vehicle(service: Service())))
                   .then((data) {
                 if (data != '') {
                   setState(() {
@@ -150,16 +156,15 @@ class _FiltersState extends State<Filters> {
                 screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: Expanded(
-                child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Text("Vehicle: " + search.vehicle.toString(),
-                        overflow: TextOverflow.clip,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: screenText * 22,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold))))));
+            child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text("Vehicle: " + search.vehicle.toString(),
+                    overflow: TextOverflow.clip,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: screenText * 22,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)))));
 
     //seats button field
     final seatsButton = Container(
@@ -175,9 +180,11 @@ class _FiltersState extends State<Filters> {
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Seats(filter: true))).then((data) {
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Seats(filter: true, service: Service())))
+                  .then((data) {
                 setState(() {
                   if (data == null) {
                     search.seats = "";
@@ -211,8 +218,10 @@ class _FiltersState extends State<Filters> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Fuel()))
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Fuel(service: Service())))
                   .then((data) {
                 setState(() {
                   if (data == null) {
@@ -248,9 +257,11 @@ class _FiltersState extends State<Filters> {
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Price(filter: true))).then((data) {
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Price(filter: true, service: Service())))
+                  .then((data) {
                 setState(() {
                   if (data == null) {
                     search.price = "";
@@ -419,21 +430,19 @@ class _FiltersState extends State<Filters> {
   }
 
   Future<List<CarModel>> _fetchCar() async {
-    final _auth = FirebaseAuth.instance;
-
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
+    User? user = widget.service.currentUser();
 
     List<CarModel> cars = [];
 
     if (user != null) {
       try {
-        await firebaseFirestore.collection('users').get()
+        await widget.service.firebasefirestore().collection('users').get()
             //quando non ci sono macchine da errore
             .then((ds) async {
           for (var user_1 in ds.docs) {
             //print(user_1.data());
-            await firebaseFirestore
+            await widget.service
+                .firebasefirestore()
                 .collection('users')
                 .doc(user_1.data()['uid'])
                 .collection('cars')
@@ -548,7 +557,8 @@ class _FiltersState extends State<Filters> {
   Future<List<String>> _fetchDates(String? carsUid, String? carsCid) async {
     List<String> dates = [];
 
-    var data = await firebaseFirestore
+    var data = await widget.service
+        .firebasefirestore()
         .collection('users')
         .doc(carsUid)
         .collection('cars')

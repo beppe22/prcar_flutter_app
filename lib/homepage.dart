@@ -3,7 +3,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/about_your_car/info_car.dart';
@@ -126,10 +125,11 @@ class _HomePageState extends State<HomePage> {
                               IconButton(
                                   onPressed: () {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Filters())).then((data) {
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Filters(
+                                                    service: Service())))
+                                        .then((data) {
                                       searchCar = data;
                                     });
                                   },

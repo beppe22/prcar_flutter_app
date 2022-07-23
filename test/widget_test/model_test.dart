@@ -2,20 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:prcarpolimi/filters/vehicle/model.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
-import 'dart:math';
+import 'package:prcarpolimi/services/services.dart';
 
 void main() {
-  group("ScrollCar", () {
+  group("model test", () {
     PassMarker.useMobileLayout = true;
-    testWidgets("should scroll with more than N elements",
-        (WidgetTester tester) async {
-      Random random = new Random();
-      int randomNumber = random.nextInt(13) + 2;
-      await tester.pumpWidget(MaterialApp(home: Models(indice: randomNumber)));
+    testWidgets('general test', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(
+          home: Models(
+        indice: 0,
+        service: FakeService(),
+      )));
+
       final gesture = await tester
           .startGesture(Offset(0, 300)); //Position of the scrollview
       await gesture.moveBy(Offset(0, -300)); //How much to scroll by
       await tester.pump();
+
+      expect(find.text("Models"), findsOneWidget);
     });
   });
 }

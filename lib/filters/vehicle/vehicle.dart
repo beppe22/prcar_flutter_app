@@ -1,14 +1,16 @@
-// ignore_for_file: library_prefixes, unnecessary_null_comparison
+// ignore_for_file: library_prefixes, unnecessary_null_comparison, must_be_immutable
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 import 'ProductDataModel.dart';
 import 'model.dart';
 
 class Vehicle extends StatefulWidget {
-  const Vehicle({Key? key}) : super(key: key);
+  Service service;
+  Vehicle({Key? key, required this.service}) : super(key: key);
   @override
   _VehicleState createState() => _VehicleState();
 }
@@ -68,8 +70,9 @@ class _VehicleState extends State<Vehicle> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             Models(
-                                                                indice:
-                                                                    index)));
+                                                                indice: index,
+                                                                service:
+                                                                    Service())));
                                               },
                                               child: Text(
                                                   items[index].brand.toString(),

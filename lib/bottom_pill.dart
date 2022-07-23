@@ -7,6 +7,7 @@ import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/filters/least/least.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:prcarpolimi/services/services.dart';
 import 'auth/storage_service.dart';
 
 class MapBottomPill extends StatelessWidget {
@@ -218,9 +219,9 @@ class MapBottomPill extends StatelessWidget {
                                                               reserveResult = await Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              const Least()));
+                                                                      builder: (context) =>
+                                                                          Least(
+                                                                              service: Service())));
 
                                                               if (reserveResult ==
                                                                   '1') {
