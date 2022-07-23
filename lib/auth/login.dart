@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/signUp.dart';
@@ -51,6 +50,36 @@ class _LoginState extends State<Login> {
     );
     return user;
   }
+
+  final emailField = TextFormField(
+      key: const ValueKey(1),
+      autofocus: false,
+      textInputAction: TextInputAction.next,
+      controller: _emailController,
+      onSaved: (value) {
+        _emailController.text = value!;
+      },
+      keyboardType: TextInputType.emailAddress,
+      decoration: InputDecoration(
+          hintText: "User Email",
+          hintStyle: TextStyle(fontSize: 20),
+          prefixIcon: Icon(Icons.mail, color: Colors.black, size: 25),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+
+  final passwordField = TextFormField(
+      key: const ValueKey(2),
+      autofocus: false,
+      controller: _passwordController,
+      textInputAction: TextInputAction.done,
+      obscureText: true,
+      onSaved: (value) {
+        _passwordController.text = value!;
+      },
+      decoration: InputDecoration(
+          hintText: "Password",
+          hintStyle: TextStyle(fontSize: 20),
+          prefixIcon: Icon(Icons.lock, color: Colors.black, size: 25),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
   @override
   Widget build(BuildContext context) {
@@ -187,6 +216,7 @@ class _LoginState extends State<Login> {
                   SizedBox(height: screenHeight * 0.06),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Container(
+                        key: const Key("clickButtom"),
                         height: screenHeight * 0.07,
                         width: screenWidth * 0.85,
                         child: MaterialButton(
