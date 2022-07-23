@@ -35,9 +35,11 @@ class _SignUpState extends State<SignUp> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
+
     //first name field
     final firstNameField = TextFormField(
         autofocus: false,
+        style: TextStyle(fontSize: screenText * 25),
         controller: firstNameEditingController,
         keyboardType: TextInputType.name,
         validator: (value) {
@@ -55,16 +57,18 @@ class _SignUpState extends State<SignUp> {
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.account_circle, size: screenText * 25),
+            prefixIcon: Icon(Icons.account_circle, size: 25 * screenText),
             contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "First Name",
+            hintStyle: TextStyle(fontSize: 25 * screenText),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
     //second name field
     final secondNameField = TextFormField(
         autofocus: false,
+        style: TextStyle(fontSize: screenText * 25),
         controller: secondNameEditingController,
         keyboardType: TextInputType.name,
         validator: (value) {
@@ -78,16 +82,18 @@ class _SignUpState extends State<SignUp> {
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.account_circle, size: screenText * 25),
+            prefixIcon: Icon(Icons.account_circle, size: 25 * screenText),
             contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Second Name",
+            hintStyle: TextStyle(fontSize: 25 * screenText),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
     //email field
     final emailField = TextFormField(
         autofocus: false,
+        style: TextStyle(fontSize: screenText * 25),
         controller: emailEditingController,
         keyboardType: TextInputType.emailAddress,
         validator: (value) {
@@ -106,16 +112,18 @@ class _SignUpState extends State<SignUp> {
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.mail, size: screenText * 25),
+            prefixIcon: Icon(Icons.mail, size: 25 * screenText),
             contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Email",
+            hintStyle: TextStyle(fontSize: 25 * screenText),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
     //password field
     final passwordField = TextFormField(
         autofocus: false,
+        style: TextStyle(fontSize: screenText * 25),
         controller: passwordEditingController,
         obscureText: true,
         validator: (value) {
@@ -133,16 +141,18 @@ class _SignUpState extends State<SignUp> {
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.vpn_key, size: screenText * 25),
+            prefixIcon: Icon(Icons.vpn_key, size: 25 * screenText),
             contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Password",
+            hintStyle: TextStyle(fontSize: 25 * screenText),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
     //confirm password field
     final confirmPasswordField = TextFormField(
         autofocus: false,
+        style: TextStyle(fontSize: screenText * 25),
         controller: confirmPasswordEditingController,
         obscureText: true,
         validator: (value) {
@@ -157,18 +167,27 @@ class _SignUpState extends State<SignUp> {
         },
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.vpn_key, size: screenText * 25),
+            prefixIcon: Icon(Icons.vpn_key, size: 25 * screenText),
             contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Confirm Password",
+            hintStyle: TextStyle(fontSize: 25 * screenText),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+
+    colorSignUp() {
+      if (PassMarker.useMobileLayout!) {
+        return Colors.redAccent;
+      } else {
+        return Colors.green;
+      }
+    }
 
     //signup button
     final signUpButton = Material(
         elevation: 5,
         borderRadius: BorderRadius.circular(30),
-        color: Colors.redAccent,
+        color: colorSignUp(),
         child: MaterialButton(
             onPressed: () async {
               if (await NetworkCheck().check()) {
@@ -185,13 +204,12 @@ class _SignUpState extends State<SignUp> {
             child: Text("Sign Up",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: screenText * 20,
+                    fontSize: 25 * screenText,
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
     return PassMarker.useMobileLayout!
         ? MaterialApp(
-            //padding: const EdgeInsets.all(16.0),
             home: Scaffold(
                 resizeToAvoidBottomInset: true,
                 appBar: AppBar(
@@ -236,7 +254,152 @@ class _SignUpState extends State<SignUp> {
                                       signUpButton,
                                       SizedBox(height: screenHeight * 0.02),
                                     ])))))))
-        : Container();
+        : OrientationBuilder(builder: (_, orientation) {
+            if (orientation == Orientation.portrait) {
+              return MaterialApp(
+                  home: Scaffold(
+                      resizeToAvoidBottomInset: true,
+                      appBar: AppBar(
+                          backgroundColor: Colors.green,
+                          title: Text("Sign Up",
+                              style: TextStyle(fontSize: screenText * 35)),
+                          automaticallyImplyLeading: false,
+                          leading: IconButton(
+                              icon: Icon(Icons.arrow_back,
+                                  color: Colors.white, size: screenText * 35),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              })),
+                      body: SingleChildScrollView(
+                          child: Container(
+                              color: Colors.white,
+                              child: Padding(
+                                  padding: EdgeInsets.all(screenHeight * 0.05),
+                                  child: Form(
+                                      key: _formKey,
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            SizedBox(
+                                                height: screenHeight * 0.3,
+                                                child: Image.asset(
+                                                    "assets/prcarlogo.png",
+                                                    fit: BoxFit.contain)),
+                                            SizedBox(
+                                                height: screenHeight * 0.05),
+                                            firstNameField,
+                                            SizedBox(
+                                                height: screenHeight * 0.03),
+                                            secondNameField,
+                                            SizedBox(
+                                                height: screenHeight * 0.03),
+                                            emailField,
+                                            SizedBox(
+                                                height: screenHeight * 0.03),
+                                            passwordField,
+                                            SizedBox(
+                                                height: screenHeight * 0.03),
+                                            confirmPasswordField,
+                                            SizedBox(
+                                                height: screenHeight * 0.03),
+                                            signUpButton,
+                                            SizedBox(
+                                                height: screenHeight * 0.03),
+                                          ])))))));
+            } else {
+              return MaterialApp(
+                  home: Scaffold(
+                      resizeToAvoidBottomInset: true,
+                      appBar: AppBar(
+                          backgroundColor: Colors.green,
+                          title: Text("Sign Up",
+                              style: TextStyle(fontSize: screenText * 30)),
+                          automaticallyImplyLeading: false,
+                          leading: IconButton(
+                              icon: Icon(Icons.arrow_back,
+                                  color: Colors.white, size: screenText * 35),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              })),
+                      body: SingleChildScrollView(
+                          child: Center(
+                              child: Container(
+                                  color: Colors.white,
+                                  child: Padding(
+                                      padding:
+                                          EdgeInsets.all(screenHeight * 0.05),
+                                      child: Form(
+                                          key: _formKey,
+                                          child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: <Widget>[
+                                                SizedBox(
+                                                    height: screenHeight * 0.5,
+                                                    child: Image.asset(
+                                                        "assets/prcarlogo.png",
+                                                        fit: BoxFit.contain)),
+                                                SizedBox(
+                                                    height: screenWidth * 0.15),
+                                                Column(children: [
+                                                  SizedBox(
+                                                      height:
+                                                          screenHeight * 0.08),
+                                                  Container(
+                                                      height:
+                                                          screenHeight * 0.07,
+                                                      width: screenWidth * 0.5,
+                                                      child: firstNameField),
+                                                  SizedBox(
+                                                      height:
+                                                          screenHeight * 0.03),
+                                                  Container(
+                                                      height:
+                                                          screenHeight * 0.07,
+                                                      width: screenWidth * 0.5,
+                                                      child: secondNameField),
+                                                  SizedBox(
+                                                      height:
+                                                          screenHeight * 0.03),
+                                                  Container(
+                                                      height:
+                                                          screenHeight * 0.07,
+                                                      width: screenWidth * 0.5,
+                                                      child: emailField),
+                                                  SizedBox(
+                                                      height:
+                                                          screenHeight * 0.03),
+                                                  Container(
+                                                      height:
+                                                          screenHeight * 0.07,
+                                                      width: screenWidth * 0.5,
+                                                      child: passwordField),
+                                                  SizedBox(
+                                                      height:
+                                                          screenHeight * 0.03),
+                                                  Container(
+                                                      height:
+                                                          screenHeight * 0.07,
+                                                      width: screenWidth * 0.5,
+                                                      child:
+                                                          confirmPasswordField),
+                                                  SizedBox(
+                                                      height:
+                                                          screenHeight * 0.03),
+                                                  Container(
+                                                      height:
+                                                          screenHeight * 0.07,
+                                                      width: screenWidth * 0.5,
+                                                      child: signUpButton),
+                                                ])
+                                              ]))))))));
+            }
+          });
   }
 
   void signUp(String email, String password) async {

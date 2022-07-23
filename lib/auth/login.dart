@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/signUp.dart';
@@ -22,12 +23,12 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   UserModel userModel = UserModel();
-  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   static final TextEditingController _emailController = TextEditingController();
   static final TextEditingController _passwordController =
       TextEditingController();
   static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   bool from = true;
+
   Future<User?> loginUsingEmailPassword(
       {required String email,
       required String password,
@@ -51,42 +52,20 @@ class _LoginState extends State<Login> {
     return user;
   }
 
-  final emailField = TextFormField(
-      key: const ValueKey(1),
-      autofocus: false,
-      textInputAction: TextInputAction.next,
-      controller: _emailController,
-      onSaved: (value) {
-        _emailController.text = value!;
-      },
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-          hintText: "User Email",
-          hintStyle: TextStyle(fontSize: 20),
-          prefixIcon: Icon(Icons.mail, color: Colors.black, size: 25),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
-
-  final passwordField = TextFormField(
-      autofocus: false,
-      controller: _passwordController,
-      textInputAction: TextInputAction.done,
-      obscureText: true,
-      onSaved: (value) {
-        _passwordController.text = value!;
-      },
-      decoration: InputDecoration(
-          hintText: "Password",
-          hintStyle: TextStyle(fontSize: 20),
-          prefixIcon: Icon(Icons.lock, color: Colors.black, size: 25),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
 
-    @override
+    sizeHintText() {
+      if (PassMarker.useMobileLayout!) {
+        return 25.0;
+      } else {
+        return 30.0;
+      }
+    }
+
     final emailField = TextFormField(
         key: const ValueKey(1),
         autofocus: false,
@@ -98,9 +77,9 @@ class _LoginState extends State<Login> {
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             hintText: "User Email",
-            hintStyle: TextStyle(fontSize: 20 * screenText),
+            hintStyle: TextStyle(fontSize: sizeHintText()),
             prefixIcon:
-                Icon(Icons.mail, color: Colors.black, size: screenText * 25),
+                Icon(Icons.mail, color: Colors.black, size: sizeHintText()),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
@@ -115,12 +94,45 @@ class _LoginState extends State<Login> {
         },
         decoration: InputDecoration(
             hintText: "Password",
-            hintStyle: TextStyle(fontSize: 20 * screenText),
+            hintStyle: TextStyle(fontSize: sizeHintText()),
             prefixIcon:
-                Icon(Icons.lock, color: Colors.black, size: screenText * 25),
+                Icon(Icons.lock, color: Colors.black, size: sizeHintText()),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
+    final emailFieldL = TextFormField(
+        key: const ValueKey(3),
+        autofocus: false,
+        textInputAction: TextInputAction.next,
+        controller: _emailController,
+        onSaved: (value) {
+          _emailController.text = value!;
+        },
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+            hintText: "User Email",
+            hintStyle: TextStyle(fontSize: sizeHintText()),
+            prefixIcon:
+                Icon(Icons.mail, color: Colors.black, size: sizeHintText()),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+
+    final passwordFieldL = TextFormField(
+        key: const ValueKey(4),
+        autofocus: false,
+        controller: _passwordController,
+        textInputAction: TextInputAction.done,
+        obscureText: true,
+        onSaved: (value) {
+          _passwordController.text = value!;
+        },
+        decoration: InputDecoration(
+            hintText: "Password",
+            hintStyle: TextStyle(fontSize: sizeHintText()),
+            prefixIcon:
+                Icon(Icons.lock, color: Colors.black, size: sizeHintText()),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
     return PassMarker.useMobileLayout!
         ? Scaffold(
             resizeToAvoidBottomInset: true,
@@ -231,26 +243,12 @@ class _LoginState extends State<Login> {
         : OrientationBuilder(builder: (_, orientation) {
             if (orientation == Orientation.portrait) {
               return Scaffold(
-                  key: _scaffoldKey,
-                  backgroundColor: Colors.white,
-                  body: Center(
-                      child: Form(
-                          key: _formKey,
-                          child: ListView(children: [emailField]))));
-            } else {
-              return Container(
-                color: Colors.amberAccent,
-              );
-            }
-          }); /*OrientationBuilder(builder: (_, orientation) {
-            if (orientation == Orientation.portrait) {
-              return Scaffold(
                   resizeToAvoidBottomInset: true,
                   backgroundColor: Colors.white,
                   body: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Form(
-                          key: _key,
+                          key: _formKey,
                           child: Column(children: [
                             SizedBox(height: screenHeight * 0.1),
                             Text("Welcome to PrCar!",
@@ -265,39 +263,42 @@ class _LoginState extends State<Login> {
                                 child: Image.asset("assets/prcarlogo.png",
                                     fit: BoxFit.contain)),
                             SizedBox(height: screenHeight * 0.05),
-                            emailFieldT,
+                            emailField,
                             SizedBox(height: screenHeight * 0.02),
-                            passwordFieldT,
+                            passwordField,
                             SizedBox(height: screenHeight * 0.05),
-                            Row(children: [
-                              SizedBox(width: screenWidth * 0.06),
-                              GestureDetector(
-                                  child: Text('Forgot password?',
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                      child: Text('Forgot password?',
+                                          style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              color: Colors.green,
+                                              fontSize: screenText * 30)),
+                                      onTap: () => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const ForgotPasswordPage()))),
+                                  Text(' or ',
                                       style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                          color: Colors.green,
-                                          fontSize: screenText * 30)),
-                                  onTap: () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const ForgotPasswordPage()))),
-                              Text(' or ',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: screenText * 22)),
-                              GestureDetector(
-                                  child: Text("Don't have an account?",
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                          color: Colors.green,
-                                          fontSize: screenText * 30)),
-                                  onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SignUp())))
-                            ]),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: screenText * 22)),
+                                  GestureDetector(
+                                      child: Text("Don't have an account?",
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              color: Colors.green,
+                                              fontSize: screenText * 30)),
+                                      onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignUp())))
+                                ]),
                             SizedBox(height: screenHeight * 0.06),
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -342,7 +343,7 @@ class _LoginState extends State<Login> {
                                                           builder: (context) =>
                                                               HomePage(
                                                                   homePageService:
-                                                                      HomePageService())));
+                                                                      Service())));
                                                 });
                                               }
                                             } else {
@@ -368,9 +369,138 @@ class _LoginState extends State<Login> {
                                 ])
                           ]))));
             } else {
-              return Container(color: Colors.greenAccent);
+              return Scaffold(
+                  resizeToAvoidBottomInset: true,
+                  backgroundColor: Colors.white,
+                  body: Form(
+                      key: _formKey,
+                      child: Row(children: [
+                        SizedBox(width: screenWidth * 0.06),
+                        Column(children: [
+                          SizedBox(height: screenHeight * 0.1),
+                          Text("Welcome to \n PrCar!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: screenText * 65,
+                                  fontWeight: FontWeight.bold)),
+                          SizedBox(height: screenHeight * 0.05),
+                          SizedBox(
+                              height: screenHeight * 0.5,
+                              child: Image.asset("assets/prcarlogo.png",
+                                  fit: BoxFit.contain)),
+                          SizedBox(height: screenHeight * 0.05),
+                        ]),
+                        SizedBox(width: screenWidth * 0.08),
+                        Column(children: [
+                          SizedBox(height: screenHeight * 0.2),
+                          Container(
+                              height: screenHeight * 0.1,
+                              width: screenWidth * 0.5,
+                              child: emailFieldL),
+                          SizedBox(height: screenHeight * 0.02),
+                          Container(
+                              height: screenHeight * 0.1,
+                              width: screenWidth * 0.5,
+                              child: passwordFieldL),
+                          SizedBox(height: screenHeight * 0.05),
+                          Row(children: [
+                            GestureDetector(
+                                child: Text('Forgot password?',
+                                    style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        color: Colors.green,
+                                        fontSize: screenText * 32)),
+                                onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ForgotPasswordPage()))),
+                            Text(' or ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: screenText * 26)),
+                            GestureDetector(
+                                child: Text("Don't have an account?",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        color: Colors.green,
+                                        fontSize: screenText * 32)),
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const SignUp())))
+                          ]),
+                          SizedBox(height: screenHeight * 0.06),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                    height: screenHeight * 0.1,
+                                    width: screenWidth * 0.4,
+                                    child: MaterialButton(
+                                        color: Colors.green,
+                                        onPressed: () async {
+                                          if (await NetworkCheck().check()) {
+                                            User? user =
+                                                await loginUsingEmailPassword(
+                                                    email:
+                                                        _emailController.text,
+                                                    password:
+                                                        _passwordController
+                                                            .text,
+                                                    context: context);
+                                            if (user != null) {
+                                              await widget.loginService
+                                                  .firebasefirestore()
+                                                  .collection('users')
+                                                  .doc(user.uid)
+                                                  .get()
+                                                  .then((ds) {
+                                                userModel =
+                                                    UserModel.fromMap(ds);
+                                                StaticUser.email =
+                                                    userModel.email!;
+                                                StaticUser.uid = userModel.uid!;
+                                                StaticUser.firstName =
+                                                    userModel.firstName!;
+                                                StaticUser.secondName =
+                                                    userModel.secondName!;
+                                                PassMarker.from = true;
+                                                _finishReservation(user);
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            HomePage(
+                                                                homePageService:
+                                                                    Service())));
+                                              });
+                                            }
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg: 'No internet connection',
+                                                fontSize: 20);
+                                          }
+                                        },
+                                        child: Text("Login",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: screenText * 40))),
+                                    decoration: BoxDecoration(
+                                        color: Colors.deepPurple,
+                                        borderRadius: BorderRadius.circular(12),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              color: Colors.deepPurple,
+                                              spreadRadius: 6,
+                                              blurRadius: 3)
+                                        ]))
+                              ])
+                        ])
+                      ])));
             }
-          });*/
+          });
   }
 
   _finishReservation(User user) async {
