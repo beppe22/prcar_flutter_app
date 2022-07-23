@@ -67,6 +67,7 @@ class _LoginState extends State<Login> {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
   final passwordField = TextFormField(
+      key: const ValueKey(2),
       autofocus: false,
       controller: _passwordController,
       textInputAction: TextInputAction.done,
@@ -175,6 +176,7 @@ class _LoginState extends State<Login> {
                   SizedBox(height: screenHeight * 0.06),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Container(
+                        key: const Key("clickButtom"),
                         height: screenHeight * 0.07,
                         width: screenWidth * 0.85,
                         child: MaterialButton(

@@ -58,7 +58,8 @@ dependencies:
   
 
 dev_dependencies:
-  test: ^1.19.5
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 
