@@ -1,17 +1,18 @@
 // ignore_for_file: body_might_complete_normally_nullable, must_be_immutable, no_logic_in_create_state
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/configuration/front_license.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 
 class Configuration extends StatefulWidget {
   String isConfirmed;
-  Configuration({Key? key, required this.isConfirmed}) : super(key: key);
+  Service service;
+  Configuration({Key? key, required this.isConfirmed, required this.service})
+      : super(key: key);
 
   @override
   State<Configuration> createState() => _ConfigurationState(isConfirmed);
@@ -213,8 +214,7 @@ class _ConfigurationState extends State<Configuration> {
                               child: (MaterialButton(
                                   onPressed: () async {
                                     if (await NetworkCheck().check()) {
-                                      final _auth = FirebaseAuth.instance;
-                                      User? user = _auth.currentUser;
+                                      User? user = widget.service.currentUser();
                                       _updateIsConfirmed(user!);
                                       _deleteDrivingLicense(user.uid);
                                       Fluttertoast.showToast(
@@ -279,21 +279,29 @@ class _ConfigurationState extends State<Configuration> {
   }
 
   _deleteDrivingLicense(String uid) async {
-    FirebaseStorage storage = FirebaseStorage.instance;
     final delete1 =
-        storage.ref().child("$uid/drivingLicenseData/bottomLicense");
+        widget.service.storage().child("$uid/drivingLicenseData/bottomLicense");
     await delete1.delete();
-    final delete2 = storage.ref().child("$uid/drivingLicenseData/frontLicense");
+    final delete2 = widget.service
+        .storage()
+        .ref()
+        .child("$uid/drivingLicenseData/frontLicense");
     await delete2.delete();
-    final delete3 = storage.ref().child("$uid/drivingLicenseData/expiryDate");
+    final delete3 = widget.service
+        .storage()
+        .ref()
+        .child("$uid/drivingLicenseData/expiryDate");
     await delete3.delete();
-    final delete4 = storage.ref().child("$uid/drivingLicenseData/drivingCode");
+    final delete4 = widget.service
+        .storage()
+        .ref()
+        .child("$uid/drivingLicenseData/drivingCode");
     await delete4.delete();
   }
 
   _updateIsConfirmed(User user) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    await firebaseFirestore
+    await widget.service
+        .firebasefirestore()
         .collection('users')
         .doc(user.uid)
         .update({'isConfirmed': 'negative'});

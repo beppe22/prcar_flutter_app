@@ -16,11 +16,13 @@ import 'package:prcarpolimi/services/services.dart';
 class BottomLicense extends StatefulWidget {
   String expiryDate, drivingCode;
   File frontImage;
+  Service service;
   BottomLicense(
       {Key? key,
       required this.expiryDate,
       required this.drivingCode,
-      required this.frontImage})
+      required this.frontImage,
+      required this.service})
       : super(key: key);
 
   @override

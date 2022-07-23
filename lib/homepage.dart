@@ -72,7 +72,10 @@ class _HomePageState extends State<HomePage> {
               context,
               MaterialPageRoute(
                   builder: (context) => BookingInPage(
-                      bookingId: bookingId, res: bookIn, fromHp: true)));
+                      bookingId: bookingId,
+                      res: bookIn,
+                      fromHp: true,
+                      service: Service())));
         } else {
           Navigator.push(
               context,
@@ -155,7 +158,8 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const InfoAccount()));
+                                builder: (context) =>
+                                    InfoAccount(service: Service())));
                       }),
                   ListTile(
                       title: Text("Booking",
@@ -177,7 +181,8 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Cars_user(cars)))
+                                      builder: (context) =>
+                                          Cars_user(cars, service: Service())))
                               .then((data) {
                             setState(() {
                               _updateMarkers();
@@ -195,8 +200,9 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    Configuration(isConfirmed: confirmed)));
+                                builder: (context) => Configuration(
+                                    isConfirmed: confirmed,
+                                    service: Service())));
                       }),
                   ListTile(
                       title: Text("Help",
@@ -315,7 +321,8 @@ class _HomePageState extends State<HomePage> {
                               builder: (context) => BookingInPage(
                                   bookingId: bookingId,
                                   res: bookIn,
-                                  fromHp: true)));
+                                  fromHp: true,
+                                  service: Service())));
                       Navigator.of(context).pop();
                     },
                     backgroundColor: Colors.redAccent,

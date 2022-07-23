@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,18 +7,20 @@ import 'package:intl/intl.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/models/userModel.dart';
-
+import 'package:prcarpolimi/services/services.dart';
 import '../chatImplementation/chatDetail.dart';
 
 class BookingInPage extends StatefulWidget {
   List<String> res;
   String bookingId;
   bool fromHp;
+  Service service;
   BookingInPage(
       {Key? key,
       required this.res,
       required this.bookingId,
-      required this.fromHp})
+      required this.fromHp,
+      required this.service})
       : super(key: key);
 
   @override
@@ -146,7 +147,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                 child: MaterialButton(
                                                                                   onPressed: () async {
                                                                                     if (await NetworkCheck().check()) {
-                                                                                      String nameFriend = (UserModel.fromMap(await FirebaseFirestore.instance.collection('users').doc(PassMarker.uidFriend[index]).get())).firstName!;
+                                                                                      String nameFriend = (UserModel.fromMap(await widget.service.firebasefirestore().collection('users').doc(PassMarker.uidFriend[index]).get())).firstName!;
                                                                                       Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetail(friendName: nameFriend, friendUid: PassMarker.uidFriend[index], hp: false)));
                                                                                     } else {
                                                                                       Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
@@ -313,10 +314,9 @@ class BookingInPageState extends State<BookingInPage> {
   }
 
   _eliminationMessage(int i) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    final _auth = FirebaseAuth.instance;
-    User? user = _auth.currentUser;
-    await firebaseFirestore
+    User? user = widget.service.currentUser();
+    await widget.service
+        .firebasefirestore()
         .collection('users')
         .doc(user!.uid)
         .collection('cars')
@@ -327,10 +327,9 @@ class BookingInPageState extends State<BookingInPage> {
   }
 
   _annulmentMessage(int i) async {
-    final _auth = FirebaseAuth.instance;
-    User? user = _auth.currentUser;
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    await firebaseFirestore
+    User? user = widget.service.currentUser();
+    await widget.service
+        .firebasefirestore()
         .collection('users')
         .doc(user!.uid)
         .collection('cars')

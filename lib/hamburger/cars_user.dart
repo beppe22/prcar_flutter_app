@@ -10,7 +10,8 @@ import '../about_your_car/addNewCar.dart';
 
 class Cars_user extends StatefulWidget {
   List<CarModel> cars;
-  Cars_user(this.cars, {Key? key}) : super(key: key);
+  Service service;
+  Cars_user(this.cars, {Key? key, required this.service}) : super(key: key);
 
   @override
   _Cars_userState createState() => _Cars_userState(cars);
@@ -105,7 +106,8 @@ class _Cars_userState extends State<Cars_user> {
                                                             name: "/Page1"),
                                                     builder: (context) =>
                                                         InfoCar(cars[index],
-                                                            suspOrAct, false, service: Service()),
+                                                            suspOrAct, false,
+                                                            service: Service()),
                                                   ),
                                                 );
 

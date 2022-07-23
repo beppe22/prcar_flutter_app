@@ -12,7 +12,8 @@ import 'package:prcarpolimi/services/services.dart';
 import '../models/static_user.dart';
 
 class InfoAccount extends StatelessWidget {
-  const InfoAccount({Key? key}) : super(key: key);
+  Service service;
+  InfoAccount({Key? key, required this.service}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

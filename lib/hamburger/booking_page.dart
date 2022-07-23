@@ -72,7 +72,8 @@ class MessagePageState extends State<MessagePage> {
                                   builder: (context) => BookingInPage(
                                       bookingId: bookingId,
                                       res: res,
-                                      fromHp: false)));
+                                      fromHp: false,
+                                      service: Service())));
                           Navigator.pop(context);
                         } else {
                           Fluttertoast.showToast(
@@ -112,8 +113,8 @@ class MessagePageState extends State<MessagePage> {
                           await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      BookingOutPage(res: res)));
+                                  builder: (context) => BookingOutPage(
+                                      res: res, service: Service())));
                           Navigator.pop(context);
                         } else {
                           Fluttertoast.showToast(
