@@ -1,9 +1,13 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 import 'fuelbotton.dart';
 
 class Fuel extends StatefulWidget {
-  const Fuel({Key? key}) : super(key: key);
+  Service service;
+  Fuel({Key? key, required this.service}) : super(key: key);
   @override
   _FuelState createState() => _FuelState();
 }

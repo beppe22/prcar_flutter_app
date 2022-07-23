@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
 import 'package:prcarpolimi/models/car_parameter.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 import 'ProductDataModel.dart';
 
 class Models extends StatefulWidget {
   int indice;
-  Models({Key? key, required this.indice}) : super(key: key);
+  Service service;
+  Models({Key? key, required this.indice, required this.service})
+      : super(key: key);
 
   @override
   _ModelsState createState() => _ModelsState(indice);

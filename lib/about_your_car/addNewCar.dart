@@ -73,8 +73,10 @@ class _AddNewCarState extends State<AddNewCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Position()))
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Position(service: Service())))
                   .then((data) {
                 setState(() {
                   car.position = SearchCar.latSearch.toString() +
@@ -110,8 +112,10 @@ class _AddNewCarState extends State<AddNewCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Vehicle()))
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Vehicle(service: Service())))
                   .then((data) {
                 setState(() {
                   car.vehicle = SearchCar.vehicle;
@@ -152,9 +156,11 @@ class _AddNewCarState extends State<AddNewCar> {
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Seats(filter: false))).then((data) {
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Seats(filter: false, service: Service())))
+                  .then((data) {
                 setState(() {
                   if (data != null) {
                     car.seats = data;
@@ -188,8 +194,10 @@ class _AddNewCarState extends State<AddNewCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Fuel()))
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Fuel(service: Service())))
                   .then((data) {
                 setState(() {
                   if (data != null) {
@@ -225,9 +233,11 @@ class _AddNewCarState extends State<AddNewCar> {
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Price(filter: false))).then((data) {
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Price(filter: false, service: Service())))
+                  .then((data) {
                 setState(() {
                   if (data != null) {
                     car.price = data;

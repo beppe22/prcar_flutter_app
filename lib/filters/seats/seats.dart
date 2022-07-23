@@ -2,11 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 import 'seatsbotton.dart';
 
 class Seats extends StatefulWidget {
   bool filter;
-  Seats({Key? key, required this.filter}) : super(key: key);
+  Service service;
+  Seats({Key? key, required this.filter, required this.service})
+      : super(key: key);
   @override
   _SeatsState createState() => _SeatsState(filter);
 }

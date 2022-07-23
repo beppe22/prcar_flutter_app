@@ -7,9 +7,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/filters/position/location_service.dart';
 import 'package:prcarpolimi/models/car_parameter.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 
 class Position extends StatefulWidget {
-  const Position({Key? key}) : super(key: key);
+  Service service;
+  Position({Key? key, required this.service}) : super(key: key);
   @override
   _Position createState() => _Position();
 }

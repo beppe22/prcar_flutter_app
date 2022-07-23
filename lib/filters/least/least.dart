@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,10 +7,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/booking.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
+import 'package:prcarpolimi/services/services.dart';
 import 'calendar.dart';
 
 class Least extends StatefulWidget {
-  const Least({Key? key}) : super(key: key);
+  Service service;
+  Least({Key? key, required this.service}) : super(key: key);
 
   @override
   _LeastState createState() => _LeastState();

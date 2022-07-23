@@ -78,8 +78,10 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Position()))
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Position(service: Service())))
                   .then((data) {
                 setState(() {
                   if (data != '' && data != null) {
@@ -115,8 +117,10 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Vehicle()))
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Vehicle(service: Service())))
                   .then((data) {
                 setState(() {
                   if (SearchCar.latSearch != '' && SearchCar.lngSearch != '') {
@@ -155,9 +159,11 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Seats(filter: false))).then((data) {
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Seats(filter: false, service: Service())))
+                  .then((data) {
                 setState(() {
                   if (data != '' && data != null) {
                     seatsString = data;
@@ -189,8 +195,10 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Fuel()))
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Fuel(service: Service())))
                   .then((data) {
                 setState(() {
                   if (data != '' && data != null) {
@@ -224,9 +232,11 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Price(filter: false))).then((data) {
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Price(filter: false, service: Service())))
+                  .then((data) {
                 setState(() {
                   if (data != '' && data != null) {
                     priceString = data;
