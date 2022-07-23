@@ -135,7 +135,229 @@ class MessagePageState extends State<MessagePage> {
                               color: Colors.white,
                               fontWeight: FontWeight.bold)))))
             ])))
-        : Container();
+        : OrientationBuilder(builder: (_, orientation) {
+            if (orientation == Orientation.portrait) {
+              return Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      title: Text('All Booking',
+                          style: TextStyle(fontSize: screenText * 30)),
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          icon: Icon(Icons.arrow_back, size: screenText * 35),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          })),
+                  body: Center(
+                      child: Column(children: [
+                    SizedBox(height: screenHeight * 0.1),
+                    SizedBox(
+                        height: screenHeight * 0.35,
+                        child: Image.asset("assets/prcarlogo.png",
+                            fit: BoxFit.contain)),
+                    Container(
+                        height: screenHeight * 0.12,
+                        width: screenWidth * 0.85,
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            border: Border.all(width: 5.0, color: Colors.grey)),
+                        child: (MaterialButton(
+                            onPressed: () async {
+                              if (await NetworkCheck().check()) {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => const Center(
+                                      child: CircularProgressIndicator()),
+                                );
+                                List<String> res = await _fetchOtherRes();
+                                String bookingId = '';
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BookingInPage(
+                                            bookingId: bookingId,
+                                            res: res,
+                                            fromHp: false,
+                                            service: Service())));
+                                Navigator.pop(context);
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: 'No internet connection',
+                                    fontSize: 20);
+                              }
+                            },
+                            padding: EdgeInsets.fromLTRB(
+                                screenHeight * 0.01,
+                                screenWidth * 0.03,
+                                screenWidth * 0.03,
+                                screenHeight * 0.01),
+                            shape: ContinuousRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Text("Here for others reservations!",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: screenText * 40,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold))))),
+                    SizedBox(height: screenHeight * 0.06),
+                    Container(
+                        height: screenHeight * 0.12,
+                        width: screenWidth * 0.85,
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            border: Border.all(width: 5.0, color: Colors.grey)),
+                        child: (MaterialButton(
+                            onPressed: () async {
+                              if (await NetworkCheck().check()) {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => const Center(
+                                      child: CircularProgressIndicator()),
+                                );
+                                List<String> res = await _fetchMyRes();
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BookingOutPage(
+                                            res: res, service: Service())));
+                                Navigator.pop(context);
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: 'No internet connection',
+                                    fontSize: 20);
+                              }
+                            },
+                            padding: EdgeInsets.fromLTRB(
+                                screenHeight * 0.01,
+                                screenWidth * 0.03,
+                                screenWidth * 0.03,
+                                screenHeight * 0.01),
+                            shape: ContinuousRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Text("Here for your reservations!",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: screenText * 40,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)))))
+                  ])));
+            } else {
+              return Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      title: Text('All Booking',
+                          style: TextStyle(fontSize: screenText * 30)),
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          icon: Icon(Icons.arrow_back, size: screenText * 35),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          })),
+                  body: Center(
+                      child: Row(children: [
+                    SizedBox(
+                        height: screenHeight * 0.5,
+                        child: Image.asset("assets/prcarlogo.png",
+                            fit: BoxFit.contain)),
+                    Column(children: [
+                      SizedBox(height: screenHeight * 0.25),
+                      Container(
+                          height: screenHeight * 0.18,
+                          width: screenWidth * 0.6,
+                          decoration: BoxDecoration(
+                              color: Colors.green,
+                              border:
+                                  Border.all(width: 5.0, color: Colors.grey)),
+                          child: (MaterialButton(
+                              onPressed: () async {
+                                if (await NetworkCheck().check()) {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) => const Center(
+                                        child: CircularProgressIndicator()),
+                                  );
+                                  List<String> res = await _fetchOtherRes();
+                                  String bookingId = '';
+                                  await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => BookingInPage(
+                                              bookingId: bookingId,
+                                              res: res,
+                                              fromHp: false,
+                                              service: Service())));
+                                  Navigator.pop(context);
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: 'No internet connection',
+                                      fontSize: 20);
+                                }
+                              },
+                              padding: EdgeInsets.fromLTRB(
+                                  screenHeight * 0.01,
+                                  screenWidth * 0.03,
+                                  screenWidth * 0.03,
+                                  screenHeight * 0.01),
+                              shape: ContinuousRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Text("Here for others reservations!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: screenText * 35,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold))))),
+                      SizedBox(height: screenHeight * 0.06),
+                      Container(
+                          height: screenHeight * 0.18,
+                          width: screenWidth * 0.6,
+                          decoration: BoxDecoration(
+                              color: Colors.green,
+                              border:
+                                  Border.all(width: 5.0, color: Colors.grey)),
+                          child: (MaterialButton(
+                              onPressed: () async {
+                                if (await NetworkCheck().check()) {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) => const Center(
+                                        child: CircularProgressIndicator()),
+                                  );
+                                  List<String> res = await _fetchMyRes();
+                                  await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => BookingOutPage(
+                                              res: res, service: Service())));
+                                  Navigator.pop(context);
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: 'No internet connection',
+                                      fontSize: 20);
+                                }
+                              },
+                              padding: EdgeInsets.fromLTRB(
+                                  screenHeight * 0.01,
+                                  screenWidth * 0.03,
+                                  screenWidth * 0.03,
+                                  screenHeight * 0.01),
+                              shape: ContinuousRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Text("Here for your reservations!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: screenText * 35,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)))))
+                    ])
+                  ])));
+            }
+          });
   }
 
   Future<List<String>> _fetchMyRes() async {

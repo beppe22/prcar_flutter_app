@@ -165,6 +165,308 @@ class _Cars_userState extends State<Cars_user> {
                   Icons.add,
                   size: screenText * 25,
                 )))
-        : Container();
+        : OrientationBuilder(builder: (_, orientation) {
+            if (orientation == Orientation.portrait) {
+              return Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      title: Text('Your cars',
+                          style: TextStyle(fontSize: screenText * 30)),
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          icon: Icon(Icons.arrow_back, size: screenText * 35),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          })),
+                  body: SingleChildScrollView(
+                      child: Center(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                        SizedBox(height: screenHeight * 0.03),
+                        (cars.isEmpty)
+                            ? Container(
+                                height: screenHeight * 0.1,
+                                width: screenWidth * 0.9,
+                                child: Text('No cars yet :(',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: screenText * 34,
+                                        fontWeight: FontWeight.bold)),
+                                padding: EdgeInsets.fromLTRB(
+                                    screenWidth * 0.02,
+                                    screenHeight * 0.032,
+                                    screenWidth * 0.02,
+                                    screenHeight * 0.02),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all(
+                                        width: 5.0, color: Colors.green),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.shade200,
+                                          spreadRadius: 6,
+                                          blurRadius: 2)
+                                    ]))
+                            : ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: cars == [] ? 0 : cars.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                                height: screenHeight * 0.03),
+                                            Container(
+                                                height: screenHeight * 0.07,
+                                                width: screenWidth * 0.85,
+                                                child: MaterialButton(
+                                                    color: Colors.grey.shade200,
+                                                    onPressed: () async {
+                                                      String suspOrAct = '';
+                                                      if (cars[index]
+                                                              .activeOrNot ==
+                                                          't') {
+                                                        suspOrAct = 'Suspend';
+                                                      } else {
+                                                        suspOrAct = 'Active';
+                                                      }
+                                                      final newCars =
+                                                          await Navigator.of(
+                                                                  context)
+                                                              .push(
+                                                        MaterialPageRoute(
+                                                          settings:
+                                                              const RouteSettings(
+                                                                  name:
+                                                                      "/Page1"),
+                                                          builder: (context) =>
+                                                              InfoCar(
+                                                                  cars[index],
+                                                                  suspOrAct,
+                                                                  false,
+                                                                  service:
+                                                                      Service()),
+                                                        ),
+                                                      );
+
+                                                      if (newCars != []) {
+                                                        setState(() {
+                                                          cars = newCars;
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Expanded(
+                                                        child: SingleChildScrollView(
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                            child: Text(
+                                                                cars[index].vehicle.toString() +
+                                                                    '-' +
+                                                                    cars[index]
+                                                                        .model
+                                                                        .toString(),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .green,
+                                                                    fontSize: screenText *
+                                                                        35,
+                                                                    fontWeight: FontWeight
+                                                                        .w500))))),
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                          color: Colors.green,
+                                                          spreadRadius: 6,
+                                                          blurRadius: 2)
+                                                    ]))
+                                          ]));
+                                })
+                      ]))),
+                  floatingActionButton: Container(
+                      height: screenHeight * 0.1,
+                      width: screenWidth * 0.1,
+                      child: FloatingActionButton(
+                          onPressed: () async {
+                            final newCars = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddNewCar(
+                                          addNewCarService: Service(),
+                                        )));
+                            if (newCars.isNotEmpty) {
+                              setState(() {
+                                cars = newCars;
+                              });
+                            }
+                          },
+                          backgroundColor: Colors.grey,
+                          tooltip: 'Add new car',
+                          child: Icon(
+                            Icons.add,
+                            size: screenText * 25,
+                          ))));
+            } else {
+              return Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      title: Text('Your cars',
+                          style: TextStyle(fontSize: screenText * 30)),
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          icon: Icon(Icons.arrow_back, size: screenText * 35),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          })),
+                  body: SingleChildScrollView(
+                      child: Center(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                        SizedBox(height: screenHeight * 0.03),
+                        (cars.isEmpty)
+                            ? Container(
+                                height: screenHeight * 0.15,
+                                width: screenWidth * 0.7,
+                                child: Text('No cars yet :(',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: screenText * 34,
+                                        fontWeight: FontWeight.bold)),
+                                padding: EdgeInsets.fromLTRB(
+                                    screenWidth * 0.02,
+                                    screenHeight * 0.032,
+                                    screenWidth * 0.02,
+                                    screenHeight * 0.02),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all(
+                                        width: 5.0, color: Colors.green),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.shade200,
+                                          spreadRadius: 6,
+                                          blurRadius: 2)
+                                    ]))
+                            : ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: cars == [] ? 0 : cars.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                                height: screenHeight * 0.03),
+                                            Container(
+                                                height: screenHeight * 0.15,
+                                                width: screenWidth * 0.7,
+                                                child: MaterialButton(
+                                                    color: Colors.grey.shade200,
+                                                    onPressed: () async {
+                                                      String suspOrAct = '';
+                                                      if (cars[index]
+                                                              .activeOrNot ==
+                                                          't') {
+                                                        suspOrAct = 'Suspend';
+                                                      } else {
+                                                        suspOrAct = 'Active';
+                                                      }
+                                                      final newCars =
+                                                          await Navigator.of(
+                                                                  context)
+                                                              .push(
+                                                        MaterialPageRoute(
+                                                          settings:
+                                                              const RouteSettings(
+                                                                  name:
+                                                                      "/Page1"),
+                                                          builder: (context) =>
+                                                              InfoCar(
+                                                                  cars[index],
+                                                                  suspOrAct,
+                                                                  false,
+                                                                  service:
+                                                                      Service()),
+                                                        ),
+                                                      );
+
+                                                      if (newCars != []) {
+                                                        setState(() {
+                                                          cars = newCars;
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Expanded(
+                                                        child: SingleChildScrollView(
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                            child: Text(
+                                                                cars[index].vehicle.toString() +
+                                                                    '-' +
+                                                                    cars[index]
+                                                                        .model
+                                                                        .toString(),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .green,
+                                                                    fontSize: screenText *
+                                                                        35,
+                                                                    fontWeight: FontWeight
+                                                                        .w500))))),
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                          color: Colors.green,
+                                                          spreadRadius: 6,
+                                                          blurRadius: 2)
+                                                    ]))
+                                          ]));
+                                })
+                      ]))),
+                  floatingActionButton: Container(
+                      height: screenHeight * 0.13,
+                      width: screenWidth * 0.13,
+                      child: FloatingActionButton(
+                          onPressed: () async {
+                            final newCars = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddNewCar(
+                                          addNewCarService: Service(),
+                                        )));
+                            if (newCars.isNotEmpty) {
+                              setState(() {
+                                cars = newCars;
+                              });
+                            }
+                          },
+                          backgroundColor: Colors.grey,
+                          tooltip: 'Add new car',
+                          child: Icon(
+                            Icons.add,
+                            size: screenText * 25,
+                          ))));
+            }
+          });
   }
 }

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:prcarpolimi/about_your_car/info_car.dart';
 import 'package:prcarpolimi/booking/booking_in.dart';
 import 'package:prcarpolimi/chatImplementation/chatDetail.dart';
@@ -232,13 +233,154 @@ class _HomePageState extends State<HomePage> {
                       child: const MapBottomPill(),
                       duration: const Duration(milliseconds: 500))
                 ])))
-        : Scaffold(body: OrientationBuilder(builder: (context, orientation) {
-            if (orientation == Orientation.portrait) {
-              return Container(color: Colors.redAccent);
-            } else {
-              return Container(color: Colors.greenAccent);
-            }
-          }));
+        : WillPopScope(
+            onWillPop: () async => false,
+            child: Scaffold(
+                appBar: AppBar(
+                    title: Text("PrCar",
+                        style: TextStyle(fontSize: screenText * 30)),
+                    backgroundColor: Colors.green,
+                    actions: [
+                      !PassMarker.from
+                          ? Row(children: [
+                              Text('Clear filter!',
+                                  style: TextStyle(
+                                      fontSize: screenText * 30,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                              IconButton(
+                                  onPressed: () {
+                                    PassMarker.from = true;
+                                    _updateMarkers();
+                                  },
+                                  icon: Icon(Icons.autorenew_rounded,
+                                      size: screenText * 30))
+                            ])
+                          : Row(children: [
+                              Text('Filters',
+                                  style: TextStyle(
+                                      fontSize: screenText * 30,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Filters(
+                                                    service: Service())))
+                                        .then((data) {
+                                      searchCar = data;
+                                    });
+                                  },
+                                  icon:
+                                      Icon(Icons.search, size: screenText * 30))
+                            ])
+                    ]),
+                backgroundColor: Colors.white,
+                drawer: Drawer(
+                    child: ListView(padding: EdgeInsets.zero, children: [
+                  SizedBox(height: screenHeight * 0.04),
+                  SizedBox(
+                      child: Text(" Home",
+                          style: TextStyle(
+                              fontSize: screenText * 50,
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold))),
+                  SizedBox(height: screenHeight * 0.02),
+                  ListTile(
+                      title: Text(" Account",
+                          style: TextStyle(fontSize: screenText * 20)),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    InfoAccount(service: Service())));
+                      }),
+                  ListTile(
+                      title: Text(" Booking",
+                          style: TextStyle(fontSize: screenText * 20)),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MessagePage(
+                                      service: Service(),
+                                    )));
+                      }),
+                  ListTile(
+                      title: Text(" About your car",
+                          style: TextStyle(fontSize: screenText * 20)),
+                      onTap: () async {
+                        List<CarModel> cars = await _fetchInfoCar();
+                        if (cars != []) {
+                          Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Cars_user(cars, service: Service())))
+                              .then((data) {
+                            setState(() {
+                              _updateMarkers();
+                            });
+                          });
+                        }
+                      }),
+                  ListTile(
+                      title: Text(" Configuration",
+                          style: TextStyle(fontSize: screenText * 20)),
+                      onTap: () async {
+                        User? user = widget.homePageService.currentUser();
+                        String confirmed = await _isConfirmed(user!);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Configuration(
+                                    isConfirmed: confirmed,
+                                    service: Service())));
+                      }),
+                  ListTile(
+                      title: Text(" Help",
+                          style: TextStyle(fontSize: screenText * 20)),
+                      onTap: () async {
+                        if (MediaQuery.of(context).orientation ==
+                            Orientation.portrait) {
+                          SystemChrome.setPreferredOrientations([
+                            DeviceOrientation.landscapeLeft,
+                            DeviceOrientation.landscapeRight,
+                          ]);
+                        } else {
+                          SystemChrome.setPreferredOrientations([
+                            DeviceOrientation.portraitUp,
+                            DeviceOrientation.portraitDown,
+                          ]);
+                        }
+                      })
+                ])),
+                body: Stack(children: [
+                  GoogleMap(
+                      mapType: MapType.normal,
+                      initialCameraPosition: const CameraPosition(
+                          target: LatLng(45.47811155714095, 9.227444681728846),
+                          zoom: 16),
+                      markers: _markers,
+                      onMapCreated: (GoogleMapController controller) {
+                        _controller = controller;
+                      },
+                      onTap: (LatLng loc) {
+                        setState(() {
+                          pinPillPosition = pinInvisiblePosition;
+                        });
+                      }),
+                  AnimatedPositioned(
+                      left: 0,
+                      curve: Curves.easeInOut,
+                      right: 0,
+                      bottom: pinPillPosition,
+                      child: const MapBottomPill(),
+                      duration: const Duration(milliseconds: 500))
+                ])));
   }
 
   _fetchUserInfo() async {
