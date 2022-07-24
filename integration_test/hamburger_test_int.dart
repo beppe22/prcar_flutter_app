@@ -17,10 +17,10 @@ void main() {
       expect(find.text('Login'), findsOneWidget);
 
       // Finds the floating action button to tap on.
-      final fab = find.byKey(Key("clickButtom"));
+      //final fab = find.byKey(Key("clickButtom"));
 
       // Emulate a tap on the floating action button.
-      await tester.tap(fab);
+      //await tester.tap(fab);
 
       // Trigger a frame.
       await tester.pumpAndSettle();
@@ -49,6 +49,10 @@ void main() {
 
       expect(find.text('Filters'), findsOneWidget);
       expect(find.text("PrCar"), findsOneWidget);
+
+      final drawer = find.byTooltip('Open navigation menu');
+      expect(drawer, findsWidgets);
+      tester.tap(drawer);
     });
   });
 }

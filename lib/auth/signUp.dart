@@ -38,6 +38,7 @@ class _SignUpState extends State<SignUp> {
 
     //first name field
     final firstNameField = TextFormField(
+        key: Key("first name field"),
         autofocus: false,
         style: TextStyle(fontSize: screenText * 25),
         controller: firstNameEditingController,
@@ -67,6 +68,7 @@ class _SignUpState extends State<SignUp> {
 
     //second name field
     final secondNameField = TextFormField(
+        key: Key("second name field"),
         autofocus: false,
         style: TextStyle(fontSize: screenText * 25),
         controller: secondNameEditingController,
@@ -92,6 +94,7 @@ class _SignUpState extends State<SignUp> {
 
     //email field
     final emailField = TextFormField(
+        key: Key("email field"),
         autofocus: false,
         style: TextStyle(fontSize: screenText * 25),
         controller: emailEditingController,
@@ -122,6 +125,7 @@ class _SignUpState extends State<SignUp> {
 
     //password field
     final passwordField = TextFormField(
+        key: Key("password field"),
         autofocus: false,
         style: TextStyle(fontSize: screenText * 25),
         controller: passwordEditingController,
@@ -151,6 +155,7 @@ class _SignUpState extends State<SignUp> {
 
     //confirm password field
     final confirmPasswordField = TextFormField(
+        key: Key("confirmed password field"),
         autofocus: false,
         style: TextStyle(fontSize: screenText * 25),
         controller: confirmPasswordEditingController,
@@ -189,6 +194,7 @@ class _SignUpState extends State<SignUp> {
         borderRadius: BorderRadius.circular(30),
         color: colorSignUp(),
         child: MaterialButton(
+            key: Key("sign up buttom"),
             onPressed: () async {
               if (await NetworkCheck().check()) {
                 signUp(emailEditingController.text,

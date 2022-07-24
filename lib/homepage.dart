@@ -143,73 +143,73 @@ class _HomePageState extends State<HomePage> {
                     ]),
                 backgroundColor: Colors.white,
                 drawer: Drawer(
+                    key: ValueKey(10),
                     child: ListView(padding: EdgeInsets.zero, children: [
-                  SizedBox(height: screenHeight * 0.08),
-                  SizedBox(
-                      child: Text("  Home",
-                          style: TextStyle(
-                              fontSize: screenText * 30,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold))),
-                  SizedBox(height: screenHeight * 0.02),
-                  ListTile(
-                      title: Text("Account",
-                          style: TextStyle(fontSize: screenText * 16)),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    InfoAccount(service: Service())));
-                      }),
-                  ListTile(
-                      title: Text("Booking",
-                          style: TextStyle(fontSize: screenText * 16)),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MessagePage(
-                                      service: Service(),
-                                    )));
-                      }),
-                  ListTile(
-                      title: Text("About your car",
-                          style: TextStyle(fontSize: screenText * 16)),
-                      onTap: () async {
-                        List<CarModel> cars = await _fetchInfoCar();
-                        if (cars != []) {
-                          Navigator.push(
+                      SizedBox(height: screenHeight * 0.08),
+                      SizedBox(
+                          child: Text("  Home",
+                              style: TextStyle(
+                                  fontSize: screenText * 30,
+                                  color: Colors.redAccent,
+                                  fontWeight: FontWeight.bold))),
+                      SizedBox(height: screenHeight * 0.02),
+                      ListTile(
+                          title: Text("Account",
+                              style: TextStyle(fontSize: screenText * 16)),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        InfoAccount(service: Service())));
+                          }),
+                      ListTile(
+                          title: Text("Booking",
+                              style: TextStyle(fontSize: screenText * 16)),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MessagePage(
+                                          service: Service(),
+                                        )));
+                          }),
+                      ListTile(
+                          title: Text("About your car",
+                              style: TextStyle(fontSize: screenText * 16)),
+                          onTap: () async {
+                            List<CarModel> cars = await _fetchInfoCar();
+                            if (cars != []) {
+                              Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          Cars_user(cars, service: Service())))
-                              .then((data) {
-                            setState(() {
-                              _updateMarkers();
-                            });
-                          });
-                        }
-                      }),
-                  ListTile(
-                      title: Text("Configuration",
-                          style: TextStyle(fontSize: screenText * 16)),
-                      onTap: () async {
-                        User? user = widget.homePageService.currentUser();
-                        String confirmed = await _isConfirmed(user!);
+                                      builder: (context) => Cars_user(cars,
+                                          service: Service()))).then((data) {
+                                setState(() {
+                                  _updateMarkers();
+                                });
+                              });
+                            }
+                          }),
+                      ListTile(
+                          title: Text("Configuration",
+                              style: TextStyle(fontSize: screenText * 16)),
+                          onTap: () async {
+                            User? user = widget.homePageService.currentUser();
+                            String confirmed = await _isConfirmed(user!);
 
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Configuration(
-                                    isConfirmed: confirmed,
-                                    service: Service())));
-                      }),
-                  ListTile(
-                      title: Text("Help",
-                          style: TextStyle(fontSize: screenText * 16)),
-                      onTap: () async {})
-                ])),
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Configuration(
+                                        isConfirmed: confirmed,
+                                        service: Service())));
+                          }),
+                      ListTile(
+                          title: Text("Help",
+                              style: TextStyle(fontSize: screenText * 16)),
+                          onTap: () async {})
+                    ])),
                 body: Stack(children: [
                   GoogleMap(
                       mapType: MapType.normal,

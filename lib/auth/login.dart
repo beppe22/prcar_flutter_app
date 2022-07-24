@@ -202,6 +202,7 @@ class _LoginState extends State<Login> {
                             ))),
                     Text(' or ', style: TextStyle(fontSize: screenText * 12)),
                     GestureDetector(
+                        key: Key("New Account"),
                         child: Text("Don't have an account?",
                             textAlign: TextAlign.start,
                             style: TextStyle(
