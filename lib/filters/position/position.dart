@@ -103,7 +103,79 @@ class _Position extends State<Position> {
                         _controller.complete(controller);
                       }))
             ]))
-        : Container();
+        : Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+                backgroundColor: Colors.green,
+                title: Text("Position",
+                    style: TextStyle(fontSize: screenText * 30)),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back,
+                        color: Colors.white, size: screenText * 35),
+                    onPressed: () {
+                      Navigator.pop(context, '');
+                    }),
+                actions: [
+                  Row(children: [
+                    Text('Okay!',
+                        style: TextStyle(
+                            fontSize: screenText * 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                    IconButton(
+                        onPressed: () {
+                          SearchCar.latSearch = '';
+                          SearchCar.lngSearch = '';
+                          if (index) {
+                            SearchCar.latSearch = lat.toString();
+                            SearchCar.lngSearch = lng.toString();
+                            index = true;
+                            Navigator.pop(context, position);
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: 'No place choosen :(', fontSize: 20);
+                          }
+                        },
+                        icon: Icon(Icons.add_location_alt_outlined,
+                            size: screenText * 35))
+                  ])
+                ]),
+            body: Column(children: [
+              Row(children: [
+                Expanded(
+                    child: TextFormField(
+                        controller: _searchcontroller,
+                        textCapitalization: TextCapitalization.words,
+                        decoration: InputDecoration(
+                            hintText: ' Search Car Position',
+                            hintStyle: TextStyle(fontSize: screenText * 28)),
+                        onChanged: (value) {})),
+                IconButton(
+                    onPressed: () async {
+                      try {
+                        var place = await LocationService()
+                            .getPlace(_searchcontroller.text);
+                        _goToPlace(place);
+                        index = true;
+                      } on RangeError catch (e) {
+                        print(e);
+                      }
+                    },
+                    icon: Icon(Icons.search, size: screenText * 35))
+              ]),
+              Expanded(
+                  child: GoogleMap(
+                      mapType: MapType.normal,
+                      markers: _markers,
+                      initialCameraPosition: const CameraPosition(
+                          target: LatLng(45.47811155714095, 9.227444681728846),
+                          zoom: 16),
+                      onTap: _handleTap,
+                      onMapCreated: (GoogleMapController controller) {
+                        _controller.complete(controller);
+                      }))
+            ]));
   }
 
   Future<void> _goToPlace(Map<String, dynamic> place) async {

@@ -38,7 +38,20 @@ class _PriceState extends State<Price> {
                     onPressed: () {
                       Navigator.pop(context, '');
                     })))
-        : Container();
+        : Scaffold(
+            body: Counter(filter: filter),
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+                backgroundColor: Colors.green,
+                title:
+                    Text("Price", style: TextStyle(fontSize: screenText * 30)),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back,
+                        color: Colors.white, size: screenText * 35),
+                    onPressed: () {
+                      Navigator.pop(context, '');
+                    })));
   }
 }
 
@@ -137,7 +150,141 @@ class _CounterState extends State<Counter> {
                       divisions: 100,
                       onChanged: setCounter)
                 ]))
-        : Container();
+        : OrientationBuilder(builder: (_, orientation) {
+            if (orientation == Orientation.portrait) {
+              return Padding(
+                  padding: EdgeInsets.all(screenHeight * 0.005),
+                  child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: screenHeight * 0.05),
+                        SizedBox(
+                            height: screenHeight * 0.35,
+                            child: Image.asset("assets/prcarlogo.png",
+                                fit: BoxFit.contain)),
+                        SizedBox(
+                            height: screenHeight * 0.1,
+                            child: Text(_priceString(filter),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green,
+                                    fontSize: screenText * 32))),
+                        SizedBox(height: screenHeight * 0.02),
+                        PriceButton(
+                            screenHeight: screenHeight,
+                            screenWidth: screenWidth,
+                            screenText: screenText,
+                            value: counter.toString()),
+                        SizedBox(height: screenHeight * 0.03),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                  style: TextButton.styleFrom(
+                                      primary: Colors.white,
+                                      backgroundColor: Colors.green,
+                                      padding:
+                                          EdgeInsets.all(screenWidth * 0.04)),
+                                  child:
+                                      Icon(Icons.remove, size: screenText * 28),
+                                  onPressed:
+                                      counter == 0 ? null : decrementCounter),
+                              SizedBox(width: screenWidth * 0.2),
+                              TextButton(
+                                  style: TextButton.styleFrom(
+                                      primary: Colors.white,
+                                      backgroundColor: Colors.green,
+                                      padding:
+                                          EdgeInsets.all(screenWidth * 0.04)),
+                                  child: Icon(Icons.add, size: screenText * 28),
+                                  onPressed:
+                                      counter == 100 ? null : incrementCounter)
+                            ]),
+                        SizedBox(height: screenHeight * 0.03),
+                        Slider(
+                            activeColor: Colors.green,
+                            inactiveColor: Colors.blueGrey,
+                            value: counter.toDouble(),
+                            min: 0,
+                            max: 100,
+                            divisions: 100,
+                            onChanged: setCounter)
+                      ]));
+            } else {
+              return Padding(
+                  padding: EdgeInsets.all(screenHeight * 0.005),
+                  child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: screenHeight * 0.05),
+                        SizedBox(
+                            height: screenHeight * 0.35,
+                            child: Image.asset("assets/prcarlogo.png",
+                                fit: BoxFit.contain)),
+                        SizedBox(
+                            height: screenHeight * 0.1,
+                            child: Text(_priceString(filter),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green,
+                                    fontSize: screenText * 32))),
+                        SizedBox(height: screenHeight * 0.02),
+                        PriceButton(
+                            screenHeight: screenHeight,
+                            screenWidth: screenWidth,
+                            screenText: screenText,
+                            value: counter.toString()),
+                        SizedBox(height: screenHeight * 0.03),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  height: screenHeight * 0.1,
+                                  width: screenWidth * 0.1,
+                                  child: TextButton(
+                                      style: TextButton.styleFrom(
+                                        primary: Colors.white,
+                                        backgroundColor: Colors.green,
+                                      ),
+                                      child: Icon(Icons.remove,
+                                          size: screenText * 22),
+                                      onPressed: counter == 0
+                                          ? null
+                                          : decrementCounter)),
+                              SizedBox(width: screenWidth * 0.2),
+                              Container(
+                                  height: screenHeight * 0.1,
+                                  width: screenWidth * 0.1,
+                                  child: TextButton(
+                                      style: TextButton.styleFrom(
+                                        primary: Colors.white,
+                                        backgroundColor: Colors.green,
+                                      ),
+                                      child: Icon(Icons.add,
+                                          size: screenText * 22),
+                                      onPressed: counter == 100
+                                          ? null
+                                          : incrementCounter))
+                            ]),
+                        SizedBox(height: screenHeight * 0.03),
+                        Container(
+                            width: screenWidth * 0.7,
+                            child: Slider(
+                                activeColor: Colors.green,
+                                inactiveColor: Colors.blueGrey,
+                                value: counter.toDouble(),
+                                min: 0,
+                                max: 100,
+                                divisions: 100,
+                                onChanged: setCounter))
+                      ]));
+              ;
+            }
+          });
   }
 
   String _priceString(bool filter) {

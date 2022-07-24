@@ -76,7 +76,121 @@ class _SeatsState extends State<Seats> {
                   screenText: screenText,
                   value: '5')
             ]))
-        : Container();
+        : OrientationBuilder(builder: (_, orientation) {
+            if (orientation == Orientation.portrait) {
+              return Scaffold(
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      title: Text("Seats",
+                          style: TextStyle(fontSize: screenText * 30)),
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          icon: Icon(Icons.arrow_back,
+                              color: Colors.white, size: screenText * 35),
+                          onPressed: () {
+                            Navigator.pop(context, '');
+                          })),
+                  backgroundColor: Colors.white,
+                  body: Column(children: [
+                    SizedBox(height: screenHeight * 0.03),
+                    SizedBox(
+                        height: screenHeight * 0.33,
+                        child: Image.asset("assets/prcarlogo.png",
+                            fit: BoxFit.contain)),
+                    SizedBox(
+                        height: screenHeight * 0.07,
+                        child: Text(_seatsString(filter),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green,
+                                fontSize: screenText * 38))),
+                    SizedBox(height: screenHeight * 0.02),
+                    SeatsButton(
+                        screenHeight: screenHeight,
+                        screenWidth: screenWidth,
+                        screenText: screenText,
+                        value: '2'),
+                    SizedBox(height: screenHeight * 0.02),
+                    SeatsButton(
+                        screenHeight: screenHeight,
+                        screenWidth: screenWidth,
+                        screenText: screenText,
+                        value: '3'),
+                    SizedBox(height: screenHeight * 0.02),
+                    SeatsButton(
+                        screenHeight: screenHeight,
+                        screenWidth: screenWidth,
+                        screenText: screenText,
+                        value: '4'),
+                    SizedBox(height: screenHeight * 0.02),
+                    SeatsButton(
+                        screenHeight: screenHeight,
+                        screenWidth: screenWidth,
+                        screenText: screenText,
+                        value: '5')
+                  ]));
+            } else {
+              return Scaffold(
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      title: Text("Seats",
+                          style: TextStyle(fontSize: screenText * 30)),
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          icon: Icon(Icons.arrow_back,
+                              color: Colors.white, size: screenText * 35),
+                          onPressed: () {
+                            Navigator.pop(context, '');
+                          })),
+                  backgroundColor: Colors.white,
+                  body: Center(
+                      child: Row(children: [
+                    SizedBox(width: screenWidth * 0.05),
+                    Column(children: [
+                      SizedBox(height: screenHeight * 0.15),
+                      SizedBox(
+                          height: screenHeight * 0.07,
+                          child: Text(_seatsString(filter),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                                  fontSize: screenText * 33))),
+                      SizedBox(
+                          height: screenHeight * 0.55,
+                          child: Image.asset("assets/prcarlogo.png",
+                              fit: BoxFit.contain)),
+                    ]),
+                    Column(children: [
+                      SizedBox(height: screenHeight * 0.15),
+                      SeatsButton(
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth,
+                          screenText: screenText,
+                          value: '2'),
+                      SizedBox(height: screenHeight * 0.02),
+                      SeatsButton(
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth,
+                          screenText: screenText,
+                          value: '3'),
+                      SizedBox(height: screenHeight * 0.02),
+                      SeatsButton(
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth,
+                          screenText: screenText,
+                          value: '4'),
+                      SizedBox(height: screenHeight * 0.02),
+                      SeatsButton(
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth,
+                          screenText: screenText,
+                          value: '5')
+                    ])
+                  ])));
+            }
+          });
   }
 
   String _seatsString(bool filter) {

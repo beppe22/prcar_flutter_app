@@ -22,7 +22,7 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    //final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = MediaQuery.of(context).size.height;
     //final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
     return PassMarker.useMobileLayout!
@@ -84,7 +84,67 @@ class _CalendarState extends State<Calendar> {
                 ),
                 backgroundColor: Colors.white),
           )
-        : Container();
+        : Scaffold(
+            appBar: AppBar(
+                backgroundColor: Colors.green,
+                title: Text('Calendar',
+                    style: TextStyle(fontSize: screenText * 30)),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back, size: screenText * 35),
+                    onPressed: () {
+                      Navigator.pop(context, ['', '']);
+                    }),
+                actions: [
+                  Row(children: [
+                    Text('Save!',
+                        style: TextStyle(
+                            fontSize: screenText * 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                    IconButton(
+                        onPressed: () async {
+                          if (_startDate == '' && _endDate == '') {
+                            Fluttertoast.showToast(
+                                msg: 'No date selected :(', fontSize: 20);
+                          } else {
+                            if (await _checkFreeDate(
+                                _takeDateList(blackout),
+                                DateFormat("dd/MM/yyyy").parse(_startDate),
+                                DateFormat("dd/MM/yyyy").parse(_endDate))) {
+                              Navigator.pop(context, [_startDate, _endDate]);
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "Don't select day already occupied :(",
+                                  fontSize: 20);
+                            }
+                          }
+                        },
+                        icon: const Icon(Icons.add_task))
+                  ])
+                ]),
+            backgroundColor: Colors.white,
+            body: Container(
+                height: screenHeight * 0.8,
+                child: SfDateRangePicker(
+                    view: DateRangePickerView.month,
+                    controller: _controller,
+                    onSelectionChanged: selectionChanged,
+                    selectionMode: DateRangePickerSelectionMode.range,
+                    enablePastDates: false,
+                    extendableRangeSelectionDirection:
+                        ExtendableRangeSelectionDirection.forward,
+                    monthViewSettings: DateRangePickerMonthViewSettings(
+                        blackoutDates: _takeDateList(blackout)),
+                    monthCellStyle: DateRangePickerMonthCellStyle(
+                      textStyle: TextStyle(
+                          fontSize: screenText * 32, color: Colors.black),
+                      blackoutDateTextStyle: TextStyle(
+                          color: Colors.grey.shade400,
+                          fontSize: screenText * 32),
+                    ),
+                    backgroundColor: Colors.white)),
+          );
   }
 
   List<DateTime> _takeDateList(List<String> date) {

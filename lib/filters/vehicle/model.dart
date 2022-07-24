@@ -94,7 +94,159 @@ class _ModelsState extends State<Models> {
                     return const Center(child: CircularProgressIndicator());
                   }
                 }))
-        : Container();
+        : OrientationBuilder(builder: (_, orientation) {
+            if (orientation == Orientation.portrait) {
+              return Scaffold(
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      title: Text("Models",
+                          style: TextStyle(fontSize: screenText * 30)),
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          icon: Icon(Icons.arrow_back,
+                              color: Colors.white, size: screenText * 35),
+                          onPressed: () {
+                            Navigator.pop(context, '');
+                          })),
+                  body: FutureBuilder(
+                      future: readJsonData(),
+                      builder: (context, data) {
+                        if (data.hasError) {
+                          return Center(child: Text("${data.error}"));
+                        } else if (data.hasData) {
+                          var items = data.data as List<VehicleDataModel>;
+                          var modelNames = items[indice].models;
+                          return ListView.builder(
+                              itemCount:
+                                  modelNames == null ? 0 : modelNames.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: screenHeight * 0.035),
+                                      Container(
+                                          width: screenWidth * 0.87,
+                                          height: screenHeight * 0.1,
+                                          decoration: BoxDecoration(
+                                              color: Colors.green,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.of(context)
+                                                        ..pop()
+                                                        ..pop();
+                                                      SearchCar.vehicle =
+                                                          items[indice]
+                                                              .brand
+                                                              .toString();
+                                                      SearchCar.model =
+                                                          modelNames![index]
+                                                              .toString();
+                                                    },
+                                                    child: Text(
+                                                        modelNames![index]
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                screenText * 30,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.white)))
+                                              ]))
+                                    ]);
+                              });
+                        } else {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                      }));
+            } else {
+              return Scaffold(
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      title: Text("Models",
+                          style: TextStyle(fontSize: screenText * 30)),
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          icon: Icon(Icons.arrow_back,
+                              color: Colors.white, size: screenText * 35),
+                          onPressed: () {
+                            Navigator.pop(context, '');
+                          })),
+                  body: FutureBuilder(
+                      future: readJsonData(),
+                      builder: (context, data) {
+                        if (data.hasError) {
+                          return Center(child: Text("${data.error}"));
+                        } else if (data.hasData) {
+                          var items = data.data as List<VehicleDataModel>;
+                          var modelNames = items[indice].models;
+                          return ListView.builder(
+                              itemCount:
+                                  modelNames == null ? 0 : modelNames.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: screenHeight * 0.035),
+                                      Container(
+                                          width: screenWidth * 0.7,
+                                          height: screenHeight * 0.13,
+                                          decoration: BoxDecoration(
+                                              color: Colors.green,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.of(context)
+                                                        ..pop()
+                                                        ..pop();
+                                                      SearchCar.vehicle =
+                                                          items[indice]
+                                                              .brand
+                                                              .toString();
+                                                      SearchCar.model =
+                                                          modelNames![index]
+                                                              .toString();
+                                                    },
+                                                    child: Text(
+                                                        modelNames![index]
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                screenText * 30,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.white)))
+                                              ]))
+                                    ]);
+                              });
+                        } else {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                      }));
+            }
+          });
   }
 
   Future<List<VehicleDataModel>> readJsonData() async {

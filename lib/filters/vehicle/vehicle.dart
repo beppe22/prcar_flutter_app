@@ -89,7 +89,161 @@ class _VehicleState extends State<Vehicle> {
                     return const Center(child: CircularProgressIndicator());
                   }
                 }))
-        : Container();
+        : OrientationBuilder(builder: (_, orientation) {
+            if (orientation == Orientation.portrait) {
+              return Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      title: Text("Vehicle",
+                          style: TextStyle(fontSize: screenText * 30)),
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          icon: Icon(Icons.arrow_back,
+                              color: Colors.white, size: screenText * 35),
+                          onPressed: () {
+                            Navigator.pop(context, '');
+                          })),
+                  body: FutureBuilder(
+                      future: readJsonData(),
+                      builder: (context, data) {
+                        if (data.hasError) {
+                          return Center(child: Text("${data.error}"));
+                        } else if (data.hasData) {
+                          var items = data.data as List<VehicleDataModel>;
+                          return ListView.builder(
+                              itemCount: items == null ? 0 : items.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: screenHeight * 0.035),
+                                      Container(
+                                          width: screenWidth * 0.87,
+                                          height: screenHeight * 0.1,
+                                          decoration: BoxDecoration(
+                                              color: Colors.green,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  Models(
+                                                                      indice:
+                                                                          index,
+                                                                      service:
+                                                                          Service())));
+                                                    },
+                                                    child: Text(
+                                                        items[index]
+                                                            .brand
+                                                            .toString(),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                screenText * 30,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.white)))
+                                              ]))
+                                    ]);
+                              });
+                        } else {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                      }));
+            } else {
+              return Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      title: Text("Vehicle",
+                          style: TextStyle(fontSize: screenText * 30)),
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          icon: Icon(Icons.arrow_back,
+                              color: Colors.white, size: screenText * 35),
+                          onPressed: () {
+                            Navigator.pop(context, '');
+                          })),
+                  body: FutureBuilder(
+                      future: readJsonData(),
+                      builder: (context, data) {
+                        if (data.hasError) {
+                          return Center(child: Text("${data.error}"));
+                        } else if (data.hasData) {
+                          var items = data.data as List<VehicleDataModel>;
+                          return ListView.builder(
+                              itemCount: items == null ? 0 : items.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: screenHeight * 0.035),
+                                      Container(
+                                          width: screenWidth * 0.7,
+                                          height: screenHeight * 0.13,
+                                          decoration: BoxDecoration(
+                                              color: Colors.green,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  Models(
+                                                                      indice:
+                                                                          index,
+                                                                      service:
+                                                                          Service())));
+                                                    },
+                                                    child: Text(
+                                                        items[index]
+                                                            .brand
+                                                            .toString(),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                screenText * 30,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.white)))
+                                              ]))
+                                    ]);
+                              });
+                        } else {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                      }));
+            }
+          });
   }
 
   Future<List<VehicleDataModel>> readJsonData() async {
