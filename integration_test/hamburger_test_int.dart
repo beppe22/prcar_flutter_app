@@ -50,9 +50,9 @@ void main() {
       expect(find.text('Filters'), findsOneWidget);
       expect(find.text("PrCar"), findsOneWidget);
 
-      final drawer = find.byTooltip('Open navigation menu');
+      final drawer = await find.byTooltip('Open navigation menu');
       expect(drawer, findsWidgets);
-      tester.tap(drawer);
+      await tester.tap(drawer);
     });
   });
 }

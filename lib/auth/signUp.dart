@@ -35,12 +35,19 @@ class _SignUpState extends State<SignUp> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
+    textSize() {
+      if (PassMarker.useMobileLayout!) {
+        return screenText * 14;
+      } else {
+        return screenText * 25;
+      }
+    }
 
     //first name field
     final firstNameField = TextFormField(
         key: Key("first name field"),
         autofocus: false,
-        style: TextStyle(fontSize: screenText * 25),
+        style: TextStyle(fontSize: textSize()),
         controller: firstNameEditingController,
         keyboardType: TextInputType.name,
         validator: (value) {
@@ -62,7 +69,7 @@ class _SignUpState extends State<SignUp> {
             contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "First Name",
-            hintStyle: TextStyle(fontSize: 25 * screenText),
+            hintStyle: TextStyle(fontSize: textSize()),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
@@ -70,7 +77,7 @@ class _SignUpState extends State<SignUp> {
     final secondNameField = TextFormField(
         key: Key("second name field"),
         autofocus: false,
-        style: TextStyle(fontSize: screenText * 25),
+        style: TextStyle(fontSize: textSize()),
         controller: secondNameEditingController,
         keyboardType: TextInputType.name,
         validator: (value) {
@@ -88,7 +95,7 @@ class _SignUpState extends State<SignUp> {
             contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Second Name",
-            hintStyle: TextStyle(fontSize: 25 * screenText),
+            hintStyle: TextStyle(fontSize: textSize()),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
@@ -96,7 +103,7 @@ class _SignUpState extends State<SignUp> {
     final emailField = TextFormField(
         key: Key("email field"),
         autofocus: false,
-        style: TextStyle(fontSize: screenText * 25),
+        style: TextStyle(fontSize: textSize()),
         controller: emailEditingController,
         keyboardType: TextInputType.emailAddress,
         validator: (value) {
@@ -119,7 +126,7 @@ class _SignUpState extends State<SignUp> {
             contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Email",
-            hintStyle: TextStyle(fontSize: 25 * screenText),
+            hintStyle: TextStyle(fontSize: textSize()),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
@@ -127,7 +134,7 @@ class _SignUpState extends State<SignUp> {
     final passwordField = TextFormField(
         key: Key("password field"),
         autofocus: false,
-        style: TextStyle(fontSize: screenText * 25),
+        style: TextStyle(fontSize: textSize()),
         controller: passwordEditingController,
         obscureText: true,
         validator: (value) {
@@ -149,7 +156,7 @@ class _SignUpState extends State<SignUp> {
             contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Password",
-            hintStyle: TextStyle(fontSize: 25 * screenText),
+            hintStyle: TextStyle(fontSize: textSize()),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
@@ -157,7 +164,7 @@ class _SignUpState extends State<SignUp> {
     final confirmPasswordField = TextFormField(
         key: Key("confirmed password field"),
         autofocus: false,
-        style: TextStyle(fontSize: screenText * 25),
+        style: TextStyle(fontSize: textSize()),
         controller: confirmPasswordEditingController,
         obscureText: true,
         validator: (value) {
@@ -172,11 +179,11 @@ class _SignUpState extends State<SignUp> {
         },
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.vpn_key, size: 25 * screenText),
+            prefixIcon: Icon(Icons.vpn_key, size: screenText * 25),
             contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Confirm Password",
-            hintStyle: TextStyle(fontSize: 25 * screenText),
+            hintStyle: TextStyle(fontSize: textSize()),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
@@ -189,12 +196,9 @@ class _SignUpState extends State<SignUp> {
     }
 
     //signup button
-    final signUpButton = Material(
-        elevation: 5,
-        borderRadius: BorderRadius.circular(30),
+    final signUpButton = Container(
         color: colorSignUp(),
         child: MaterialButton(
-            key: Key("sign up buttom"),
             onPressed: () async {
               if (await NetworkCheck().check()) {
                 signUp(emailEditingController.text,
@@ -210,9 +214,10 @@ class _SignUpState extends State<SignUp> {
             child: Text("Sign Up",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 25 * screenText,
+                    fontSize: textSize(),
                     color: Colors.white,
-                    fontWeight: FontWeight.bold))));
+                    fontWeight: FontWeight.bold))),
+        key: Key("sign up buttom"));
 
     return PassMarker.useMobileLayout!
         ? MaterialApp(

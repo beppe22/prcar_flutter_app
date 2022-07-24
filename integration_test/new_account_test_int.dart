@@ -58,11 +58,11 @@ void main() {
       // Emulate a tap on the floating action button.
       await tester.tap(fa12);
       await tester.pump();
-      await tester.pump(Duration(seconds: 7));
+      await tester.pump(Duration(seconds: 1));
 
       await tester.tap(fa12);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 20));
+      await tester.pump(Duration(seconds: 5));
 
       expect(find.text('Resent Email'), findsOneWidget);
     });
