@@ -22,10 +22,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   UserModel userModel = UserModel();
-  static final TextEditingController _emailController = TextEditingController();
-  static final TextEditingController _passwordController =
-      TextEditingController();
-  static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  static final _emailController = TextEditingController();
+  static final _passwordController = TextEditingController();
+  static final _formKey = GlobalKey<FormState>();
   bool from = true;
 
   Future<User?> loginUsingEmailPassword(
@@ -51,35 +50,81 @@ class _LoginState extends State<Login> {
     return user;
   }
 
-  final emailField = TextFormField(
-      key: const ValueKey(1),
-      autofocus: false,
-      textInputAction: TextInputAction.next,
-      controller: _emailController,
-      onSaved: (value) {
-        _emailController.text = value!;
-      },
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-          hintText: "User Email",
-          hintStyle: TextStyle(fontSize: 20),
-          prefixIcon: Icon(Icons.mail, color: Colors.black, size: 25),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+  sizeHintText() {
+    if (PassMarker.useMobileLayout!) {
+      return 25.0;
+    } else {
+      return 30.0;
+    }
+  }
 
-  final passwordField = TextFormField(
-      key: const ValueKey(2),
-      autofocus: false,
-      controller: _passwordController,
-      textInputAction: TextInputAction.done,
-      obscureText: true,
-      onSaved: (value) {
-        _passwordController.text = value!;
-      },
-      decoration: InputDecoration(
-          hintText: "Password",
-          hintStyle: TextStyle(fontSize: 20),
-          prefixIcon: Icon(Icons.lock, color: Colors.black, size: 25),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+  _finishReservation(User user) async {
+    var data = await widget.loginService
+        .firebasefirestore()
+        .collection('users')
+        .doc(user.uid)
+        .collection('booking-out')
+        .get();
+
+    if (data.docs.isNotEmpty) {
+      for (var bookOut in data.docs) {
+        String data = bookOut.data()['date'];
+        final splitted = data.split('-');
+        String finalDate = splitted[1];
+        DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(finalDate);
+        if (dayEnd.compareTo(DateTime.now()) < 0) {
+          await widget.loginService
+              .firebasefirestore()
+              .collection('users')
+              .doc(user.uid)
+              .collection('booking-out')
+              .doc(bookOut.data()['bookingId'])
+              .update({'status': 'f'});
+        }
+      }
+    }
+
+    var data2 = await widget.loginService
+        .firebasefirestore()
+        .collection('users')
+        .doc(user.uid)
+        .collection('cars')
+        .get();
+
+    if (data2.docs.isNotEmpty) {
+      for (var car in data.docs) {
+        await widget.loginService
+            .firebasefirestore()
+            .collection('users')
+            .doc(car.data()['uid'])
+            .collection('cars')
+            .doc(car.data()['cid'])
+            .collection('booking-in')
+            .get()
+            .then((ds) async {
+          if (ds.docs.isNotEmpty) {
+            for (var book in ds.docs) {
+              String data = book.data()['date'];
+              final splitted = data.split('-');
+              String finalDate = splitted[1];
+              DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(finalDate);
+              if (dayEnd.compareTo(DateTime.now()) < 0) {
+                await widget.loginService
+                    .firebasefirestore()
+                    .collection('users')
+                    .doc(user.uid)
+                    .collection('cars')
+                    .doc(book.data()['cid'])
+                    .collection('booking-in')
+                    .doc(book.data()['bookingId'])
+                    .update({'status': 'f'});
+              }
+            }
+          }
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,81 +132,38 @@ class _LoginState extends State<Login> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
 
-    sizeHintText() {
-      if (PassMarker.useMobileLayout!) {
-        return 25.0;
-      } else {
-        return 30.0;
-      }
-    }
-
     final emailField = TextFormField(
         key: const ValueKey(1),
         autofocus: false,
-        textInputAction: TextInputAction.next,
+        style: TextStyle(fontSize: sizeHintText()),
         controller: _emailController,
-        onSaved: (value) {
-          _emailController.text = value!;
-        },
         keyboardType: TextInputType.emailAddress,
+        textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-            hintText: "User Email",
+            prefixIcon: Icon(Icons.mail, size: sizeHintText()),
+            contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
+            hintText: "Email",
             hintStyle: TextStyle(fontSize: sizeHintText()),
-            prefixIcon:
-                Icon(Icons.mail, color: Colors.black, size: sizeHintText()),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
     final passwordField = TextFormField(
         key: const ValueKey(2),
         autofocus: false,
+        style: TextStyle(fontSize: sizeHintText()),
         controller: _passwordController,
-        textInputAction: TextInputAction.done,
         obscureText: true,
-        onSaved: (value) {
-          _passwordController.text = value!;
-        },
+        textInputAction: TextInputAction.done,
         decoration: InputDecoration(
+            prefixIcon: Icon(Icons.vpn_key, size: sizeHintText()),
+            contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
+                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Password",
             hintStyle: TextStyle(fontSize: sizeHintText()),
-            prefixIcon:
-                Icon(Icons.lock, color: Colors.black, size: sizeHintText()),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
-    final emailFieldL = TextFormField(
-        key: const ValueKey(3),
-        autofocus: false,
-        textInputAction: TextInputAction.next,
-        controller: _emailController,
-        onSaved: (value) {
-          _emailController.text = value!;
-        },
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-            hintText: "User Email",
-            hintStyle: TextStyle(fontSize: sizeHintText()),
-            prefixIcon:
-                Icon(Icons.mail, color: Colors.black, size: sizeHintText()),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
-
-    final passwordFieldL = TextFormField(
-        key: const ValueKey(4),
-        autofocus: false,
-        controller: _passwordController,
-        textInputAction: TextInputAction.done,
-        obscureText: true,
-        onSaved: (value) {
-          _passwordController.text = value!;
-        },
-        decoration: InputDecoration(
-            hintText: "Password",
-            hintStyle: TextStyle(fontSize: sizeHintText()),
-            prefixIcon:
-                Icon(Icons.lock, color: Colors.black, size: sizeHintText()),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
     return PassMarker.useMobileLayout!
         ? Scaffold(
             resizeToAvoidBottomInset: true,
@@ -277,128 +279,149 @@ class _LoginState extends State<Login> {
                   resizeToAvoidBottomInset: true,
                   backgroundColor: Colors.white,
                   body: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Form(
-                          key: _formKey,
-                          child: Column(children: [
-                            SizedBox(height: screenHeight * 0.1),
-                            Text("Welcome to PrCar!",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: screenText * 55,
-                                    fontWeight: FontWeight.bold)),
-                            SizedBox(height: screenHeight * 0.05),
-                            SizedBox(
-                                height: screenHeight * 0.3,
-                                child: Image.asset("assets/prcarlogo.png",
-                                    fit: BoxFit.contain)),
-                            SizedBox(height: screenHeight * 0.05),
-                            emailField,
-                            SizedBox(height: screenHeight * 0.02),
-                            passwordField,
-                            SizedBox(height: screenHeight * 0.05),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                      child: Text('Forgot password?',
-                                          style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              color: Colors.green,
-                                              fontSize: screenText * 30)),
-                                      onTap: () => Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const ForgotPasswordPage()))),
-                                  Text(' or ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: screenText * 22)),
-                                  GestureDetector(
-                                      child: Text("Don't have an account?",
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              color: Colors.green,
-                                              fontSize: screenText * 30)),
-                                      onTap: () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const SignUp())))
-                                ]),
-                            SizedBox(height: screenHeight * 0.06),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                      height: screenHeight * 0.07,
-                                      width: screenWidth * 0.85,
-                                      child: MaterialButton(
-                                          color: Colors.green,
-                                          onPressed: () async {
-                                            if (await NetworkCheck().check()) {
-                                              User? user =
-                                                  await loginUsingEmailPassword(
-                                                      email:
-                                                          _emailController.text,
-                                                      password:
-                                                          _passwordController
-                                                              .text,
-                                                      context: context);
-                                              if (user != null) {
-                                                await widget.loginService
-                                                    .firebasefirestore()
-                                                    .collection('users')
-                                                    .doc(user.uid)
-                                                    .get()
-                                                    .then((ds) {
-                                                  userModel =
-                                                      UserModel.fromMap(ds);
-                                                  StaticUser.email =
-                                                      userModel.email!;
-                                                  StaticUser.uid =
-                                                      userModel.uid!;
-                                                  StaticUser.firstName =
-                                                      userModel.firstName!;
-                                                  StaticUser.secondName =
-                                                      userModel.secondName!;
-                                                  PassMarker.from = true;
-                                                  _finishReservation(user);
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              HomePage(
-                                                                  homePageService:
-                                                                      Service())));
-                                                });
-                                              }
-                                            } else {
-                                              Fluttertoast.showToast(
-                                                  msg: 'No internet connection',
-                                                  fontSize: 20);
-                                            }
-                                          },
-                                          child: Text("Login",
+                      child: Container(
+                          color: Colors.white,
+                          child: Padding(
+                              padding: EdgeInsets.all(screenHeight * 0.05),
+                              child: Form(
+                                  key: _formKey,
+                                  child: Column(children: <Widget>[
+                                    SizedBox(height: screenHeight * 0.1),
+                                    Text("Welcome to PrCar!",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: screenText * 55,
+                                            fontWeight: FontWeight.bold)),
+                                    SizedBox(height: screenHeight * 0.05),
+                                    SizedBox(
+                                        height: screenHeight * 0.3,
+                                        child: Image.asset(
+                                            "assets/prcarlogo.png",
+                                            fit: BoxFit.contain)),
+                                    SizedBox(height: screenHeight * 0.05),
+                                    emailField,
+                                    SizedBox(height: screenHeight * 0.02),
+                                    passwordField,
+                                    SizedBox(height: screenHeight * 0.05),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          GestureDetector(
+                                              child: Text('Forgot password?',
+                                                  style: TextStyle(
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      color: Colors.green,
+                                                      fontSize:
+                                                          screenText * 30)),
+                                              onTap: () => Navigator.of(context)
+                                                  .push(MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const ForgotPasswordPage()))),
+                                          Text(' or ',
                                               style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: screenText * 25))),
-                                      decoration: BoxDecoration(
-                                          color: Colors.deepPurple,
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                                color: Colors.deepPurple,
-                                                spreadRadius: 6,
-                                                blurRadius: 3)
-                                          ]))
-                                ])
-                          ]))));
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: screenText * 22)),
+                                          GestureDetector(
+                                              child: Text(
+                                                  "Don't have an account?",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      color: Colors.green,
+                                                      fontSize:
+                                                          screenText * 30)),
+                                              onTap: () => Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const SignUp())))
+                                        ]),
+                                    SizedBox(height: screenHeight * 0.06),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                              height: screenHeight * 0.07,
+                                              width: screenWidth * 0.85,
+                                              child: MaterialButton(
+                                                  color: Colors.green,
+                                                  onPressed: () async {
+                                                    if (await NetworkCheck()
+                                                        .check()) {
+                                                      User? user =
+                                                          await loginUsingEmailPassword(
+                                                              email:
+                                                                  _emailController
+                                                                      .text,
+                                                              password:
+                                                                  _passwordController
+                                                                      .text,
+                                                              context: context);
+                                                      if (user != null) {
+                                                        await widget
+                                                            .loginService
+                                                            .firebasefirestore()
+                                                            .collection('users')
+                                                            .doc(user.uid)
+                                                            .get()
+                                                            .then((ds) {
+                                                          userModel =
+                                                              UserModel.fromMap(
+                                                                  ds);
+                                                          StaticUser.email =
+                                                              userModel.email!;
+                                                          StaticUser.uid =
+                                                              userModel.uid!;
+                                                          StaticUser.firstName =
+                                                              userModel
+                                                                  .firstName!;
+                                                          StaticUser
+                                                                  .secondName =
+                                                              userModel
+                                                                  .secondName!;
+                                                          PassMarker.from =
+                                                              true;
+                                                          _finishReservation(
+                                                              user);
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      HomePage(
+                                                                          homePageService:
+                                                                              Service())));
+                                                        });
+                                                      }
+                                                    } else {
+                                                      Fluttertoast.showToast(
+                                                          msg:
+                                                              'No internet connection',
+                                                          fontSize: 20);
+                                                    }
+                                                  },
+                                                  child: Text("Login",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: screenText *
+                                                              25))),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.deepPurple,
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  boxShadow: const [
+                                                    BoxShadow(
+                                                        color:
+                                                            Colors.deepPurple,
+                                                        spreadRadius: 6,
+                                                        blurRadius: 3)
+                                                  ]))
+                                        ])
+                                  ]))))));
             } else {
               return Scaffold(
                   resizeToAvoidBottomInset: true,
@@ -428,12 +451,12 @@ class _LoginState extends State<Login> {
                           Container(
                               height: screenHeight * 0.1,
                               width: screenWidth * 0.5,
-                              child: emailFieldL),
+                              child: emailField),
                           SizedBox(height: screenHeight * 0.02),
                           Container(
                               height: screenHeight * 0.1,
                               width: screenWidth * 0.5,
-                              child: passwordFieldL),
+                              child: passwordField),
                           SizedBox(height: screenHeight * 0.05),
                           Row(children: [
                             GestureDetector(
@@ -532,73 +555,5 @@ class _LoginState extends State<Login> {
                       ])));
             }
           });
-  }
-
-  _finishReservation(User user) async {
-    var data = await widget.loginService
-        .firebasefirestore()
-        .collection('users')
-        .doc(user.uid)
-        .collection('booking-out')
-        .get();
-
-    if (data.docs.isNotEmpty) {
-      for (var bookOut in data.docs) {
-        String data = bookOut.data()['date'];
-        final splitted = data.split('-');
-        String finalDate = splitted[1];
-        DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(finalDate);
-        if (dayEnd.compareTo(DateTime.now()) < 0) {
-          await widget.loginService
-              .firebasefirestore()
-              .collection('users')
-              .doc(user.uid)
-              .collection('booking-out')
-              .doc(bookOut.data()['bookingId'])
-              .update({'status': 'f'});
-        }
-      }
-    }
-
-    var data2 = await widget.loginService
-        .firebasefirestore()
-        .collection('users')
-        .doc(user.uid)
-        .collection('cars')
-        .get();
-
-    if (data2.docs.isNotEmpty) {
-      for (var car in data.docs) {
-        await widget.loginService
-            .firebasefirestore()
-            .collection('users')
-            .doc(car.data()['uid'])
-            .collection('cars')
-            .doc(car.data()['cid'])
-            .collection('booking-in')
-            .get()
-            .then((ds) async {
-          if (ds.docs.isNotEmpty) {
-            for (var book in ds.docs) {
-              String data = book.data()['date'];
-              final splitted = data.split('-');
-              String finalDate = splitted[1];
-              DateTime dayEnd = DateFormat("dd/MM/yyyy").parse(finalDate);
-              if (dayEnd.compareTo(DateTime.now()) < 0) {
-                await widget.loginService
-                    .firebasefirestore()
-                    .collection('users')
-                    .doc(user.uid)
-                    .collection('cars')
-                    .doc(book.data()['cid'])
-                    .collection('booking-in')
-                    .doc(book.data()['bookingId'])
-                    .update({'status': 'f'});
-              }
-            }
-          }
-        });
-      }
-    }
   }
 }

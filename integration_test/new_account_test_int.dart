@@ -62,7 +62,11 @@ void main() {
       // Emulate a tap on the floating action button.
       await tester.tap(fa12);
       await tester.pump();
+<<<<<<< HEAD
       await tester.pump(Duration(seconds: 2));
+=======
+      await tester.pump(Duration(seconds: 1));
+>>>>>>> a7e6b882c5339ea819a5c96fb31d3c827a84c170
 
       await tester.tap(fa12);
       await tester.pumpAndSettle();
