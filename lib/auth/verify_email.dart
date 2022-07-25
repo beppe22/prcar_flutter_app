@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/login.dart';
@@ -61,12 +62,12 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    //final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    return PassMarker.useMobileLayout!
-        ? isEmailVerified
-            ? HomePage(homePageService: Service())
-            : Scaffold(
+    return isEmailVerified
+        ? HomePage(homePageService: Service())
+        : PassMarker.useMobileLayout!
+            ? Scaffold(
                 appBar: AppBar(
                     title: Text('Verify Email',
                         style: TextStyle(fontSize: screenText * 20)),
@@ -133,7 +134,83 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
                                 }
                               })
                         ])))
-        : Container();
+            : Scaffold(
+                appBar: AppBar(
+                    title: Text('Verify Email',
+                        style: TextStyle(fontSize: screenText * 30)),
+                    backgroundColor: Colors.green,
+                    automaticallyImplyLeading: false),
+                backgroundColor: Colors.white,
+                body: Center(
+                    child: Padding(
+                        padding: EdgeInsets.all(screenHeight * 0.03),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(height: screenHeight * 0.04),
+                              Text(
+                                  'A verification mail has been sent to your email.',
+                                  style: TextStyle(
+                                      fontSize: screenText * 48,
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center),
+                              SizedBox(height: screenHeight * 0.05),
+                              SizedBox(
+                                  height: screenHeight * 0.4,
+                                  child: Image.asset("assets/prcarlogo.png",
+                                      fit: BoxFit.contain)),
+                              SizedBox(height: screenHeight * 0.05),
+                              SizedBox(
+                                  height: screenHeight * 0.06,
+                                  width: screenWidth * 0.6,
+                                  child: ElevatedButton.icon(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.green,
+                                      ),
+                                      icon: Icon(Icons.mail,
+                                          size: screenText * 28),
+                                      label: Text('Resent Email',
+                                          style: TextStyle(
+                                              fontSize: screenText * 24)),
+                                      onPressed: canResendEmail
+                                          ? sendVerificationEmail
+                                          : null)),
+                              SizedBox(height: screenHeight * 0.06),
+                              SizedBox(
+                                  height: screenHeight * 0.06,
+                                  width: screenWidth * 0.6,
+                                  child: ElevatedButton.icon(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.green),
+                                      icon: Icon(Icons.cancel,
+                                          size: screenText * 28),
+                                      label: Text('Cancel',
+                                          style: TextStyle(
+                                              fontSize: screenText * 24)),
+                                      onPressed: () async {
+                                        if (await NetworkCheck().check()) {
+                                          User? user =
+                                              FirebaseAuth.instance.currentUser;
+                                          await FirebaseFirestore.instance
+                                              .collection('users')
+                                              .doc(user?.uid)
+                                              .delete();
+                                          await user?.delete();
+                                          Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => Login(
+                                                        loginService: Service(),
+                                                      )),
+                                              (Route<dynamic> route) => false);
+                                        } else {
+                                          Fluttertoast.showToast(
+                                              msg: 'No internet connection',
+                                              fontSize: 20);
+                                        }
+                                      }))
+                            ]))));
   }
 
   Future sendVerificationEmail() async {

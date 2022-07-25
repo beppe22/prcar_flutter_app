@@ -406,7 +406,7 @@ class _SignUpState extends State<SignUp> {
                                                       height:
                                                           screenHeight * 0.07,
                                                       width: screenWidth * 0.5,
-                                                      child: signUpButton),
+                                                      child: signUpButton)
                                                 ])
                                               ]))))))));
             }

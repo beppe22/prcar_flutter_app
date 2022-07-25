@@ -282,7 +282,6 @@ class _CounterState extends State<Counter> {
                                 divisions: 100,
                                 onChanged: setCounter))
                       ]));
-              ;
             }
           });
   }
