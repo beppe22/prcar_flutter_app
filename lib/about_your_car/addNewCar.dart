@@ -60,17 +60,50 @@ class _AddNewCarState extends State<AddNewCar> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
+
+    color() {
+      if (PassMarker.useMobileLayout!) {
+        return Colors.redAccent;
+      } else {
+        return Colors.green;
+      }
+    }
+
+    size() {
+      if (PassMarker.useMobileLayout!) {
+        return screenText * 20;
+      } else {
+        return screenText * 30;
+      }
+    }
+
+    width() {
+      if (MediaQuery.of(context).orientation == Orientation.portrait) {
+        return screenWidth * 0.8;
+      } else {
+        return screenWidth * 0.25;
+      }
+    }
+
+    heigth() {
+      if (MediaQuery.of(context).orientation == Orientation.portrait) {
+        return screenHeight * 0.07;
+      } else {
+        return screenHeight * 0.12;
+      }
+    }
+
     //position button field
     final positionButton = Container(
-        width: screenWidth * 0.8,
-        height: screenHeight * 0.07,
+        width: width(),
+        height: heigth(),
         margin: EdgeInsets.only(
             top: screenHeight * 0.01,
             left: screenWidth * 0.04,
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
+            color: color(), borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
               Navigator.push(
@@ -95,21 +128,21 @@ class _AddNewCarState extends State<AddNewCar> {
                 child: Text("Position: " + positionString.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: screenText * 20,
+                        fontSize: size(),
                         color: Colors.white,
                         fontWeight: FontWeight.bold)))));
 
 //vehicle button field
     final vehicleButton = Container(
-        width: screenWidth * 0.8,
-        height: screenHeight * 0.07,
+        width: width(),
+        height: heigth(),
         margin: EdgeInsets.only(
             top: screenHeight * 0.01,
             left: screenWidth * 0.04,
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
+            color: color(), borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
               Navigator.push(
@@ -138,21 +171,21 @@ class _AddNewCarState extends State<AddNewCar> {
                 child: Text("Vehicle: " + vehicleString,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: screenText * 20,
+                        fontSize: size(),
                         color: Colors.white,
                         fontWeight: FontWeight.bold)))));
 
     //seats button field
     final seatsButton = Container(
-        width: screenWidth * 0.8,
-        height: screenHeight * 0.07,
+        width: width(),
+        height: heigth(),
         margin: EdgeInsets.only(
             top: screenHeight * 0.01,
             left: screenWidth * 0.04,
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
+            color: color(), borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
@@ -177,21 +210,21 @@ class _AddNewCarState extends State<AddNewCar> {
             child: Text("Seats: " + car.seats.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: screenText * 20,
+                    fontSize: size(),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
     //fuel button field
     final fuelButton = Container(
-        width: screenWidth * 0.8,
-        height: screenHeight * 0.07,
+        width: width(),
+        height: heigth(),
         margin: EdgeInsets.only(
             top: screenHeight * 0.01,
             left: screenWidth * 0.04,
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
+            color: color(), borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
@@ -215,21 +248,21 @@ class _AddNewCarState extends State<AddNewCar> {
             child: Text("Fuel: " + car.fuel.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: screenText * 20,
+                    fontSize: size(),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
     //price button field
     final priceButton = Container(
-        width: screenWidth * 0.8,
-        height: screenHeight * 0.07,
+        width: width(),
+        height: heigth(),
         margin: EdgeInsets.only(
             top: screenHeight * 0.01,
             left: screenWidth * 0.04,
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
+            color: color(), borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
@@ -254,27 +287,31 @@ class _AddNewCarState extends State<AddNewCar> {
             child: Text("Price: " + car.price.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: screenText * 20,
+                    fontSize: size(),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
 //photo button field
-    final photoButton = FloatingActionButton(
-      onPressed: () async {
-        Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ImageCar(add: true)))
-            .then((data) {
-          images = data;
-        });
-      },
-      backgroundColor: Colors.redAccent,
-      child: Icon(Icons.photo_camera, size: screenText * 25),
-    );
+    final photoButton = Container(
+        height: heigth(),
+        width: width(),
+        child: FloatingActionButton(
+          onPressed: () async {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ImageCar(add: true))).then((data) {
+              images = data;
+            });
+          },
+          backgroundColor: color(),
+          child: Icon(Icons.photo_camera, size: size()),
+        ));
 
 //clear button field
     final clearButton = Container(
-        width: screenWidth * 0.8,
-        height: screenHeight * 0.07,
+        width: width(),
+        height: heigth(),
         margin: EdgeInsets.only(
             top: screenHeight * 0.01,
             left: screenWidth * 0.04,
@@ -303,7 +340,7 @@ class _AddNewCarState extends State<AddNewCar> {
             child: Text("Clear All",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: screenText * 20,
+                    fontSize: size(),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -438,7 +475,169 @@ class _AddNewCarState extends State<AddNewCar> {
               SizedBox(height: screenHeight * 0.015),
               clearButton,
             ])))
-        : Container();
+        : Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+                backgroundColor: Colors.green,
+                title: Text('Add Car',
+                    style: TextStyle(fontSize: screenText * 30)),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back, size: screenText * 35),
+                    onPressed: () {
+                      List<CarModel> valueNull = [];
+                      Navigator.pop(context, valueNull);
+                      setState(() {
+                        car.fuel = '';
+                        car.price = '';
+                        car.vehicle = '';
+                        car.seats = '';
+                        car.position = '';
+                        car.model = '';
+                        positionString = '';
+                        vehicleString = '';
+                        PassMarker.photoCount = 0;
+                      });
+                    }),
+                actions: [
+                  Row(children: [
+                    Text('Done!',
+                        style: TextStyle(
+                            fontSize: screenText * 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                    IconButton(
+                        onPressed: () async {
+                          if (await NetworkCheck().check()) {
+                            if (car.fuel != '' &&
+                                car.position != '' &&
+                                car.model != '' &&
+                                car.price != '' &&
+                                car.seats != '' &&
+                                images.isNotEmpty) {
+                              List<CarModel> cars = await _addCar(car);
+                              Fluttertoast.showToast(
+                                  msg: 'Car added succesfully :)',
+                                  fontSize: 20);
+                              PassMarker.from = true;
+                              setState(() {
+                                int i = PassMarker.markerId;
+                                PassMarker.markerId = PassMarker.markerId + 1;
+                                String? carLatLng = car.position;
+                                final splitted = carLatLng!.split(',');
+                                double lat = double.parse(splitted[0]);
+                                double lng = double.parse(splitted[1]);
+                                PassMarker.markerToPass.add(Marker(
+                                    markerId: MarkerId('marker$i'),
+                                    infoWindow: InfoWindow(
+                                        title: 'My car: click for details',
+                                        onTap: () {
+                                          String suspOrAct = 'Active';
+
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => InfoCar(
+                                                        car,
+                                                        suspOrAct,
+                                                        true,
+                                                        service: Service(),
+                                                      )));
+                                        }),
+                                    position: LatLng(lat, lng),
+                                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                                        BitmapDescriptor.hueBlue),
+                                    onTap: () {
+                                      setState(() {
+                                        pinPillPosition = pinInvisiblePosition;
+                                      });
+                                    }));
+                              });
+
+                              User? user =
+                                  widget.addNewCarService.currentUser();
+                              for (int i = 0; images[i] != null && i < 6; i++) {
+                                final tempPath = images[i]!.path;
+                                widget.addNewCarService.storage().uploadCarPic(
+                                    tempPath,
+                                    'imageCar$i',
+                                    user!.uid,
+                                    PassMarker.cidAdd);
+                              }
+                              if (cars != []) {
+                                Navigator.pop(context, cars);
+                              }
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg:
+                                      'Invalid Insert: You can\'t insert a car without all the parameters choosen',
+                                  fontSize: 20);
+                            }
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: 'No internet connection', fontSize: 20);
+                          }
+                        },
+                        icon: Icon(Icons.add_task, size: screenText * 35))
+                  ])
+                ]),
+            body: OrientationBuilder(builder: (_, orientation) {
+              if (orientation == Orientation.portrait) {
+                return Center(
+                    child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  SizedBox(
+                      height: screenHeight * 0.07,
+                      child: Text("Insert a new car",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                              fontSize: screenText * 40))),
+                  SizedBox(height: screenHeight * 0.015),
+                  vehicleButton,
+                  SizedBox(height: screenHeight * 0.015),
+                  positionButton,
+                  SizedBox(height: screenHeight * 0.015),
+                  seatsButton,
+                  SizedBox(height: screenHeight * 0.015),
+                  fuelButton,
+                  SizedBox(height: screenHeight * 0.015),
+                  priceButton,
+                  SizedBox(height: screenHeight * 0.015),
+                  photoButton,
+                  SizedBox(height: screenHeight * 0.015),
+                  clearButton,
+                ]));
+              } else {
+                return Center(
+                    child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  SizedBox(
+                      height: screenHeight * 0.07,
+                      child: Text("Insert a new car",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                              fontSize: screenText * 40))),
+                  SizedBox(height: screenHeight * 0.015),
+                  Row(children: [
+                    vehicleButton,
+                    SizedBox(width: screenWidth * 0.005),
+                    positionButton,
+                    SizedBox(width: screenWidth * 0.005),
+                    seatsButton
+                  ]),
+                  SizedBox(height: screenHeight * 0.02),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    fuelButton,
+                    SizedBox(width: screenWidth * 0.1),
+                    priceButton
+                  ]),
+                  SizedBox(height: screenHeight * 0.02),
+                  photoButton,
+                  SizedBox(height: screenHeight * 0.02),
+                  clearButton
+                ]));
+              }
+            }));
   }
 
   Future<List<CarModel>> _addCar(CarModel carModel) async {

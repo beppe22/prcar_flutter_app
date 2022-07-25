@@ -341,8 +341,8 @@ class BookingInPageState extends State<BookingInPage> {
                                                           screenHeight * 0.01),
                                                   Container(
                                                       height:
-                                                          screenHeight * 0.16,
-                                                      width: screenWidth * 0.9,
+                                                          screenHeight * 0.2,
+                                                      width: screenWidth * 0.7,
                                                       padding: EdgeInsets.fromLTRB(
                                                           screenWidth * 0.008,
                                                           screenHeight * 0.008,
@@ -360,7 +360,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                             'What do you want to do?',
                                                                             style: TextStyle(
                                                                                 color: Colors.redAccent,
-                                                                                fontSize: screenText * 25,
+                                                                                fontSize: screenText * 35,
                                                                                 fontWeight: FontWeight.bold),
                                                                             textAlign: TextAlign.center),
                                                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -369,8 +369,8 @@ class BookingInPageState extends State<BookingInPage> {
                                                                               height: screenHeight * 0.03),
                                                                           Container(
                                                                               height: screenHeight * 0.09,
-                                                                              width: screenWidth * 0.7,
-                                                                              decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
+                                                                              width: screenWidth * 0.5,
+                                                                              decoration: BoxDecoration(color: Colors.green, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                               child: MaterialButton(
                                                                                 onPressed: () async {
                                                                                   if (await NetworkCheck().check()) {
@@ -380,14 +380,14 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                     Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
                                                                                   }
                                                                                 },
-                                                                                child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
+                                                                                child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 30, color: Colors.black)),
                                                                                 shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                               )),
                                                                           SizedBox(
                                                                               height: screenHeight * 0.03),
                                                                           Container(
                                                                               height: screenHeight * 0.09,
-                                                                              width: screenWidth * 0.7,
+                                                                              width: screenWidth * 0.5,
                                                                               decoration: BoxDecoration(color: _colorAnulment(index), border: Border.all(width: 5.0, color: Colors.grey)),
                                                                               child: MaterialButton(
                                                                                 onPressed: () async {
@@ -438,7 +438,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                     }
                                                                                   }
                                                                                 },
-                                                                                child: Text('Annulment', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
+                                                                                child: Text('Annulment', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 30, color: Colors.black)),
                                                                                 shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                               )),
                                                                           SizedBox(
@@ -446,7 +446,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                           Container(
                                                                               height: screenHeight * 0.09,
                                                                               width: screenWidth * 0.7,
-                                                                              decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
+                                                                              decoration: BoxDecoration(color: Colors.green, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                               child: MaterialButton(
                                                                                 onPressed: () async {
                                                                                   if (await NetworkCheck().check()) {
@@ -467,7 +467,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                     Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
                                                                                   }
                                                                                 },
-                                                                                child: Text('Elimination', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
+                                                                                child: Text('Elimination', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 30, color: Colors.black)),
                                                                                 shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                               )),
                                                                         ])));
@@ -482,7 +482,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                           .bold,
                                                                   fontSize:
                                                                       screenText *
-                                                                          18,
+                                                                          32,
                                                                   color: _colorReservation(
                                                                       index, bookingId))))),
                                                       decoration: BoxDecoration(
@@ -569,8 +569,8 @@ class BookingInPageState extends State<BookingInPage> {
                                                           screenHeight * 0.01),
                                                   Container(
                                                       height:
-                                                          screenHeight * 0.16,
-                                                      width: screenWidth * 0.9,
+                                                          screenHeight * 0.2,
+                                                      width: screenWidth * 0.6,
                                                       padding: EdgeInsets.fromLTRB(
                                                           screenWidth * 0.008,
                                                           screenHeight * 0.008,
@@ -587,8 +587,8 @@ class BookingInPageState extends State<BookingInPage> {
                                                                         title: Text(
                                                                             'What do you want to do?',
                                                                             style: TextStyle(
-                                                                                color: Colors.redAccent,
-                                                                                fontSize: screenText * 25,
+                                                                                color: Colors.green,
+                                                                                fontSize: screenText * 35,
                                                                                 fontWeight: FontWeight.bold),
                                                                             textAlign: TextAlign.center),
                                                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -596,9 +596,9 @@ class BookingInPageState extends State<BookingInPage> {
                                                                           SizedBox(
                                                                               height: screenHeight * 0.03),
                                                                           Container(
-                                                                              height: screenHeight * 0.09,
-                                                                              width: screenWidth * 0.7,
-                                                                              decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
+                                                                              height: screenHeight * 0.12,
+                                                                              width: screenWidth * 0.35,
+                                                                              decoration: BoxDecoration(color: Colors.green, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                               child: MaterialButton(
                                                                                 onPressed: () async {
                                                                                   if (await NetworkCheck().check()) {
@@ -608,14 +608,14 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                     Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
                                                                                   }
                                                                                 },
-                                                                                child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
+                                                                                child: Text('Chat', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 30, color: Colors.black)),
                                                                                 shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                               )),
                                                                           SizedBox(
                                                                               height: screenHeight * 0.03),
                                                                           Container(
-                                                                              height: screenHeight * 0.09,
-                                                                              width: screenWidth * 0.7,
+                                                                              height: screenHeight * 0.12,
+                                                                              width: screenWidth * 0.35,
                                                                               decoration: BoxDecoration(color: _colorAnulment(index), border: Border.all(width: 5.0, color: Colors.grey)),
                                                                               child: MaterialButton(
                                                                                 onPressed: () async {
@@ -666,15 +666,15 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                     }
                                                                                   }
                                                                                 },
-                                                                                child: Text('Annulment', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
+                                                                                child: Text('Annulment', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 30, color: Colors.black)),
                                                                                 shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                               )),
                                                                           SizedBox(
                                                                               height: screenHeight * 0.03),
                                                                           Container(
-                                                                              height: screenHeight * 0.09,
-                                                                              width: screenWidth * 0.7,
-                                                                              decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
+                                                                              height: screenHeight * 0.12,
+                                                                              width: screenWidth * 0.35,
+                                                                              decoration: BoxDecoration(color: Colors.green, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                               child: MaterialButton(
                                                                                 onPressed: () async {
                                                                                   if (await NetworkCheck().check()) {
@@ -695,7 +695,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                     Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
                                                                                   }
                                                                                 },
-                                                                                child: Text('Elimination', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 20, color: Colors.black)),
+                                                                                child: Text('Elimination', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 30, color: Colors.black)),
                                                                                 shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                                                               )),
                                                                         ])));
@@ -710,7 +710,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                           .bold,
                                                                   fontSize:
                                                                       screenText *
-                                                                          18,
+                                                                          32,
                                                                   color: _colorReservation(
                                                                       index, bookingId))))),
                                                       decoration: BoxDecoration(
@@ -799,17 +799,29 @@ class BookingInPageState extends State<BookingInPage> {
 
   _colorAnulment(int i) {
     if (PassMarker.status[i] == 'a' || PassMarker.status[i] == 'f') {
-      return Colors.red.shade100;
+      if (PassMarker.useMobileLayout!) {
+        return Colors.red.shade100;
+      } else {
+        return Colors.green.shade100;
+      }
     } else {
-      return Colors.redAccent;
+      if (PassMarker.useMobileLayout!) {
+        return Colors.redAccent;
+      } else {
+        return Colors.green;
+      }
     }
   }
 
   _colorReservation(int i, String bookingId) {
     if (PassMarker.bookId[i] == bookingId) {
-      return Colors.greenAccent;
+      return Colors.blue;
     } else {
-      return Colors.redAccent;
+      if (PassMarker.useMobileLayout!) {
+        return Colors.redAccent;
+      } else {
+        return Colors.green;
+      }
     }
   }
 }

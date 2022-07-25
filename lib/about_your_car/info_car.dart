@@ -333,7 +333,656 @@ class _InfoCarState extends State<InfoCar> {
                         child: Icon(Icons.photo_album, size: screenText * 25))
                   ])
                 ])))
-        : Container();
+        : OrientationBuilder(builder: (_, orientation) {
+            if (orientation == Orientation.portrait) {
+              return Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      title: Text(
+                          carModel.vehicle.toString() +
+                              '-' +
+                              carModel.model.toString(),
+                          style: TextStyle(fontSize: screenText * 30)),
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          icon: homepage
+                              ? Icon(Icons.cancel, size: screenText * 35)
+                              : Icon(Icons.arrow_back, size: screenText * 35),
+                          onPressed: () async {
+                            Navigator.pop(context, await _fetchInfoCar());
+                          })),
+                  body: Center(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                        SizedBox(height: screenHeight * 0.03),
+                        SizedBox(
+                            height: screenHeight * 0.32,
+                            child: Image.asset("assets/prcarlogo.png",
+                                fit: BoxFit.contain)),
+                        SizedBox(height: screenHeight * 0.03),
+                        Container(
+                            height: screenHeight * 0.3,
+                            width: screenWidth * 0.8,
+                            child: Center(
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  Text(
+                                      'Model: ' +
+                                          carModel.vehicle.toString() +
+                                          '-' +
+                                          carModel.model.toString(),
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: Colors.green,
+                                          fontSize: screenText * 40,
+                                          fontWeight: FontWeight.w500,
+                                          backgroundColor: Colors.white)),
+                                  Text('Seats: ' + carModel.seats.toString(),
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: Colors.green,
+                                          fontSize: screenText * 40,
+                                          fontWeight: FontWeight.w500,
+                                          backgroundColor: Colors.white)),
+                                  Text('Fuel: ' + carModel.fuel.toString(),
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: Colors.green,
+                                          fontSize: screenText * 40,
+                                          fontWeight: FontWeight.w500,
+                                          backgroundColor: Colors.white)),
+                                  Text(
+                                      'Position: ' +
+                                          _positionString(
+                                              carModel.position.toString()),
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: Colors.green,
+                                          fontSize: screenText * 40,
+                                          fontWeight: FontWeight.w500,
+                                          backgroundColor: Colors.white)),
+                                  Text(
+                                      'Price for day: ' +
+                                          carModel.price.toString(),
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: Colors.green,
+                                          fontSize: screenText * 40,
+                                          fontWeight: FontWeight.w500,
+                                          backgroundColor: Colors.white)),
+                                  Text(
+                                      'Status: ' +
+                                          _activeString(
+                                              carModel.activeOrNot.toString()),
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: Colors.green,
+                                          fontSize: screenText * 40,
+                                          fontWeight: FontWeight.w500,
+                                          backgroundColor: Colors.white))
+                                ])),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.green,
+                                      spreadRadius: 4,
+                                      blurRadius: 2)
+                                ])),
+                        SizedBox(height: screenHeight * 0.04),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  height: screenHeight * 0.07,
+                                  width: screenWidth * 0.4,
+                                  child: MaterialButton(
+                                      color: Colors.grey,
+                                      onPressed: () async {
+                                        PassMarker.carModel = carModel;
+                                        CarModel newCar = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ChangeInfoCar(
+                                                        carModel: carModel,
+                                                        changeInfoCarService:
+                                                            Service())));
+                                        if (newCar != CarModel()) {
+                                          setState(() {
+                                            carModel = newCar;
+                                          });
+                                        }
+                                      },
+                                      child: Text("Change Info",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: screenText * 40))),
+                                  decoration: BoxDecoration(
+                                      color: Colors.deepPurple,
+                                      borderRadius: BorderRadius.circular(12),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Colors.deepPurple,
+                                            spreadRadius: 6,
+                                            blurRadius: 3)
+                                      ])),
+                              SizedBox(width: screenWidth * 0.08),
+                              Container(
+                                  height: screenHeight * 0.07,
+                                  width: screenWidth * 0.4,
+                                  child: MaterialButton(
+                                      color: Colors.grey,
+                                      onPressed: () async {
+                                        if (await NetworkCheck().check()) {
+                                          if (supOrActive == 'Active') {
+                                            setState(() {
+                                              carModel.activeOrNot = 't';
+                                              supOrActive = 'Suspend';
+                                            });
+                                          } else {
+                                            setState(() {
+                                              carModel.activeOrNot = 'f';
+                                              supOrActive = 'Active';
+                                            });
+                                          }
+                                          _suspendOrActiveCar();
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  'Car\'s status changed! Pay attention to its reservations because those are still available!',
+                                              fontSize: 20);
+                                        } else {
+                                          Fluttertoast.showToast(
+                                              msg: 'No internet connection',
+                                              fontSize: 20);
+                                        }
+                                      },
+                                      child: Text(supOrActive,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: screenText * 40))),
+                                  decoration: BoxDecoration(
+                                      color: Colors.deepPurple,
+                                      borderRadius: BorderRadius.circular(12),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Colors.deepPurple,
+                                            spreadRadius: 6,
+                                            blurRadius: 3)
+                                      ]))
+                            ]),
+                        SizedBox(height: screenHeight * 0.04),
+                        Row(children: [
+                          SizedBox(width: screenWidth * 0.26),
+                          Container(
+                              height: screenHeight * 0.07,
+                              width: screenWidth * 0.4,
+                              child: MaterialButton(
+                                  color: Colors.grey,
+                                  onPressed: () async {
+                                    if (await _fetchCarRes(carModel.cid!) ==
+                                        0) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                                  title: Text(
+                                                      'Are you sure to delete this car?',
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              screenText * 36,
+                                                          color: Colors.grey,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      textAlign:
+                                                          TextAlign.center),
+                                                  actions: <Widget>[
+                                                    Row(children: [
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text('Close',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .green,
+                                                                  fontSize:
+                                                                      screenText *
+                                                                          32))),
+                                                      SizedBox(
+                                                          width: screenWidth *
+                                                              0.38),
+                                                      TextButton(
+                                                          onPressed: () async {
+                                                            if (await NetworkCheck()
+                                                                .check()) {
+                                                              User? user = widget
+                                                                  .service
+                                                                  .currentUser();
+                                                              await _deleteCar(
+                                                                  user!.uid,
+                                                                  carModel
+                                                                      .cid!);
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Navigator.pop(
+                                                                  context,
+                                                                  _fetchInfoCar());
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                      msg:
+                                                                          'Car deleted!',
+                                                                      fontSize:
+                                                                          20);
+                                                            } else {
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                      msg:
+                                                                          'No internet connection',
+                                                                      fontSize:
+                                                                          20);
+                                                            }
+                                                          },
+                                                          child: Text('Yes!',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .green,
+                                                                  fontSize:
+                                                                      screenText *
+                                                                          32)))
+                                                    ])
+                                                  ]));
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              InactiveSingleCar(car: carModel));
+                                    }
+                                  },
+                                  child: Text("Delete",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: screenText * 40))),
+                              decoration: BoxDecoration(
+                                  color: Colors.deepPurple,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.deepPurple,
+                                        spreadRadius: 6,
+                                        blurRadius: 3)
+                                  ])),
+                          Container(
+                              height: screenHeight * 0.07,
+                              width: screenWidth * 0.3,
+                              child: FloatingActionButton(
+                                  onPressed: () async {
+                                    if (await NetworkCheck().check()) {
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (context) => const Center(
+                                            child: CircularProgressIndicator()),
+                                      );
+                                      List<String> files = await urlFile(
+                                          carModel.uid!, carModel.cid!);
+                                      final List<ImageProvider>
+                                          _imageProviders = [];
+                                      for (int i = 0; i < files.length; i++) {
+                                        _imageProviders.insert(
+                                            i, Image.network(files[i]).image);
+                                      }
+                                      MultiImageProvider multiImageProvider =
+                                          MultiImageProvider(_imageProviders);
+                                      await showImageViewerPager(
+                                          context, multiImageProvider);
+                                      Navigator.pop(context);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: 'No internet connection',
+                                          fontSize: 20);
+                                    }
+                                  },
+                                  backgroundColor: Colors.green,
+                                  child: Icon(Icons.photo_album,
+                                      size: screenText * 35)))
+                        ])
+                      ])));
+            } else {
+              return Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      title: Text(
+                          carModel.vehicle.toString() +
+                              '-' +
+                              carModel.model.toString(),
+                          style: TextStyle(fontSize: screenText * 30)),
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          icon: homepage
+                              ? Icon(Icons.cancel, size: screenText * 35)
+                              : Icon(Icons.arrow_back, size: screenText * 35),
+                          onPressed: () async {
+                            Navigator.pop(context, await _fetchInfoCar());
+                          })),
+                  body: Center(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                        Column(children: [
+                          SizedBox(height: screenHeight * 0.1),
+                          SizedBox(
+                              height: screenHeight * 0.4,
+                              child: Image.asset("assets/prcarlogo.png",
+                                  fit: BoxFit.contain)),
+                          SizedBox(height: screenHeight * 0.03),
+                          Container(
+                              height: screenHeight * 0.28,
+                              width: screenWidth * 0.4,
+                              child: Center(
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                    Text(
+                                        'Model: ' +
+                                            carModel.vehicle.toString() +
+                                            '-' +
+                                            carModel.model.toString(),
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: screenText * 30,
+                                            fontWeight: FontWeight.w500,
+                                            backgroundColor: Colors.white)),
+                                    Text('Seats: ' + carModel.seats.toString(),
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: screenText * 30,
+                                            fontWeight: FontWeight.w500,
+                                            backgroundColor: Colors.white)),
+                                    Text('Fuel: ' + carModel.fuel.toString(),
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: screenText * 30,
+                                            fontWeight: FontWeight.w500,
+                                            backgroundColor: Colors.white)),
+                                    Text(
+                                        'Position: ' +
+                                            _positionString(
+                                                carModel.position.toString()),
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: screenText * 30,
+                                            fontWeight: FontWeight.w500,
+                                            backgroundColor: Colors.white)),
+                                    Text(
+                                        'Price for day: ' +
+                                            carModel.price.toString(),
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: screenText * 30,
+                                            fontWeight: FontWeight.w500,
+                                            backgroundColor: Colors.white)),
+                                    Text(
+                                        'Status: ' +
+                                            _activeString(carModel.activeOrNot
+                                                .toString()),
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: screenText * 30,
+                                            fontWeight: FontWeight.w500,
+                                            backgroundColor: Colors.white))
+                                  ])),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.green,
+                                        spreadRadius: 4,
+                                        blurRadius: 2)
+                                  ]))
+                        ]),
+                        SizedBox(width: screenWidth * 0.1),
+                        Column(children: [
+                          SizedBox(height: screenHeight * 0.15),
+                          Container(
+                              height: screenHeight * 0.1,
+                              width: screenWidth * 0.4,
+                              child: MaterialButton(
+                                  color: Colors.grey,
+                                  onPressed: () async {
+                                    PassMarker.carModel = carModel;
+                                    CarModel newCar = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ChangeInfoCar(
+                                                carModel: carModel,
+                                                changeInfoCarService:
+                                                    Service())));
+                                    if (newCar != CarModel()) {
+                                      setState(() {
+                                        carModel = newCar;
+                                      });
+                                    }
+                                  },
+                                  child: Text("Change Info",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: screenText * 40))),
+                              decoration: BoxDecoration(
+                                  color: Colors.deepPurple,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.deepPurple,
+                                        spreadRadius: 6,
+                                        blurRadius: 3)
+                                  ])),
+                          SizedBox(height: screenHeight * 0.1),
+                          Container(
+                              height: screenHeight * 0.1,
+                              width: screenWidth * 0.4,
+                              child: MaterialButton(
+                                  color: Colors.grey,
+                                  onPressed: () async {
+                                    if (await NetworkCheck().check()) {
+                                      if (supOrActive == 'Active') {
+                                        setState(() {
+                                          carModel.activeOrNot = 't';
+                                          supOrActive = 'Suspend';
+                                        });
+                                      } else {
+                                        setState(() {
+                                          carModel.activeOrNot = 'f';
+                                          supOrActive = 'Active';
+                                        });
+                                      }
+                                      _suspendOrActiveCar();
+                                      Fluttertoast.showToast(
+                                          msg:
+                                              'Car\'s status changed! Pay attention to its reservations because those are still available!',
+                                          fontSize: 20);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: 'No internet connection',
+                                          fontSize: 20);
+                                    }
+                                  },
+                                  child: Text(supOrActive,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: screenText * 40))),
+                              decoration: BoxDecoration(
+                                  color: Colors.deepPurple,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.deepPurple,
+                                        spreadRadius: 6,
+                                        blurRadius: 3)
+                                  ])),
+                          SizedBox(height: screenHeight * 0.1),
+                          Container(
+                              height: screenHeight * 0.1,
+                              width: screenWidth * 0.4,
+                              child: MaterialButton(
+                                  color: Colors.grey,
+                                  onPressed: () async {
+                                    if (await _fetchCarRes(carModel.cid!) ==
+                                        0) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                                  title: Text(
+                                                      'Are you sure to delete this car?',
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              screenText * 36,
+                                                          color: Colors.grey,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      textAlign:
+                                                          TextAlign.center),
+                                                  actions: <Widget>[
+                                                    Row(children: [
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text('Close',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .green,
+                                                                  fontSize:
+                                                                      screenText *
+                                                                          32))),
+                                                      SizedBox(
+                                                          width: screenWidth *
+                                                              0.38),
+                                                      TextButton(
+                                                          onPressed: () async {
+                                                            if (await NetworkCheck()
+                                                                .check()) {
+                                                              User? user = widget
+                                                                  .service
+                                                                  .currentUser();
+                                                              await _deleteCar(
+                                                                  user!.uid,
+                                                                  carModel
+                                                                      .cid!);
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Navigator.pop(
+                                                                  context,
+                                                                  _fetchInfoCar());
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                      msg:
+                                                                          'Car deleted!',
+                                                                      fontSize:
+                                                                          20);
+                                                            } else {
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                      msg:
+                                                                          'No internet connection',
+                                                                      fontSize:
+                                                                          20);
+                                                            }
+                                                          },
+                                                          child: Text('Yes!',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .green,
+                                                                  fontSize:
+                                                                      screenText *
+                                                                          32)))
+                                                    ])
+                                                  ]));
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              InactiveSingleCar(car: carModel));
+                                    }
+                                  },
+                                  child: Text("Delete",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: screenText * 40))),
+                              decoration: BoxDecoration(
+                                  color: Colors.deepPurple,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.deepPurple,
+                                        spreadRadius: 6,
+                                        blurRadius: 3)
+                                  ])),
+                          SizedBox(height: screenHeight * 0.1),
+                          Container(
+                              height: screenHeight * 0.1,
+                              width: screenWidth * 0.3,
+                              child: FloatingActionButton(
+                                  onPressed: () async {
+                                    if (await NetworkCheck().check()) {
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (context) => const Center(
+                                            child: CircularProgressIndicator()),
+                                      );
+                                      List<String> files = await urlFile(
+                                          carModel.uid!, carModel.cid!);
+                                      final List<ImageProvider>
+                                          _imageProviders = [];
+                                      for (int i = 0; i < files.length; i++) {
+                                        _imageProviders.insert(
+                                            i, Image.network(files[i]).image);
+                                      }
+                                      MultiImageProvider multiImageProvider =
+                                          MultiImageProvider(_imageProviders);
+                                      await showImageViewerPager(
+                                          context, multiImageProvider);
+                                      Navigator.pop(context);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: 'No internet connection',
+                                          fontSize: 20);
+                                    }
+                                  },
+                                  backgroundColor: Colors.green,
+                                  child: Icon(Icons.photo_album,
+                                      size: screenText * 35)))
+                        ])
+                      ])));
+            }
+          });
   }
 
   Future<void> _deleteCar(String uid, String cid) async {

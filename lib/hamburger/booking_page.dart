@@ -298,11 +298,6 @@ class MessagePageState extends State<MessagePage> {
                                       fontSize: 20);
                                 }
                               },
-                              padding: EdgeInsets.fromLTRB(
-                                  screenHeight * 0.01,
-                                  screenWidth * 0.03,
-                                  screenWidth * 0.03,
-                                  screenHeight * 0.01),
                               shape: ContinuousRectangleBorder(
                                   borderRadius: BorderRadius.circular(30)),
                               child: Text("Here for others reservations!",
@@ -341,11 +336,6 @@ class MessagePageState extends State<MessagePage> {
                                       fontSize: 20);
                                 }
                               },
-                              padding: EdgeInsets.fromLTRB(
-                                  screenHeight * 0.01,
-                                  screenWidth * 0.03,
-                                  screenWidth * 0.03,
-                                  screenHeight * 0.01),
                               shape: ContinuousRectangleBorder(
                                   borderRadius: BorderRadius.circular(30)),
                               child: Text("Here for your reservations!",

@@ -225,7 +225,7 @@ class _Cars_userState extends State<Cars_user> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             SizedBox(
-                                                height: screenHeight * 0.03),
+                                                height: screenHeight * 0.02),
                                             Container(
                                                 height: screenHeight * 0.07,
                                                 width: screenWidth * 0.85,
