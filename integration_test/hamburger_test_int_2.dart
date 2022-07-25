@@ -13,14 +13,11 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      // Avviare il login
-      //expect(find.text('Login'), findsOneWidget);
+      /*// Avviare il login
+      expect(find.text('Login'), findsOneWidget);
 
-      //final fab = find.byKey(Key("clickButtom"));
-
-      //await tester.tap(fab);
-
-      /*await tester.pumpAndSettle();
+      await tester.tap(find.byKey(Key("clickButtom")));
+      await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 1));
 
       expect(find.text('Login'), findsOneWidget);
@@ -33,15 +30,15 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final fa12 = find.byKey(Key("clickButtom"));
-
-      await tester.tap(fa12);
+      await tester.tap(find.byKey(Key("clickButtom")));
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(fa12);
+      await tester.tap(find.byKey(Key("clickButtom")));
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 20));*/
+      await tester.pump(Duration(seconds: 5));*/
+
+      //HOMEPAGE
 
       expect(find.text('Filters'), findsOneWidget);
       expect(find.text("PrCar"), findsOneWidget);
@@ -50,21 +47,23 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      expect(drawer, findsWidgets);
-
       await tester.tap(drawer);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final accountButton = await find.byType(ListTile).first;
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.tap(accountButton);
+      final aboutYourCarButton = await find.byType(ListTile).at(2);
+      await tester.pump(const Duration(milliseconds: 300));
+      await tester.tap(aboutYourCarButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      /*final logout = await find.byKey(Key("logout button"));
-      await tester.tap(logout);
-      await tester.pump(Duration(seconds: 2));*/
+      await tester.tap(aboutYourCarButton);
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      expect(find.text('Your cars'), findsOneWidget);
+
+      //DOVREIANDARE IN ABOUT YOUR CAR
     });
   });
 }

@@ -50,6 +50,7 @@ class MessagePageState extends State<MessagePage> {
                   child:
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
               Container(
+                  key: Key("Other reservation button"),
                   height: screenHeight * 0.12,
                   width: screenWidth * 0.85,
                   decoration: BoxDecoration(

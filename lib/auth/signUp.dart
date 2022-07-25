@@ -189,12 +189,10 @@ class _SignUpState extends State<SignUp> {
     }
 
     //signup button
-    final signUpButton = Material(
-        elevation: 5,
-        borderRadius: BorderRadius.circular(30),
+    final signUpButton = Container(
+        key: Key("sign up buttom"),
         color: colorSignUp(),
         child: MaterialButton(
-            key: Key("sign up buttom"),
             onPressed: () async {
               if (await NetworkCheck().check()) {
                 signUp(emailEditingController.text,
