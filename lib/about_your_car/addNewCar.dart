@@ -119,8 +119,6 @@ class _AddNewCarState extends State<AddNewCar> {
                 });
               });
             },
-            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
-                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: SingleChildScrollView(
@@ -162,8 +160,6 @@ class _AddNewCarState extends State<AddNewCar> {
                 });
               });
             },
-            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
-                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: SingleChildScrollView(
@@ -203,8 +199,6 @@ class _AddNewCarState extends State<AddNewCar> {
                 });
               });
             },
-            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
-                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Seats: " + car.seats.toString(),
@@ -241,8 +235,6 @@ class _AddNewCarState extends State<AddNewCar> {
                 });
               });
             },
-            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
-                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Fuel: " + car.fuel.toString(),
@@ -280,8 +272,6 @@ class _AddNewCarState extends State<AddNewCar> {
                 });
               });
             },
-            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
-                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Price: " + car.price.toString(),
@@ -333,8 +323,6 @@ class _AddNewCarState extends State<AddNewCar> {
                 PassMarker.photoCount = 0;
               });
             },
-            padding: EdgeInsets.fromLTRB(screenHeight * 0.01,
-                screenWidth * 0.03, screenWidth * 0.03, screenHeight * 0.01),
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text("Clear All",
@@ -533,7 +521,6 @@ class _AddNewCarState extends State<AddNewCar> {
                                         title: 'My car: click for details',
                                         onTap: () {
                                           String suspOrAct = 'Active';
-
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -617,7 +604,7 @@ class _AddNewCarState extends State<AddNewCar> {
                               fontWeight: FontWeight.bold,
                               color: Colors.grey,
                               fontSize: screenText * 40))),
-                  SizedBox(height: screenHeight * 0.015),
+                  SizedBox(height: screenHeight * 0.06),
                   Row(children: [
                     vehicleButton,
                     SizedBox(width: screenWidth * 0.005),
@@ -625,15 +612,15 @@ class _AddNewCarState extends State<AddNewCar> {
                     SizedBox(width: screenWidth * 0.005),
                     seatsButton
                   ]),
-                  SizedBox(height: screenHeight * 0.02),
+                  SizedBox(height: screenHeight * 0.038),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     fuelButton,
-                    SizedBox(width: screenWidth * 0.1),
+                    SizedBox(width: screenWidth * 0.04),
+                    photoButton,
+                    SizedBox(width: screenWidth * 0.04),
                     priceButton
                   ]),
-                  SizedBox(height: screenHeight * 0.02),
-                  photoButton,
-                  SizedBox(height: screenHeight * 0.02),
+                  SizedBox(height: screenHeight * 0.06),
                   clearButton
                 ]));
               }

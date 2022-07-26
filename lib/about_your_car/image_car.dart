@@ -249,7 +249,324 @@ class _ImageCarState extends State<ImageCar> {
                     ])
                   ])
                 ])))
-        : Container();
+        : Scaffold(
+            appBar: AppBar(
+                title: Text('Car\'s picture',
+                    style: TextStyle(fontSize: screenText * 30)),
+                backgroundColor: Colors.green,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back, size: screenText * 35),
+                    onPressed: () {
+                      List<File?> nullValue = [];
+                      Navigator.pop(context, nullValue);
+                    }),
+                actions: [
+                  Row(children: [
+                    Text('Save!',
+                        style: TextStyle(
+                            fontSize: screenText * 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                    IconButton(
+                        onPressed: () async {
+                          if (image1 != null) {
+                            Navigator.pop(context, [
+                              image1,
+                              image2,
+                              image3,
+                              image4,
+                              image5,
+                              image6
+                            ]);
+                          } else {
+                            Fluttertoast.showToast(
+                                msg:
+                                    'No pictures added! Please take at least one picture!',
+                                fontSize: 20);
+                          }
+                        },
+                        icon: Icon(Icons.add_task, size: screenText * 35))
+                  ])
+                ]),
+            backgroundColor: Colors.white,
+            body: OrientationBuilder(builder: (_, orientation) {
+              if (orientation == Orientation.portrait) {
+                return Center(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                      SizedBox(height: screenHeight * 0.05),
+                      Text(_printTitle(add),
+                          style: TextStyle(
+                              fontSize: screenText * 34,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          textAlign: TextAlign.center),
+                      SizedBox(height: screenHeight * 0.05),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(children: [
+                              image1 != null
+                                  ? ClipOval(
+                                      child: Image.file(image1!,
+                                          width: screenHeight * 0.2,
+                                          height: screenHeight * 0.2,
+                                          fit: BoxFit.cover))
+                                  : SizedBox(
+                                      height: screenHeight * 0.2,
+                                      child: Image.asset("assets/prcarlogo.png",
+                                          fit: BoxFit.contain)),
+                              SizedBox(height: screenHeight * 0.08),
+                              image3 != null
+                                  ? ClipOval(
+                                      child: Image.file(image3!,
+                                          width: screenHeight * 0.2,
+                                          height: screenHeight * 0.2,
+                                          fit: BoxFit.cover))
+                                  : SizedBox(
+                                      height: screenHeight * 0.2,
+                                      child: Image.asset("assets/prcarlogo.png",
+                                          fit: BoxFit.contain)),
+                              SizedBox(height: screenHeight * 0.08),
+                              image5 != null
+                                  ? ClipOval(
+                                      child: Image.file(image5!,
+                                          width: screenHeight * 0.2,
+                                          height: screenHeight * 0.2,
+                                          fit: BoxFit.cover))
+                                  : SizedBox(
+                                      height: screenHeight * 0.2,
+                                      child: Image.asset("assets/prcarlogo.png",
+                                          fit: BoxFit.contain))
+                            ]),
+                            SizedBox(width: screenWidth * 0.03),
+                            Column(children: [
+                              Container(
+                                  height: screenHeight * 0.12,
+                                  width: screenWidth * 0.1,
+                                  child: FloatingActionButton(
+                                      heroTag: "btn1",
+                                      onPressed: () async {
+                                        if (PassMarker.photoCount <= 5) {
+                                          pickImage(ImageSource.camera,
+                                              PassMarker.photoCount);
+                                        } else {
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  'Max number of photo\'s loaded',
+                                              fontSize: 20);
+                                        }
+                                      },
+                                      backgroundColor: Colors.green,
+                                      child: Icon(Icons.photo_camera,
+                                          size: screenText * 35))),
+                              SizedBox(height: screenHeight * 0.25),
+                              Container(
+                                  height: screenHeight * 0.12,
+                                  width: screenWidth * 0.1,
+                                  child: FloatingActionButton(
+                                    heroTag: "btn2",
+                                    onPressed: () async {
+                                      if (PassMarker.photoCount <= 5) {
+                                        pickImage(ImageSource.gallery,
+                                            PassMarker.photoCount);
+                                      } else {
+                                        Fluttertoast.showToast(
+                                            msg:
+                                                'Max number of photo\'s loaded',
+                                            fontSize: 20);
+                                      }
+                                    },
+                                    backgroundColor: Colors.green,
+                                    child: Icon(Icons.photo_library,
+                                        size: screenText * 35),
+                                  ))
+                            ]),
+                            SizedBox(width: screenWidth * 0.03),
+                            Column(children: [
+                              image2 != null
+                                  ? ClipOval(
+                                      child: Image.file(image2!,
+                                          width: screenHeight * 0.2,
+                                          height: screenHeight * 0.2,
+                                          fit: BoxFit.cover))
+                                  : SizedBox(
+                                      height: screenHeight * 0.2,
+                                      child: Image.asset("assets/prcarlogo.png",
+                                          fit: BoxFit.contain)),
+                              SizedBox(height: screenHeight * 0.08),
+                              image4 != null
+                                  ? ClipOval(
+                                      child: Image.file(image4!,
+                                          width: screenHeight * 0.2,
+                                          height: screenHeight * 0.2,
+                                          fit: BoxFit.cover))
+                                  : SizedBox(
+                                      height: screenHeight * 0.2,
+                                      child: Image.asset("assets/prcarlogo.png",
+                                          fit: BoxFit.contain)),
+                              SizedBox(height: screenHeight * 0.08),
+                              image6 != null
+                                  ? ClipOval(
+                                      child: Image.file(image6!,
+                                          width: screenHeight * 0.2,
+                                          height: screenHeight * 0.2,
+                                          fit: BoxFit.cover))
+                                  : SizedBox(
+                                      height: screenHeight * 0.2,
+                                      child: Image.asset("assets/prcarlogo.png",
+                                          fit: BoxFit.contain))
+                            ])
+                          ])
+                    ]));
+              } else {
+                return Center(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                      SizedBox(height: screenHeight * 0.05),
+                      Text(_printTitle(add),
+                          style: TextStyle(
+                              fontSize: screenText * 34,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          textAlign: TextAlign.center),
+                      SizedBox(height: screenHeight * 0.05),
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  image1 != null
+                                      ? ClipOval(
+                                          child: Image.file(image1!,
+                                              width: screenHeight * 0.23,
+                                              height: screenHeight * 0.23,
+                                              fit: BoxFit.cover))
+                                      : SizedBox(
+                                          height: screenHeight * 0.23,
+                                          child: Image.asset(
+                                              "assets/prcarlogo.png",
+                                              fit: BoxFit.contain)),
+                                  SizedBox(width: screenWidth * 0.15),
+                                  image2 != null
+                                      ? ClipOval(
+                                          child: Image.file(image3!,
+                                              width: screenHeight * 0.23,
+                                              height: screenHeight * 0.23,
+                                              fit: BoxFit.cover))
+                                      : SizedBox(
+                                          height: screenHeight * 0.23,
+                                          child: Image.asset(
+                                              "assets/prcarlogo.png",
+                                              fit: BoxFit.contain)),
+                                  SizedBox(width: screenWidth * 0.15),
+                                  image3 != null
+                                      ? ClipOval(
+                                          child: Image.file(image5!,
+                                              width: screenHeight * 0.23,
+                                              height: screenHeight * 0.23,
+                                              fit: BoxFit.cover))
+                                      : SizedBox(
+                                          height: screenHeight * 0.23,
+                                          child: Image.asset(
+                                              "assets/prcarlogo.png",
+                                              fit: BoxFit.contain))
+                                ]),
+                            SizedBox(height: screenHeight * 0.02),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      height: screenHeight * 0.12,
+                                      width: screenWidth * 0.06,
+                                      child: FloatingActionButton(
+                                          heroTag: "btn1",
+                                          onPressed: () async {
+                                            if (PassMarker.photoCount <= 5) {
+                                              pickImage(ImageSource.camera,
+                                                  PassMarker.photoCount);
+                                            } else {
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      'Max number of photo\'s loaded',
+                                                  fontSize: 20);
+                                            }
+                                          },
+                                          backgroundColor: Colors.green,
+                                          child: Icon(Icons.photo_camera,
+                                              size: screenText * 35))),
+                                  SizedBox(width: screenWidth * 0.2),
+                                  Container(
+                                      height: screenHeight * 0.12,
+                                      width: screenWidth * 0.06,
+                                      child: FloatingActionButton(
+                                        heroTag: "btn2",
+                                        onPressed: () async {
+                                          if (PassMarker.photoCount <= 5) {
+                                            pickImage(ImageSource.gallery,
+                                                PassMarker.photoCount);
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    'Max number of photo\'s loaded',
+                                                fontSize: 20);
+                                          }
+                                        },
+                                        backgroundColor: Colors.green,
+                                        child: Icon(Icons.photo_library,
+                                            size: screenText * 35),
+                                      ))
+                                ]),
+                            SizedBox(height: screenHeight * 0.02),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  image4 != null
+                                      ? ClipOval(
+                                          child: Image.file(image2!,
+                                              width: screenHeight * 0.23,
+                                              height: screenHeight * 0.23,
+                                              fit: BoxFit.cover))
+                                      : SizedBox(
+                                          height: screenHeight * 0.23,
+                                          child: Image.asset(
+                                              "assets/prcarlogo.png",
+                                              fit: BoxFit.contain)),
+                                  SizedBox(width: screenWidth * 0.15),
+                                  image5 != null
+                                      ? ClipOval(
+                                          child: Image.file(image4!,
+                                              width: screenHeight * 0.23,
+                                              height: screenHeight * 0.23,
+                                              fit: BoxFit.cover))
+                                      : SizedBox(
+                                          height: screenHeight * 0.23,
+                                          child: Image.asset(
+                                              "assets/prcarlogo.png",
+                                              fit: BoxFit.contain)),
+                                  SizedBox(width: screenWidth * 0.15),
+                                  image6 != null
+                                      ? ClipOval(
+                                          child: Image.file(image6!,
+                                              width: screenHeight * 0.23,
+                                              height: screenHeight * 0.23,
+                                              fit: BoxFit.cover))
+                                      : SizedBox(
+                                          height: screenHeight * 0.23,
+                                          child: Image.asset(
+                                              "assets/prcarlogo.png",
+                                              fit: BoxFit.contain))
+                                ])
+                          ])
+                    ]));
+              }
+            }));
   }
 
   String _printTitle(bool where) {

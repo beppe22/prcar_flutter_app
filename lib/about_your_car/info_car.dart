@@ -684,13 +684,13 @@ class _InfoCarState extends State<InfoCar> {
                         Column(children: [
                           SizedBox(height: screenHeight * 0.1),
                           SizedBox(
-                              height: screenHeight * 0.4,
+                              height: screenHeight * 0.35,
                               child: Image.asset("assets/prcarlogo.png",
                                   fit: BoxFit.contain)),
                           SizedBox(height: screenHeight * 0.03),
                           Container(
-                              height: screenHeight * 0.28,
-                              width: screenWidth * 0.4,
+                              height: screenHeight * 0.38,
+                              width: screenWidth * 0.43,
                               child: Center(
                                   child: Column(
                                       mainAxisAlignment:
@@ -706,21 +706,21 @@ class _InfoCarState extends State<InfoCar> {
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
                                             color: Colors.green,
-                                            fontSize: screenText * 30,
+                                            fontSize: screenText * 35,
                                             fontWeight: FontWeight.w500,
                                             backgroundColor: Colors.white)),
                                     Text('Seats: ' + carModel.seats.toString(),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
                                             color: Colors.green,
-                                            fontSize: screenText * 30,
+                                            fontSize: screenText * 35,
                                             fontWeight: FontWeight.w500,
                                             backgroundColor: Colors.white)),
                                     Text('Fuel: ' + carModel.fuel.toString(),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
                                             color: Colors.green,
-                                            fontSize: screenText * 30,
+                                            fontSize: screenText * 35,
                                             fontWeight: FontWeight.w500,
                                             backgroundColor: Colors.white)),
                                     Text(
@@ -730,7 +730,7 @@ class _InfoCarState extends State<InfoCar> {
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
                                             color: Colors.green,
-                                            fontSize: screenText * 30,
+                                            fontSize: screenText * 35,
                                             fontWeight: FontWeight.w500,
                                             backgroundColor: Colors.white)),
                                     Text(
@@ -739,7 +739,7 @@ class _InfoCarState extends State<InfoCar> {
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
                                             color: Colors.green,
-                                            fontSize: screenText * 30,
+                                            fontSize: screenText * 35,
                                             fontWeight: FontWeight.w500,
                                             backgroundColor: Colors.white)),
                                     Text(
@@ -749,7 +749,7 @@ class _InfoCarState extends State<InfoCar> {
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
                                             color: Colors.green,
-                                            fontSize: screenText * 30,
+                                            fontSize: screenText * 35,
                                             fontWeight: FontWeight.w500,
                                             backgroundColor: Colors.white))
                                   ])),
@@ -944,10 +944,10 @@ class _InfoCarState extends State<InfoCar> {
                                         spreadRadius: 6,
                                         blurRadius: 3)
                                   ])),
-                          SizedBox(height: screenHeight * 0.1),
+                          SizedBox(height: screenHeight * 0.05),
                           Container(
-                              height: screenHeight * 0.1,
-                              width: screenWidth * 0.3,
+                              height: screenHeight * 0.13,
+                              width: screenWidth * 0.30,
                               child: FloatingActionButton(
                                   onPressed: () async {
                                     if (await NetworkCheck().check()) {
@@ -978,7 +978,7 @@ class _InfoCarState extends State<InfoCar> {
                                   },
                                   backgroundColor: Colors.green,
                                   child: Icon(Icons.photo_album,
-                                      size: screenText * 35)))
+                                      size: screenText * 40)))
                         ])
                       ])));
             }
