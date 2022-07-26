@@ -258,8 +258,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         SizedBox(height: screenHeight * 0.05),
                         Container(
                             child: MaterialButton(
-                                height: screenHeight * 0.08,
-                                minWidth: screenWidth * 0.85,
+                                height: screenHeight * 0.12,
+                                minWidth: screenWidth * 0.5,
                                 elevation: 6,
                                 color: Colors.grey.shade200,
                                 child: Text("Reset Password",

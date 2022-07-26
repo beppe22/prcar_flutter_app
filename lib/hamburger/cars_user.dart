@@ -111,7 +111,6 @@ class _Cars_userState extends State<Cars_user> {
                                                             service: Service()),
                                                   ),
                                                 );
-
                                                 if (newCars != []) {
                                                   setState(() {
                                                     cars = newCars;
@@ -133,7 +132,7 @@ class _Cars_userState extends State<Cars_user> {
                                                           color:
                                                               Colors.redAccent,
                                                           fontSize:
-                                                              screenText * 35,
+                                                              screenText * 30,
                                                           fontWeight: FontWeight
                                                               .w500)))),
                                           decoration: BoxDecoration(

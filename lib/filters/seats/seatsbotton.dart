@@ -44,7 +44,7 @@ class SeatsButton extends StatelessWidget {
                     right: screenWidth * 0.15,
                     bottom: screenHeight * 0.01),
                 decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: Colors.redAccent,
                     borderRadius: BorderRadius.circular(20)),
                 child: Center(
                     child: Text(value,

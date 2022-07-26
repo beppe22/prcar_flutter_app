@@ -359,7 +359,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                         title: Text(
                                                                             'What do you want to do?',
                                                                             style: TextStyle(
-                                                                                color: Colors.redAccent,
+                                                                                color: Colors.green,
                                                                                 fontSize: screenText * 35,
                                                                                 fontWeight: FontWeight.bold),
                                                                             textAlign: TextAlign.center),
@@ -401,13 +401,13 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                     if (dayStart.compareTo(day3) > 0) {
                                                                                       showDialog(
                                                                                           context: context,
-                                                                                          builder: (BuildContext context) => AlertDialog(title: Text('Are you sure?', style: TextStyle(fontSize: screenText * 28, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center), actions: <Widget>[
+                                                                                          builder: (BuildContext context) => AlertDialog(title: Text('Are you sure?', style: TextStyle(fontSize: screenText * 38, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center), actions: <Widget>[
                                                                                                 Row(children: [
                                                                                                   TextButton(
                                                                                                       onPressed: () {
                                                                                                         Navigator.of(context).pop();
                                                                                                       },
-                                                                                                      child: Text('Close', style: TextStyle(fontSize: screenText * 24))),
+                                                                                                      child: Text('Close', style: TextStyle(color: Colors.green, fontSize: screenText * 34))),
                                                                                                   SizedBox(width: screenWidth * 0.32),
                                                                                                   TextButton(
                                                                                                       onPressed: () async {
@@ -422,7 +422,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                                           Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
                                                                                                         }
                                                                                                       },
-                                                                                                      child: Text('Yes!', style: TextStyle(fontSize: screenText * 24)))
+                                                                                                      child: Text('Yes!', style: TextStyle(color: Colors.green, fontSize: screenText * 34)))
                                                                                                 ])
                                                                                               ]));
                                                                                     } else {
@@ -629,13 +629,13 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                     if (dayStart.compareTo(day3) > 0) {
                                                                                       showDialog(
                                                                                           context: context,
-                                                                                          builder: (BuildContext context) => AlertDialog(title: Text('Are you sure?', style: TextStyle(fontSize: screenText * 28, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center), actions: <Widget>[
+                                                                                          builder: (BuildContext context) => AlertDialog(title: Text('Are you sure?', style: TextStyle(fontSize: screenText * 38, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center), actions: <Widget>[
                                                                                                 Row(children: [
                                                                                                   TextButton(
                                                                                                       onPressed: () {
                                                                                                         Navigator.of(context).pop();
                                                                                                       },
-                                                                                                      child: Text('Close', style: TextStyle(fontSize: screenText * 24))),
+                                                                                                      child: Text('Close', style: TextStyle(color: Colors.green, fontSize: screenText * 34))),
                                                                                                   SizedBox(width: screenWidth * 0.32),
                                                                                                   TextButton(
                                                                                                       onPressed: () async {
@@ -650,7 +650,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                                           Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
                                                                                                         }
                                                                                                       },
-                                                                                                      child: Text('Yes!', style: TextStyle(fontSize: screenText * 24)))
+                                                                                                      child: Text('Yes!', style: TextStyle(color: Colors.green, fontSize: screenText * 34)))
                                                                                                 ])
                                                                                               ]));
                                                                                     } else {

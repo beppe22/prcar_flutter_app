@@ -289,7 +289,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                             color: Colors.green,
                                             fontSize: screenText * 38,
                                             fontWeight: FontWeight.bold)),
-                                             padding: EdgeInsets.fromLTRB(
+                                    padding: EdgeInsets.fromLTRB(
                                         screenWidth * 0.02,
                                         screenHeight * 0.032,
                                         screenWidth * 0.02,
@@ -387,13 +387,13 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                     if (dayStart.compareTo(day3) > 0) {
                                                                                       showDialog(
                                                                                           context: context,
-                                                                                          builder: (BuildContext context) => AlertDialog(title: Text('Are you sure?', style: TextStyle(fontSize: screenText * 28, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center), actions: <Widget>[
+                                                                                          builder: (BuildContext context) => AlertDialog(title: Text('Are you sure?', style: TextStyle(fontSize: screenText * 38, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center), actions: <Widget>[
                                                                                                 Row(children: [
                                                                                                   TextButton(
                                                                                                       onPressed: () {
                                                                                                         Navigator.of(context).pop();
                                                                                                       },
-                                                                                                      child: Text('Close', style: TextStyle(fontSize: screenText * 24))),
+                                                                                                      child: Text('Close', style: TextStyle(color: Colors.green, fontSize: screenText * 34))),
                                                                                                   SizedBox(width: screenWidth * 0.32),
                                                                                                   TextButton(
                                                                                                       onPressed: () async {
@@ -407,7 +407,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                                           Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
                                                                                                         }
                                                                                                       },
-                                                                                                      child: Text('Yes!', style: TextStyle(fontSize: screenText * 24)))
+                                                                                                      child: Text('Yes!', style: TextStyle(color: Colors.green, fontSize: screenText * 34)))
                                                                                                 ])
                                                                                               ]));
                                                                                     } else {
@@ -614,13 +614,13 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                     if (dayStart.compareTo(day3) > 0) {
                                                                                       showDialog(
                                                                                           context: context,
-                                                                                          builder: (BuildContext context) => AlertDialog(title: Text('Are you sure?', style: TextStyle(fontSize: screenText * 28, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center), actions: <Widget>[
+                                                                                          builder: (BuildContext context) => AlertDialog(title: Text('Are you sure?', style: TextStyle(fontSize: screenText * 38, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center), actions: <Widget>[
                                                                                                 Row(children: [
                                                                                                   TextButton(
                                                                                                       onPressed: () {
                                                                                                         Navigator.of(context).pop();
                                                                                                       },
-                                                                                                      child: Text('Close', style: TextStyle(fontSize: screenText * 24))),
+                                                                                                      child: Text('Close', style: TextStyle(color: Colors.green, fontSize: screenText * 34))),
                                                                                                   SizedBox(width: screenWidth * 0.32),
                                                                                                   TextButton(
                                                                                                       onPressed: () async {
@@ -634,7 +634,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                                           Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
                                                                                                         }
                                                                                                       },
-                                                                                                      child: Text('Yes!', style: TextStyle(fontSize: screenText * 24)))
+                                                                                                      child: Text('Yes!', style: TextStyle(color: Colors.green, fontSize: screenText * 34)))
                                                                                                 ])
                                                                                               ]));
                                                                                     } else {

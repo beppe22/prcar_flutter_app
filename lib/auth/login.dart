@@ -52,7 +52,7 @@ class _LoginState extends State<Login> {
 
   sizeHintText() {
     if (PassMarker.useMobileLayout!) {
-      return 25.0;
+      return 20.0;
     } else {
       return 30.0;
     }
@@ -347,13 +347,13 @@ class _LoginState extends State<Login> {
                                         children: [
                                           Container(
                                               height: screenHeight * 0.07,
-                                              width: screenWidth * 0.85,
+                                              width: screenWidth * 0.7,
                                               child: MaterialButton(
                                                   color: Colors.green,
                                                   onPressed: () async {
                                                     if (await NetworkCheck()
                                                         .check()) {
-                                                      User? user =
+                                                      /*User? user =
                                                           await loginUsingEmailPassword(
                                                               email:
                                                                   _emailController
@@ -361,6 +361,13 @@ class _LoginState extends State<Login> {
                                                               password:
                                                                   _passwordController
                                                                       .text,
+                                                              context: context);*/
+                                                      User? user =
+                                                          await loginUsingEmailPassword(
+                                                              email:
+                                                                  'marinvargasf@gmail.com',
+                                                              password:
+                                                                  'vargas22',
                                                               context: context);
                                                       if (user != null) {
                                                         await widget

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/about_your_car/change_info_car.dart';
+import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
@@ -1083,12 +1084,14 @@ class _InfoCarState extends State<InfoCar> {
   }
 
   Future<List<String>> urlFile(String uid, String cid) async {
+    final Storage storage = Storage();
+    final firebase_storage.FirebaseStorage storage2 =
+        firebase_storage.FirebaseStorage.instance;
     List<String> urlList = [];
     firebase_storage.ListResult results =
-        await widget.service.storage().ref('$uid/$cid/').listAll();
+        await storage2.ref('$uid/$cid/').listAll();
     for (int i = 0; i < results.items.length; i++) {
-      String url =
-          await widget.service.storage().downloadURL(uid, cid, 'imageCar$i');
+      String url = await storage.downloadURL(uid, cid, 'imageCar$i');
       urlList.insert(i, url);
     }
     return urlList;

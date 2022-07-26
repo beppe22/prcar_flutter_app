@@ -130,6 +130,9 @@ class _CalendarState extends State<Calendar> {
                     view: DateRangePickerView.month,
                     controller: _controller,
                     onSelectionChanged: selectionChanged,
+                    startRangeSelectionColor: Colors.green,
+                    endRangeSelectionColor: Colors.green,
+                    rangeSelectionColor: Colors.greenAccent,
                     selectionMode: DateRangePickerSelectionMode.range,
                     enablePastDates: false,
                     extendableRangeSelectionDirection:
@@ -139,6 +142,9 @@ class _CalendarState extends State<Calendar> {
                     monthCellStyle: DateRangePickerMonthCellStyle(
                       textStyle: TextStyle(
                           fontSize: screenText * 32, color: Colors.black),
+                      todayTextStyle: TextStyle(color: Colors.green),
+                      todayCellDecoration: BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.green.shade100),
                       blackoutDateTextStyle: TextStyle(
                           color: Colors.grey.shade400,
                           fontSize: screenText * 32),

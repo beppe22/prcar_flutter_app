@@ -409,7 +409,7 @@ class _FiltersState extends State<Filters> {
                     ]),
                 body: Center(
                     child: Column(children: <Widget>[
-                  SizedBox(height: screenHeight * 0.04),
+                  SizedBox(height: screenHeight * 0.02),
                   SizedBox(
                       height: screenHeight * 0.04,
                       child: Text("Apply filters for your need",
@@ -417,19 +417,19 @@ class _FiltersState extends State<Filters> {
                               fontWeight: FontWeight.bold,
                               color: Colors.grey,
                               fontSize: screenText * 25))),
-                  SizedBox(height: screenHeight * 0.015),
+                  SizedBox(height: screenHeight * 0.008),
                   leastButton,
-                  SizedBox(height: screenHeight * 0.015),
+                  SizedBox(height: screenHeight * 0.008),
                   vehicleButton,
-                  SizedBox(height: screenHeight * 0.015),
+                  SizedBox(height: screenHeight * 0.008),
                   positionButton,
-                  SizedBox(height: screenHeight * 0.015),
+                  SizedBox(height: screenHeight * 0.008),
                   seatsButton,
-                  SizedBox(height: screenHeight * 0.015),
+                  SizedBox(height: screenHeight * 0.008),
                   fuelButton,
-                  SizedBox(height: screenHeight * 0.015),
+                  SizedBox(height: screenHeight * 0.008),
                   priceButton,
-                  SizedBox(height: screenHeight * 0.015),
+                  SizedBox(height: screenHeight * 0.008),
                   clearButton
                 ]))))
         : OrientationBuilder(builder: (_, orientation) {
