@@ -18,6 +18,47 @@ class MapBottomPill extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
+
+    size() {
+      if (Orientation.portrait == MediaQuery.of(context).orientation) {
+        return screenWidth * 0.06;
+      } else {
+        return screenWidth * 0.04;
+      }
+    }
+
+    widthImage() {
+      if (Orientation.portrait == MediaQuery.of(context).orientation) {
+        return screenWidth * 0.25;
+      } else {
+        return screenWidth * 0.13;
+      }
+    }
+
+    heightImage() {
+      if (Orientation.portrait == MediaQuery.of(context).orientation) {
+        return screenHeight * 0.15;
+      } else {
+        return screenHeight * 0.2;
+      }
+    }
+
+    reserveWidth() {
+      if (Orientation.portrait == MediaQuery.of(context).orientation) {
+        return screenWidth * 0.4;
+      } else {
+        return screenWidth * 0.3;
+      }
+    }
+
+    reserveHeight() {
+      if (Orientation.portrait == MediaQuery.of(context).orientation) {
+        return screenHeight * 0.04;
+      } else {
+        return screenHeight * 0.1;
+      }
+    }
+
     return PassMarker.useMobileLayout!
         ? Container(
             margin: EdgeInsets.all(screenWidth * 0.02),
@@ -285,11 +326,291 @@ class MapBottomPill extends StatelessWidget {
                     ], mainAxisAlignment: MainAxisAlignment.center)
                   ]))
             ]))
-        : Container();
+        : Container(
+            margin: EdgeInsets.all(screenWidth * 0.01),
+            padding: EdgeInsets.only(
+              top: size(),
+              bottom: size(),
+            ),
+            decoration: BoxDecoration(
+                color: Colors.redAccent,
+                borderRadius: BorderRadius.circular(screenWidth * 0.2),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 30,
+                      offset: Offset.zero)
+                ]),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                      width: screenWidth * 0.7,
+                      color: Colors.redAccent,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ClipOval(
+                                child: Image.asset('assets/prcarlogo.png',
+                                    width: widthImage(),
+                                    height: heightImage(),
+                                    fit: BoxFit.fill,
+                                    alignment: Alignment.topCenter)),
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                      'Selected car, click below for \n more details: ',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: screenText * 22,
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.bold)),
+                                  Container(
+                                      width: screenWidth * 0.25,
+                                      margin: EdgeInsets.only(
+                                          top: screenHeight * 0.005,
+                                          left: screenWidth * 0.015,
+                                          right: screenWidth * 0.005,
+                                          bottom: screenHeight * 0.005),
+                                      decoration: BoxDecoration(
+                                          color: Colors.purple,
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              shadowColor: Colors.redAccent),
+                                          onPressed: () async {
+                                            String name = await _nameString(
+                                                PassMarker.carModel.uid!);
+                                            await showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15)),
+                                                      elevation: 6,
+                                                      content: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: <Widget>[
+                                                            SizedBox(
+                                                                height:
+                                                                    screenHeight *
+                                                                        0.02),
+                                                            Center(
+                                                                child: Text(
+                                                                    'Car Information',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            screenText *
+                                                                                35,
+                                                                        fontWeight:
+                                                                            FontWeight.bold))),
+                                                            SizedBox(
+                                                                height:
+                                                                    screenHeight *
+                                                                        0.001),
+                                                            Text(name,
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        screenText *
+                                                                            24,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)),
+                                                            SizedBox(
+                                                                height:
+                                                                    screenHeight *
+                                                                        0.01),
+                                                            _buildRow(
+                                                                'assets/choc.png',
+                                                                PassMarker
+                                                                    .carModel
+                                                                    .vehicle
+                                                                    .toString(),
+                                                                'VEHICLE',
+                                                                screenWidth,
+                                                                screenHeight,
+                                                                screenText),
+                                                            _buildRow(
+                                                                'assets/choc.png',
+                                                                PassMarker
+                                                                    .carModel
+                                                                    .model
+                                                                    .toString(),
+                                                                'MODEL',
+                                                                screenWidth,
+                                                                screenHeight,
+                                                                screenText),
+                                                            _buildRow(
+                                                                'assets/choc.png',
+                                                                PassMarker
+                                                                    .carModel
+                                                                    .fuel
+                                                                    .toString(),
+                                                                'FUEL',
+                                                                screenWidth,
+                                                                screenHeight,
+                                                                screenText),
+                                                            _buildRow(
+                                                                'assets/choc.png',
+                                                                PassMarker
+                                                                    .carModel
+                                                                    .seats
+                                                                    .toString(),
+                                                                'SEATS',
+                                                                screenWidth,
+                                                                screenHeight,
+                                                                screenText),
+                                                            _buildRow(
+                                                                'assets/choc.png',
+                                                                PassMarker
+                                                                    .carModel
+                                                                    .price
+                                                                    .toString(),
+                                                                'PRICE FOR DAY',
+                                                                screenWidth,
+                                                                screenHeight,
+                                                                screenText),
+                                                            SizedBox(
+                                                                height:
+                                                                    screenHeight *
+                                                                        0.02),
+                                                            FloatingActionButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    barrierDismissible:
+                                                                        false,
+                                                                    builder: (context) =>
+                                                                        const Center(
+                                                                            child:
+                                                                                CircularProgressIndicator()),
+                                                                  );
+                                                                  List<String> files = await urlFile(
+                                                                      PassMarker
+                                                                          .carModel
+                                                                          .uid!,
+                                                                      PassMarker
+                                                                          .carModel
+                                                                          .cid!);
+                                                                  final List<
+                                                                          ImageProvider>
+                                                                      _imageProviders =
+                                                                      [];
+                                                                  for (int i =
+                                                                          0;
+                                                                      i <
+                                                                          files
+                                                                              .length;
+                                                                      i++) {
+                                                                    _imageProviders.insert(
+                                                                        i,
+                                                                        Image.network(files[i])
+                                                                            .image);
+                                                                  }
+                                                                  MultiImageProvider
+                                                                      multiImageProvider =
+                                                                      MultiImageProvider(
+                                                                          _imageProviders);
+                                                                  await showImageViewerPager(
+                                                                      context,
+                                                                      multiImageProvider);
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .redAccent,
+                                                                child: Icon(
+                                                                    Icons
+                                                                        .photo_library,
+                                                                    size:
+                                                                        screenText *
+                                                                            25)),
+                                                            SizedBox(
+                                                                height:
+                                                                    screenHeight *
+                                                                        0.04),
+                                                            Container(
+                                                              child:
+                                                                  MaterialButton(
+                                                                      height:
+                                                                          reserveHeight(),
+                                                                      minWidth:
+                                                                          reserveWidth(),
+                                                                      color: Colors
+                                                                          .redAccent,
+                                                                      onPressed:
+                                                                          () async {
+                                                                        if (await NetworkCheck()
+                                                                            .check()) {
+                                                                          final _auth =
+                                                                              FirebaseAuth.instance;
+                                                                          User?
+                                                                              user =
+                                                                              _auth.currentUser;
+                                                                          if (await _isConfirmed(user!) ==
+                                                                              'confirmed') {
+                                                                            PassMarker.hpOrNot =
+                                                                                true;
+                                                                            var reserveResult =
+                                                                                'start';
+                                                                            reserveResult =
+                                                                                await Navigator.push(context, MaterialPageRoute(builder: (context) => Least(service: Service())));
+
+                                                                            if (reserveResult ==
+                                                                                '1') {
+                                                                              Navigator.of(context, rootNavigator: true).pop('dialog');
+                                                                            } else if (reserveResult ==
+                                                                                '0') {
+                                                                              Fluttertoast.showToast(msg: 'Something went wrong, try again later', fontSize: 20);
+                                                                            }
+                                                                          } else {
+                                                                            Fluttertoast.showToast(
+                                                                                msg: 'Driving License isn\'t confirmed yet :(',
+                                                                                fontSize: 20);
+                                                                          }
+                                                                        } else {
+                                                                          Fluttertoast.showToast(
+                                                                              msg: 'No internet connection',
+                                                                              fontSize: 20);
+                                                                        }
+                                                                      },
+                                                                      child: Text(
+                                                                          "Reserve",
+                                                                          style: TextStyle(
+                                                                              color: Colors.white,
+                                                                              fontSize: screenText * 28))),
+                                                            ),
+                                                          ]));
+                                                });
+                                          },
+                                          child: Text('Reserve',
+                                              style: TextStyle(
+                                                  fontSize: screenText * 24)))),
+                                ])
+                          ]))
+                ]));
   }
 
   Widget _buildRow(String imageAsset, String value, String type,
       double screenWidth, double screenHeight, double screenText) {
+    text() {
+      if (PassMarker.useMobileLayout!) {
+        return screenText * 16;
+      } else {
+        return screenText * 20;
+      }
+    }
+
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.008),
         child: Column(children: <Widget>[
@@ -298,7 +619,7 @@ class MapBottomPill extends StatelessWidget {
             SizedBox(width: screenWidth * 0.005),
             Text(
               type.toUpperCase(),
-              style: TextStyle(fontSize: screenText * 16),
+              style: TextStyle(fontSize: text()),
             ),
             const Spacer(),
             Container(
@@ -311,7 +632,7 @@ class MapBottomPill extends StatelessWidget {
                     horizontal: screenWidth * 0.06),
                 child: Text(
                   value,
-                  style: TextStyle(fontSize: screenText * 16),
+                  style: TextStyle(fontSize: text()),
                 ))
           ])
         ]));

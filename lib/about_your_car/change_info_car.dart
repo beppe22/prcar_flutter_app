@@ -71,7 +71,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
       if (PassMarker.useMobileLayout!) {
         return Colors.redAccent;
       } else {
-        return Colors.green;
+        return Colors.redAccent;
       }
     }
 
@@ -394,7 +394,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
         : Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.redAccent,
                 title: Text('Change Car',
                     style: TextStyle(fontSize: screenText * 30)),
                 automaticallyImplyLeading: false,
@@ -497,7 +497,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                                   images = data;
                                 });
                               },
-                              backgroundColor: Colors.green,
+                              backgroundColor: Colors.redAccent,
                               child: Icon(Icons.photo_album,
                                   size: screenText * 35)))
                     ]));
@@ -545,7 +545,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                                 images = data;
                               });
                             },
-                            backgroundColor: Colors.green,
+                            backgroundColor: Colors.redAccent,
                             child:
                                 Icon(Icons.photo_album, size: screenText * 35)))
                   ])

@@ -191,7 +191,7 @@ class _SignUpState extends State<SignUp> {
       if (PassMarker.useMobileLayout!) {
         return Colors.redAccent;
       } else {
-        return Colors.green;
+        return Colors.redAccent;
       }
     }
 
@@ -272,7 +272,7 @@ class _SignUpState extends State<SignUp> {
                   home: Scaffold(
                       resizeToAvoidBottomInset: true,
                       appBar: AppBar(
-                          backgroundColor: Colors.green,
+                          backgroundColor: Colors.redAccent,
                           title: Text("Sign Up",
                               style: TextStyle(fontSize: screenText * 35)),
                           automaticallyImplyLeading: false,
@@ -326,7 +326,7 @@ class _SignUpState extends State<SignUp> {
                   home: Scaffold(
                       resizeToAvoidBottomInset: true,
                       appBar: AppBar(
-                          backgroundColor: Colors.green,
+                          backgroundColor: Colors.redAccent,
                           title: Text("Sign Up",
                               style: TextStyle(fontSize: screenText * 30)),
                           automaticallyImplyLeading: false,

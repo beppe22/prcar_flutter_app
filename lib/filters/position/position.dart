@@ -106,7 +106,7 @@ class _Position extends State<Position> {
         : Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.redAccent,
                 title: Text("Position",
                     style: TextStyle(fontSize: screenText * 30)),
                 automaticallyImplyLeading: false,

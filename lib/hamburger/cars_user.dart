@@ -172,7 +172,7 @@ class _Cars_userState extends State<Cars_user> {
               return Scaffold(
                   backgroundColor: Colors.white,
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text('Your cars',
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -195,7 +195,7 @@ class _Cars_userState extends State<Cars_user> {
                                 child: Text('No cars yet :(',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        color: Colors.green,
+                                        color: Colors.redAccent,
                                         fontSize: screenText * 34,
                                         fontWeight: FontWeight.bold)),
                                 padding: EdgeInsets.fromLTRB(
@@ -206,7 +206,7 @@ class _Cars_userState extends State<Cars_user> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     border: Border.all(
-                                        width: 5.0, color: Colors.green),
+                                        width: 5.0, color: Colors.redAccent),
                                     boxShadow: [
                                       BoxShadow(
                                           color: Colors.grey.shade200,
@@ -280,7 +280,7 @@ class _Cars_userState extends State<Cars_user> {
                                                                     .toString(),
                                                             style: TextStyle(
                                                                 color: Colors
-                                                                    .green,
+                                                                    .redAccent,
                                                                 fontSize:
                                                                     screenText *
                                                                         35,
@@ -291,7 +291,7 @@ class _Cars_userState extends State<Cars_user> {
                                                         BorderRadius.circular(12),
                                                     boxShadow: const [
                                                       BoxShadow(
-                                                          color: Colors.green,
+                                                          color: Colors.redAccent,
                                                           spreadRadius: 6,
                                                           blurRadius: 2)
                                                     ]))
@@ -325,7 +325,7 @@ class _Cars_userState extends State<Cars_user> {
               return Scaffold(
                   backgroundColor: Colors.white,
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text('Your cars',
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -348,7 +348,7 @@ class _Cars_userState extends State<Cars_user> {
                                 child: Text('No cars yet :(',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        color: Colors.green,
+                                        color: Colors.redAccent,
                                         fontSize: screenText * 34,
                                         fontWeight: FontWeight.bold)),
                                 padding: EdgeInsets.fromLTRB(
@@ -359,7 +359,7 @@ class _Cars_userState extends State<Cars_user> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     border: Border.all(
-                                        width: 5.0, color: Colors.green),
+                                        width: 5.0, color: Colors.redAccent),
                                     boxShadow: [
                                       BoxShadow(
                                           color: Colors.grey.shade200,
@@ -433,7 +433,7 @@ class _Cars_userState extends State<Cars_user> {
                                                                     .toString(),
                                                             style: TextStyle(
                                                                 color: Colors
-                                                                    .green,
+                                                                    .redAccent,
                                                                 fontSize:
                                                                     screenText *
                                                                         35,
@@ -444,7 +444,7 @@ class _Cars_userState extends State<Cars_user> {
                                                         BorderRadius.circular(12),
                                                     boxShadow: const [
                                                       BoxShadow(
-                                                          color: Colors.green,
+                                                          color: Colors.redAccent,
                                                           spreadRadius: 6,
                                                           blurRadius: 2)
                                                     ]))

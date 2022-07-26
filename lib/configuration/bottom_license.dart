@@ -214,7 +214,7 @@ class _BottomLicenseState extends State<BottomLicense> {
                 appBar: AppBar(
                     title: Text('Bottom picture',
                         style: TextStyle(fontSize: screenText * 30)),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.redAccent,
                     leading: IconButton(
                         icon: Icon(Icons.arrow_back, size: screenText * 35),
                         onPressed: () {
@@ -246,7 +246,7 @@ class _BottomLicenseState extends State<BottomLicense> {
                           height: screenHeight * 0.1,
                           width: screenWidth * 0.8,
                           decoration: BoxDecoration(
-                              color: Colors.green,
+                              color: Colors.redAccent,
                               borderRadius: BorderRadius.circular(30),
                               border:
                                   Border.all(width: 5.0, color: Colors.grey)),
@@ -272,7 +272,7 @@ class _BottomLicenseState extends State<BottomLicense> {
                           height: screenHeight * 0.1,
                           width: screenWidth * 0.8,
                           decoration: BoxDecoration(
-                              color: Colors.green,
+                              color: Colors.redAccent,
                               borderRadius: BorderRadius.circular(30),
                               border:
                                   Border.all(width: 5.0, color: Colors.grey)),
@@ -362,7 +362,7 @@ class _BottomLicenseState extends State<BottomLicense> {
                 appBar: AppBar(
                     title: Text('Bottom picture',
                         style: TextStyle(fontSize: screenText * 30)),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.redAccent,
                     leading: IconButton(
                         icon: Icon(Icons.arrow_back, size: screenText * 35),
                         onPressed: () {
@@ -401,7 +401,7 @@ class _BottomLicenseState extends State<BottomLicense> {
                                 height: screenHeight * 0.13,
                                 width: screenWidth * 0.4,
                                 decoration: BoxDecoration(
-                                    color: Colors.green,
+                                    color: Colors.redAccent,
                                     borderRadius: BorderRadius.circular(30),
                                     border: Border.all(
                                         width: 5.0, color: Colors.grey)),
@@ -428,7 +428,7 @@ class _BottomLicenseState extends State<BottomLicense> {
                                 height: screenHeight * 0.13,
                                 width: screenWidth * 0.4,
                                 decoration: BoxDecoration(
-                                    color: Colors.green,
+                                    color: Colors.redAccent,
                                     borderRadius: BorderRadius.circular(30),
                                     border: Border.all(
                                         width: 5.0, color: Colors.grey)),

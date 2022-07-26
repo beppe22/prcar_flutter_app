@@ -294,7 +294,7 @@ class InfoAccount extends StatelessWidget {
               return Scaffold(
                   backgroundColor: Colors.white,
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text('Account',
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -334,7 +334,7 @@ class InfoAccount extends StatelessWidget {
                                               maxLines: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  color: Colors.green,
+                                                  color: Colors.redAccent,
                                                   fontSize: screenText * 30,
                                                   fontWeight: FontWeight.w500,
                                                   backgroundColor:
@@ -345,7 +345,7 @@ class InfoAccount extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: const [
                                   BoxShadow(
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       spreadRadius: 4,
                                       blurRadius: 2)
                                 ])),
@@ -370,7 +370,7 @@ class InfoAccount extends StatelessWidget {
                                               overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  color: Colors.green,
+                                                  color: Colors.redAccent,
                                                   fontSize: screenText * 30,
                                                   fontWeight: FontWeight.w500,
                                                   backgroundColor:
@@ -381,7 +381,7 @@ class InfoAccount extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: const [
                                   BoxShadow(
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       spreadRadius: 4,
                                       blurRadius: 2)
                                 ])),
@@ -406,7 +406,7 @@ class InfoAccount extends StatelessWidget {
                                               overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  color: Colors.green,
+                                                  color: Colors.redAccent,
                                                   fontSize: screenText * 30,
                                                   fontWeight: FontWeight.w500,
                                                   backgroundColor:
@@ -417,7 +417,7 @@ class InfoAccount extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: const [
                                   BoxShadow(
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       spreadRadius: 4,
                                       blurRadius: 2)
                                 ])),
@@ -467,7 +467,7 @@ class InfoAccount extends StatelessWidget {
                                   height: screenHeight * 0.07,
                                   width: screenWidth * 0.7,
                                   child: MaterialButton(
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       onPressed: () {
                                         showDialog(
                                             context: context,
@@ -478,7 +478,8 @@ class InfoAccount extends StatelessWidget {
                                                         style: TextStyle(
                                                             fontSize:
                                                                 screenText * 45,
-                                                            color: Colors.green,
+                                                            color: Colors
+                                                                .redAccent,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .bold),
@@ -546,7 +547,7 @@ class InfoAccount extends StatelessWidget {
                                                                 'Confirm!',
                                                                 style: TextStyle(
                                                                     color: Colors
-                                                                        .green,
+                                                                        .redAccent,
                                                                     fontSize:
                                                                         screenText *
                                                                             34)))
@@ -572,7 +573,7 @@ class InfoAccount extends StatelessWidget {
               return Scaffold(
                   backgroundColor: Colors.white,
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text('Account',
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -631,92 +632,88 @@ class InfoAccount extends StatelessWidget {
                               height: screenHeight * 0.1,
                               width: screenWidth * 0.4,
                               child: MaterialButton(
-                                  color: Colors.green,
+                                  color: Colors.redAccent,
                                   onPressed: () {
                                     showDialog(
                                         context: context,
-                                        builder:
-                                            (BuildContext context) =>
-                                                AlertDialog(
-                                                    title: Text(
-                                                        '!!! Warning !!!',
-                                                        style: TextStyle(
-                                                            fontSize:
-                                                                screenText * 45,
-                                                            color: Colors.green,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                        textAlign:
-                                                            TextAlign.center),
-                                                    content: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                          Text(
-                                                              'If you press \'Confirm!\' your account will be delete. \n Do you want to continue?',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      screenText *
-                                                                          30),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center)
-                                                        ]),
-                                                    actions: <Widget>[
-                                                      Row(children: [
-                                                        SizedBox(
-                                                            width: screenWidth *
-                                                                0.21),
-                                                        TextButton(
-                                                            onPressed:
-                                                                () async {
-                                                              if (await NetworkCheck()
-                                                                  .check()) {
-                                                                int i = 0;
-                                                                if (await _fetchAllRes(
-                                                                        i) ==
-                                                                    0) {
-                                                                  await deleteAccount(
-                                                                      context);
+                                        builder: (BuildContext context) =>
+                                            AlertDialog(
+                                                title: Text('!!! Warning !!!',
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            screenText * 45,
+                                                        color: Colors.redAccent,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                    textAlign:
+                                                        TextAlign.center),
+                                                content: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Text(
+                                                          'If you press \'Confirm!\' your account will be delete. \n Do you want to continue?',
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  screenText *
+                                                                      30),
+                                                          textAlign:
+                                                              TextAlign.center)
+                                                    ]),
+                                                actions: <Widget>[
+                                                  Row(children: [
+                                                    SizedBox(
+                                                        width:
+                                                            screenWidth * 0.21),
+                                                    TextButton(
+                                                        onPressed: () async {
+                                                          if (await NetworkCheck()
+                                                              .check()) {
+                                                            int i = 0;
+                                                            if (await _fetchAllRes(
+                                                                    i) ==
+                                                                0) {
+                                                              await deleteAccount(
+                                                                  context);
 
-                                                                  Navigator.pushAndRemoveUntil(
+                                                              Navigator
+                                                                  .pushAndRemoveUntil(
                                                                       context,
                                                                       MaterialPageRoute(
-                                                                          builder: (context) => Login(
+                                                                          builder: (context) =>
+                                                                              Login(
                                                                                 loginService: Service(),
                                                                               )),
-                                                                      (Route<dynamic> route) => false);
-                                                                } else {
-                                                                  showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      builder: (BuildContext
-                                                                              context) =>
-                                                                          const InactiveCar());
-                                                                }
-                                                              } else {
-                                                                Fluttertoast
-                                                                    .showToast(
-                                                                        msg:
-                                                                            'No internet connection',
-                                                                        fontSize:
-                                                                            20);
-                                                              }
-                                                            },
-                                                            child: Text(
-                                                                'Confirm!',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .green,
-                                                                    fontSize:
-                                                                        screenText *
-                                                                            34)))
-                                                      ])
-                                                    ]));
+                                                                      (Route<dynamic>
+                                                                              route) =>
+                                                                          false);
+                                                            } else {
+                                                              showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder: (BuildContext
+                                                                          context) =>
+                                                                      const InactiveCar());
+                                                            }
+                                                          } else {
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                    'No internet connection',
+                                                                fontSize: 20);
+                                                          }
+                                                        },
+                                                        child: Text('Confirm!',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .redAccent,
+                                                                fontSize:
+                                                                    screenText *
+                                                                        34)))
+                                                  ])
+                                                ]));
                                   },
                                   child: Text("Delete Account",
                                       style: TextStyle(
@@ -757,7 +754,7 @@ class InfoAccount extends StatelessWidget {
                                                 maxLines: 1,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    color: Colors.green,
+                                                    color: Colors.redAccent,
                                                     fontSize: screenText * 30,
                                                     fontWeight: FontWeight.w500,
                                                     backgroundColor:
@@ -768,7 +765,7 @@ class InfoAccount extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(15),
                                   boxShadow: const [
                                     BoxShadow(
-                                        color: Colors.green,
+                                        color: Colors.redAccent,
                                         spreadRadius: 4,
                                         blurRadius: 2)
                                   ])),
@@ -796,7 +793,7 @@ class InfoAccount extends StatelessWidget {
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    color: Colors.green,
+                                                    color: Colors.redAccent,
                                                     fontSize: screenText * 30,
                                                     fontWeight: FontWeight.w500,
                                                     backgroundColor:
@@ -807,7 +804,7 @@ class InfoAccount extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(15),
                                   boxShadow: const [
                                     BoxShadow(
-                                        color: Colors.green,
+                                        color: Colors.redAccent,
                                         spreadRadius: 4,
                                         blurRadius: 2)
                                   ])),
@@ -835,7 +832,7 @@ class InfoAccount extends StatelessWidget {
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    color: Colors.green,
+                                                    color: Colors.redAccent,
                                                     fontSize: screenText * 30,
                                                     fontWeight: FontWeight.w500,
                                                     backgroundColor:
@@ -846,7 +843,7 @@ class InfoAccount extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(15),
                                   boxShadow: const [
                                     BoxShadow(
-                                        color: Colors.green,
+                                        color: Colors.redAccent,
                                         spreadRadius: 4,
                                         blurRadius: 2)
                                   ]))

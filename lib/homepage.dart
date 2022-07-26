@@ -25,6 +25,7 @@ import 'dart:io' show Platform;
 
 const double pinVisiblePosition = 50;
 const double pinInvisiblePosition = -220;
+const double pinInvisiblePosition2 = -620;
 
 class HomePage extends StatefulWidget {
   List<CarModel>? searchCar;
@@ -52,8 +53,12 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    if (PassMarker.useMobileLayout!) {
+      pinPillPosition = -220;
+    } else {
+      pinPillPosition = -620;
+    }
 
-    pinPillPosition = -220;
     _updateMarkers();
     _updateTimer();
 
@@ -243,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                 appBar: AppBar(
                     title: Text("PrCar",
                         style: TextStyle(fontSize: screenText * 30)),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.redAccent,
                     actions: [
                       !PassMarker.from
                           ? Row(children: [
@@ -289,7 +294,7 @@ class _HomePageState extends State<HomePage> {
                       child: Text(" Home",
                           style: TextStyle(
                               fontSize: screenText * 50,
-                              color: Colors.green,
+                              color: Colors.redAccent,
                               fontWeight: FontWeight.bold))),
                   SizedBox(height: screenHeight * 0.02),
                   ListTile(
@@ -375,11 +380,17 @@ class _HomePageState extends State<HomePage> {
                         _controller = controller;
                       },
                       onTap: (LatLng loc) {
+<<<<<<< HEAD
                         if (mounted) {
                           setState(() {
                             pinPillPosition = pinInvisiblePosition;
                           });
                         }
+=======
+                        setState(() {
+                          pinPillPosition = pinInvisiblePosition2;
+                        });
+>>>>>>> 3d5e951f80cb1b74c14dc085d39f2e3670c8bbcd
                       }),
                   AnimatedPositioned(
                       left: 0,
@@ -741,6 +752,7 @@ class _HomePageState extends State<HomePage> {
                           pinPillPosition = pinVisiblePosition;
                         });
                       }
+<<<<<<< HEAD
                     } else {
                       if (mounted) {
                         setState(() {
@@ -752,6 +764,31 @@ class _HomePageState extends State<HomePage> {
               PassMarker.markerId = PassMarker.markerId + 1;
             });
           }
+=======
+                    }),
+                position: LatLng(lat, lng),
+                icon: _iconColor(cars[i].uid.toString(), userAuth),
+                onTap: () {
+                  if (userAuth != cars[i].uid.toString()) {
+                    PassMarker.carModel = cars[i];
+                    setState(() {
+                      pinPillPosition = pinVisiblePosition;
+                    });
+                  } else {
+                    if (PassMarker.useMobileLayout!) {
+                      setState(() {
+                        pinPillPosition = pinInvisiblePosition;
+                      });
+                    } else {
+                      setState(() {
+                        pinPillPosition = pinInvisiblePosition2;
+                      });
+                    }
+                  }
+                }));
+            PassMarker.markerId = PassMarker.markerId + 1;
+          });
+>>>>>>> 3d5e951f80cb1b74c14dc085d39f2e3670c8bbcd
         }
       } else {
         PassMarker.markerToPass = {};

@@ -65,7 +65,7 @@ class _AddNewCarState extends State<AddNewCar> {
       if (PassMarker.useMobileLayout!) {
         return Colors.redAccent;
       } else {
-        return Colors.green;
+        return Colors.redAccent;
       }
     }
 
@@ -466,7 +466,7 @@ class _AddNewCarState extends State<AddNewCar> {
         : Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.redAccent,
                 title: Text('Add Car',
                     style: TextStyle(fontSize: screenText * 30)),
                 automaticallyImplyLeading: false,

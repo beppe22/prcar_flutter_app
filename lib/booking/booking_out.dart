@@ -263,7 +263,7 @@ class BookingOutPageState extends State<BookingOutPage> {
               return Scaffold(
                   backgroundColor: Colors.white,
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text('Booking-Out',
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -286,7 +286,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                     child: Text('No booking-out yet :(',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            color: Colors.green,
+                                            color: Colors.redAccent,
                                             fontSize: screenText * 38,
                                             fontWeight: FontWeight.bold)),
                                     padding: EdgeInsets.fromLTRB(
@@ -297,7 +297,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(30),
                                         border: Border.all(
-                                            width: 5.0, color: Colors.green),
+                                            width: 5.0, color: Colors.redAccent),
                                         boxShadow: [
                                           BoxShadow(
                                               color: Colors.grey.shade200,
@@ -345,7 +345,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                         title: Text(
                                                                             'What do you want to do?',
                                                                             style: TextStyle(
-                                                                                color: Colors.green,
+                                                                                color: Colors.redAccent,
                                                                                 fontSize: screenText * 35,
                                                                                 fontWeight: FontWeight.bold),
                                                                             textAlign: TextAlign.center),
@@ -356,7 +356,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                           Container(
                                                                               height: screenHeight * 0.09,
                                                                               width: screenWidth * 0.5,
-                                                                              decoration: BoxDecoration(color: Colors.green, border: Border.all(width: 5.0, color: Colors.grey)),
+                                                                              decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                               child: MaterialButton(
                                                                                 onPressed: () async {
                                                                                   if (await NetworkCheck().check()) {
@@ -393,7 +393,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                                       onPressed: () {
                                                                                                         Navigator.of(context).pop();
                                                                                                       },
-                                                                                                      child: Text('Close', style: TextStyle(color: Colors.green, fontSize: screenText * 34))),
+                                                                                                      child: Text('Close', style: TextStyle(color: Colors.redAccent, fontSize: screenText * 34))),
                                                                                                   SizedBox(width: screenWidth * 0.32),
                                                                                                   TextButton(
                                                                                                       onPressed: () async {
@@ -407,7 +407,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                                           Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
                                                                                                         }
                                                                                                       },
-                                                                                                      child: Text('Yes!', style: TextStyle(color: Colors.green, fontSize: screenText * 34)))
+                                                                                                      child: Text('Yes!', style: TextStyle(color: Colors.redAccent, fontSize: screenText * 34)))
                                                                                                 ])
                                                                                               ]));
                                                                                     } else {
@@ -431,7 +431,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                           Container(
                                                                               height: screenHeight * 0.09,
                                                                               width: screenWidth * 0.5,
-                                                                              decoration: BoxDecoration(color: Colors.green, border: Border.all(width: 5.0, color: Colors.grey)),
+                                                                              decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                               child: MaterialButton(
                                                                                 onPressed: () async {
                                                                                   if (await NetworkCheck().check()) {
@@ -469,7 +469,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                       screenText *
                                                                           32,
                                                                   color: Colors
-                                                                      .green)))),
+                                                                      .redAccent)))),
                                                       decoration: BoxDecoration(
                                                           border: Border.all(
                                                               width: 5.0,
@@ -490,7 +490,7 @@ class BookingOutPageState extends State<BookingOutPage> {
               return Scaffold(
                   backgroundColor: Colors.white,
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text('Booking-Out',
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -513,7 +513,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                     child: Text('No booking-out yet :(',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            color: Colors.green,
+                                            color: Colors.redAccent,
                                             fontSize: screenText * 38,
                                             fontWeight: FontWeight.bold)),
                                     padding: EdgeInsets.fromLTRB(
@@ -524,7 +524,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(30),
                                         border: Border.all(
-                                            width: 5.0, color: Colors.green),
+                                            width: 5.0, color: Colors.redAccent),
                                         boxShadow: [
                                           BoxShadow(
                                               color: Colors.grey.shade200,
@@ -572,7 +572,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                         title: Text(
                                                                             'What do you want to do?',
                                                                             style: TextStyle(
-                                                                                color: Colors.green,
+                                                                                color: Colors.redAccent,
                                                                                 fontSize: screenText * 35,
                                                                                 fontWeight: FontWeight.bold),
                                                                             textAlign: TextAlign.center),
@@ -583,7 +583,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                           Container(
                                                                               height: screenHeight * 0.12,
                                                                               width: screenWidth * 0.35,
-                                                                              decoration: BoxDecoration(color: Colors.green, border: Border.all(width: 5.0, color: Colors.grey)),
+                                                                              decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                               child: MaterialButton(
                                                                                 onPressed: () async {
                                                                                   if (await NetworkCheck().check()) {
@@ -620,7 +620,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                                       onPressed: () {
                                                                                                         Navigator.of(context).pop();
                                                                                                       },
-                                                                                                      child: Text('Close', style: TextStyle(color: Colors.green, fontSize: screenText * 34))),
+                                                                                                      child: Text('Close', style: TextStyle(color: Colors.redAccent, fontSize: screenText * 34))),
                                                                                                   SizedBox(width: screenWidth * 0.32),
                                                                                                   TextButton(
                                                                                                       onPressed: () async {
@@ -634,7 +634,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                                           Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
                                                                                                         }
                                                                                                       },
-                                                                                                      child: Text('Yes!', style: TextStyle(color: Colors.green, fontSize: screenText * 34)))
+                                                                                                      child: Text('Yes!', style: TextStyle(color: Colors.redAccent, fontSize: screenText * 34)))
                                                                                                 ])
                                                                                               ]));
                                                                                     } else {
@@ -658,7 +658,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                           Container(
                                                                               height: screenHeight * 0.12,
                                                                               width: screenWidth * 0.35,
-                                                                              decoration: BoxDecoration(color: Colors.green, border: Border.all(width: 5.0, color: Colors.grey)),
+                                                                              decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
                                                                               child: MaterialButton(
                                                                                 onPressed: () async {
                                                                                   if (await NetworkCheck().check()) {
@@ -696,7 +696,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                       screenText *
                                                                           32,
                                                                   color: Colors
-                                                                      .green)))),
+                                                                      .redAccent)))),
                                                       decoration: BoxDecoration(
                                                           border: Border.all(
                                                               width: 5.0,
@@ -784,13 +784,13 @@ class BookingOutPageState extends State<BookingOutPage> {
       if (PassMarker.useMobileLayout!) {
         return Colors.red.shade100;
       } else {
-        return Colors.green.shade100;
+        return Colors.redAccent.shade100;
       }
     } else {
       if (PassMarker.useMobileLayout!) {
         return Colors.redAccent;
       } else {
-        return Colors.green;
+        return Colors.redAccent;
       }
     }
   }

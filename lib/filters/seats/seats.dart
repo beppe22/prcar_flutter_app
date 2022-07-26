@@ -80,7 +80,7 @@ class _SeatsState extends State<Seats> {
             if (orientation == Orientation.portrait) {
               return Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text("Seats",
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -103,7 +103,7 @@ class _SeatsState extends State<Seats> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.green,
+                                color: Colors.redAccent,
                                 fontSize: screenText * 38))),
                     SizedBox(height: screenHeight * 0.02),
                     SeatsButton(
@@ -133,7 +133,7 @@ class _SeatsState extends State<Seats> {
             } else {
               return Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text("Seats",
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -155,7 +155,7 @@ class _SeatsState extends State<Seats> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.green,
+                                  color: Colors.redAccent,
                                   fontSize: screenText * 33))),
                       SizedBox(
                           height: screenHeight * 0.55,

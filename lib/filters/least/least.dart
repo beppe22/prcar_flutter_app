@@ -216,7 +216,7 @@ class _LeastState extends State<Least> {
             if (orientation == Orientation.portrait) {
               return Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text("Least",
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -265,7 +265,7 @@ class _LeastState extends State<Least> {
                                       right: screenWidth * 0.06,
                                       bottom: screenHeight * 0.02),
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       borderRadius: BorderRadius.circular(20)),
                                   child: MaterialButton(
                                       onPressed: () async {
@@ -309,7 +309,7 @@ class _LeastState extends State<Least> {
                                       right: screenWidth * 0.06,
                                       bottom: screenHeight * 0.02),
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       borderRadius: BorderRadius.circular(20)),
                                   child: MaterialButton(
                                       onPressed: () async {
@@ -397,13 +397,13 @@ class _LeastState extends State<Least> {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: screenText * 35,
-                                            color: Colors.green,
+                                            color: Colors.redAccent,
                                             fontWeight: FontWeight.bold))))
                           ])));
             } else {
               return Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text("Least",
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -452,7 +452,7 @@ class _LeastState extends State<Least> {
                                       right: screenWidth * 0.06,
                                       bottom: screenHeight * 0.02),
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       borderRadius: BorderRadius.circular(20)),
                                   child: MaterialButton(
                                       onPressed: () async {
@@ -496,7 +496,7 @@ class _LeastState extends State<Least> {
                                       right: screenWidth * 0.06,
                                       bottom: screenHeight * 0.02),
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       borderRadius: BorderRadius.circular(20)),
                                   child: MaterialButton(
                                       onPressed: () async {
@@ -584,7 +584,7 @@ class _LeastState extends State<Least> {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: screenText * 35,
-                                            color: Colors.green,
+                                            color: Colors.redAccent,
                                             fontWeight: FontWeight.bold))))
                           ])));
             }

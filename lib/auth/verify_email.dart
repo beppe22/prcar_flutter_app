@@ -137,7 +137,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
                 appBar: AppBar(
                     title: Text('Verify Email',
                         style: TextStyle(fontSize: screenText * 30)),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.redAccent,
                     automaticallyImplyLeading: false),
                 backgroundColor: Colors.white,
                 body: Center(
@@ -151,7 +151,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
                                   'A verification mail has been sent to your email.',
                                   style: TextStyle(
                                       fontSize: screenText * 48,
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       fontWeight: FontWeight.bold),
                                   textAlign: TextAlign.center),
                               SizedBox(height: screenHeight * 0.05),
@@ -165,7 +165,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
                                   width: screenWidth * 0.6,
                                   child: ElevatedButton.icon(
                                       style: ElevatedButton.styleFrom(
-                                        primary: Colors.green,
+                                        primary: Colors.redAccent,
                                       ),
                                       icon: Icon(Icons.mail,
                                           size: screenText * 28),
@@ -181,7 +181,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
                                   width: screenWidth * 0.6,
                                   child: ElevatedButton.icon(
                                       style: ElevatedButton.styleFrom(
-                                          primary: Colors.green),
+                                          primary: Colors.redAccent),
                                       icon: Icon(Icons.cancel,
                                           size: screenText * 28),
                                       label: Text('Cancel',
