@@ -61,10 +61,21 @@ void main() {
 
       await tester.tap(fa12);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 20));
+      await tester.pump(Duration(seconds: 2));
 
       expect(find.text('Filters'), findsOneWidget);
       expect(find.text("PrCar"), findsOneWidget);
+
+      await tester.tap(drawer);
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.tap(accountButton);
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      expect(find.text("Francesco"), findsOneWidget);
     });
   });
 }

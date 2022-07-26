@@ -4,7 +4,7 @@ import 'package:prcarpolimi/about_your_car/info_car.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/services/services.dart';
-
+/*
 void main() {
   group("info car test", () {
     PassMarker.useMobileLayout = true;
@@ -27,3 +27,4 @@ void main() {
     });
   });
 }
+*/

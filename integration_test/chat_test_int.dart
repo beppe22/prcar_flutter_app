@@ -37,7 +37,7 @@ void main() {
       //VERIFY WE ARE IN LOGIN PAGE
       expect(find.text('Login'), findsOneWidget);
 
-      final fab = find.byKey(Key("clickButtom"));
+      final fab = await find.byKey(Key("clickButtom"));
       await tester.tap(fab);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 1));
