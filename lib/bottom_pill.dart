@@ -272,6 +272,12 @@ class MapBottomPill extends StatelessWidget {
                                                                             true)
                                                                     .pop(
                                                                         'dialog');
+                                                                Fluttertoast
+                                                                    .showToast(
+                                                                        msg:
+                                                                            'Your reservation has been approved :)',
+                                                                        fontSize:
+                                                                            20);
                                                               } else if (reserveResult ==
                                                                   '0') {
                                                                 Fluttertoast
@@ -569,6 +575,7 @@ class MapBottomPill extends StatelessWidget {
                                                                             if (reserveResult ==
                                                                                 '1') {
                                                                               Navigator.of(context, rootNavigator: true).pop('dialog');
+                                                                              Fluttertoast.showToast(msg: 'Your reservation has been approved :)', fontSize: 20);
                                                                             } else if (reserveResult ==
                                                                                 '0') {
                                                                               Fluttertoast.showToast(msg: 'Something went wrong, try again later', fontSize: 20);
