@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state, must_be_immutable, avoid_print
+// ignore_for_file: must_be_immutable
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -380,17 +380,11 @@ class _HomePageState extends State<HomePage> {
                         _controller = controller;
                       },
                       onTap: (LatLng loc) {
-<<<<<<< HEAD
                         if (mounted) {
                           setState(() {
                             pinPillPosition = pinInvisiblePosition;
                           });
                         }
-=======
-                        setState(() {
-                          pinPillPosition = pinInvisiblePosition2;
-                        });
->>>>>>> 3d5e951f80cb1b74c14dc085d39f2e3670c8bbcd
                       }),
                   AnimatedPositioned(
                       left: 0,
@@ -752,7 +746,6 @@ class _HomePageState extends State<HomePage> {
                           pinPillPosition = pinVisiblePosition;
                         });
                       }
-<<<<<<< HEAD
                     } else {
                       if (mounted) {
                         setState(() {
@@ -764,31 +757,6 @@ class _HomePageState extends State<HomePage> {
               PassMarker.markerId = PassMarker.markerId + 1;
             });
           }
-=======
-                    }),
-                position: LatLng(lat, lng),
-                icon: _iconColor(cars[i].uid.toString(), userAuth),
-                onTap: () {
-                  if (userAuth != cars[i].uid.toString()) {
-                    PassMarker.carModel = cars[i];
-                    setState(() {
-                      pinPillPosition = pinVisiblePosition;
-                    });
-                  } else {
-                    if (PassMarker.useMobileLayout!) {
-                      setState(() {
-                        pinPillPosition = pinInvisiblePosition;
-                      });
-                    } else {
-                      setState(() {
-                        pinPillPosition = pinInvisiblePosition2;
-                      });
-                    }
-                  }
-                }));
-            PassMarker.markerId = PassMarker.markerId + 1;
-          });
->>>>>>> 3d5e951f80cb1b74c14dc085d39f2e3670c8bbcd
         }
       } else {
         PassMarker.markerToPass = {};
