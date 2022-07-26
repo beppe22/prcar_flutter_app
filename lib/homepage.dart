@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state, must_be_immutable, avoid_print
+// ignore_for_file: must_be_immutable
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
