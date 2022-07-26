@@ -185,9 +185,11 @@ class _HomePageState extends State<HomePage> {
                                   MaterialPageRoute(
                                       builder: (context) => Cars_user(cars,
                                           service: Service()))).then((data) {
-                                setState(() {
-                                  _updateMarkers();
-                                });
+                                if (mounted) {
+                                  setState(() {
+                                    _updateMarkers();
+                                  });
+                                }
                               });
                             }
                           }),
@@ -221,9 +223,11 @@ class _HomePageState extends State<HomePage> {
                         _controller = controller;
                       },
                       onTap: (LatLng loc) {
-                        setState(() {
-                          pinPillPosition = pinInvisiblePosition;
-                        });
+                        if (mounted) {
+                          setState(() {
+                            pinPillPosition = pinInvisiblePosition;
+                          });
+                        }
                       }),
                   AnimatedPositioned(
                       left: 0,
@@ -321,9 +325,11 @@ class _HomePageState extends State<HomePage> {
                                       builder: (context) =>
                                           Cars_user(cars, service: Service())))
                               .then((data) {
-                            setState(() {
-                              _updateMarkers();
-                            });
+                            if (mounted) {
+                              setState(() {
+                                _updateMarkers();
+                              });
+                            }
                           });
                         }
                       }),
@@ -369,9 +375,11 @@ class _HomePageState extends State<HomePage> {
                         _controller = controller;
                       },
                       onTap: (LatLng loc) {
-                        setState(() {
-                          pinPillPosition = pinInvisiblePosition;
-                        });
+                        if (mounted) {
+                          setState(() {
+                            pinPillPosition = pinInvisiblePosition;
+                          });
+                        }
                       }),
                   AnimatedPositioned(
                       left: 0,
@@ -693,51 +701,57 @@ class _HomePageState extends State<HomePage> {
           final splitted = carLatLng!.split(',');
           double lat = double.parse(splitted[0]);
           double lng = double.parse(splitted[1]);
-          setState(() {
-            PassMarker.markerToPass.add(Marker(
-                markerId: MarkerId('marker$i'),
-                infoWindow: InfoWindow(
-                    title: _printInfoWindow(
-                        cars[i].uid.toString(),
-                        userAuth!,
-                        cars[i].vehicle.toString() +
-                            '-' +
-                            cars[i].model.toString()),
-                    onTap: () {
-                      if (cars[i].uid == userAuth) {
-                        String suspOrAct = '';
-                        if (cars[i].activeOrNot == 't') {
-                          suspOrAct = 'Suspend';
-                        } else {
-                          suspOrAct = 'Active';
+          if (mounted) {
+            setState(() {
+              PassMarker.markerToPass.add(Marker(
+                  markerId: MarkerId('marker$i'),
+                  infoWindow: InfoWindow(
+                      title: _printInfoWindow(
+                          cars[i].uid.toString(),
+                          userAuth!,
+                          cars[i].vehicle.toString() +
+                              '-' +
+                              cars[i].model.toString()),
+                      onTap: () {
+                        if (cars[i].uid == userAuth) {
+                          String suspOrAct = '';
+                          if (cars[i].activeOrNot == 't') {
+                            suspOrAct = 'Suspend';
+                          } else {
+                            suspOrAct = 'Active';
+                          }
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InfoCar(
+                                        cars[i],
+                                        suspOrAct,
+                                        true,
+                                        service: Service(),
+                                      )));
                         }
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => InfoCar(
-                                      cars[i],
-                                      suspOrAct,
-                                      true,
-                                      service: Service(),
-                                    )));
+                      }),
+                  position: LatLng(lat, lng),
+                  icon: _iconColor(cars[i].uid.toString(), userAuth),
+                  onTap: () {
+                    if (userAuth != cars[i].uid.toString()) {
+                      PassMarker.carModel = cars[i];
+                      if (mounted) {
+                        setState(() {
+                          pinPillPosition = pinVisiblePosition;
+                        });
                       }
-                    }),
-                position: LatLng(lat, lng),
-                icon: _iconColor(cars[i].uid.toString(), userAuth),
-                onTap: () {
-                  if (userAuth != cars[i].uid.toString()) {
-                    PassMarker.carModel = cars[i];
-                    setState(() {
-                      pinPillPosition = pinVisiblePosition;
-                    });
-                  } else {
-                    setState(() {
-                      pinPillPosition = pinInvisiblePosition;
-                    });
-                  }
-                }));
-            PassMarker.markerId = PassMarker.markerId + 1;
-          });
+                    } else {
+                      if (mounted) {
+                        setState(() {
+                          pinPillPosition = pinInvisiblePosition;
+                        });
+                      }
+                    }
+                  }));
+              PassMarker.markerId = PassMarker.markerId + 1;
+            });
+          }
         }
       } else {
         PassMarker.markerToPass = {};
@@ -746,24 +760,28 @@ class _HomePageState extends State<HomePage> {
           final splitted = carLatLng!.split(',');
           double lat = double.parse(splitted[0]);
           double lng = double.parse(splitted[1]);
-          setState(() {
-            PassMarker.markerToPass.add(Marker(
-                markerId: MarkerId('marker$i'),
-                infoWindow: InfoWindow(
-                    title: _printInfoWindow(
-                        searchCar![i].uid.toString(),
-                        userAuth!,
-                        searchCar![i].vehicle.toString() +
-                            '-' +
-                            searchCar![i].model.toString())),
-                position: LatLng(lat, lng),
-                icon: _iconColor(searchCar![i].uid.toString(), userAuth),
-                onTap: () {
-                  setState(() {
-                    pinPillPosition = pinVisiblePosition;
-                  });
-                }));
-          });
+          if (mounted) {
+            setState(() {
+              PassMarker.markerToPass.add(Marker(
+                  markerId: MarkerId('marker$i'),
+                  infoWindow: InfoWindow(
+                      title: _printInfoWindow(
+                          searchCar![i].uid.toString(),
+                          userAuth!,
+                          searchCar![i].vehicle.toString() +
+                              '-' +
+                              searchCar![i].model.toString())),
+                  position: LatLng(lat, lng),
+                  icon: _iconColor(searchCar![i].uid.toString(), userAuth),
+                  onTap: () {
+                    if (mounted) {
+                      setState(() {
+                        pinPillPosition = pinVisiblePosition;
+                      });
+                    }
+                  }));
+            });
+          }
         }
       }
     } on FirebaseAuthException catch (e) {

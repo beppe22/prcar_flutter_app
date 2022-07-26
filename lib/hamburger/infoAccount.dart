@@ -58,8 +58,7 @@ class InfoAccount extends StatelessWidget {
                             Expanded(
                                 child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
-                                    child: Text(
-                                        'Email: ' + StaticUser.email.toString(),
+                                    child: Text(StaticUser.email.toString(),
                                         maxLines: 1,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -92,9 +91,7 @@ class InfoAccount extends StatelessWidget {
                             Expanded(
                                 child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
-                                    child: Text(
-                                        'First Name: ' +
-                                            StaticUser.firstName.toString(),
+                                    child: Text(StaticUser.firstName.toString(),
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -128,8 +125,7 @@ class InfoAccount extends StatelessWidget {
                                 child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Text(
-                                        'Second Name: ' +
-                                            StaticUser.secondName.toString(),
+                                        StaticUser.secondName.toString(),
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -334,8 +330,7 @@ class InfoAccount extends StatelessWidget {
                                       child: SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Text(
-                                              'Email: ' +
-                                                  StaticUser.email.toString(),
+                                              StaticUser.email.toString(),
                                               maxLines: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
@@ -371,9 +366,7 @@ class InfoAccount extends StatelessWidget {
                                       child: SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Text(
-                                              'First Name: ' +
-                                                  StaticUser.firstName
-                                                      .toString(),
+                                              StaticUser.firstName.toString(),
                                               overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
@@ -409,9 +402,7 @@ class InfoAccount extends StatelessWidget {
                                       child: SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Text(
-                                              'Second Name: ' +
-                                                  StaticUser.secondName
-                                                      .toString(),
+                                              StaticUser.secondName.toString(),
                                               overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(

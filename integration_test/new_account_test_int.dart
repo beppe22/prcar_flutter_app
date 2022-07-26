@@ -13,20 +13,31 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      //PER FARE LOGOUT
-      /*final logout = await find.byKey(Key("logout button"));
-      await tester.tap(logout);
-      await tester.pump(Duration(seconds: 2));*/
+      //AVVIARE IL LOGOUT
+      final drawer = await find.byTooltip('Open navigation menu');
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
 
-      expect(find.text('Login'), findsOneWidget);
+      expect(drawer, findsWidgets);
 
-      // Finds the floating action button to tap on.
+      await tester.tap(drawer);
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      final accountButton = await find.byType(ListTile).first;
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.tap(accountButton);
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      final logoutButton = await find.byKey(Key("logout button"));
+      await tester.tap(logoutButton);
+      await tester.pump(Duration(seconds: 2));
+
+      //WE ARE IN LOGIN PAGE
+
       final fab = await find.byKey(Key("New Account"));
-
-      // Emulate a tap on the floating action button.
       await tester.tap(fab);
-
-      // Trigger a frame.
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
@@ -53,18 +64,19 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final fa12 = await find.byKey(Key("sign up buttom"));
       final gesture = await tester
           .startGesture(Offset(0, 300)); //Position of the scrollview
       await gesture.moveBy(Offset(0, -300));
       await tester.pumpAndSettle();
 
       // Emulate a tap on the floating action button.
-      await tester.tap(fa12);
-      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.tap(find.byKey(Key("sign up buttom")));
+      await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(fa12);
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.tap(find.byKey(Key("sign up buttom")));
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 5));
 
