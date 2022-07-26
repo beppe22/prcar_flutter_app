@@ -152,6 +152,7 @@ class InfoAccount extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
+                            key: Key("logout button"),
                             height: screenHeight * 0.07,
                             width: screenWidth * 0.7,
                             child: MaterialButton(

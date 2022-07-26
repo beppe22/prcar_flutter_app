@@ -14,13 +14,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Avviare il login
-      //expect(find.text('Login'), findsOneWidget);
+      /*expect(find.text('Login'), findsOneWidget);
 
-      //final fab = find.byKey(Key("clickButtom"));
-
-      //await tester.tap(fab);
-
-      /*await tester.pumpAndSettle();
+      await tester.tap(find.byKey(Key("clickButtom")));
+      await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 1));
 
       expect(find.text('Login'), findsOneWidget);
@@ -33,15 +30,13 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final fa12 = find.byKey(Key("clickButtom"));
-
-      await tester.tap(fa12);
+      await tester.tap(find.byKey(Key("clickButtom")));
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(fa12);
+      await tester.tap(find.byKey(Key("clickButtom")));
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 20));*/
+      await tester.pump(Duration(seconds: 5));*/
 
       expect(find.text('Filters'), findsOneWidget);
       expect(find.text("PrCar"), findsOneWidget);
@@ -56,15 +51,17 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final accountButton = await find.byType(ListTile).first;
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.tap(accountButton);
+      final bookingButton = await find.byType(ListTile).at(1);
+      await tester.tap(bookingButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      /*final logout = await find.byKey(Key("logout button"));
-      await tester.tap(logout);
-      await tester.pump(Duration(seconds: 2));*/
+      final otherResButton = await find.byKey(Key("Other reservation button"));
+      await tester.tap(otherResButton);
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      expect(find.text('Booking-In'), findsOneWidget);
     });
   });
 }

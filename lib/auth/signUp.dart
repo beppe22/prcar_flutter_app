@@ -197,27 +197,28 @@ class _SignUpState extends State<SignUp> {
 
     //signup button
     final signUpButton = Container(
-        color: colorSignUp(),
-        child: MaterialButton(
-            onPressed: () async {
-              if (await NetworkCheck().check()) {
-                signUp(emailEditingController.text,
-                    passwordEditingController.text);
-              } else {
-                Fluttertoast.showToast(
-                    msg: 'No internet connection', fontSize: 20);
-              }
-            },
-            padding: EdgeInsets.fromLTRB(screenWidth * 0.02,
-                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
-            minWidth: MediaQuery.of(context).size.width,
-            child: Text("Sign Up",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: textSize(),
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold))),
-        key: Key("sign up buttom"));
+      key: Key("sign up buttom"),
+      color: colorSignUp(),
+      child: MaterialButton(
+          onPressed: () async {
+            if (await NetworkCheck().check()) {
+              signUp(
+                  emailEditingController.text, passwordEditingController.text);
+            } else {
+              Fluttertoast.showToast(
+                  msg: 'No internet connection', fontSize: 20);
+            }
+          },
+          padding: EdgeInsets.fromLTRB(screenWidth * 0.02, screenHeight * 0.015,
+              screenWidth * 0.02, screenHeight * 0.015),
+          minWidth: MediaQuery.of(context).size.width,
+          child: Text("Sign Up",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: textSize(),
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold))),
+    );
 
     return PassMarker.useMobileLayout!
         ? MaterialApp(

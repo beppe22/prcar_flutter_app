@@ -85,6 +85,7 @@ class _Cars_userState extends State<Cars_user> {
                                     children: [
                                       SizedBox(height: screenHeight * 0.03),
                                       Container(
+                                          key: Key("car"),
                                           height: screenHeight * 0.07,
                                           width: screenWidth * 0.85,
                                           child: MaterialButton(
@@ -117,25 +118,27 @@ class _Cars_userState extends State<Cars_user> {
                                                   });
                                                 }
                                               },
-                                              child: Expanded(
-                                                  child: SingleChildScrollView(
-                                                      scrollDirection:
-                                                          Axis.horizontal,
-                                                      child: Text(
-                                                          cars[index].vehicle.toString() +
-                                                              '-' +
-                                                              cars[index]
-                                                                  .model
-                                                                  .toString(),
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .redAccent,
-                                                              fontSize: screenText *
-                                                                  35,
-                                                              fontWeight: FontWeight
-                                                                  .w500))))),
+                                              child: SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Text(
+                                                      cars[index]
+                                                              .vehicle
+                                                              .toString() +
+                                                          '-' +
+                                                          cars[index]
+                                                              .model
+                                                              .toString(),
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.redAccent,
+                                                          fontSize:
+                                                              screenText * 35,
+                                                          fontWeight: FontWeight
+                                                              .w500)))),
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(12),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                               boxShadow: const [
                                                 BoxShadow(
                                                     color: Colors.redAccent,
@@ -265,25 +268,28 @@ class _Cars_userState extends State<Cars_user> {
                                                         });
                                                       }
                                                     },
-                                                    child: Expanded(
-                                                        child: SingleChildScrollView(
-                                                            scrollDirection:
-                                                                Axis.horizontal,
-                                                            child: Text(
-                                                                cars[index].vehicle.toString() +
-                                                                    '-' +
-                                                                    cars[index]
-                                                                        .model
-                                                                        .toString(),
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .green,
-                                                                    fontSize: screenText *
+                                                    child: SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Text(
+                                                            cars[index]
+                                                                    .vehicle
+                                                                    .toString() +
+                                                                '-' +
+                                                                cars[index]
+                                                                    .model
+                                                                    .toString(),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .green,
+                                                                fontSize:
+                                                                    screenText *
                                                                         35,
-                                                                    fontWeight: FontWeight
-                                                                        .w500))))),
+                                                                fontWeight: FontWeight
+                                                                    .w500)))),
                                                 decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderRadius:
+                                                        BorderRadius.circular(12),
                                                     boxShadow: const [
                                                       BoxShadow(
                                                           color: Colors.green,
@@ -415,25 +421,28 @@ class _Cars_userState extends State<Cars_user> {
                                                         });
                                                       }
                                                     },
-                                                    child: Expanded(
-                                                        child: SingleChildScrollView(
-                                                            scrollDirection:
-                                                                Axis.horizontal,
-                                                            child: Text(
-                                                                cars[index].vehicle.toString() +
-                                                                    '-' +
-                                                                    cars[index]
-                                                                        .model
-                                                                        .toString(),
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .green,
-                                                                    fontSize: screenText *
+                                                    child: SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Text(
+                                                            cars[index]
+                                                                    .vehicle
+                                                                    .toString() +
+                                                                '-' +
+                                                                cars[index]
+                                                                    .model
+                                                                    .toString(),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .green,
+                                                                fontSize:
+                                                                    screenText *
                                                                         35,
-                                                                    fontWeight: FontWeight
-                                                                        .w500))))),
+                                                                fontWeight: FontWeight
+                                                                    .w500)))),
                                                 decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderRadius:
+                                                        BorderRadius.circular(12),
                                                     boxShadow: const [
                                                       BoxShadow(
                                                           color: Colors.green,

@@ -82,6 +82,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                               itemBuilder: (context, index) {
                                 if (PassMarker.status[index] != 'e') {
                                   return Container(
+                                      key: Key("click booking-out"),
                                       padding:
                                           EdgeInsets.all(screenHeight * 0.008),
                                       child: Column(
@@ -128,6 +129,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                           children: [
                                                                             SizedBox(height: screenHeight * 0.03),
                                                                             Container(
+                                                                                key: (Key("Chat button")),
                                                                                 height: screenHeight * 0.09,
                                                                                 width: screenWidth * 0.7,
                                                                                 decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),

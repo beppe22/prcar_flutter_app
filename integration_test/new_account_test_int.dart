@@ -13,7 +13,11 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      // Verify the counter starts at 0.
+      //PER FARE LOGOUT
+      /*final logout = await find.byKey(Key("logout button"));
+      await tester.tap(logout);
+      await tester.pump(Duration(seconds: 2));*/
+
       expect(find.text('Login'), findsOneWidget);
 
       // Finds the floating action button to tap on.
@@ -58,7 +62,7 @@ void main() {
       // Emulate a tap on the floating action button.
       await tester.tap(fa12);
       await tester.pump();
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(Duration(seconds: 2));
 
       await tester.tap(fa12);
       await tester.pumpAndSettle();
