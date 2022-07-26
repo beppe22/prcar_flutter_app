@@ -91,7 +91,9 @@ class InfoAccount extends StatelessWidget {
                             Expanded(
                                 child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
-                                    child: Text(StaticUser.firstName.toString(),
+                                    child: Text(
+                                        'Name: ' +
+                                            StaticUser.firstName.toString(),
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -125,7 +127,8 @@ class InfoAccount extends StatelessWidget {
                                 child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Text(
-                                        StaticUser.secondName.toString(),
+                                        'Surname: ' +
+                                            StaticUser.secondName.toString(),
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -366,7 +369,9 @@ class InfoAccount extends StatelessWidget {
                                       child: SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Text(
-                                              StaticUser.firstName.toString(),
+                                              'Name: ' +
+                                                  StaticUser.firstName
+                                                      .toString(),
                                               overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
@@ -402,7 +407,9 @@ class InfoAccount extends StatelessWidget {
                                       child: SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Text(
-                                              StaticUser.secondName.toString(),
+                                              'Surname: ' +
+                                                  StaticUser.secondName
+                                                      .toString(),
                                               overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
@@ -787,7 +794,7 @@ class InfoAccount extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
                                             child: Text(
-                                                'First Name: ' +
+                                                'Name: ' +
                                                     StaticUser.firstName
                                                         .toString(),
                                                 overflow: TextOverflow.ellipsis,
@@ -826,7 +833,7 @@ class InfoAccount extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
                                             child: Text(
-                                                'Second Name: ' +
+                                                'Surname: ' +
                                                     StaticUser.secondName
                                                         .toString(),
                                                 overflow: TextOverflow.ellipsis,
