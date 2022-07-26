@@ -62,8 +62,6 @@ void main() {
       await tester.pump(Duration(seconds: 2));
 
       expect(find.text('Your cars'), findsOneWidget);
-
-      //DOVREIANDARE IN ABOUT YOUR CAR
     });
   });
 }

@@ -96,6 +96,7 @@ class MessagePageState extends State<MessagePage> {
                               fontWeight: FontWeight.bold))))),
               SizedBox(height: screenHeight * 0.06),
               Container(
+                  key: Key("here for your reservation"),
                   height: screenHeight * 0.12,
                   width: screenWidth * 0.85,
                   decoration: BoxDecoration(

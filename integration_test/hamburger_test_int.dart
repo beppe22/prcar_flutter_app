@@ -47,7 +47,6 @@ void main() {
       expect(find.text("PrCar"), findsOneWidget);
 
       final drawer = await find.byTooltip('Open navigation menu');
-<<<<<<< HEAD
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
@@ -66,10 +65,6 @@ void main() {
       /*final logout = await find.byKey(Key("logout button"));
       await tester.tap(logout);
       await tester.pump(Duration(seconds: 2));*/
-=======
-      expect(drawer, findsWidgets);
-      await tester.tap(drawer);
->>>>>>> a7e6b882c5339ea819a5c96fb31d3c827a84c170
     });
   });
 }
