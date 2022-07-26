@@ -481,8 +481,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.of(context).pop();
                     },
                     backgroundColor: Colors.redAccent,
-                    child: Icon(Icons.add_location_alt_outlined,
-                        size: screenText * 25),
+                    child: Icon(Icons.book, size: screenText * 25),
                   )));
         } else {
           showDialog(

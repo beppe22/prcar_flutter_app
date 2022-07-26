@@ -135,7 +135,7 @@ class MapBottomPill extends StatelessWidget {
                                                 SizedBox(
                                                     height:
                                                         screenHeight * 0.001),
-                                                Text(name,
+                                                Text('Owner: ' + name,
                                                     style: TextStyle(
                                                         fontSize:
                                                             screenText * 14,
@@ -272,12 +272,6 @@ class MapBottomPill extends StatelessWidget {
                                                                             true)
                                                                     .pop(
                                                                         'dialog');
-                                                                Fluttertoast
-                                                                    .showToast(
-                                                                        msg:
-                                                                            'Your reservation has been approved :)',
-                                                                        fontSize:
-                                                                            20);
                                                               } else if (reserveResult ==
                                                                   '0') {
                                                                 Fluttertoast
@@ -326,7 +320,7 @@ class MapBottomPill extends StatelessWidget {
                                               ]));
                                     });
                               },
-                              child: Text('Reserve',
+                              child: Text('More info',
                                   style:
                                       TextStyle(fontSize: screenText * 14)))),
                     ], mainAxisAlignment: MainAxisAlignment.center)
@@ -421,7 +415,9 @@ class MapBottomPill extends StatelessWidget {
                                                                 height:
                                                                     screenHeight *
                                                                         0.001),
-                                                            Text(name,
+                                                            Text(
+                                                                'Owner: ' +
+                                                                    name,
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                         screenText *
@@ -600,7 +596,7 @@ class MapBottomPill extends StatelessWidget {
                                                           ]));
                                                 });
                                           },
-                                          child: Text('Reserve',
+                                          child: Text('More info',
                                               style: TextStyle(
                                                   fontSize: screenText * 24)))),
                                 ])
