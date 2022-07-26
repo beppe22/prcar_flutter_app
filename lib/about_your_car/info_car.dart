@@ -339,7 +339,7 @@ class _InfoCarState extends State<InfoCar> {
               return Scaffold(
                   backgroundColor: Colors.white,
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text(
                           carModel.vehicle.toString() +
                               '-' +
@@ -380,21 +380,21 @@ class _InfoCarState extends State<InfoCar> {
                                           carModel.model.toString(),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
-                                          color: Colors.green,
+                                          color: Colors.redAccent,
                                           fontSize: screenText * 40,
                                           fontWeight: FontWeight.w500,
                                           backgroundColor: Colors.white)),
                                   Text('Seats: ' + carModel.seats.toString(),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
-                                          color: Colors.green,
+                                          color: Colors.redAccent,
                                           fontSize: screenText * 40,
                                           fontWeight: FontWeight.w500,
                                           backgroundColor: Colors.white)),
                                   Text('Fuel: ' + carModel.fuel.toString(),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
-                                          color: Colors.green,
+                                          color: Colors.redAccent,
                                           fontSize: screenText * 40,
                                           fontWeight: FontWeight.w500,
                                           backgroundColor: Colors.white)),
@@ -404,7 +404,7 @@ class _InfoCarState extends State<InfoCar> {
                                               carModel.position.toString()),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
-                                          color: Colors.green,
+                                          color: Colors.redAccent,
                                           fontSize: screenText * 40,
                                           fontWeight: FontWeight.w500,
                                           backgroundColor: Colors.white)),
@@ -413,7 +413,7 @@ class _InfoCarState extends State<InfoCar> {
                                           carModel.price.toString(),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
-                                          color: Colors.green,
+                                          color: Colors.redAccent,
                                           fontSize: screenText * 40,
                                           fontWeight: FontWeight.w500,
                                           backgroundColor: Colors.white)),
@@ -423,7 +423,7 @@ class _InfoCarState extends State<InfoCar> {
                                               carModel.activeOrNot.toString()),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
-                                          color: Colors.green,
+                                          color: Colors.redAccent,
                                           fontSize: screenText * 40,
                                           fontWeight: FontWeight.w500,
                                           backgroundColor: Colors.white))
@@ -433,7 +433,7 @@ class _InfoCarState extends State<InfoCar> {
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: const [
                                   BoxShadow(
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       spreadRadius: 4,
                                       blurRadius: 2)
                                 ])),
@@ -556,7 +556,7 @@ class _InfoCarState extends State<InfoCar> {
                                                           child: Text('Close',
                                                               style: TextStyle(
                                                                   color: Colors
-                                                                      .green,
+                                                                      .redAccent,
                                                                   fontSize:
                                                                       screenText *
                                                                           32))),
@@ -597,7 +597,7 @@ class _InfoCarState extends State<InfoCar> {
                                                           child: Text('Yes!',
                                                               style: TextStyle(
                                                                   color: Colors
-                                                                      .green,
+                                                                      .redAccent,
                                                                   fontSize:
                                                                       screenText *
                                                                           32)))
@@ -654,7 +654,7 @@ class _InfoCarState extends State<InfoCar> {
                                           fontSize: 20);
                                     }
                                   },
-                                  backgroundColor: Colors.green,
+                                  backgroundColor: Colors.redAccent,
                                   child: Icon(Icons.photo_album,
                                       size: screenText * 35)))
                         ])
@@ -663,7 +663,7 @@ class _InfoCarState extends State<InfoCar> {
               return Scaffold(
                   backgroundColor: Colors.white,
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text(
                           carModel.vehicle.toString() +
                               '-' +
@@ -706,21 +706,21 @@ class _InfoCarState extends State<InfoCar> {
                                             carModel.model.toString(),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
-                                            color: Colors.green,
+                                            color: Colors.redAccent,
                                             fontSize: screenText * 35,
                                             fontWeight: FontWeight.w500,
                                             backgroundColor: Colors.white)),
                                     Text('Seats: ' + carModel.seats.toString(),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
-                                            color: Colors.green,
+                                            color: Colors.redAccent,
                                             fontSize: screenText * 35,
                                             fontWeight: FontWeight.w500,
                                             backgroundColor: Colors.white)),
                                     Text('Fuel: ' + carModel.fuel.toString(),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
-                                            color: Colors.green,
+                                            color: Colors.redAccent,
                                             fontSize: screenText * 35,
                                             fontWeight: FontWeight.w500,
                                             backgroundColor: Colors.white)),
@@ -730,7 +730,7 @@ class _InfoCarState extends State<InfoCar> {
                                                 carModel.position.toString()),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
-                                            color: Colors.green,
+                                            color: Colors.redAccent,
                                             fontSize: screenText * 35,
                                             fontWeight: FontWeight.w500,
                                             backgroundColor: Colors.white)),
@@ -739,7 +739,7 @@ class _InfoCarState extends State<InfoCar> {
                                             carModel.price.toString(),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
-                                            color: Colors.green,
+                                            color: Colors.redAccent,
                                             fontSize: screenText * 35,
                                             fontWeight: FontWeight.w500,
                                             backgroundColor: Colors.white)),
@@ -749,7 +749,7 @@ class _InfoCarState extends State<InfoCar> {
                                                 .toString()),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
-                                            color: Colors.green,
+                                            color: Colors.redAccent,
                                             fontSize: screenText * 35,
                                             fontWeight: FontWeight.w500,
                                             backgroundColor: Colors.white))
@@ -759,7 +759,7 @@ class _InfoCarState extends State<InfoCar> {
                                   borderRadius: BorderRadius.circular(15),
                                   boxShadow: const [
                                     BoxShadow(
-                                        color: Colors.green,
+                                        color: Colors.redAccent,
                                         spreadRadius: 4,
                                         blurRadius: 2)
                                   ]))
@@ -878,7 +878,7 @@ class _InfoCarState extends State<InfoCar> {
                                                           child: Text('Close',
                                                               style: TextStyle(
                                                                   color: Colors
-                                                                      .green,
+                                                                      .redAccent,
                                                                   fontSize:
                                                                       screenText *
                                                                           32))),
@@ -919,7 +919,7 @@ class _InfoCarState extends State<InfoCar> {
                                                           child: Text('Yes!',
                                                               style: TextStyle(
                                                                   color: Colors
-                                                                      .green,
+                                                                      .redAccent,
                                                                   fontSize:
                                                                       screenText *
                                                                           32)))
@@ -977,7 +977,7 @@ class _InfoCarState extends State<InfoCar> {
                                           fontSize: 20);
                                     }
                                   },
-                                  backgroundColor: Colors.green,
+                                  backgroundColor: Colors.redAccent,
                                   child: Icon(Icons.photo_album,
                                       size: screenText * 40)))
                         ])
@@ -1104,31 +1104,62 @@ class InactiveSingleCar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-        title: const Text(
-            'You have active reservation! For the moment, click below to switch your cars disabled and then complete or cancel your reservations',
-            style: TextStyle(fontSize: 20),
-            textAlign: TextAlign.center),
-        actions: <Widget>[
-          Row(children: [
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Close', style: TextStyle(fontSize: 24))),
-            const SizedBox(width: 90),
-            TextButton(
-                onPressed: () async {
-                  final _auth = FirebaseAuth.instance;
-                  User? user = _auth.currentUser;
-                  _suspendOrActiveCar(car, user!);
-                  Fluttertoast.showToast(
-                      msg: 'Your car has been disabled!', fontSize: 20);
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Disable', style: TextStyle(fontSize: 24))),
-          ])
-        ]);
+    final screenWidth = MediaQuery.of(context).size.width;
+    return PassMarker.useMobileLayout!
+        ? AlertDialog(
+            title: const Text(
+                'You have active reservation! For the moment, click below to switch your cars disabled and then complete or cancel your reservations',
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center),
+            actions: <Widget>[
+                Row(children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child:
+                          const Text('Close', style: TextStyle(fontSize: 24))),
+                  const SizedBox(width: 90),
+                  TextButton(
+                      onPressed: () async {
+                        final _auth = FirebaseAuth.instance;
+                        User? user = _auth.currentUser;
+                        _suspendOrActiveCar(car, user!);
+                        Fluttertoast.showToast(
+                            msg: 'Your car has been disabled!', fontSize: 20);
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Disable',
+                          style: TextStyle(fontSize: 24))),
+                ])
+              ])
+        : AlertDialog(
+            title: const Text(
+                'You have active reservation! For the moment, click below to switch your cars disabled and then complete or cancel your reservations',
+                style: TextStyle(fontSize: 30),
+                textAlign: TextAlign.center),
+            actions: <Widget>[
+                Row(children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child:
+                          const Text('Close', style: TextStyle(fontSize: 34))),
+                  SizedBox(width: screenWidth * 0.57),
+                  TextButton(
+                      onPressed: () async {
+                        final _auth = FirebaseAuth.instance;
+                        User? user = _auth.currentUser;
+                        _suspendOrActiveCar(car, user!);
+                        Fluttertoast.showToast(
+                            msg: 'Your car has been disabled!', fontSize: 20);
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Disable',
+                          style: TextStyle(fontSize: 34))),
+                ])
+              ]);
   }
 
   void _suspendOrActiveCar(CarModel car, User user) async {

@@ -313,7 +313,7 @@ class _LoginState extends State<Login> {
                                                   style: TextStyle(
                                                       decoration: TextDecoration
                                                           .underline,
-                                                      color: Colors.green,
+                                                      color: Colors.redAccent,
                                                       fontSize:
                                                           screenText * 30)),
                                               onTap: () => Navigator.of(context)
@@ -331,7 +331,7 @@ class _LoginState extends State<Login> {
                                                   style: TextStyle(
                                                       decoration: TextDecoration
                                                           .underline,
-                                                      color: Colors.green,
+                                                      color: Colors.redAccent,
                                                       fontSize:
                                                           screenText * 30)),
                                               onTap: () => Navigator.push(
@@ -349,7 +349,7 @@ class _LoginState extends State<Login> {
                                               height: screenHeight * 0.07,
                                               width: screenWidth * 0.7,
                                               child: MaterialButton(
-                                                  color: Colors.green,
+                                                  color: Colors.redAccent,
                                                   onPressed: () async {
                                                     if (await NetworkCheck()
                                                         .check()) {
@@ -470,7 +470,7 @@ class _LoginState extends State<Login> {
                                 child: Text('Forgot password?',
                                     style: TextStyle(
                                         decoration: TextDecoration.underline,
-                                        color: Colors.green,
+                                        color: Colors.redAccent,
                                         fontSize: screenText * 32)),
                                 onTap: () => Navigator.of(context).push(
                                     MaterialPageRoute(
@@ -485,7 +485,7 @@ class _LoginState extends State<Login> {
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                         decoration: TextDecoration.underline,
-                                        color: Colors.green,
+                                        color: Colors.redAccent,
                                         fontSize: screenText * 32)),
                                 onTap: () => Navigator.push(
                                     context,
@@ -500,7 +500,7 @@ class _LoginState extends State<Login> {
                                     height: screenHeight * 0.1,
                                     width: screenWidth * 0.4,
                                     child: MaterialButton(
-                                        color: Colors.green,
+                                        color: Colors.redAccent,
                                         onPressed: () async {
                                           if (await NetworkCheck().check()) {
                                             User? user =

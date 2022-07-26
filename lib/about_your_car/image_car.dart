@@ -253,7 +253,7 @@ class _ImageCarState extends State<ImageCar> {
             appBar: AppBar(
                 title: Text('Car\'s picture',
                     style: TextStyle(fontSize: screenText * 30)),
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.redAccent,
                 leading: IconButton(
                     icon: Icon(Icons.arrow_back, size: screenText * 35),
                     onPressed: () {
@@ -359,7 +359,7 @@ class _ImageCarState extends State<ImageCar> {
                                               fontSize: 20);
                                         }
                                       },
-                                      backgroundColor: Colors.green,
+                                      backgroundColor: Colors.redAccent,
                                       child: Icon(Icons.photo_camera,
                                           size: screenText * 35))),
                               SizedBox(height: screenHeight * 0.25),
@@ -379,7 +379,7 @@ class _ImageCarState extends State<ImageCar> {
                                             fontSize: 20);
                                       }
                                     },
-                                    backgroundColor: Colors.green,
+                                    backgroundColor: Colors.redAccent,
                                     child: Icon(Icons.photo_library,
                                         size: screenText * 35),
                                   ))
@@ -498,7 +498,7 @@ class _ImageCarState extends State<ImageCar> {
                                                   fontSize: 20);
                                             }
                                           },
-                                          backgroundColor: Colors.green,
+                                          backgroundColor: Colors.redAccent,
                                           child: Icon(Icons.photo_camera,
                                               size: screenText * 35))),
                                   SizedBox(width: screenWidth * 0.2),
@@ -518,7 +518,7 @@ class _ImageCarState extends State<ImageCar> {
                                                 fontSize: 20);
                                           }
                                         },
-                                        backgroundColor: Colors.green,
+                                        backgroundColor: Colors.redAccent,
                                         child: Icon(Icons.photo_library,
                                             size: screenText * 35),
                                       ))

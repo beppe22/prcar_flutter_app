@@ -228,7 +228,7 @@ class _ChatDetailState extends State<ChatDetail> {
                     ])))
                 : Scaffold(
                     appBar: AppBar(
-                        backgroundColor: Colors.green,
+                        backgroundColor: Colors.redAccent,
                         title: Text(friendName,
                             style: TextStyle(fontSize: screenText * 30)),
                         automaticallyImplyLeading: false,
@@ -265,7 +265,7 @@ class _ChatDetailState extends State<ChatDetail> {
                                               top: screenHeight * 0.012),
                                           backGroundColor:
                                               isSender(data['uid'].toString())
-                                                  ? Colors.green
+                                                  ? Colors.redAccent
                                                   : Colors.grey.shade200,
                                           child: Container(
                                               constraints: BoxConstraints(
@@ -336,7 +336,8 @@ class _ChatDetailState extends State<ChatDetail> {
                                         controller: textController))),
                             CupertinoButton(
                                 child: Icon(Icons.send_sharp,
-                                    size: screenText * 35, color: Colors.green),
+                                    size: screenText * 35,
+                                    color: Colors.redAccent),
                                 onPressed: () =>
                                     sendMessage(textController.text))
                           ])

@@ -111,7 +111,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             if (orientation == Orientation.portrait) {
               return Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text('Reset Password',
                           style: TextStyle(fontSize: screenText * 28)),
                       automaticallyImplyLeading: false,
@@ -200,7 +200,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             } else {
               return Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text('Reset Password',
                           style: TextStyle(fontSize: screenText * 28)),
                       automaticallyImplyLeading: false,

@@ -98,7 +98,7 @@ class _ModelsState extends State<Models> {
             if (orientation == Orientation.portrait) {
               return Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text("Models",
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -130,7 +130,7 @@ class _ModelsState extends State<Models> {
                                           width: screenWidth * 0.87,
                                           height: screenHeight * 0.1,
                                           decoration: BoxDecoration(
-                                              color: Colors.green,
+                                              color: Colors.redAccent,
                                               borderRadius:
                                                   BorderRadius.circular(20)),
                                           child: Column(
@@ -173,7 +173,7 @@ class _ModelsState extends State<Models> {
             } else {
               return Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text("Models",
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -205,7 +205,7 @@ class _ModelsState extends State<Models> {
                                           width: screenWidth * 0.7,
                                           height: screenHeight * 0.13,
                                           decoration: BoxDecoration(
-                                              color: Colors.green,
+                                              color: Colors.redAccent,
                                               borderRadius:
                                                   BorderRadius.circular(20)),
                                           child: Column(

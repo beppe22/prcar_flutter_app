@@ -46,7 +46,7 @@ class _FiltersState extends State<Filters> {
       if (PassMarker.useMobileLayout!) {
         return Colors.redAccent;
       } else {
-        return Colors.green;
+        return Colors.redAccent;
       }
     }
 
@@ -440,7 +440,7 @@ class _FiltersState extends State<Filters> {
                   child: Scaffold(
                       backgroundColor: Colors.white,
                       appBar: AppBar(
-                          backgroundColor: Colors.green,
+                          backgroundColor: Colors.redAccent,
                           title: Text('Filter',
                               style: TextStyle(fontSize: screenText * 30)),
                           automaticallyImplyLeading: false,
@@ -540,7 +540,7 @@ class _FiltersState extends State<Filters> {
                   child: Scaffold(
                       backgroundColor: Colors.white,
                       appBar: AppBar(
-                          backgroundColor: Colors.green,
+                          backgroundColor: Colors.redAccent,
                           title: Text('Filter',
                               style: TextStyle(fontSize: screenText * 30)),
                           automaticallyImplyLeading: false,

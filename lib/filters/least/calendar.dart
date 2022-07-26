@@ -86,7 +86,7 @@ class _CalendarState extends State<Calendar> {
           )
         : Scaffold(
             appBar: AppBar(
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.redAccent,
                 title: Text('Calendar',
                     style: TextStyle(fontSize: screenText * 30)),
                 automaticallyImplyLeading: false,
@@ -130,9 +130,9 @@ class _CalendarState extends State<Calendar> {
                     view: DateRangePickerView.month,
                     controller: _controller,
                     onSelectionChanged: selectionChanged,
-                    startRangeSelectionColor: Colors.green,
-                    endRangeSelectionColor: Colors.green,
-                    rangeSelectionColor: Colors.greenAccent,
+                    startRangeSelectionColor: Colors.red,
+                    endRangeSelectionColor: Colors.red,
+                    rangeSelectionColor: Colors.redAccent,
                     selectionMode: DateRangePickerSelectionMode.range,
                     enablePastDates: false,
                     extendableRangeSelectionDirection:
@@ -142,9 +142,10 @@ class _CalendarState extends State<Calendar> {
                     monthCellStyle: DateRangePickerMonthCellStyle(
                       textStyle: TextStyle(
                           fontSize: screenText * 32, color: Colors.black),
-                      todayTextStyle: TextStyle(color: Colors.green),
+                      todayTextStyle: TextStyle(color: Colors.redAccent),
                       todayCellDecoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.green.shade100),
+                          shape: BoxShape.circle,
+                          color: Colors.redAccent.shade100),
                       blackoutDateTextStyle: TextStyle(
                           color: Colors.grey.shade400,
                           fontSize: screenText * 32),

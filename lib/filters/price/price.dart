@@ -42,7 +42,7 @@ class _PriceState extends State<Price> {
             body: Counter(filter: filter),
             backgroundColor: Colors.white,
             appBar: AppBar(
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.redAccent,
                 title:
                     Text("Price", style: TextStyle(fontSize: screenText * 30)),
                 automaticallyImplyLeading: false,
@@ -169,7 +169,7 @@ class _CounterState extends State<Counter> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.green,
+                                    color: Colors.redAccent,
                                     fontSize: screenText * 32))),
                         SizedBox(height: screenHeight * 0.02),
                         PriceButton(
@@ -184,7 +184,7 @@ class _CounterState extends State<Counter> {
                               TextButton(
                                   style: TextButton.styleFrom(
                                       primary: Colors.white,
-                                      backgroundColor: Colors.green,
+                                      backgroundColor: Colors.redAccent,
                                       padding:
                                           EdgeInsets.all(screenWidth * 0.04)),
                                   child:
@@ -195,7 +195,7 @@ class _CounterState extends State<Counter> {
                               TextButton(
                                   style: TextButton.styleFrom(
                                       primary: Colors.white,
-                                      backgroundColor: Colors.green,
+                                      backgroundColor: Colors.redAccent,
                                       padding:
                                           EdgeInsets.all(screenWidth * 0.04)),
                                   child: Icon(Icons.add, size: screenText * 28),
@@ -204,7 +204,7 @@ class _CounterState extends State<Counter> {
                             ]),
                         SizedBox(height: screenHeight * 0.03),
                         Slider(
-                            activeColor: Colors.green,
+                            activeColor: Colors.redAccent,
                             inactiveColor: Colors.blueGrey,
                             value: counter.toDouble(),
                             min: 0,
@@ -230,7 +230,7 @@ class _CounterState extends State<Counter> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.green,
+                                    color: Colors.redAccent,
                                     fontSize: screenText * 32))),
                         SizedBox(height: screenHeight * 0.02),
                         PriceButton(
@@ -248,7 +248,7 @@ class _CounterState extends State<Counter> {
                                   child: TextButton(
                                       style: TextButton.styleFrom(
                                         primary: Colors.white,
-                                        backgroundColor: Colors.green,
+                                        backgroundColor: Colors.redAccent,
                                       ),
                                       child: Icon(Icons.remove,
                                           size: screenText * 22),
@@ -262,7 +262,7 @@ class _CounterState extends State<Counter> {
                                   child: TextButton(
                                       style: TextButton.styleFrom(
                                         primary: Colors.white,
-                                        backgroundColor: Colors.green,
+                                        backgroundColor: Colors.redAccent,
                                       ),
                                       child: Icon(Icons.add,
                                           size: screenText * 22),
@@ -274,7 +274,7 @@ class _CounterState extends State<Counter> {
                         Container(
                             width: screenWidth * 0.7,
                             child: Slider(
-                                activeColor: Colors.green,
+                                activeColor: Colors.redAccent,
                                 inactiveColor: Colors.blueGrey,
                                 value: counter.toDouble(),
                                 min: 0,

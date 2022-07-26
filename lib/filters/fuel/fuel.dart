@@ -79,7 +79,7 @@ class _FuelState extends State<Fuel> {
             if (orientation == Orientation.portrait) {
               return Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text("Fuel",
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -101,7 +101,7 @@ class _FuelState extends State<Fuel> {
                         child: Text("Choose the fuel",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.green,
+                                color: Colors.redAccent,
                                 fontSize: screenText * 32))),
                     FuelButton(
                         screenHeight: screenHeight,
@@ -136,7 +136,7 @@ class _FuelState extends State<Fuel> {
             } else {
               return Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text("Fuel",
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -160,7 +160,7 @@ class _FuelState extends State<Fuel> {
                               child: Text("Choose the fuel",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       fontSize: screenText * 40))),
                           SizedBox(height: screenHeight * 0.04),
                           SizedBox(

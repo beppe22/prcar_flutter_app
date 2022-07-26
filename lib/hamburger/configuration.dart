@@ -291,7 +291,7 @@ class _ConfigurationState extends State<Configuration> {
                 appBar: AppBar(
                     title: Text('Configuration',
                         style: TextStyle(fontSize: screenText * 30)),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.redAccent,
                     leading: IconButton(
                         icon: Icon(Icons.arrow_back, size: screenText * 35),
                         onPressed: () {
@@ -329,7 +329,7 @@ class _ConfigurationState extends State<Configuration> {
                                   height: screenHeight * 0.1,
                                   width: widthBottom(),
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       borderRadius: BorderRadius.circular(30),
                                       border: Border.all(
                                           width: 5.0, color: Colors.grey)),
@@ -355,7 +355,7 @@ class _ConfigurationState extends State<Configuration> {
                 appBar: AppBar(
                     title: Text('Configuration',
                         style: TextStyle(fontSize: screenText * 30)),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.redAccent,
                     leading: IconButton(
                         icon: Icon(Icons.arrow_back, size: screenText * 35),
                         onPressed: () {
@@ -435,7 +435,7 @@ class _ConfigurationState extends State<Configuration> {
                             'Your driving license\'s control will \n be fast :)',
                             style: TextStyle(
                                 fontSize: screenText * 38,
-                                color: Colors.green,
+                                color: Colors.redAccent,
                                 fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
@@ -444,7 +444,7 @@ class _ConfigurationState extends State<Configuration> {
                               height: screenHeight * 0.17,
                               width: screenWidth * 0.25,
                               child: const CircularProgressIndicator(
-                                color: Colors.green,
+                                color: Colors.redAccent,
                               ))
                         ])
                 ])));

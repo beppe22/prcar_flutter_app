@@ -176,7 +176,7 @@ class _FrontLicenseState extends State<FrontLicense> {
                   appBar: AppBar(
                       title: Text('Front picture',
                           style: TextStyle(fontSize: screenText * 30)),
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       leading: IconButton(
                           icon: Icon(Icons.arrow_back, size: screenText * 35),
                           onPressed: () {
@@ -208,7 +208,7 @@ class _FrontLicenseState extends State<FrontLicense> {
                             height: screenHeight * 0.1,
                             width: screenWidth * 0.8,
                             decoration: BoxDecoration(
-                                color: Colors.green,
+                                color: Colors.redAccent,
                                 borderRadius: BorderRadius.circular(30),
                                 border:
                                     Border.all(width: 5.0, color: Colors.grey)),
@@ -234,7 +234,7 @@ class _FrontLicenseState extends State<FrontLicense> {
                             height: screenHeight * 0.1,
                             width: screenWidth * 0.8,
                             decoration: BoxDecoration(
-                                color: Colors.green,
+                                color: Colors.redAccent,
                                 borderRadius: BorderRadius.circular(30),
                                 border:
                                     Border.all(width: 5.0, color: Colors.grey)),
@@ -299,7 +299,7 @@ class _FrontLicenseState extends State<FrontLicense> {
                   appBar: AppBar(
                       title: Text('Front picture',
                           style: TextStyle(fontSize: screenText * 30)),
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       leading: IconButton(
                           icon: Icon(Icons.arrow_back, size: screenText * 35),
                           onPressed: () {
@@ -338,7 +338,7 @@ class _FrontLicenseState extends State<FrontLicense> {
                                   height: screenHeight * 0.13,
                                   width: screenWidth * 0.4,
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       borderRadius: BorderRadius.circular(30),
                                       border: Border.all(
                                           width: 5.0, color: Colors.grey)),
@@ -365,7 +365,7 @@ class _FrontLicenseState extends State<FrontLicense> {
                                   height: screenHeight * 0.13,
                                   width: screenWidth * 0.4,
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
+                                      color: Colors.redAccent,
                                       borderRadius: BorderRadius.circular(30),
                                       border: Border.all(
                                           width: 5.0, color: Colors.grey)),

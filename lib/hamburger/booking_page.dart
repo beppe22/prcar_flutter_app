@@ -142,7 +142,7 @@ class MessagePageState extends State<MessagePage> {
               return Scaffold(
                   backgroundColor: Colors.white,
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text('All Booking',
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -162,7 +162,7 @@ class MessagePageState extends State<MessagePage> {
                         height: screenHeight * 0.12,
                         width: screenWidth * 0.85,
                         decoration: BoxDecoration(
-                            color: Colors.green,
+                            color: Colors.redAccent,
                             border: Border.all(width: 5.0, color: Colors.grey)),
                         child: (MaterialButton(
                             onPressed: () async {
@@ -208,7 +208,7 @@ class MessagePageState extends State<MessagePage> {
                         height: screenHeight * 0.12,
                         width: screenWidth * 0.85,
                         decoration: BoxDecoration(
-                            color: Colors.green,
+                            color: Colors.redAccent,
                             border: Border.all(width: 5.0, color: Colors.grey)),
                         child: (MaterialButton(
                             onPressed: () async {
@@ -250,7 +250,7 @@ class MessagePageState extends State<MessagePage> {
               return Scaffold(
                   backgroundColor: Colors.white,
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.redAccent,
                       title: Text('All Booking',
                           style: TextStyle(fontSize: screenText * 30)),
                       automaticallyImplyLeading: false,
@@ -271,7 +271,7 @@ class MessagePageState extends State<MessagePage> {
                           height: screenHeight * 0.18,
                           width: screenWidth * 0.6,
                           decoration: BoxDecoration(
-                              color: Colors.green,
+                              color: Colors.redAccent,
                               border:
                                   Border.all(width: 5.0, color: Colors.grey)),
                           child: (MaterialButton(
@@ -313,7 +313,7 @@ class MessagePageState extends State<MessagePage> {
                           height: screenHeight * 0.18,
                           width: screenWidth * 0.6,
                           decoration: BoxDecoration(
-                              color: Colors.green,
+                              color: Colors.redAccent,
                               border:
                                   Border.all(width: 5.0, color: Colors.grey)),
                           child: (MaterialButton(
