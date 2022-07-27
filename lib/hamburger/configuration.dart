@@ -77,13 +77,9 @@ class _ConfigurationState extends State<Configuration> {
         autofocus: false,
         style: TextStyle(fontSize: text()),
         controller: expiryDateEditingController,
-<<<<<<< HEAD
-        keyboardType: TextInputType.datetime,
-=======
         keyboardType: PassMarker.useMobileLayout!
             ? TextInputType.datetime
             : TextInputType.name,
->>>>>>> 698414349dbf98b40c22d9e77ac4b41f3365dcc7
         validator: (value) {
           if (value!.isEmpty) {
             return ("Expiry Date can't be Empty");
