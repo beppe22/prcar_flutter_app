@@ -391,7 +391,7 @@ exports.driverLicenceConfirmed = functions.firestore
   const preStatus= snap.before.get('isConfirmed');
   const postStatus= snap.after.get('isConfirmed');
   
-  if(preStatus== 'undercontrol' && postStatus== 'confirmed'){
+  if(preStatus== 'underControl' && postStatus== 'confirmed'){
 
   const email= snap.after.get('email');
   const nameUser= snap.after.get('firstName')
@@ -409,7 +409,48 @@ exports.driverLicenceConfirmed = functions.firestore
   templateId: 'd-214eb14e30fd48a5972d1ee551b3b398',
   substitutionWrappers: ['{{', '}}'],
   dynamic_template_data: {
-    nameUser: nameUser,
+    name: nameUser,
+  }
+
+
+  }
+  sgMail.send(msg)
+
+  }
+
+
+
+  
+
+})
+
+exports.driverLicenceRefused = functions.firestore
+.document('users/{IdUser}')
+.onUpdate(async (snap) => {
+
+  
+  const preStatus= snap.before.get('isConfirmed');
+  const postStatus= snap.after.get('isConfirmed');
+  
+  if(preStatus== 'underControl' && postStatus== 'negative'){
+
+  const email= snap.after.get('email');
+  const nameUser= snap.after.get('firstName')
+
+  //Send email
+  const SENDGRID_API_KEY = functions.config().sendgrid.key;
+  const sgMail= require('@sendgrid/mail');
+  sgMail.setApiKey(SENDGRID_API_KEY);
+
+  const msg= 
+  {
+  to: email,
+  from: 'tancreditalia@hotmail.it',
+  subject: 'Refusal Driving License',
+  templateId: 'd-dee5ebc9a8cb4f7399c1a852fd2be984',
+  substitutionWrappers: ['{{', '}}'],
+  dynamic_template_data: {
+    name: nameUser,
   }
 
 
