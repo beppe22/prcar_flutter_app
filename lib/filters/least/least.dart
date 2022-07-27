@@ -180,6 +180,12 @@ class _LeastState extends State<Least> {
                                           msg: "No date choosen :(",
                                           fontSize: 20);
                                     } else {
+                                      Fluttertoast.showToast(
+                                        toastLength: Toast.LENGTH_LONG,
+                                        msg:
+                                            'Your reservation has been approved :)',
+                                        fontSize: 20,
+                                      );
                                       Navigator.pop(
                                           context,
                                           await BookingOut(
@@ -364,6 +370,12 @@ class _LeastState extends State<Least> {
                                                 msg: "No date choosen :(",
                                                 fontSize: 20);
                                           } else {
+                                            Fluttertoast.showToast(
+                                              toastLength: Toast.LENGTH_LONG,
+                                              msg:
+                                                  'Your reservation has been approved :)',
+                                              fontSize: 20,
+                                            );
                                             Navigator.pop(
                                                 context,
                                                 await BookingOut(
@@ -551,35 +563,21 @@ class _LeastState extends State<Least> {
                                                 msg: "No date choosen :(",
                                                 fontSize: 20);
                                           } else {
-                                            if (await _ifCarStillAvailable()) {
-                                              Fluttertoast.showToast(
-                                                toastLength: Toast.LENGTH_LONG,
-                                                msg:
-                                                    'Your reservation has been approved :)',
-                                                fontSize: 20,
-                                              );
-                                              Navigator.pop(
-                                                  context,
-                                                  await BookingOut(
-                                                          PassMarker
-                                                              .carModel.cid,
-                                                          PassMarker
-                                                              .carModel.uid,
-                                                          dateStart +
-                                                              '-' +
-                                                              dateEnd)
-                                                      .book());
-                                            } else {
-                                              Fluttertoast.showToast(
-                                                toastLength: Toast.LENGTH_LONG,
-                                                msg:
-                                                    'Sorry for the inconvenience, the cars isn\'t available anymore                                                    ',
-                                                fontSize: 20,
-                                              );
-                                              Navigator.of(context)
-                                                ..pop
-                                                ..pop;
-                                            }
+                                            Fluttertoast.showToast(
+                                              toastLength: Toast.LENGTH_LONG,
+                                              msg:
+                                                  'Your reservation has been approved :)',
+                                              fontSize: 20,
+                                            );
+                                            Navigator.pop(
+                                                context,
+                                                await BookingOut(
+                                                        PassMarker.carModel.cid,
+                                                        PassMarker.carModel.uid,
+                                                        dateStart +
+                                                            '-' +
+                                                            dateEnd)
+                                                    .book());
                                           }
                                         } else {
                                           if (dateStart == '' &&
@@ -662,33 +660,5 @@ class _LeastState extends State<Least> {
       }
     }
     return dates;
-  }
-
-  Future<bool> _ifCarStillAvailable() async {
-    User? user = widget.service.currentUser();
-    if (user != null) {
-      try {
-        await widget.service
-            .firebasefirestore()
-            .collection('users')
-            .doc(user.uid)
-            .collection('cars')
-            .doc(PassMarker.carModel.cid)
-            .get()
-            .then((ds) {
-          if (ds.docs.isNotEmpty) {
-            CarModel car = CarModel.fromMap(ds);
-            if (car.activeOrNot == 't') {
-              return true;
-            } else {
-              return false;
-            }
-          }
-        });
-      } on FirebaseAuthException catch (e) {
-        if (e.code == "cars not found") {}
-      }
-    }
-    return false;
   }
 }
