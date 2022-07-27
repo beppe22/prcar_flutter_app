@@ -111,7 +111,9 @@ class MessagePageState extends State<MessagePage> {
                             builder: (context) => const Center(
                                 child: CircularProgressIndicator()),
                           );
+
                           List<String> res = await _fetchMyRes();
+
                           await Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -390,6 +392,7 @@ class MessagePageState extends State<MessagePage> {
               .collection('cars')
               .doc(bookOut.data()['cid'])
               .get();
+
           if (bookOut.data()['status'] != 'e') {
             PassMarker.uidFriend.add(bookOut.data()['uidOwner']);
             PassMarker.cid.add(bookOut.data()['cid']);
@@ -400,6 +403,7 @@ class MessagePageState extends State<MessagePage> {
                 data1.data()!['veicol'] +
                 '-' +
                 data1.data()!['model'];
+
             myRes.add(insert);
           }
         }

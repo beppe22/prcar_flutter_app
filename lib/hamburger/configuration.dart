@@ -1,5 +1,6 @@
 // ignore_for_file: body_might_complete_normally_nullable, must_be_immutable, no_logic_in_create_state
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -76,7 +77,9 @@ class _ConfigurationState extends State<Configuration> {
         autofocus: false,
         style: TextStyle(fontSize: text()),
         controller: expiryDateEditingController,
-        keyboardType: TextInputType.name,
+        keyboardType: PassMarker.useMobileLayout!
+            ? TextInputType.datetime
+            : TextInputType.name,
         validator: (value) {
           if (value!.isEmpty) {
             return ("Expiry Date can't be Empty");
@@ -242,7 +245,15 @@ class _ConfigurationState extends State<Configuration> {
                                           msg:
                                               'Driving license info resetted succesfully :)',
                                           fontSize: 20);
-                                      Navigator.pop(context);
+                                      //Navigator.pop(context);
+                                      String conf = await _isConfirmed(user);
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  Configuration(
+                                                      isConfirmed: conf,
+                                                      service: Service())));
                                     } else {
                                       Fluttertoast.showToast(
                                           msg: 'No internet connection',
@@ -404,7 +415,16 @@ class _ConfigurationState extends State<Configuration> {
                                           msg:
                                               'Driving license info resetted succesfully :)',
                                           fontSize: 20);
-                                      Navigator.pop(context);
+                                      //Navigator.pop(context);
+
+                                      String conf = await _isConfirmed(user);
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  Configuration(
+                                                      isConfirmed: conf,
+                                                      service: Service())));
                                     } else {
                                       Fluttertoast.showToast(
                                           msg: 'No internet connection',
@@ -488,5 +508,14 @@ class _ConfigurationState extends State<Configuration> {
         .collection('users')
         .doc(user.uid)
         .update({'isConfirmed': 'negative'});
+  }
+
+  Future<String> _isConfirmed(User user) async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await widget.service
+        .firebasefirestore()
+        .collection('users')
+        .doc(user.uid)
+        .get();
+    return snapshot.data()!['isConfirmed'];
   }
 }

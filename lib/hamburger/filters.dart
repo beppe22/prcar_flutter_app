@@ -126,6 +126,10 @@ class _FiltersState extends State<Filters> {
             color: printColor(), borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
+              Fluttertoast.showToast(
+                  toastLength: Toast.LENGTH_LONG,
+                  msg: 'The searching radius is of 3 Km :)',
+                  fontSize: 20);
               Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -394,6 +398,7 @@ class _FiltersState extends State<Filters> {
                                   Navigator.pop(context, searchCars);
                                 } else {
                                   Fluttertoast.showToast(
+                                      toastLength: Toast.LENGTH_LONG,
                                       msg:
                                           'No car found :( try with less parameters',
                                       fontSize: 20);
@@ -494,6 +499,7 @@ class _FiltersState extends State<Filters> {
                                         Navigator.pop(context, searchCars);
                                       } else {
                                         Fluttertoast.showToast(
+                                            toastLength: Toast.LENGTH_LONG,
                                             msg:
                                                 'No car found :( try with less parameters',
                                             fontSize: 20);
@@ -594,6 +600,7 @@ class _FiltersState extends State<Filters> {
                                         Navigator.pop(context, searchCars);
                                       } else {
                                         Fluttertoast.showToast(
+                                            toastLength: Toast.LENGTH_LONG,
                                             msg:
                                                 'No car found :( try with less parameters',
                                             fontSize: 20);
