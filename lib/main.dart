@@ -7,6 +7,8 @@ import 'package:prcarpolimi/homepage.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/services/services.dart';
 
+import 'auth/loginTablet.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -54,7 +56,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     FirebaseAuth.instance.currentUser!.emailVerified) {
                   return HomePage(homePageService: Service());
                 } else {
-                  return Login(loginService: Service());
+                  if (PassMarker.useMobileLayout!) {
+                    return Login(loginService: Service());
+                  } else {
+                    return Login2(loginService: Service());
+                  }
                 }
               }
               return const Center(child: CircularProgressIndicator());
