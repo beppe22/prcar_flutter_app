@@ -224,6 +224,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
         canResendEmail = true;
       });
       Fluttertoast.showToast(
+          toastLength: Toast.LENGTH_LONG,
           msg:
               'A email has been sent. (If you don\' see it, check also your spam!)',
           fontSize: 20);

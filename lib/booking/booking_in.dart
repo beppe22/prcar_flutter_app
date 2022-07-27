@@ -188,7 +188,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                                               _annulmentMessage(index);
                                                                                                               PassMarker.status[index] = 'a';
                                                                                                             });
-
+                                                                                                            Navigator.of(context).pop();
                                                                                                             Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
                                                                                                           } else {
                                                                                                             Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
@@ -417,7 +417,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                                             _annulmentMessage(index);
                                                                                                             PassMarker.status[index] = 'a';
                                                                                                           });
-
+                                                                                                          Navigator.of(context).pop();
                                                                                                           Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
                                                                                                         } else {
                                                                                                           Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
@@ -428,14 +428,14 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                               ]));
                                                                                     } else {
                                                                                       if (PassMarker.status[index] != 'f') {
-                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
+                                                                                        Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
                                                                                       } else {
-                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: reservation already finished', fontSize: 20);
+                                                                                        Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'Impossible operation: reservation already finished', fontSize: 20);
                                                                                       }
                                                                                     }
                                                                                   } else {
                                                                                     {
-                                                                                      Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
+                                                                                      Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
                                                                                     }
                                                                                   }
                                                                                 },
@@ -460,12 +460,12 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                         _eliminationMessage(index);
                                                                                         PassMarker.status[index] = 'e';
                                                                                       });
-                                                                                      Fluttertoast.showToast(msg: 'This message has been eliminated!', fontSize: 20);
+                                                                                      Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'This message has been eliminated!', fontSize: 20);
                                                                                     } else {
-                                                                                      Fluttertoast.showToast(msg: 'Impossible operation: you can\'t eliminate this message while the reservation isn\'t finished :(', fontSize: 20);
+                                                                                      Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'Impossible operation: you can\'t eliminate this message while the reservation isn\'t finished :(', fontSize: 20);
                                                                                     }
                                                                                   } else {
-                                                                                    Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
+                                                                                    Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'No internet connection', fontSize: 20);
                                                                                   }
                                                                                 },
                                                                                 child: Text('Elimination', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenText * 30, color: Colors.black)),
@@ -646,7 +646,7 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                                             _annulmentMessage(index);
                                                                                                             PassMarker.status[index] = 'a';
                                                                                                           });
-
+                                                                                                          Navigator.of(context).pop();
                                                                                                           Fluttertoast.showToast(msg: 'Reservation annullated!', fontSize: 20);
                                                                                                         } else {
                                                                                                           Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
@@ -657,14 +657,14 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                               ]));
                                                                                     } else {
                                                                                       if (PassMarker.status[index] != 'f') {
-                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
+                                                                                        Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
                                                                                       } else {
-                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: reservation already finished', fontSize: 20);
+                                                                                        Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'Impossible operation: reservation already finished', fontSize: 20);
                                                                                       }
                                                                                     }
                                                                                   } else {
                                                                                     {
-                                                                                      Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
+                                                                                      Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
                                                                                     }
                                                                                   }
                                                                                 },

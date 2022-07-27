@@ -95,6 +95,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  /*@override
+  void dispose() {
+    .dispose();
+    super.dispose();
+  }*/
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
