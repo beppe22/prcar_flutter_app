@@ -265,19 +265,13 @@ class _LoginState extends State<Login> {
                                         color: Colors.redAccent,
                                         onPressed: () async {
                                           if (await NetworkCheck().check()) {
-                                            /* User? user =
+                                            User? user =
                                                 await loginUsingEmailPassword(
                                                     email:
                                                         _emailController.text,
                                                     password:
                                                         _passwordController
                                                             .text,
-                                                    context: context);*/
-                                            User? user =
-                                                await loginUsingEmailPassword(
-                                                    email:
-                                                        'marinvargasf@gmail.com',
-                                                    password: 'vargas22',
                                                     context: context);
 
                                             if (user != null) {
