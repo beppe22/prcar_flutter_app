@@ -59,7 +59,7 @@ void main() {
 
       await tester.tap(fa12);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 20));
+      await tester.pump(Duration(seconds: 4));
 
       expect(find.text('Filters'), findsOneWidget);
       expect(find.text("PrCar"), findsOneWidget);
@@ -68,33 +68,35 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final bookingButton = await find.byType(ListTile).at(1);
+      final aboutYourCarButton = await find.byType(ListTile).at(2);
       await tester.pump(const Duration(milliseconds: 100));
-      await tester.tap(bookingButton);
+      await tester.tap(aboutYourCarButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(find.byKey(Key("here for your reservation")));
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 1));
-
-      await tester.tap(find.byKey(Key("click booking-out")).first);
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 1));
-
-      await tester.tap(find.byKey(Key("Chat button")));
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 1));
-
-      await tester.enterText(find.byKey(Key("Text button")), 'hello world');
+      await tester.tap(find.byKey(Key("car")).first);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(find.byKey(Key("Cupertino button")).first);
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 1));
+      expect(find.text("Seats: 5"), findsOneWidget);
 
-      expect(find.text('hello world'), findsOneWidget);
+      await tester.tap(find.byKey(Key("change info button")));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      await tester.tap(find.byKey(Key("seats button")));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      await tester.tap(find.byKey(Key("5 seats button")));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      await tester.tap(find.byKey(Key("change button")));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      expect(find.text("Seats: 5"), findsOneWidget);
     });
   });
 }

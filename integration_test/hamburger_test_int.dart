@@ -62,9 +62,8 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      /*final logout = await find.byKey(Key("logout button"));
-      await tester.tap(logout);
-      await tester.pump(Duration(seconds: 2));*/
+      expect(find.text("Delete Account"), findsOneWidget);
+      expect(find.text("Logout"), findsOneWidget);
     });
   });
 }

@@ -230,6 +230,7 @@ class InfoAccount extends StatelessWidget {
                                                                   screenText *
                                                                       24))),
                                                   SizedBox(
+                                                      key: Key("delete button"),
                                                       width:
                                                           screenWidth * 0.20),
                                                   TextButton(

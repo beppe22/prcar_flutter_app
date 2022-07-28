@@ -215,15 +215,17 @@ class _ChatDetailState extends State<ChatDetail> {
                           children: [
                             Expanded(
                                 child: SizedBox(
+                                    key: Key("Text button"),
                                     width: screenWidth * 0.9,
                                     height: screenHeight * 0.04,
                                     child: CupertinoTextField(
                                         controller: textController))),
                             CupertinoButton(
+                                key: Key("Cupertino button"),
                                 child: Icon(Icons.send_sharp,
                                     size: screenText * 25),
                                 onPressed: () =>
-                                    sendMessage(textController.text))
+                                    sendMessage(textController.text.toString()))
                           ])
                     ])))
                 : Scaffold(
@@ -328,6 +330,7 @@ class _ChatDetailState extends State<ChatDetail> {
                           children: [
                             Expanded(
                                 child: SizedBox(
+                                    key: Key("Text button  tablet"),
                                     width: screenWidth * 0.9,
                                     height: screenHeight * 0.05,
                                     child: CupertinoTextField(
@@ -335,11 +338,12 @@ class _ChatDetailState extends State<ChatDetail> {
                                             fontSize: screenText * 24),
                                         controller: textController))),
                             CupertinoButton(
+                                key: Key("Cupertino button tablet"),
                                 child: Icon(Icons.send_sharp,
                                     size: screenText * 35,
                                     color: Colors.redAccent),
                                 onPressed: () =>
-                                    sendMessage(textController.text))
+                                    sendMessage(textController.text.toString()))
                           ])
                     ])));
           } else {
