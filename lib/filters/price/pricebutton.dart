@@ -14,6 +14,7 @@ class PriceButton extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+//Functiont that evaluates different width's size due to the device
     width() {
       if (MediaQuery.of(context).orientation == Orientation.portrait) {
         return screenWidth * 0.6;
@@ -22,6 +23,7 @@ class PriceButton extends StatelessWidget {
       }
     }
 
+//Functiont that evaluates different height's size due to the device
     heigth() {
       if (MediaQuery.of(context).orientation == Orientation.portrait) {
         return screenHeight * 0.08;

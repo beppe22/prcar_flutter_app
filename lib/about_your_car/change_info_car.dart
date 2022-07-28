@@ -409,6 +409,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                             color: Colors.white,
                             fontWeight: FontWeight.bold)),
                     IconButton(
+                        key: Key("change button tablet"),
                         onPressed: () async {
                           if (await NetworkCheck().check()) {
                             if (carModel.fuel == fuelString &&

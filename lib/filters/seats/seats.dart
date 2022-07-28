@@ -126,6 +126,7 @@ class _SeatsState extends State<Seats> {
                         value: '4'),
                     SizedBox(height: screenHeight * 0.02),
                     SeatsButton(
+                        key: Key("5 seats button tablet"),
                         screenHeight: screenHeight,
                         screenWidth: screenWidth,
                         screenText: screenText,
@@ -184,6 +185,7 @@ class _SeatsState extends State<Seats> {
                           value: '4'),
                       SizedBox(height: screenHeight * 0.02),
                       SeatsButton(
+                          key: Key("5 seats button tablet2"),
                           screenHeight: screenHeight,
                           screenWidth: screenWidth,
                           screenText: screenText,

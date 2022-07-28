@@ -161,6 +161,7 @@ class MessagePageState extends State<MessagePage> {
                         child: Image.asset("assets/prcarlogo.png",
                             fit: BoxFit.contain)),
                     Container(
+                        key: Key("Other reservation button tablet"),
                         height: screenHeight * 0.12,
                         width: screenWidth * 0.85,
                         decoration: BoxDecoration(
@@ -207,6 +208,7 @@ class MessagePageState extends State<MessagePage> {
                                     fontWeight: FontWeight.bold))))),
                     SizedBox(height: screenHeight * 0.06),
                     Container(
+                        key: Key("here for your reservation tablet"),
                         height: screenHeight * 0.12,
                         width: screenWidth * 0.85,
                         decoration: BoxDecoration(
@@ -270,6 +272,7 @@ class MessagePageState extends State<MessagePage> {
                     Column(children: [
                       SizedBox(height: screenHeight * 0.25),
                       Container(
+                          key: Key("Other reservation button tablet2"),
                           height: screenHeight * 0.18,
                           width: screenWidth * 0.6,
                           decoration: BoxDecoration(
@@ -312,6 +315,7 @@ class MessagePageState extends State<MessagePage> {
                                       fontWeight: FontWeight.bold))))),
                       SizedBox(height: screenHeight * 0.06),
                       Container(
+                          key: Key("here for your reservation tablet2"),
                           height: screenHeight * 0.18,
                           width: screenWidth * 0.6,
                           decoration: BoxDecoration(

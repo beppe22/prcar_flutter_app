@@ -243,7 +243,6 @@ class InfoAccount extends StatelessWidget {
                                                               0) {
                                                             await deleteAccount(
                                                                 context);
-
                                                             Navigator
                                                                 .pushAndRemoveUntil(
                                                                     context,
@@ -434,6 +433,7 @@ class InfoAccount extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
+                                  key: Key("logout button tablet"),
                                   height: screenHeight * 0.07,
                                   width: screenWidth * 0.7,
                                   child: MaterialButton(
@@ -513,6 +513,8 @@ class InfoAccount extends StatelessWidget {
                                                     actions: <Widget>[
                                                       Row(children: [
                                                         SizedBox(
+                                                            key: Key(
+                                                                "delete button tablet"),
                                                             width: screenWidth *
                                                                 0.32),
                                                         TextButton(
@@ -603,6 +605,7 @@ class InfoAccount extends StatelessWidget {
                               child: Image.asset("assets/prcarlogo.png",
                                   fit: BoxFit.contain)),
                           Container(
+                              key: Key("logout button tablet2"),
                               height: screenHeight * 0.1,
                               width: screenWidth * 0.4,
                               child: MaterialButton(
@@ -674,6 +677,8 @@ class InfoAccount extends StatelessWidget {
                                                 actions: <Widget>[
                                                   Row(children: [
                                                     SizedBox(
+                                                        key: Key(
+                                                            "delete button tablet2"),
                                                         width:
                                                             screenWidth * 0.21),
                                                     TextButton(

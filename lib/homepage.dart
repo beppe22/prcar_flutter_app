@@ -361,87 +361,87 @@ class _HomePageState extends State<HomePage> {
                     ]),
                 backgroundColor: Colors.white,
                 drawer: Drawer(
+                    key: ValueKey(11),
                     child: ListView(padding: EdgeInsets.zero, children: [
-                  SizedBox(height: screenHeight * 0.04),
-                  SizedBox(
-                      child: Text(" Home",
-                          style: TextStyle(
-                              fontSize: screenText * 50,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold))),
-                  SizedBox(height: screenHeight * 0.02),
-                  ListTile(
-                      title: Text(" Account",
-                          style: TextStyle(fontSize: screenText * 20)),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    InfoAccount(service: Service())));
-                      }),
-                  ListTile(
-                      title: Text(" Booking",
-                          style: TextStyle(fontSize: screenText * 20)),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MessagePage(
-                                      service: Service(),
-                                    )));
-                      }),
-                  ListTile(
-                      title: Text(" About your car",
-                          style: TextStyle(fontSize: screenText * 20)),
-                      onTap: () async {
-                        List<CarModel> cars = await _fetchInfoCar();
-                        if (cars != []) {
-                          Navigator.push(
+                      SizedBox(height: screenHeight * 0.04),
+                      SizedBox(
+                          child: Text(" Home",
+                              style: TextStyle(
+                                  fontSize: screenText * 50,
+                                  color: Colors.redAccent,
+                                  fontWeight: FontWeight.bold))),
+                      SizedBox(height: screenHeight * 0.02),
+                      ListTile(
+                          title: Text(" Account",
+                              style: TextStyle(fontSize: screenText * 20)),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        InfoAccount(service: Service())));
+                          }),
+                      ListTile(
+                          title: Text(" Booking",
+                              style: TextStyle(fontSize: screenText * 20)),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MessagePage(
+                                          service: Service(),
+                                        )));
+                          }),
+                      ListTile(
+                          title: Text(" About your car",
+                              style: TextStyle(fontSize: screenText * 20)),
+                          onTap: () async {
+                            List<CarModel> cars = await _fetchInfoCar();
+                            if (cars != []) {
+                              Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          Cars_user(cars, service: Service())))
-                              .then((data) {
-                            if (mounted) {
-                              setState(() {
-                                _updateMarkers();
+                                      builder: (context) => Cars_user(cars,
+                                          service: Service()))).then((data) {
+                                if (mounted) {
+                                  setState(() {
+                                    _updateMarkers();
+                                  });
+                                }
                               });
                             }
-                          });
-                        }
-                      }),
-                  ListTile(
-                      title: Text(" Configuration",
-                          style: TextStyle(fontSize: screenText * 20)),
-                      onTap: () async {
-                        User? user = widget.homePageService.currentUser();
-                        String confirmed = await _isConfirmed(user!);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Configuration(
-                                    isConfirmed: confirmed,
-                                    service: Service())));
-                      }),
-                  ListTile(
-                      title: Text(" Help",
-                          style: TextStyle(fontSize: screenText * 20)),
-                      onTap: () async {
-                        if (MediaQuery.of(context).orientation ==
-                            Orientation.portrait) {
-                          SystemChrome.setPreferredOrientations([
-                            DeviceOrientation.landscapeLeft,
-                            DeviceOrientation.landscapeRight,
-                          ]);
-                        } else {
-                          SystemChrome.setPreferredOrientations([
-                            DeviceOrientation.portraitUp,
-                            DeviceOrientation.portraitDown,
-                          ]);
-                        }
-                      })
-                ])),
+                          }),
+                      ListTile(
+                          title: Text(" Configuration",
+                              style: TextStyle(fontSize: screenText * 20)),
+                          onTap: () async {
+                            User? user = widget.homePageService.currentUser();
+                            String confirmed = await _isConfirmed(user!);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Configuration(
+                                        isConfirmed: confirmed,
+                                        service: Service())));
+                          }),
+                      ListTile(
+                          title: Text(" Help",
+                              style: TextStyle(fontSize: screenText * 20)),
+                          onTap: () async {
+                            if (MediaQuery.of(context).orientation ==
+                                Orientation.portrait) {
+                              SystemChrome.setPreferredOrientations([
+                                DeviceOrientation.landscapeLeft,
+                                DeviceOrientation.landscapeRight,
+                              ]);
+                            } else {
+                              SystemChrome.setPreferredOrientations([
+                                DeviceOrientation.portraitUp,
+                                DeviceOrientation.portraitDown,
+                              ]);
+                            }
+                          })
+                    ])),
                 body: Stack(children: [
                   GoogleMap(
                       myLocationEnabled: true,

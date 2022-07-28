@@ -316,6 +316,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                     itemBuilder: (context, index) {
                                       if (PassMarker.status[index] != 'e') {
                                         return Container(
+                                          key: Key("click booking-out tablet"),
                                             padding: EdgeInsets.all(
                                                 screenHeight * 0.008),
                                             child: Column(
@@ -356,6 +357,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                           SizedBox(
                                                                               height: screenHeight * 0.03),
                                                                           Container(
+                                                                            key: (Key("Chat button tablet")),
                                                                               height: screenHeight * 0.09,
                                                                               width: screenWidth * 0.5,
                                                                               decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
@@ -545,6 +547,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                     itemBuilder: (context, index) {
                                       if (PassMarker.status[index] != 'e') {
                                         return Container(
+                                          key: Key("click booking-out tablet2"),
                                             padding: EdgeInsets.all(
                                                 screenHeight * 0.008),
                                             child: Column(
@@ -585,6 +588,7 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                           SizedBox(
                                                                               height: screenHeight * 0.03),
                                                                           Container(
+                                                                            key: (Key("Chat button tablet2")),
                                                                               height: screenHeight * 0.12,
                                                                               width: screenWidth * 0.35,
                                                                               decoration: BoxDecoration(color: Colors.redAccent, border: Border.all(width: 5.0, color: Colors.grey)),
