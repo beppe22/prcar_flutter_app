@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
   List<String>? positionString;
   _HomePageState(this.searchCar, this.positionString);
   double? pinPillPosition;
+  BitmapDescriptor? icon;
   Set<Marker> _markers = {};
 
   @override
@@ -126,7 +127,7 @@ class _HomePageState extends State<HomePage> {
           //refresh the UI
         });
 
-        getLocation();
+        //getLocation();
       }
     } else {
       print("GPS Service is not enabled, turn on GPS location");
@@ -137,37 +138,16 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  getLocation() async {
+  /*getLocation() async {
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    print('ciao');
     long = position.longitude;
     lat = position.latitude;
 
     setState(() {
       //refresh UI
     });
-
-    LocationSettings locationSettings = LocationSettings(
-      accuracy: LocationAccuracy.high, //accuracy of the location data
-      distanceFilter: 100, //minimum distance (measured in meters) a
-      //device must move horizontally before an update event is generated;
-    );
-
-    StreamSubscription<Position> positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings)
-            .listen((Position position) {
-      print(position.longitude); //Output: 80.24599079
-      print(position.latitude); //Output: 29.6593457
-
-      long = position.longitude;
-      lat = position.latitude;
-
-      setState(() {
-        //refresh UI on update
-      });
-    });
-  }
+  }*/
 
   /*@override
   void dispose() {
@@ -178,9 +158,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    //final screenWidth = MediaQuery.of(context).size.width;
+    // final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    GoogleMapController _controller;
+    GoogleMapController? _controller;
+
     return PassMarker.useMobileLayout!
         ? WillPopScope(
             onWillPop: () async => false,
@@ -295,12 +276,12 @@ class _HomePageState extends State<HomePage> {
                       ListTile(
                           title: Text("Help",
                               style: TextStyle(fontSize: screenText * 16)),
-                          onTap: () async {
-                            getLocation();
-                          })
+                          onTap: () async {})
                     ])),
                 body: Stack(children: [
                   GoogleMap(
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: true,
                       mapType: MapType.normal,
                       initialCameraPosition: const CameraPosition(
                           target: LatLng(45.47811155714095, 9.227444681728846),
@@ -316,6 +297,22 @@ class _HomePageState extends State<HomePage> {
                           });
                         }
                       }),
+                  /*Positioned(
+                      left: screenWidth * 0.8,
+                      height: screenHeight * 0.1,
+                      child: FloatingActionButton(
+                        onPressed: () async {
+                          await getLocation();
+                          LatLng newPos = LatLng(lat, long);
+                          print(newPos);
+                          _controller?.animateCamera(
+                              CameraUpdate.newCameraPosition(
+                                  CameraPosition(target: newPos, zoom: 16)));
+                        },
+                        backgroundColor: Colors.redAccent,
+                        child:
+                            Icon(Icons.location_history, size: screenText * 25),
+                      )),*/
                   AnimatedPositioned(
                       left: 0,
                       curve: Curves.easeInOut,
@@ -453,6 +450,8 @@ class _HomePageState extends State<HomePage> {
                 ])),
                 body: Stack(children: [
                   GoogleMap(
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: true,
                       mapType: MapType.normal,
                       initialCameraPosition: const CameraPosition(
                           target: LatLng(45.47811155714095, 9.227444681728846),
@@ -468,6 +467,17 @@ class _HomePageState extends State<HomePage> {
                           });
                         }
                       }),
+                  /* Positioned(
+                      left: screenWidth * 0.8,
+                      height: screenHeight * 0.08,
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          getLocation();
+                        },
+                        backgroundColor: Colors.redAccent,
+                        child:
+                            Icon(Icons.location_history, size: screenText * 35),
+                      )),*/
                   AnimatedPositioned(
                       left: 0,
                       curve: Curves.easeInOut,
@@ -768,6 +778,23 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  /*Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
+  }
+
+  Future<BitmapDescriptor> getIcons() async {
+    final Uint8List markerIcon =
+        await getBytesFromAsset('assets/location2.png', 100);
+    var icon = await BitmapDescriptor.fromBytes(markerIcon);
+    return icon;
+  }*/
+
   String _printInfoWindow(String owner, String user, String carOwner) {
     if (owner == user) {
       return 'My car: click for details';
@@ -781,12 +808,11 @@ class _HomePageState extends State<HomePage> {
       String? userAuth = widget.homePageService.currentUser()?.uid.toString();
       if (PassMarker.from) {
         PassMarker.markerToPass = {};
-        PassMarker.markerToPass.add(Marker(
+        /*PassMarker.markerToPass.add(Marker(
             markerId: MarkerId('myPos'),
             infoWindow: InfoWindow(title: 'You Are Here!'),
             position: LatLng(lat, long),
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-                BitmapDescriptor.hueOrange)));
+            icon: await getIcons()));*/
         List<CarModel> cars = await _fetchCar();
         for (int i = 0; i < cars.length; i++) {
           String? carLatLng = cars[i].position;
@@ -883,7 +909,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _updateTimer() {
-    const time = Duration(milliseconds: 50);
+    const time = Duration(milliseconds: 100);
     Timer.periodic(time, (Timer t) {
       if (mounted) {
         _updateMarkers();

@@ -24,7 +24,6 @@ class _LoginState2 extends State<Login2> {
   UserModel userModel = UserModel();
   final _emailController2 = new TextEditingController();
   final _passwordController2 = new TextEditingController();
-  final _formKey2 = GlobalKey<FormState>();
   bool from = true;
 
   Future<User?> loginUsingEmailPassword(

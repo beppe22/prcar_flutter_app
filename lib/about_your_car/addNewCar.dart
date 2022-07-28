@@ -61,14 +61,6 @@ class _AddNewCarState extends State<AddNewCar> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
 
-    color() {
-      if (PassMarker.useMobileLayout!) {
-        return Colors.redAccent;
-      } else {
-        return Colors.redAccent;
-      }
-    }
-
     size() {
       if (PassMarker.useMobileLayout!) {
         return screenText * 20;
@@ -103,7 +95,7 @@ class _AddNewCarState extends State<AddNewCar> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: color(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
               Navigator.push(
@@ -140,7 +132,7 @@ class _AddNewCarState extends State<AddNewCar> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: color(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
               Navigator.push(
@@ -181,7 +173,7 @@ class _AddNewCarState extends State<AddNewCar> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: color(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
@@ -218,7 +210,7 @@ class _AddNewCarState extends State<AddNewCar> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: color(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
@@ -254,7 +246,7 @@ class _AddNewCarState extends State<AddNewCar> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: color(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
@@ -294,7 +286,7 @@ class _AddNewCarState extends State<AddNewCar> {
               images = data;
             });
           },
-          backgroundColor: color(),
+          backgroundColor: Colors.redAccent,
           child: Icon(Icons.photo_camera, size: size()),
         ));
 

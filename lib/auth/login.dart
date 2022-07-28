@@ -26,11 +26,8 @@ class _LoginState extends State<Login> {
   static final _passwordController = TextEditingController();
   static final _emailController2 = TextEditingController();
   static final _passwordController2 = TextEditingController();
-  static final _emailController3 = TextEditingController();
-  static final _passwordController3 = TextEditingController();
   static final _formKey = GlobalKey<FormState>();
   static final _formKey2 = GlobalKey<FormState>();
-  static final _formKey3 = GlobalKey<FormState>();
   bool from = true;
 
   Future<User?> loginUsingEmailPassword(
@@ -200,36 +197,6 @@ class _LoginState extends State<Login> {
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
-    final emailField3 = TextField(
-        autofocus: false,
-        style: TextStyle(fontSize: sizeHintText()),
-        controller: _emailController3,
-        keyboardType: TextInputType.emailAddress,
-        textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-            prefixIcon: Icon(Icons.mail, size: sizeHintText()),
-            contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
-                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
-            hintText: "Email",
-            hintStyle: TextStyle(fontSize: sizeHintText()),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
-
-    final passwordField3 = TextField(
-        autofocus: false,
-        style: TextStyle(fontSize: sizeHintText()),
-        controller: _passwordController3,
-        obscureText: true,
-        textInputAction: TextInputAction.done,
-        decoration: InputDecoration(
-            prefixIcon: Icon(Icons.vpn_key, size: sizeHintText()),
-            contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
-                screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
-            hintText: "Password",
-            hintStyle: TextStyle(fontSize: sizeHintText()),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
-
     return PassMarker.useMobileLayout!
         ? Scaffold(
             resizeToAvoidBottomInset: true,
@@ -298,13 +265,19 @@ class _LoginState extends State<Login> {
                                         color: Colors.redAccent,
                                         onPressed: () async {
                                           if (await NetworkCheck().check()) {
-                                            User? user =
+                                            /* User? user =
                                                 await loginUsingEmailPassword(
                                                     email:
                                                         _emailController.text,
                                                     password:
                                                         _passwordController
                                                             .text,
+                                                    context: context);*/
+                                            User? user =
+                                                await loginUsingEmailPassword(
+                                                    email:
+                                                        'marinvargasf@gmail.com',
+                                                    password: 'vargas22',
                                                     context: context);
 
                                             if (user != null) {
