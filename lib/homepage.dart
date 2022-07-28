@@ -428,7 +428,7 @@ class _HomePageState extends State<HomePage> {
                           title: Text(" Help",
                               style: TextStyle(fontSize: screenText * 20)),
                           onTap: () async {
-                            if (MediaQuery.of(context).orientation ==
+                            /*if (MediaQuery.of(context).orientation ==
                                 Orientation.portrait) {
                               SystemChrome.setPreferredOrientations([
                                 DeviceOrientation.landscapeLeft,
@@ -439,7 +439,7 @@ class _HomePageState extends State<HomePage> {
                                 DeviceOrientation.portraitUp,
                                 DeviceOrientation.portraitDown,
                               ]);
-                            }
+                            }*/
                           })
                     ])),
                 body: Stack(children: [
