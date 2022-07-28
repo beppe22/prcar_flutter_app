@@ -427,6 +427,7 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
+//Functions that adds new user to firestore
   postDetailsToFirestore() async {
     //Calling our Firestore and User Model
 

@@ -42,14 +42,6 @@ class _FiltersState extends State<Filters> {
     final screenText = MediaQuery.of(context).textScaleFactor;
     String? user = widget.service.currentUser().toString();
 
-    printColor() {
-      if (PassMarker.useMobileLayout!) {
-        return Colors.redAccent;
-      } else {
-        return Colors.redAccent;
-      }
-    }
-
     printSize() {
       if (PassMarker.useMobileLayout!) {
         return 22.0;
@@ -84,7 +76,7 @@ class _FiltersState extends State<Filters> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: printColor(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               PassMarker.hpOrNot = false;
@@ -123,7 +115,7 @@ class _FiltersState extends State<Filters> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: printColor(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
               Fluttertoast.showToast(
@@ -155,7 +147,7 @@ class _FiltersState extends State<Filters> {
                         color: Colors.white,
                         fontWeight: FontWeight.bold)))));
 
-//vehicle button field
+    //vehicle button field
     final vehicleButton = Container(
         width: width(),
         height: heigth(),
@@ -165,7 +157,7 @@ class _FiltersState extends State<Filters> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: printColor(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
               Navigator.push(
@@ -202,7 +194,7 @@ class _FiltersState extends State<Filters> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: printColor(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
@@ -239,7 +231,7 @@ class _FiltersState extends State<Filters> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: printColor(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
@@ -275,7 +267,7 @@ class _FiltersState extends State<Filters> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: printColor(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
@@ -652,6 +644,7 @@ class _FiltersState extends State<Filters> {
           });
   }
 
+//Function that prints the least of a reservation
   String _printLeast(String start, String end) {
     if (start == '' && end == '') {
       return 'Least: ';
@@ -660,6 +653,7 @@ class _FiltersState extends State<Filters> {
     }
   }
 
+//Function that fetches all the cars in the database
   Future<List<CarModel>> _fetchCar() async {
     User? user = widget.service.currentUser();
 
@@ -695,6 +689,7 @@ class _FiltersState extends State<Filters> {
     return cars;
   }
 
+//Function that filters the cars
   Future<List<CarModel>> _searchCar(
       List<CarModel> cars, SearchModel search, String user) async {
     List<CarModel> filteredCar = [];
@@ -751,6 +746,7 @@ class _FiltersState extends State<Filters> {
     return filteredCar;
   }
 
+//Function that checks the marker in a radius
   bool _nearbyPosition(String lat, String lng, String carsPos) {
     double lat1 = double.parse(lat) / 57.29577951;
     double lng1 = double.parse(lng) / 57.29577951;
@@ -764,6 +760,7 @@ class _FiltersState extends State<Filters> {
     return distance > 3;
   }
 
+//Function that retrieve if a car is available in that range of dates
   bool _freeDate(String startDate, String endDate, List<String> allDate) {
     DateTime started = DateFormat("dd/MM/yyyy").parse(startDate);
     DateTime ended = DateFormat("dd/MM/yyyy").parse(endDate);
@@ -785,6 +782,7 @@ class _FiltersState extends State<Filters> {
     }
   }
 
+//Function that gives the date in which a car is reserved
   Future<List<String>> _fetchDates(String? carsUid, String? carsCid) async {
     List<String> dates = [];
 

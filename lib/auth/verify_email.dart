@@ -212,6 +212,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
                             ]))));
   }
 
+//Function that sends a verification email
   Future sendVerificationEmail() async {
     try {
       final user = FirebaseAuth.instance.currentUser!;
@@ -229,7 +230,6 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
               'A email has been sent. (If you don\' see it, check also your spam!)',
           fontSize: 20);
     } catch (e) {
-      // ignore: avoid_print
       print(e);
     }
   }

@@ -249,6 +249,7 @@ class _ModelsState extends State<Models> {
           });
   }
 
+//Function that retrieves the car list
   Future<List<VehicleDataModel>> readJsonData() async {
     final jsondata =
         await rootBundle.rootBundle.loadString('jsonfile/carmodels.json');

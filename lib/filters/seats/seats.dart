@@ -194,6 +194,7 @@ class _SeatsState extends State<Seats> {
           });
   }
 
+//Function that prints different title (it depends from which screen we arrive)
   String _seatsString(bool filter) {
     if (filter) {
       return 'Choose the minimum car\'s seats';

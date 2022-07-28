@@ -861,6 +861,7 @@ class InfoAccount extends StatelessWidget {
           });
   }
 
+//Function for deleting account
   deleteAccount(context) async {
     User? user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -915,6 +916,7 @@ class InfoAccount extends StatelessWidget {
     await firebaseFirestore.collection("users").doc(StaticUser.uid).delete();
   }
 
+//Function that fetches all the reservation of a user
   Future<int> _fetchAllRes(int i) async {
     final _auth = FirebaseAuth.instance;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -1010,6 +1012,7 @@ class InactiveCar extends StatelessWidget {
         ]);
   }
 
+//Function that fetches the cars of a specific user
   static Future<List<CarModel>> _fetchInfoCar(User user) async {
     List<CarModel> cars = [];
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -1033,6 +1036,7 @@ class InactiveCar extends StatelessWidget {
     return cars;
   }
 
+//Function that suspends o activates a specific car of a user
   void _suspendOrActiveCar(List<CarModel> cars, User user) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     for (int i = 0; i < cars.length; i++) {
