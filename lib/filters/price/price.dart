@@ -286,6 +286,7 @@ class _CounterState extends State<Counter> {
           });
   }
 
+//Function that prints different title (it depends from which screen we arrive)
   String _priceString(bool filter) {
     if (filter) {
       return 'Choose the maximum car\'s price (€/day)';

@@ -354,6 +354,7 @@ class MessagePageState extends State<MessagePage> {
           });
   }
 
+//Function that retrieves all booking-out
   Future<List<String>> _fetchMyRes() async {
     User? user = widget.service.currentUser();
     List<String> myRes = [];
@@ -412,6 +413,7 @@ class MessagePageState extends State<MessagePage> {
     return myRes;
   }
 
+//Function that retrieves all booking-in
   Future<List<String>> _fetchOtherRes() async {
     User? user = widget.service.currentUser();
     List<String> otherRes = [];

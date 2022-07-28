@@ -32,6 +32,7 @@ class _ConfigurationState extends State<Configuration> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
 
+//Function that prints different text's size if a device is a smartphone or a tablet
     text() {
       if (PassMarker.useMobileLayout!) {
         return screenText * 20.0;
@@ -40,6 +41,7 @@ class _ConfigurationState extends State<Configuration> {
       }
     }
 
+//Function that prints different width's size if a device is a smartphone or a tablet
     widthBottom() {
       if (MediaQuery.of(context).orientation == Orientation.portrait) {
         return screenWidth * 0.8;
@@ -48,6 +50,7 @@ class _ConfigurationState extends State<Configuration> {
       }
     }
 
+    //licenseCode field
     final licenseCodeField = TextFormField(
         autofocus: false,
         style: TextStyle(fontSize: text()),
@@ -72,7 +75,7 @@ class _ConfigurationState extends State<Configuration> {
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
-    //second name field
+    //expiryDate field
     final expiryDateEditingField = TextFormField(
         autofocus: false,
         style: TextStyle(fontSize: text()),
@@ -470,6 +473,7 @@ class _ConfigurationState extends State<Configuration> {
                 ])));
   }
 
+//Function that pushes screen to the next page
   void nextPage() {
     if (_formKey.currentState!.validate()) {
       Navigator.push(
@@ -481,6 +485,7 @@ class _ConfigurationState extends State<Configuration> {
     }
   }
 
+//Function that deletes driving license info
   _deleteDrivingLicense(String uid) async {
     final delete1 =
         widget.service.storage().child("$uid/drivingLicenseData/bottomLicense");
@@ -502,6 +507,7 @@ class _ConfigurationState extends State<Configuration> {
     await delete4.delete();
   }
 
+//Function that updates user's status after he resets driving license info
   _updateIsConfirmed(User user) async {
     await widget.service
         .firebasefirestore()
@@ -510,6 +516,7 @@ class _ConfigurationState extends State<Configuration> {
         .update({'isConfirmed': 'negative'});
   }
 
+//Function that checks a user's status
   Future<String> _isConfirmed(User user) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot = await widget.service
         .firebasefirestore()

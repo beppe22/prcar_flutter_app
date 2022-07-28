@@ -722,6 +722,7 @@ class BookingOutPageState extends State<BookingOutPage> {
           });
   }
 
+//Function that prints all the reservations
   String _seeReservation(int i, String message) {
     final splitted = message.split('.');
     String date = splitted[0];
@@ -762,6 +763,7 @@ class BookingOutPageState extends State<BookingOutPage> {
         '\n Status: Complete';
   }
 
+//Function that eliminates a reservation
   _eliminationMessage(int i) async {
     User? user = widget.service.currentUser();
     await widget.service
@@ -773,6 +775,7 @@ class BookingOutPageState extends State<BookingOutPage> {
         .update({'status': 'e'});
   }
 
+//Function that annulates a reservation
   _annulmentMessage(int i) async {
     User? user = widget.service.currentUser();
     await widget.service
@@ -784,6 +787,7 @@ class BookingOutPageState extends State<BookingOutPage> {
         .update({'status': 'a'});
   }
 
+//Function that changes annulment's color
   _colorAnulment(int i) {
     if (PassMarker.status[i] == 'a' || PassMarker.status[i] == 'f') {
       if (PassMarker.useMobileLayout!) {

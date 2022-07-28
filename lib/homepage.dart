@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       pinPillPosition = -620;
     }
-    checkGps();
+    //checkGps();
     _updateMarkers();
     _updateTimer();
 
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
   double long = 0, lat = 0;
   late StreamSubscription<Position> positionStream;
 
-  checkGps() async {
+  /*checkGps() async {
     servicestatus = await Geolocator.isLocationServiceEnabled();
     if (servicestatus) {
       permission = await Geolocator.checkPermission();
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       //refresh the UI
     });
-  }
+  }*/
 
   /*getLocation() async {
     position = await Geolocator.getCurrentPosition(
@@ -149,18 +149,12 @@ class _HomePageState extends State<HomePage> {
     });
   }*/
 
-  /*@override
-  void dispose() {
-    .dispose();
-    super.dispose();
-  }*/
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     // final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    GoogleMapController? _controller;
+    GoogleMapController _controller;
 
     return PassMarker.useMobileLayout!
         ? WillPopScope(
@@ -508,7 +502,6 @@ class _HomePageState extends State<HomePage> {
   _saveToken() {
     if (widget.homePageService.firebaseMessaging() != null) {
       widget.homePageService.firebaseMessaging().getToken().then((value) async {
-        //popoliamo la variabile staticUser
         await _fetchUserInfo();
         if (value != null) {
           await widget.homePageService
@@ -540,12 +533,9 @@ class _HomePageState extends State<HomePage> {
       print('User granted permission');
 
       FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-        //final screenHeight = MediaQuery.of(context).size.height;
-        //final screenWidth = MediaQuery.of(context).size.width;
         final screenText = MediaQuery.of(context).textScaleFactor;
         print("message recieved");
         print(event.notification!.body);
-        //print(event.data["bookId"]);
         if (event.data['type'] == 'booking') {
           showDialog(
               barrierDismissible: true,
@@ -560,7 +550,6 @@ class _HomePageState extends State<HomePage> {
                   content: FloatingActionButton(
                     onPressed: () async {
                       List<String> bookIn = await _fetchOtherRes();
-                      //bookingId in input
                       String bookingId = event.data["bookId"];
                       await Navigator.push(
                           context,
@@ -665,42 +654,6 @@ class _HomePageState extends State<HomePage> {
     return otherRes;
   }
 
-  /*_checkForInitialMessage() async {
-    await Firebase.initializeApp();
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
-
-    if (initialMessage != null) {
-      print('Message ripreso!');
-      if (initialMessage.data["type"] == 'booking') {
-        List<String> bookIn = await _fetchOtherRes();
-        //bookingId in input
-        String bookingId = initialMessage.data["bookId"];
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => BookingInPage(
-                    bookingId: bookingId, res: bookIn, fromHp: true)));
-      } else {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ChatDetail(
-                    friendName: initialMessage.data['friendName'],
-                    friendUid: initialMessage.data['friendId'],
-                    hp: true)));
-      }
-      /*List<String> bookIn = await _fetchOtherRes();
-      //bookingId in input
-      String bookingId = initialMessage.data["bookId"];
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => BookingInPage(
-                  bookingId: bookingId, res: bookIn, fromHp: true)));*/
-    }
-  }*/
-
 //Function that fecth all the cars in the database
   Future<List<CarModel>> _fetchCar() async {
     User? user = widget.homePageService.currentUser();
@@ -739,7 +692,6 @@ class _HomePageState extends State<HomePage> {
         });
       } on FirebaseAuthException catch (e) {
         print(e.code);
-        //if (e.code == "impossible to insert new car") {}
       }
     }
     return cars;
@@ -770,6 +722,7 @@ class _HomePageState extends State<HomePage> {
     return cars;
   }
 
+//Function that gives respective colors to different markers
   BitmapDescriptor _iconColor(String owner, String user) {
     if (owner == user) {
       return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
@@ -795,6 +748,7 @@ class _HomePageState extends State<HomePage> {
     return icon;
   }*/
 
+//Functions that prints different InfoWindow for different markers
   String _printInfoWindow(String owner, String user, String carOwner) {
     if (owner == user) {
       return 'My car: click for details';
@@ -803,6 +757,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+//Functions that updates markers periodically
   void _updateMarkers() async {
     try {
       String? userAuth = widget.homePageService.currentUser()?.uid.toString();
@@ -908,6 +863,7 @@ class _HomePageState extends State<HomePage> {
     _markers = PassMarker.markerToPass;
   }
 
+//Timer for updating markers
   _updateTimer() {
     const time = Duration(milliseconds: 100);
     Timer.periodic(time, (Timer t) {
@@ -917,6 +873,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+//Function that checks if a user is confirmed for reserving other cars
   Future<String> _isConfirmed(User user) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot = await widget
         .homePageService

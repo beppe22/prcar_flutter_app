@@ -641,6 +641,7 @@ class MapBottomPill extends StatelessWidget {
         ]));
   }
 
+//Function to retrieve car's images
   Future<List<String>> urlFile(String uid, String cid) async {
     final Storage storage = Storage();
     final firebase_storage.FirebaseStorage storage2 =
@@ -655,6 +656,7 @@ class MapBottomPill extends StatelessWidget {
     return urlList;
   }
 
+//Function that gives owner's name to the reservation info
   Future<String> _nameString(String uid) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     DocumentSnapshot<Map<String, dynamic>> snapshot =
@@ -664,6 +666,7 @@ class MapBottomPill extends StatelessWidget {
     return name + ' ' + surname;
   }
 
+//Function that checks if a user is confirmed for reserving other cars
   Future<String> _isConfirmed(User user) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     DocumentSnapshot<Map<String, dynamic>> snapshot =

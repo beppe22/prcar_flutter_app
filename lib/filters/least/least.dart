@@ -609,6 +609,7 @@ class _LeastState extends State<Least> {
           });
   }
 
+//Function that prints different title (it depends from which screen we arrive)
   String _textReserveSave() {
     if (PassMarker.hpOrNot) {
       return "Reserve!";
@@ -617,6 +618,7 @@ class _LeastState extends State<Least> {
     }
   }
 
+//Function that prints from when a reservation starts
   String fromString(String from) {
     if (from == '') {
       return "From: ";
@@ -625,6 +627,7 @@ class _LeastState extends State<Least> {
     }
   }
 
+//Function that prints to when a reservation ends
   String untilString(String until) {
     if (until == '') {
       return "Until: ";
@@ -633,6 +636,7 @@ class _LeastState extends State<Least> {
     }
   }
 
+//Function that prints all occupied dates
   Future<List<String>> _fetchDates() async {
     final _auth = FirebaseAuth.instance;
 

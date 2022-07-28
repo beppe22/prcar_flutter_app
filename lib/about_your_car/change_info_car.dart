@@ -67,14 +67,6 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
     List<File?> images = [];
     String nameString = vehicleString.toString() + '-' + modelString.toString();
 
-    color() {
-      if (PassMarker.useMobileLayout!) {
-        return Colors.redAccent;
-      } else {
-        return Colors.redAccent;
-      }
-    }
-
     height() {
       if (PassMarker.useMobileLayout!) {
         return screenHeight * 0.07;
@@ -108,7 +100,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: color(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
               Navigator.push(
@@ -147,7 +139,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: color(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () {
               Navigator.push(
@@ -189,7 +181,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: color(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
@@ -227,7 +219,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: color(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
@@ -263,7 +255,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.01),
         decoration: BoxDecoration(
-            color: color(), borderRadius: BorderRadius.circular(20)),
+            color: Colors.redAccent, borderRadius: BorderRadius.circular(20)),
         child: MaterialButton(
             onPressed: () async {
               Navigator.push(
@@ -557,6 +549,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             }));
   }
 
+//Function that prints position's string
   String _printPosition(String position) {
     String newPos = '';
     if (position != '') {
@@ -566,6 +559,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
     return newPos;
   }
 
+//Function that changes the car's information on firebase
   void _changeFirebase(CarModel car, String seats, String fuel, String model,
       String vehicle, String price, String position) async {
     FirebaseFirestore firebaseFirestore =
@@ -585,6 +579,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
     });
   }
 
+//Function that updates car with new images
   void _updateImages(List<File?> images, String uid, String cid) {
     final Storage storage = Storage();
     FirebaseStorage.instance.ref("$uid/$cid/").listAll().then((value) {

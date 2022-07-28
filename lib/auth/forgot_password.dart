@@ -291,6 +291,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           });
   }
 
+//Function that eliminates the old password and adds the new one
   Future resetPassword() async {
     showDialog(
         context: context,
@@ -303,13 +304,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: emailController.text.trim());
-
-      //showSnackBar('Password Reset Email Sent');
-
       Navigator.of(context).popUntil((route) => route.isFirst);
     } on FirebaseAuthException catch (e) {
       print(e);
-      //Utils.showSnackBar(e.message);
       Navigator.of(context).pop();
     }
   }

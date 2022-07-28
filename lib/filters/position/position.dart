@@ -178,6 +178,7 @@ class _Position extends State<Position> {
             ]));
   }
 
+//Function that moves camera to another place
   Future<void> _goToPlace(Map<String, dynamic> place) async {
     lat = place['geometry']['location']['lat'];
     lng = place['geometry']['location']['lng'];
@@ -187,6 +188,7 @@ class _Position extends State<Position> {
     position = place['formatted_address'].toString();
   }
 
+//Functions that makes a marker when I click on the map
   _handleTap(LatLng point) {
     setState(() {
       _markers = {};

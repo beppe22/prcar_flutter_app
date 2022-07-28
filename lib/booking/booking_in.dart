@@ -733,6 +733,7 @@ class BookingInPageState extends State<BookingInPage> {
           });
   }
 
+//Function that prints all the reservations
   String _seeReservation(int i, String message) {
     final splitted = message.split('.');
     String date = splitted[0];
@@ -773,6 +774,7 @@ class BookingInPageState extends State<BookingInPage> {
         '\n Status: Complete';
   }
 
+//Function that eliminates a reservation
   _eliminationMessage(int i) async {
     User? user = widget.service.currentUser();
     await widget.service
@@ -786,6 +788,7 @@ class BookingInPageState extends State<BookingInPage> {
         .update({'status': 'e'});
   }
 
+//Function that annulates a reservation
   _annulmentMessage(int i) async {
     User? user = widget.service.currentUser();
     await widget.service
@@ -799,6 +802,7 @@ class BookingInPageState extends State<BookingInPage> {
         .update({'status': 'a'});
   }
 
+//Function that changes annulment's color
   _colorAnulment(int i) {
     if (PassMarker.status[i] == 'a' || PassMarker.status[i] == 'f') {
       if (PassMarker.useMobileLayout!) {
@@ -807,23 +811,18 @@ class BookingInPageState extends State<BookingInPage> {
         return Colors.redAccent.shade100;
       }
     } else {
-      if (PassMarker.useMobileLayout!) {
         return Colors.redAccent;
-      } else {
-        return Colors.redAccent;
-      }
-    }
+        }
   }
 
+//Function that changes new booking's colors
   _colorReservation(int i, String bookingId) {
     if (PassMarker.bookId[i] == bookingId) {
       return Colors.blue;
     } else {
-      if (PassMarker.useMobileLayout!) {
+     
         return Colors.redAccent;
-      } else {
-        return Colors.redAccent;
-      }
+      
     }
   }
 }

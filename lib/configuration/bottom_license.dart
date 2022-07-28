@@ -522,6 +522,7 @@ class _BottomLicenseState extends State<BottomLicense> {
           });
   }
 
+//Function that updates a user's status
   _updateIsConfirmed(User user) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     await firebaseFirestore

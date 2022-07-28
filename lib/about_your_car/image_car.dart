@@ -569,6 +569,7 @@ class _ImageCarState extends State<ImageCar> {
             }));
   }
 
+//Function that prints different titles (it depend on where I come from)
   String _printTitle(bool where) {
     if (where) {
       return 'Insert your car\'s pictures \n (min. 1, max 6)';

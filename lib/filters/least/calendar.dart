@@ -154,6 +154,7 @@ class _CalendarState extends State<Calendar> {
           );
   }
 
+//Function that retrieves all the unavailable dates
   List<DateTime> _takeDateList(List<String> date) {
     if (PassMarker.hpOrNot) {
       List<DateTime> blackList = [DateTime.now()];
@@ -178,6 +179,7 @@ class _CalendarState extends State<Calendar> {
     }
   }
 
+//Function that checks if a range date is available
   Future<bool> _checkFreeDate(
       List<DateTime> date, DateTime start, DateTime end) async {
     if (date.isEmpty) {

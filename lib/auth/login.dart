@@ -30,6 +30,7 @@ class _LoginState extends State<Login> {
   static final _formKey2 = GlobalKey<FormState>();
   bool from = true;
 
+//Function of login
   Future<User?> loginUsingEmailPassword(
       {required String email,
       required String password,
@@ -53,6 +54,7 @@ class _LoginState extends State<Login> {
     return user;
   }
 
+//Function that gives different hint text sizes (it depends on tablet or smartphone)
   sizeHintText() {
     if (PassMarker.useMobileLayout!) {
       return 20.0;
@@ -61,6 +63,7 @@ class _LoginState extends State<Login> {
     }
   }
 
+//Function that checks all the reservations if they're finished
   _finishReservation(User user) async {
     var data = await widget.loginService
         .firebasefirestore()
@@ -273,7 +276,6 @@ class _LoginState extends State<Login> {
                                                         _passwordController
                                                             .text,
                                                     context: context);
-
                                             if (user != null) {
                                               await widget.loginService
                                                   .firebasefirestore()
