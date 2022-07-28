@@ -51,5 +51,9 @@
 	<string>To Choose image profile image</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Used to capture audio for image picker plugin</string>
+	<key>NSLocationAlwaysUsageDescription</key> 
+    <string>Can we use your location</string> 
+    <key>NSLocationWhenInUseUsageDescription</key> 
+    <string>We are using your location</string>
 </dict>
 </plist>

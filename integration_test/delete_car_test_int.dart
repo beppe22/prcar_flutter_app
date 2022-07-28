@@ -12,7 +12,6 @@ void main() {
         (tester) async {
       app.main();
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 2));
 
       final aboutYourCarButton = await find.byType(ListTile).at(2);
       await tester.pump(const Duration(milliseconds: 100));
@@ -23,8 +22,6 @@ void main() {
       await tester.tap(find.byKey(Key("car")).first);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
-
-      //expect(find.text("Seats: 2"), findsOneWidget);
 
       await tester.tap(find.byKey(Key("active/suspend button")));
       await tester.pumpAndSettle();

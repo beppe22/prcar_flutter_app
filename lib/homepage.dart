@@ -285,7 +285,7 @@ class _HomePageState extends State<HomePage> {
                       mapType: MapType.normal,
                       initialCameraPosition: const CameraPosition(
                           target: LatLng(45.47811155714095, 9.227444681728846),
-                          zoom: 16),
+                          zoom: 3),
                       markers: _markers,
                       onMapCreated: (GoogleMapController controller) {
                         _controller = controller;

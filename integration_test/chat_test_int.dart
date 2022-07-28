@@ -16,7 +16,9 @@ void main() {
       //AVVIARE IL LOGOUT
       final drawer = await find.byTooltip('Open navigation menu');
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 2));
+      await tester.pump(Duration(
+          seconds:
+              2)); /*
 
       expect(drawer, findsWidgets);
 
@@ -32,7 +34,7 @@ void main() {
 
       final logoutButton = await find.byKey(Key("logout button"));
       await tester.tap(logoutButton);
-      await tester.pump(Duration(seconds: 2));
+      await tester.pump(Duration(seconds: 2));*/
 
       //VERIFY WE ARE IN LOGIN PAGE
       expect(find.text('Login'), findsOneWidget);
@@ -55,11 +57,11 @@ void main() {
       // Tap Login button
       await tester.tap(fa12);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 2));
+      await tester.pump(const Duration(seconds: 2));
 
       await tester.tap(fa12);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 20));
+      await tester.pump(const Duration(seconds: 4));
 
       expect(find.text('Filters'), findsOneWidget);
       expect(find.text("PrCar"), findsOneWidget);
