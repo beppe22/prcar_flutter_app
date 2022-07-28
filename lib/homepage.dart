@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:prcarpolimi/about_your_car/info_car.dart';
 import 'package:prcarpolimi/booking/booking_in.dart';
 import 'package:prcarpolimi/chatImplementation/chatDetail.dart';
@@ -58,7 +59,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       pinPillPosition = -620;
     }
-
+    checkGps();
     _updateMarkers();
     _updateTimer();
 
@@ -93,6 +94,79 @@ class _HomePageState extends State<HomePage> {
         }
       });
     }
+  }
+
+  bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
+  late Position position;
+  double long = 0, lat = 0;
+  late StreamSubscription<Position> positionStream;
+
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          print('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          print("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
+
+        getLocation();
+      }
+    } else {
+      print("GPS Service is not enabled, turn on GPS location");
+    }
+
+    setState(() {
+      //refresh the UI
+    });
+  }
+
+  getLocation() async {
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    print('ciao');
+    long = position.longitude;
+    lat = position.latitude;
+
+    setState(() {
+      //refresh UI
+    });
+
+    LocationSettings locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high, //accuracy of the location data
+      distanceFilter: 100, //minimum distance (measured in meters) a
+      //device must move horizontally before an update event is generated;
+    );
+
+    StreamSubscription<Position> positionStream =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position position) {
+      print(position.longitude); //Output: 80.24599079
+      print(position.latitude); //Output: 29.6593457
+
+      long = position.longitude;
+      lat = position.latitude;
+
+      setState(() {
+        //refresh UI on update
+      });
+    });
   }
 
   /*@override
@@ -221,7 +295,9 @@ class _HomePageState extends State<HomePage> {
                       ListTile(
                           title: Text("Help",
                               style: TextStyle(fontSize: screenText * 16)),
-                          onTap: () async {})
+                          onTap: () async {
+                            getLocation();
+                          })
                     ])),
                 body: Stack(children: [
                   GoogleMap(
@@ -705,6 +781,12 @@ class _HomePageState extends State<HomePage> {
       String? userAuth = widget.homePageService.currentUser()?.uid.toString();
       if (PassMarker.from) {
         PassMarker.markerToPass = {};
+        PassMarker.markerToPass.add(Marker(
+            markerId: MarkerId('myPos'),
+            infoWindow: InfoWindow(title: 'You Are Here!'),
+            position: LatLng(lat, long),
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueOrange)));
         List<CarModel> cars = await _fetchCar();
         for (int i = 0; i < cars.length; i++) {
           String? carLatLng = cars[i].position;
