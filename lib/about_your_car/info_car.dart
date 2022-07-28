@@ -144,6 +144,7 @@ class _InfoCarState extends State<InfoCar> {
                         height: screenHeight * 0.07,
                         width: screenWidth * 0.4,
                         child: MaterialButton(
+                            key: Key("change info button"),
                             color: Colors.grey,
                             onPressed: () async {
                               PassMarker.carModel = carModel;

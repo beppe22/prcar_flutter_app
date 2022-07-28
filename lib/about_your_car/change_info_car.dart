@@ -180,6 +180,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
 
     //seats button field
     final seatsButton = Container(
+        key: Key("seats button"),
         width: width(),
         height: height(),
         margin: EdgeInsets.only(
@@ -217,6 +218,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
 
     //fuel button field
     final fuelButton = Container(
+        key: Key("fuel button"),
         width: width(),
         height: height(),
         margin: EdgeInsets.only(
@@ -311,6 +313,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                             color: Colors.white,
                             fontWeight: FontWeight.bold)),
                     IconButton(
+                        key: Key("change button"),
                         onPressed: () async {
                           if (await NetworkCheck().check()) {
                             if (carModel.fuel == fuelString &&

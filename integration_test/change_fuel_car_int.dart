@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -59,7 +61,7 @@ void main() {
 
       await tester.tap(fa12);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 20));
+      await tester.pump(Duration(seconds: 4));
 
       expect(find.text('Filters'), findsOneWidget);
       expect(find.text("PrCar"), findsOneWidget);
@@ -68,33 +70,48 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final bookingButton = await find.byType(ListTile).at(1);
+      final aboutYourCarButton = await find.byType(ListTile).at(2);
       await tester.pump(const Duration(milliseconds: 100));
-      await tester.tap(bookingButton);
+      await tester.tap(aboutYourCarButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(find.byKey(Key("here for your reservation")));
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 1));
-
-      await tester.tap(find.byKey(Key("click booking-out")).first);
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 1));
-
-      await tester.tap(find.byKey(Key("Chat button")));
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 1));
-
-      await tester.enterText(find.byKey(Key("Text button")), 'hello world');
+      await tester.tap(find.byKey(Key("car")).first);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(find.byKey(Key("Cupertino button")).first);
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 1));
+      //expect(find.text("Seats: 2"), findsOneWidget);
 
-      expect(find.text('hello world'), findsOneWidget);
+      await tester.tap(find.byKey(Key("change info button")));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      await tester.tap(find.byKey(Key("fuel button")));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      await tester.tap(find.byKey(ValueKey(2)));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      await tester.tap(find.byKey(Key("change button")));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      /*String value;
+      if (n == 1) {
+        value = "Oil";
+      } else if (n == 2) {
+        value = "Methane";
+      } else if (n == 3) {
+        value = "Diesel";
+      } else if (n == 4) {
+        value = "Electric";
+      } else {
+        value = "Hibryd";
+      }*/
+
+      expect(find.text("Fuel: Methane"), findsOneWidget);
     });
   });
 }

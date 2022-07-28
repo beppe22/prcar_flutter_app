@@ -18,8 +18,6 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      expect(drawer, findsWidgets);
-
       await tester.tap(drawer);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
@@ -59,42 +57,22 @@ void main() {
 
       await tester.tap(fa12);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 20));
-
-      expect(find.text('Filters'), findsOneWidget);
-      expect(find.text("PrCar"), findsOneWidget);
+      await tester.pump(Duration(seconds: 4));
 
       await tester.tap(drawer);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final bookingButton = await find.byType(ListTile).at(1);
       await tester.pump(const Duration(milliseconds: 100));
-      await tester.tap(bookingButton);
+      await tester.tap(accountButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(find.byKey(Key("here for your reservation")));
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 1));
-
-      await tester.tap(find.byKey(Key("click booking-out")).first);
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 1));
-
-      await tester.tap(find.byKey(Key("Chat button")));
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 1));
-
-      await tester.enterText(find.byKey(Key("Text button")), 'hello world');
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 2));
-
-      await tester.tap(find.byKey(Key("Cupertino button")).first);
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 1));
-
-      expect(find.text('hello world'), findsOneWidget);
+      expect(find.text("Delete Account"), findsOneWidget);
+      expect(find.text("Logout"), findsOneWidget);
+      expect(find.text("Name: Francesco"), findsOneWidget);
+      expect(find.text("Surname: Vargas"), findsOneWidget);
+      expect(find.text('marinvargasf@gmail.com'), findsOneWidget);
     });
   });
 }

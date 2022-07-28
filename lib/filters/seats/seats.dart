@@ -71,6 +71,7 @@ class _SeatsState extends State<Seats> {
                   value: '4'),
               SizedBox(height: screenHeight * 0.02),
               SeatsButton(
+                  key: Key("5 seats button"),
                   screenHeight: screenHeight,
                   screenWidth: screenWidth,
                   screenText: screenText,
