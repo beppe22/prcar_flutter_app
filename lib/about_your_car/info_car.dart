@@ -175,6 +175,7 @@ class _InfoCarState extends State<InfoCar> {
                             ])),
                     SizedBox(width: screenWidth * 0.08),
                     Container(
+                      key: Key("active/suspend button"),
                         height: screenHeight * 0.07,
                         width: screenWidth * 0.4,
                         child: MaterialButton(
@@ -987,7 +988,6 @@ class _InfoCarState extends State<InfoCar> {
           });
   }
 
-//Function that deletes a car
   Future<void> _deleteCar(String uid, String cid) async {
     await widget.service
         .firebasefirestore()
@@ -998,7 +998,6 @@ class _InfoCarState extends State<InfoCar> {
         .delete();
   }
 
-//Function that suspends or activates a car
   void _suspendOrActiveCar() async {
     User? user = widget.service.currentUser();
 
@@ -1019,7 +1018,6 @@ class _InfoCarState extends State<InfoCar> {
     }
   }
 
-//Function that retrieves a specific user's cars
   Future<List<CarModel>> _fetchInfoCar() async {
     User? user = widget.service.currentUser();
     List<CarModel> cars = [];
@@ -1045,7 +1043,6 @@ class _InfoCarState extends State<InfoCar> {
     return cars;
   }
 
-//Function that changes active or inactive string of a car
   String _activeString(String active) {
     if (active == 't') {
       return 'Active';
@@ -1054,7 +1051,6 @@ class _InfoCarState extends State<InfoCar> {
     }
   }
 
-//Function that fixes the position string
   String _positionString(String position) {
     String newPos = '';
     List<String> splitted = position.split(',');
@@ -1062,7 +1058,6 @@ class _InfoCarState extends State<InfoCar> {
     return newPos;
   }
 
-//Function that fetches all the car's reservations
   Future<int> _fetchCarRes(String cid) async {
     User? user = widget.service.currentUser();
     int i = 0;
@@ -1090,7 +1085,6 @@ class _InfoCarState extends State<InfoCar> {
     return i;
   }
 
-//Function that retrieves car's images
   Future<List<String>> urlFile(String uid, String cid) async {
     final Storage storage = Storage();
     final firebase_storage.FirebaseStorage storage2 =
@@ -1170,7 +1164,6 @@ class InactiveSingleCar extends StatelessWidget {
               ]);
   }
 
-//Function that suspends or activates a car
   void _suspendOrActiveCar(CarModel car, User user) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     try {
