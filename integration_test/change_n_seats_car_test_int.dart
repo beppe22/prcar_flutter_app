@@ -88,7 +88,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(find.byKey(Key("5 seats button")));
+      await tester.tap(find.byKey(Key("4 seats button")));
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
@@ -96,7 +96,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      expect(find.text("Seats: 5"), findsOneWidget);
+      expect(find.text("Seats: 4"), findsOneWidget);
     });
   });
 }

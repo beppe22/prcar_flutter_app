@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+
 import 'package:prcarpolimi/main.dart' as app;
 
 void main() {
@@ -68,7 +69,7 @@ void main() {
       await tester.pump(Duration(seconds: 2));
 
       final aboutYourCarButton = await find.byType(ListTile).at(2);
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 300));
       await tester.tap(aboutYourCarButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
@@ -87,7 +88,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(find.byKey(ValueKey(2)));
+      await tester.tap(find.byKey(ValueKey(3)));
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
@@ -108,7 +109,7 @@ void main() {
         value = "Hibryd";
       }*/
 
-      expect(find.text("Fuel: Methane"), findsOneWidget);
+      expect(find.text("Fuel: Diesel"), findsOneWidget);
     });
   });
 }

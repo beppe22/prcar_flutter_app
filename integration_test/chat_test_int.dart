@@ -18,7 +18,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(
           seconds:
-              2)); /*
+              3)); /*
 
       expect(drawer, findsWidgets);
 
@@ -37,7 +37,7 @@ void main() {
       await tester.pump(Duration(seconds: 2));*/
 
       //VERIFY WE ARE IN LOGIN PAGE
-      expect(find.text('Login'), findsOneWidget);
+      /*expect(find.text('Login'), findsOneWidget);
 
       final fab = await find.byKey(Key("clickButtom"));
       await tester.tap(fab);
@@ -64,14 +64,14 @@ void main() {
       await tester.pump(const Duration(seconds: 4));
 
       expect(find.text('Filters'), findsOneWidget);
-      expect(find.text("PrCar"), findsOneWidget);
+      expect(find.text("PrCar"), findsOneWidget);*/
 
       await tester.tap(drawer);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
       final bookingButton = await find.byType(ListTile).at(1);
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 300));
       await tester.tap(bookingButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
