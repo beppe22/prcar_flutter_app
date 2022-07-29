@@ -147,11 +147,11 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                           builder: (context) => Vehicle(service: Service())))
                   .then((data) {
                 setState(() {
-                  if (SearchCar.latSearch != '' && SearchCar.lngSearch != '') {
+                  if (SearchCar.vehicle != '' && SearchCar.model != '') {
                     vehicleString = SearchCar.vehicle;
                     modelString = SearchCar.model;
-                    nameString =
-                        vehicleString.toString() + '-' + modelString.toString();
+                    nameString = data.toString();
+                    //vehicleString.toString() + '-' + modelString.toString();
                   }
                 });
               });

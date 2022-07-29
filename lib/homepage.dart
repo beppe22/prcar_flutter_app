@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:prcarpolimi/about_your_car/info_car.dart';
 import 'package:prcarpolimi/booking/booking_in.dart';
@@ -14,6 +13,7 @@ import 'package:prcarpolimi/hamburger/configuration.dart';
 import 'package:prcarpolimi/hamburger/infoAccount.dart';
 import 'package:prcarpolimi/hamburger/booking_page.dart';
 import 'package:prcarpolimi/models/carModel.dart';
+import 'package:prcarpolimi/models/car_parameter.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/models/static_user.dart';
@@ -188,6 +188,10 @@ class _HomePageState extends State<HomePage> {
                                       fontWeight: FontWeight.bold)),
                               IconButton(
                                   onPressed: () {
+                                    SearchCar.vehicle = '';
+                                    SearchCar.model = '';
+                                    SearchCar.date1Search = '';
+                                    SearchCar.date2Search = '';
                                     Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -279,7 +283,7 @@ class _HomePageState extends State<HomePage> {
                       mapType: MapType.normal,
                       initialCameraPosition: const CameraPosition(
                           target: LatLng(45.47811155714095, 9.227444681728846),
-                          zoom: 3),
+                          zoom: 16),
                       markers: _markers,
                       onMapCreated: (GoogleMapController controller) {
                         _controller = controller;
@@ -346,6 +350,10 @@ class _HomePageState extends State<HomePage> {
                                       fontWeight: FontWeight.bold)),
                               IconButton(
                                   onPressed: () {
+                                    SearchCar.date1Search = '';
+                                    SearchCar.date2Search = '';
+                                    SearchCar.vehicle = '';
+                                    SearchCar.model = '';
                                     Navigator.push(
                                             context,
                                             MaterialPageRoute(
