@@ -63,6 +63,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
+      //final accountButton = await find.byType(ListTile).first;
       await tester.pump(const Duration(milliseconds: 300));
       await tester.tap(accountButton);
       await tester.pumpAndSettle();
