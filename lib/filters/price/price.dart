@@ -118,6 +118,7 @@ class _CounterState extends State<Counter> {
                               fontSize: screenText * 22))),
                   SizedBox(height: screenHeight * 0.05),
                   PriceButton(
+                      key: Key("price button"),
                       screenHeight: screenHeight,
                       screenWidth: screenWidth,
                       screenText: screenText,
@@ -133,6 +134,7 @@ class _CounterState extends State<Counter> {
                         onPressed: counter == 0 ? null : decrementCounter),
                     SizedBox(width: screenWidth * 0.2),
                     TextButton(
+                        key: Key("add button"),
                         style: TextButton.styleFrom(
                             primary: Colors.white,
                             backgroundColor: Colors.redAccent,
@@ -173,6 +175,7 @@ class _CounterState extends State<Counter> {
                                     fontSize: screenText * 32))),
                         SizedBox(height: screenHeight * 0.02),
                         PriceButton(
+                            key: Key("price button tablet"),
                             screenHeight: screenHeight,
                             screenWidth: screenWidth,
                             screenText: screenText,
@@ -193,6 +196,7 @@ class _CounterState extends State<Counter> {
                                       counter == 0 ? null : decrementCounter),
                               SizedBox(width: screenWidth * 0.2),
                               TextButton(
+                                  key: Key("add button tablet"),
                                   style: TextButton.styleFrom(
                                       primary: Colors.white,
                                       backgroundColor: Colors.redAccent,

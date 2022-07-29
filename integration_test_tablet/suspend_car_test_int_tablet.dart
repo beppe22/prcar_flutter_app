@@ -33,8 +33,6 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      //expect(find.text("Seats: 2"), findsOneWidget);
-
       await tester.tap(find.byKey(Key("active/suspend button tablet")));
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
