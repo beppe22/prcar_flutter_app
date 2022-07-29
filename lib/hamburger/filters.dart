@@ -40,7 +40,7 @@ class _FiltersState extends State<Filters> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
-    String? user = widget.service.currentUser().toString();
+    String? user = widget.service.currentUser()!.uid.toString();
 
     printSize() {
       if (PassMarker.useMobileLayout!) {
@@ -165,10 +165,17 @@ class _FiltersState extends State<Filters> {
                       MaterialPageRoute(
                           builder: (context) => Vehicle(service: Service())))
                   .then((data) {
-                if (data != '') {
+                if (SearchCar.model == '') {
                   setState(() {
-                    search.vehicle = SearchCar.vehicle + '-' + SearchCar.model;
+                    search.vehicle = '';
                   });
+                } else {
+                  if (data != '') {
+                    setState(() {
+                      search.vehicle =
+                          SearchCar.vehicle + '-' + SearchCar.model;
+                    });
+                  }
                 }
               });
             },

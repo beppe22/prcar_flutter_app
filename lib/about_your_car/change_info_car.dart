@@ -1,7 +1,6 @@
 // ignore_for_file: no_logic_in_create_state, must_be_immutable
 
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -148,11 +147,11 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                           builder: (context) => Vehicle(service: Service())))
                   .then((data) {
                 setState(() {
-                  if (SearchCar.latSearch != '' && SearchCar.lngSearch != '') {
+                  if (SearchCar.vehicle != '' && SearchCar.model != '') {
                     vehicleString = SearchCar.vehicle;
                     modelString = SearchCar.model;
-                    nameString =
-                        vehicleString.toString() + '-' + modelString.toString();
+                    nameString = data.toString();
+                    //vehicleString.toString() + '-' + modelString.toString();
                   }
                 });
               });
