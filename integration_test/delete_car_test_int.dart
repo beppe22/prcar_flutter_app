@@ -12,6 +12,16 @@ void main() {
         (tester) async {
       app.main();
       await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+      await tester.pump(Duration(seconds: 3));
+
+      final drawer = await find.byTooltip('Open navigation menu');
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      await tester.tap(drawer);
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
 
       final aboutYourCarButton = await find.byType(ListTile).at(2);
       await tester.pump(const Duration(milliseconds: 100));
@@ -19,15 +29,19 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(find.byKey(Key("car")).first);
+      await tester.tap(find.byKey(Key("car tablet")).first);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(find.byKey(Key("active/suspend button")));
+      await tester.tap(find.byKey(Key("delete button tablet")));
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      expect(find.text("Inactive"), findsOneWidget);
+      await tester.tap(find.byKey(Key("Disable button")));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      expect(find.text("BMW-M5"), findsNothing);
     });
   });
 }

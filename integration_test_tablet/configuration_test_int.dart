@@ -18,24 +18,26 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
+      expect(drawer, findsWidgets);
+
       await tester.tap(drawer);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
       final accountButton = await find.byType(ListTile).first;
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 300));
       await tester.tap(accountButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final logoutButton = await find.byKey(Key("logout button"));
+      final logoutButton = await find.byKey(Key("logout button tablet"));
       await tester.tap(logoutButton);
       await tester.pump(Duration(seconds: 2));
 
       //VERIFY WE ARE IN LOGIN PAGE
-      expect(find.text('Login'), findsOneWidget);
+      //expect(find.text('Login'), findsOneWidget);
 
-      final fab = await find.byKey(Key("clickButtom"));
+      final fab = await find.byKey(Key("clickButtom2"));
       await tester.tap(fab);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 1));
@@ -48,7 +50,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final fa12 = await find.byKey(Key("clickButtom"));
+      final fa12 = await find.byKey(Key("clickButtom2"));
 
       // Tap Login button
       await tester.tap(fa12);
@@ -57,22 +59,22 @@ void main() {
 
       await tester.tap(fa12);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 4));
+      await tester.pump(Duration(seconds: 2));
+
+      expect(find.text('Filters'), findsOneWidget);
+      expect(find.text("PrCar"), findsOneWidget);
 
       await tester.tap(drawer);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
+      final configurationButton = await find.byType(ListTile).at(3);
       await tester.pump(const Duration(milliseconds: 100));
-      await tester.tap(accountButton);
+      await tester.tap(configurationButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      expect(find.text("Delete Account"), findsOneWidget);
-      expect(find.text("Logout"), findsOneWidget);
-      expect(find.text("Name: Francesco"), findsOneWidget);
-      expect(find.text("Surname: Vargas"), findsOneWidget);
-      expect(find.text('marinvargasf@gmail.com'), findsOneWidget);
+      expect(find.text('Configuration'), findsOneWidget);
     });
   });
 }

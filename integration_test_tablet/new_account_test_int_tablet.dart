@@ -30,13 +30,13 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final logoutButton = await find.byKey(Key("logout button"));
+      final logoutButton = await find.byKey(Key("logout button tablet"));
       await tester.tap(logoutButton);
       await tester.pump(Duration(seconds: 2));
 
       //WE ARE IN LOGIN PAGE
 
-      final fab = await find.byKey(Key("New Account"));
+      final fab = await find.byKey(Key("New Account2"));
       await tester.tap(fab);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));

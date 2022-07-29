@@ -13,11 +13,14 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      /*// Avviare il login
-      expect(find.text('Login'), findsOneWidget);
+      // Avviare il login
+      //expect(find.text('Login'), findsOneWidget);
 
-      await tester.tap(find.byKey(Key("clickButtom")));
-      await tester.pumpAndSettle();
+      //final fab = find.byKey(Key("clickButtom"));
+
+      //await tester.tap(fab);
+
+      /*await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 1));
 
       expect(find.text('Login'), findsOneWidget);
@@ -30,15 +33,15 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(find.byKey(Key("clickButtom")));
+      final fa12 = find.byKey(Key("clickButtom"));
+
+      await tester.tap(fa12);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(find.byKey(Key("clickButtom")));
+      await tester.tap(fa12);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 5));*/
-
-      //HOMEPAGE
+      await tester.pump(Duration(seconds: 20));*/
 
       expect(find.text('Filters'), findsOneWidget);
       expect(find.text("PrCar"), findsOneWidget);
@@ -47,21 +50,20 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
+      expect(drawer, findsWidgets);
+
       await tester.tap(drawer);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final aboutYourCarButton = await find.byType(ListTile).at(2);
+      final accountButton = await find.byType(ListTile).first;
       await tester.pump(const Duration(milliseconds: 300));
-      await tester.tap(aboutYourCarButton);
+      await tester.tap(accountButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      /*await tester.tap(aboutYourCarButton);
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 2));*/
-
-      expect(find.text('Your cars'), findsOneWidget);
+      expect(find.text("Delete Account"), findsOneWidget);
+      expect(find.text("Logout"), findsOneWidget);
     });
   });
 }

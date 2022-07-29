@@ -13,8 +13,8 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      /*// Avviare il login
-      expect(find.text('Login'), findsOneWidget);
+      // Avviare il login
+      /*expect(find.text('Login'), findsOneWidget);
 
       await tester.tap(find.byKey(Key("clickButtom")));
       await tester.pumpAndSettle();
@@ -38,8 +38,6 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 5));*/
 
-      //HOMEPAGE
-
       expect(find.text('Filters'), findsOneWidget);
       expect(find.text("PrCar"), findsOneWidget);
 
@@ -47,21 +45,24 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
+      expect(drawer, findsWidgets);
+
       await tester.tap(drawer);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final aboutYourCarButton = await find.byType(ListTile).at(2);
-      await tester.pump(const Duration(milliseconds: 300));
-      await tester.tap(aboutYourCarButton);
+      final bookingButton = await find.byType(ListTile).at(1);
+      await tester.tap(bookingButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      /*await tester.tap(aboutYourCarButton);
+      final otherResButton =
+          await find.byKey(Key("Other reservation button tablet"));
+      await tester.tap(otherResButton);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 2));*/
+      await tester.pump(Duration(seconds: 2));
 
-      expect(find.text('Your cars'), findsOneWidget);
+      expect(find.text('Booking-In'), findsOneWidget);
     });
   });
 }

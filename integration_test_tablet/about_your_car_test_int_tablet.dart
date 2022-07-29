@@ -13,8 +13,8 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      /*// Avviare il login
-      expect(find.text('Login'), findsOneWidget);
+      // Avviare il login
+      /*expect(find.text('Login'), findsOneWidget);
 
       await tester.tap(find.byKey(Key("clickButtom")));
       await tester.pumpAndSettle();
@@ -40,12 +40,11 @@ void main() {
 
       //HOMEPAGE
 
-      expect(find.text('Filters'), findsOneWidget);
-      expect(find.text("PrCar"), findsOneWidget);
-
       final drawer = await find.byTooltip('Open navigation menu');
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
+
+      expect(drawer, findsWidgets);
 
       await tester.tap(drawer);
       await tester.pumpAndSettle();
@@ -61,7 +60,21 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));*/
 
-      expect(find.text('Your cars'), findsOneWidget);
+      final car = await find.byKey(Key("car tablet")).first;
+
+      await tester.pump(const Duration(milliseconds: 300));
+      await tester.tap(car);
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      /*expect(find.text('Model: '), findsOneWidget);
+      expect(find.text('Seats: '), findsOneWidget);
+      expect(find.text('Fuel: '), findsOneWidget);
+      expect(find.text('Position: '), findsOneWidget);
+      expect(find.text('Price for day: '), findsOneWidget);
+      expect(find.text('Status: '), findsOneWidget);*/
+      expect(find.text("Change Info"), findsOneWidget);
+      expect(find.text("Delete"), findsOneWidget);
     });
   });
 }

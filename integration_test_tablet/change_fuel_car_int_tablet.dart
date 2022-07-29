@@ -18,6 +18,8 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
+      expect(drawer, findsWidgets);
+
       await tester.tap(drawer);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
@@ -28,51 +30,87 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final logoutButton = await find.byKey(Key("logout button"));
+      final logoutButton = await find.byKey(Key("logout button tablet"));
       await tester.tap(logoutButton);
       await tester.pump(Duration(seconds: 2));
 
       //VERIFY WE ARE IN LOGIN PAGE
       expect(find.text('Login'), findsOneWidget);
 
-      final fab = await find.byKey(Key("clickButtom"));
+      final fab = await find.byKey(Key("clickButtom2"));
       await tester.tap(fab);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 1));
 
-      await tester.enterText(find.byKey(ValueKey(1)), 'marinvargasf@gmail.com');
+      await tester.enterText(find.byKey(ValueKey(3)), 'marinvargasf@gmail.com');
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.enterText(find.byKey(ValueKey(2)), 'vargas22');
+      await tester.enterText(find.byKey(ValueKey(4)), 'vargas22');
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final fa12 = await find.byKey(Key("clickButtom"));
+      final fa12 = await find.byKey(Key("clickButtom2"));
 
       // Tap Login button
+      await tester.pump(const Duration(milliseconds: 300));
       await tester.tap(fa12);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 2));
+      await tester.pump(const Duration(milliseconds: 300));
 
       await tester.tap(fa12);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 4));
+      await tester.pump(const Duration(seconds: 4));
+
+      expect(find.text('Filters'), findsOneWidget);
+      expect(find.text("PrCar"), findsOneWidget);
 
       await tester.tap(drawer);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
+      final aboutYourCarButton = await find.byType(ListTile).at(2);
       await tester.pump(const Duration(milliseconds: 300));
-      await tester.tap(accountButton);
+      await tester.tap(aboutYourCarButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      expect(find.text("Delete Account"), findsOneWidget);
-      expect(find.text("Logout"), findsOneWidget);
-      expect(find.text("Name: Francesco "), findsOneWidget);
-      expect(find.text("Surname: Marin Vargas"), findsOneWidget);
-      expect(find.text('marinvargasf@gmail.com'), findsOneWidget);
+      await tester.tap(find.byKey(Key("car tablet")).first);
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      //expect(find.text("Seats: 2"), findsOneWidget);
+
+      await tester.tap(find.byKey(Key("change info button tablet")));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      await tester.tap(find.byKey(Key("fuel button")));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      await tester.tap(find.byKey(ValueKey(8)));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      await tester.tap(find.byKey(Key("change button")));
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      /*String value;
+      if (n == 1) {
+        value = "Oil";
+      } else if (n == 2) {
+        value = "Methane";
+      } else if (n == 3) {
+        value = "Diesel";
+      } else if (n == 4) {
+        value = "Electric";
+      } else {
+        value = "Hibryd";
+      }*/
+
+      expect(find.text("Fuel: Diesel"), findsOneWidget);
     });
   });
 }

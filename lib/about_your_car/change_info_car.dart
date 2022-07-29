@@ -247,6 +247,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
 
     //price button field
     final priceButton = Container(
+        key: Key("Price button"),
         width: width(),
         height: height(),
         margin: EdgeInsets.only(

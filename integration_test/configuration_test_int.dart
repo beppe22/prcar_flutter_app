@@ -25,7 +25,7 @@ void main() {
       await tester.pump(Duration(seconds: 2));
 
       final accountButton = await find.byType(ListTile).first;
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 300));
       await tester.tap(accountButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
@@ -59,7 +59,7 @@ void main() {
 
       await tester.tap(fa12);
       await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 20));
+      await tester.pump(Duration(seconds: 2));
 
       expect(find.text('Filters'), findsOneWidget);
       expect(find.text("PrCar"), findsOneWidget);

@@ -175,7 +175,7 @@ class _InfoCarState extends State<InfoCar> {
                             ])),
                     SizedBox(width: screenWidth * 0.08),
                     Container(
-                      key: Key("active/suspend button"),
+                        key: Key("active/suspend button"),
                         height: screenHeight * 0.07,
                         width: screenWidth * 0.4,
                         child: MaterialButton(
@@ -226,6 +226,7 @@ class _InfoCarState extends State<InfoCar> {
                         height: screenHeight * 0.07,
                         width: screenWidth * 0.4,
                         child: MaterialButton(
+                            key: Key("delete button"),
                             color: Colors.grey,
                             onPressed: () async {
                               if (await _fetchCarRes(carModel.cid!) == 0) {
@@ -256,6 +257,7 @@ class _InfoCarState extends State<InfoCar> {
                                                 SizedBox(
                                                     width: screenWidth * 0.35),
                                                 TextButton(
+                                                    key: Key("i'm sure button"),
                                                     onPressed: () async {
                                                       if (await NetworkCheck()
                                                           .check()) {
@@ -480,6 +482,7 @@ class _InfoCarState extends State<InfoCar> {
                                       ])),
                               SizedBox(width: screenWidth * 0.08),
                               Container(
+                                  key: Key("active/suspend button tablet"),
                                   height: screenHeight * 0.07,
                                   width: screenWidth * 0.4,
                                   child: MaterialButton(
@@ -1125,6 +1128,7 @@ class InactiveSingleCar extends StatelessWidget {
                           const Text('Close', style: TextStyle(fontSize: 24))),
                   const SizedBox(width: 90),
                   TextButton(
+                      key: Key("Disable button"),
                       onPressed: () async {
                         final _auth = FirebaseAuth.instance;
                         User? user = _auth.currentUser;
