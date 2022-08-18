@@ -12,7 +12,7 @@ void main() {
       expect(res, 1);
     });
     test('value should decrement', () async {
-      final funcs = Operation();
+      final funcs = new Operation();
       int value1 = 1;
       int res1 = await funcs.decrementCounter(value1);
       expect(res1, 0);

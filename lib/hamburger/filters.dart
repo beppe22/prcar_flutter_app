@@ -42,14 +42,6 @@ class _FiltersState extends State<Filters> {
     final screenText = MediaQuery.of(context).textScaleFactor;
     String? user = widget.service.currentUser()!.uid.toString();
 
-    printSize() {
-      if (PassMarker.useMobileLayout!) {
-        return 22.0;
-      } else {
-        return 32.0;
-      }
-    }
-
     width() {
       if (MediaQuery.of(context).orientation == Orientation.portrait) {
         return screenWidth * 0.8;
@@ -98,10 +90,11 @@ class _FiltersState extends State<Filters> {
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: Text(
-                _printLeast(SearchCar.date1Search, SearchCar.date2Search),
+                FilterTest()
+                    .printLeast(SearchCar.date1Search, SearchCar.date2Search),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: printSize(),
+                    fontSize: FilterTest().printSize(),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -143,7 +136,7 @@ class _FiltersState extends State<Filters> {
                 child: Text("Position: " + search.position.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: printSize(),
+                        fontSize: FilterTest().printSize(),
                         color: Colors.white,
                         fontWeight: FontWeight.bold)))));
 
@@ -187,7 +180,7 @@ class _FiltersState extends State<Filters> {
                     overflow: TextOverflow.clip,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: printSize(),
+                        fontSize: FilterTest().printSize(),
                         color: Colors.white,
                         fontWeight: FontWeight.bold)))));
 
@@ -224,7 +217,7 @@ class _FiltersState extends State<Filters> {
             child: Text("Seats: " + search.seats.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: printSize(),
+                    fontSize: FilterTest().printSize(),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -260,7 +253,7 @@ class _FiltersState extends State<Filters> {
             child: Text("Fuel: " + search.fuel.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: printSize(),
+                    fontSize: FilterTest().printSize(),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -297,7 +290,7 @@ class _FiltersState extends State<Filters> {
             child: Text("Price: " + search.price.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: printSize(),
+                    fontSize: FilterTest().printSize(),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -333,7 +326,7 @@ class _FiltersState extends State<Filters> {
             child: Text("Clear All",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: printSize(),
+                    fontSize: FilterTest().printSize(),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -651,15 +644,6 @@ class _FiltersState extends State<Filters> {
           });
   }
 
-//Function that prints the least of a reservation
-  String _printLeast(String start, String end) {
-    if (start == '' && end == '') {
-      return 'Least: ';
-    } else {
-      return 'Least: ' + start.substring(0, 5) + '-' + end.substring(0, 5);
-    }
-  }
-
 //Function that fetches all the cars in the database
   Future<List<CarModel>> _fetchCar() async {
     User? user = widget.service.currentUser();
@@ -736,7 +720,7 @@ class _FiltersState extends State<Filters> {
       }
       if (j &&
           (SearchCar.latSearch.toString() != '') &&
-          (_nearbyPosition(SearchCar.latSearch, SearchCar.lngSearch,
+          (FilterTest().nearbyPosition(SearchCar.latSearch, SearchCar.lngSearch,
               cars[i].position.toString()))) {
         j = false;
       }
@@ -751,20 +735,6 @@ class _FiltersState extends State<Filters> {
       }
     }
     return filteredCar;
-  }
-
-//Function that checks the marker in a radius
-  bool _nearbyPosition(String lat, String lng, String carsPos) {
-    double lat1 = double.parse(lat) / 57.29577951;
-    double lng1 = double.parse(lng) / 57.29577951;
-    final splitted = carsPos.split(',');
-    double lat2 = double.parse(splitted[0]) / 57.29577951;
-    double lng2 = double.parse(splitted[1]) / 57.29577951;
-    double distance = 3963.0 *
-        acos((sin(lat1) * sin(lat2)) +
-            cos(lat1) * cos(lat2) * cos(lng2 - lng1)) *
-        1.609344;
-    return distance > 3;
   }
 
 //Function that retrieve if a car is available in that range of dates
@@ -809,5 +779,38 @@ class _FiltersState extends State<Filters> {
       }
     }
     return dates;
+  }
+}
+
+class FilterTest {
+  printSize() {
+    if (PassMarker.useMobileLayout!) {
+      return 22.0;
+    } else {
+      return 32.0;
+    }
+  }
+
+  //Function that prints the least of a reservation
+  String printLeast(String start, String end) {
+    if (start == '' && end == '') {
+      return 'Least: ';
+    } else {
+      return 'Least: ' + start.substring(0, 5) + '-' + end.substring(0, 5);
+    }
+  }
+
+  //Function that checks the marker in a radius
+  bool nearbyPosition(String lat, String lng, String carsPos) {
+    double lat1 = double.parse(lat) / 57.29577951;
+    double lng1 = double.parse(lng) / 57.29577951;
+    final splitted = carsPos.split(',');
+    double lat2 = double.parse(splitted[0]) / 57.29577951;
+    double lng2 = double.parse(splitted[1]) / 57.29577951;
+    double distance = 3963.0 *
+        acos((sin(lat1) * sin(lat2)) +
+            cos(lat1) * cos(lat2) * cos(lng2 - lng1)) *
+        1.609344;
+    return distance > 3;
   }
 }

@@ -113,7 +113,7 @@ class _LeastState extends State<Least> {
                                 },
                                 shape: ContinuousRectangleBorder(
                                     borderRadius: BorderRadius.circular(30)),
-                                child: Text(fromString(dateStart),
+                                child: Text(PrintLeast().fromString(dateStart),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: screenText * 20,
@@ -148,7 +148,7 @@ class _LeastState extends State<Least> {
                                 },
                                 shape: ContinuousRectangleBorder(
                                     borderRadius: BorderRadius.circular(30)),
-                                child: Text(untilString(dateEnd),
+                                child: Text(PrintLeast().untilString(dateEnd),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: screenText * 20,
@@ -211,7 +211,7 @@ class _LeastState extends State<Least> {
                               },
                               shape: ContinuousRectangleBorder(
                                   borderRadius: BorderRadius.circular(30)),
-                              child: Text(_textReserveSave(),
+                              child: Text(PrintLeast().textReserveSave(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: screenText * 25,
@@ -300,7 +300,8 @@ class _LeastState extends State<Least> {
                                       shape: ContinuousRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(30)),
-                                      child: Text(fromString(dateStart),
+                                      child: Text(
+                                          PrintLeast().fromString(dateStart),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: screenText * 30,
@@ -337,7 +338,8 @@ class _LeastState extends State<Least> {
                                       shape: ContinuousRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(30)),
-                                      child: Text(untilString(dateEnd),
+                                      child: Text(
+                                          PrintLeast().untilString(dateEnd),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: screenText * 30,
@@ -405,7 +407,7 @@ class _LeastState extends State<Least> {
                                     shape: ContinuousRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(30)),
-                                    child: Text(_textReserveSave(),
+                                    child: Text(PrintLeast().textReserveSave(),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: screenText * 35,
@@ -493,7 +495,8 @@ class _LeastState extends State<Least> {
                                       shape: ContinuousRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(30)),
-                                      child: Text(fromString(dateStart),
+                                      child: Text(
+                                          PrintLeast().fromString(dateStart),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: screenText * 30,
@@ -530,7 +533,8 @@ class _LeastState extends State<Least> {
                                       shape: ContinuousRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(30)),
-                                      child: Text(untilString(dateEnd),
+                                      child: Text(
+                                          PrintLeast().untilString(dateEnd),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: screenText * 30,
@@ -598,7 +602,7 @@ class _LeastState extends State<Least> {
                                     shape: ContinuousRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(30)),
-                                    child: Text(_textReserveSave(),
+                                    child: Text(PrintLeast().textReserveSave(),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: screenText * 35,
@@ -607,33 +611,6 @@ class _LeastState extends State<Least> {
                           ])));
             }
           });
-  }
-
-//Function that prints different title (it depends from which screen we arrive)
-  String _textReserveSave() {
-    if (PassMarker.hpOrNot) {
-      return "Reserve!";
-    } else {
-      return "Save!";
-    }
-  }
-
-//Function that prints from when a reservation starts
-  String fromString(String from) {
-    if (from == '') {
-      return "From: ";
-    } else {
-      return from.substring(0, 5);
-    }
-  }
-
-//Function that prints to when a reservation ends
-  String untilString(String until) {
-    if (until == '') {
-      return "Until: ";
-    } else {
-      return until.substring(0, 5);
-    }
   }
 
 //Function that prints all occupied dates
@@ -663,5 +640,34 @@ class _LeastState extends State<Least> {
       }
     }
     return dates;
+  }
+}
+
+class PrintLeast {
+  //Function that prints different title (it depends from which screen we arrive)
+  String textReserveSave() {
+    if (PassMarker.hpOrNot) {
+      return "Reserve!";
+    } else {
+      return "Save!";
+    }
+  }
+
+//Function that prints from when a reservation starts
+  String fromString(String from) {
+    if (from == '') {
+      return "From: ";
+    } else {
+      return from.substring(0, 5);
+    }
+  }
+
+//Function that prints to when a reservation ends
+  String untilString(String until) {
+    if (until == '') {
+      return "Until: ";
+    } else {
+      return until.substring(0, 5);
+    }
   }
 }
