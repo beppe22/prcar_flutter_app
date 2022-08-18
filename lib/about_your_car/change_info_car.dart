@@ -121,7 +121,8 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                 borderRadius: BorderRadius.circular(30)),
             child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Text("Position: " + _printPosition(positionString!),
+                child: Text(
+                    "Position: " + PosChange().printPosition(positionString!),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: text(),
@@ -550,16 +551,6 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             }));
   }
 
-//Function that prints position's string
-  String _printPosition(String position) {
-    String newPos = '';
-    if (position != '') {
-      List<String> splitted = position.split(',');
-      newPos = splitted[0].substring(0, 7) + ',' + splitted[1].substring(0, 7);
-    }
-    return newPos;
-  }
-
 //Function that changes the car's information on firebase
   void _changeFirebase(CarModel car, String seats, String fuel, String model,
       String vehicle, String price, String position) async {
@@ -593,5 +584,17 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
       final tempPath = images[i]!.path;
       storage.uploadCarPic(tempPath, 'imageCar$i', uid, cid);
     }
+  }
+}
+
+class PosChange {
+  //Function that prints position's string
+  String printPosition(String position) {
+    String newPos = '';
+    if (position != '') {
+      List<String> splitted = position.split(',');
+      newPos = splitted[0].substring(0, 7) + ',' + splitted[1].substring(0, 7);
+    }
+    return newPos;
   }
 }

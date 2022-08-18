@@ -61,14 +61,6 @@ class _AddNewCarState extends State<AddNewCar> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
 
-    size() {
-      if (PassMarker.useMobileLayout!) {
-        return screenText * 20;
-      } else {
-        return screenText * 30;
-      }
-    }
-
     width() {
       if (MediaQuery.of(context).orientation == Orientation.portrait) {
         return screenWidth * 0.8;
@@ -118,7 +110,7 @@ class _AddNewCarState extends State<AddNewCar> {
                 child: Text("Position: " + positionString.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: size(),
+                        fontSize: AddCarSize().size(screenText),
                         color: Colors.white,
                         fontWeight: FontWeight.bold)))));
 
@@ -159,7 +151,7 @@ class _AddNewCarState extends State<AddNewCar> {
                 child: Text("Vehicle: " + vehicleString,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: size(),
+                        fontSize: AddCarSize().size(screenText),
                         color: Colors.white,
                         fontWeight: FontWeight.bold)))));
 
@@ -196,7 +188,7 @@ class _AddNewCarState extends State<AddNewCar> {
             child: Text("Seats: " + car.seats.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: size(),
+                    fontSize: AddCarSize().size(screenText),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -232,7 +224,7 @@ class _AddNewCarState extends State<AddNewCar> {
             child: Text("Fuel: " + car.fuel.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: size(),
+                    fontSize: AddCarSize().size(screenText),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -269,7 +261,7 @@ class _AddNewCarState extends State<AddNewCar> {
             child: Text("Price: " + car.price.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: size(),
+                    fontSize: AddCarSize().size(screenText),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -287,7 +279,7 @@ class _AddNewCarState extends State<AddNewCar> {
             });
           },
           backgroundColor: Colors.redAccent,
-          child: Icon(Icons.photo_camera, size: size()),
+          child: Icon(Icons.photo_camera, size: AddCarSize().size(screenText)),
         ));
 
 //clear button field
@@ -320,7 +312,7 @@ class _AddNewCarState extends State<AddNewCar> {
             child: Text("Clear All",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: size(),
+                    fontSize: AddCarSize().size(screenText),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -659,5 +651,15 @@ class _AddNewCarState extends State<AddNewCar> {
     }
     PassMarker.cidAdd = carModel.cid!;
     return cars;
+  }
+}
+
+class AddCarSize {
+  double size(double screenText) {
+    if (PassMarker.useMobileLayout!) {
+      return screenText * 20;
+    } else {
+      return screenText * 30;
+    }
   }
 }
