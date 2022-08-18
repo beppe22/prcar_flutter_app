@@ -22,7 +22,7 @@ void main() {
 
       expect(find.text('nuova password'), findsOneWidget);
       expect(find.text("nuova email"), findsOneWidget);
-      expect(find.text("User Email"), findsOneWidget);
+      expect(find.text("Email"), findsOneWidget);
       expect(find.text("Password"), findsOneWidget);
       expect(find.text("Welcome to PrCar!"), findsOneWidget);
       expect(find.text('Forgot password?'), findsOneWidget);
