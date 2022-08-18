@@ -291,7 +291,11 @@ class _HomePageState extends State<HomePage> {
                       onTap: (LatLng loc) {
                         if (mounted) {
                           setState(() {
-                            pinPillPosition = pinInvisiblePosition;
+                            if (PassMarker.useMobileLayout!) {
+                              pinPillPosition = pinInvisiblePosition;
+                            } else {
+                              pinPillPosition = pinInvisiblePosition2;
+                            }
                           });
                         }
                       }),
@@ -465,7 +469,11 @@ class _HomePageState extends State<HomePage> {
                       onTap: (LatLng loc) {
                         if (mounted) {
                           setState(() {
-                            pinPillPosition = pinInvisiblePosition;
+                            if (PassMarker.useMobileLayout!) {
+                              pinPillPosition = pinInvisiblePosition;
+                            } else {
+                              pinPillPosition = pinInvisiblePosition2;
+                            }
                           });
                         }
                       }),
@@ -825,7 +833,11 @@ class _HomePageState extends State<HomePage> {
                     } else {
                       if (mounted) {
                         setState(() {
-                          pinPillPosition = pinInvisiblePosition;
+                          if (PassMarker.useMobileLayout!) {
+                            pinPillPosition = pinInvisiblePosition;
+                          } else {
+                            pinPillPosition = pinInvisiblePosition2;
+                          }
                         });
                       }
                     }

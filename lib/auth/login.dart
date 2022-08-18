@@ -276,6 +276,12 @@ class _LoginState extends State<Login> {
                                                         _passwordController
                                                             .text,
                                                     context: context);
+                                            /*User? user =
+                                                await loginUsingEmailPassword(
+                                                    email:
+                                                        'marinvargasf@gmail.com',
+                                                    password: 'vargas22',
+                                                    context: context);*/
                                             if (user != null) {
                                               await widget.loginService
                                                   .firebasefirestore()

@@ -5,19 +5,13 @@ import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/services/services.dart';
 import 'seatsbotton.dart';
 
-class Seats extends StatefulWidget {
+class Seats extends StatelessWidget {
   bool filter;
   Service service;
   Seats({Key? key, required this.filter, required this.service})
       : super(key: key);
-  @override
-  _SeatsState createState() => _SeatsState(filter);
-}
 
-class _SeatsState extends State<Seats> {
   late String value;
-  bool filter;
-  _SeatsState(this.filter);
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;

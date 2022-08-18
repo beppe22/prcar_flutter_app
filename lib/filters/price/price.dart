@@ -299,3 +299,5 @@ class _CounterState extends State<Counter> {
     }
   }
 }
+
+class Operation {}

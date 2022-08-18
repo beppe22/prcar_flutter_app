@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/login.dart';
+import 'package:prcarpolimi/auth/loginTablet.dart';
 import 'package:prcarpolimi/models/carModel.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/services/services.dart';
@@ -445,7 +446,7 @@ class InfoAccount extends StatelessWidget {
                                               .pushAndRemoveUntil(
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          Login(
+                                                          Login2(
                                                             loginService:
                                                                 Service(),
                                                           )),
@@ -532,7 +533,7 @@ class InfoAccount extends StatelessWidget {
                                                                   Navigator.pushAndRemoveUntil(
                                                                       context,
                                                                       MaterialPageRoute(
-                                                                          builder: (context) => Login(
+                                                                          builder: (context) => Login2(
                                                                                 loginService: Service(),
                                                                               )),
                                                                       (Route<dynamic> route) => false);
@@ -615,7 +616,7 @@ class InfoAccount extends StatelessWidget {
                                       FirebaseAuth.instance.signOut();
                                       Navigator.of(context).pushAndRemoveUntil(
                                           MaterialPageRoute(
-                                              builder: (context) => Login(
+                                              builder: (context) => Login2(
                                                     loginService: Service(),
                                                   )),
                                           (Route<dynamic> route) => false);
@@ -697,7 +698,7 @@ class InfoAccount extends StatelessWidget {
                                                                       context,
                                                                       MaterialPageRoute(
                                                                           builder: (context) =>
-                                                                              Login(
+                                                                              Login2(
                                                                                 loginService: Service(),
                                                                               )),
                                                                       (Route<dynamic>
