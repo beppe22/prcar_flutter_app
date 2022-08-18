@@ -738,52 +738,12 @@ class _HomePageState extends State<HomePage> {
     return cars;
   }
 
-//Function that gives respective colors to different markers
-  BitmapDescriptor _iconColor(String owner, String user) {
-    if (owner == user) {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
-    } else {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
-    }
-  }
-
-  /*Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
-  }
-
-  Future<BitmapDescriptor> getIcons() async {
-    final Uint8List markerIcon =
-        await getBytesFromAsset('assets/location2.png', 100);
-    var icon = await BitmapDescriptor.fromBytes(markerIcon);
-    return icon;
-  }*/
-
-//Functions that prints different InfoWindow for different markers
-  String _printInfoWindow(String owner, String user, String carOwner) {
-    if (owner == user) {
-      return 'My car: click for details';
-    } else {
-      return carOwner;
-    }
-  }
-
 //Functions that updates markers periodically
   void _updateMarkers() async {
     try {
       String? userAuth = widget.homePageService.currentUser()?.uid.toString();
       if (PassMarker.from) {
         PassMarker.markerToPass = {};
-        /*PassMarker.markerToPass.add(Marker(
-            markerId: MarkerId('myPos'),
-            infoWindow: InfoWindow(title: 'You Are Here!'),
-            position: LatLng(lat, long),
-            icon: await getIcons()));*/
         List<CarModel> cars = await _fetchCar();
         for (int i = 0; i < cars.length; i++) {
           String? carLatLng = cars[i].position;
@@ -795,7 +755,7 @@ class _HomePageState extends State<HomePage> {
               PassMarker.markerToPass.add(Marker(
                   markerId: MarkerId('marker$i'),
                   infoWindow: InfoWindow(
-                      title: _printInfoWindow(
+                      title: HomePageTest().printInfoWindow(
                           cars[i].uid.toString(),
                           userAuth!,
                           cars[i].vehicle.toString() +
@@ -821,7 +781,8 @@ class _HomePageState extends State<HomePage> {
                         }
                       }),
                   position: LatLng(lat, lng),
-                  icon: _iconColor(cars[i].uid.toString(), userAuth),
+                  icon: HomePageTest()
+                      .iconColor(cars[i].uid.toString(), userAuth),
                   onTap: () {
                     if (userAuth != cars[i].uid.toString()) {
                       PassMarker.carModel = cars[i];
@@ -858,14 +819,15 @@ class _HomePageState extends State<HomePage> {
               PassMarker.markerToPass.add(Marker(
                   markerId: MarkerId('marker$i'),
                   infoWindow: InfoWindow(
-                      title: _printInfoWindow(
+                      title: HomePageTest().printInfoWindow(
                           searchCar![i].uid.toString(),
                           userAuth!,
                           searchCar![i].vehicle.toString() +
                               '-' +
                               searchCar![i].model.toString())),
                   position: LatLng(lat, lng),
-                  icon: _iconColor(searchCar![i].uid.toString(), userAuth),
+                  icon: HomePageTest()
+                      .iconColor(searchCar![i].uid.toString(), userAuth),
                   onTap: () {
                     if (mounted) {
                       setState(() {
@@ -907,4 +869,24 @@ class _HomePageState extends State<HomePage> {
 
 Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
+}
+
+class HomePageTest {
+//Function that gives respective colors to different markers
+  BitmapDescriptor iconColor(String owner, String user) {
+    if (owner == user) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+    } else {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+    }
+  }
+
+//Functions that prints different InfoWindow for different markers
+  String printInfoWindow(String owner, String user, String carOwner) {
+    if (owner == user) {
+      return 'My car: click for details';
+    } else {
+      return carOwner;
+    }
+  }
 }
