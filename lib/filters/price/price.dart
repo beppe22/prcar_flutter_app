@@ -69,22 +69,6 @@ class _CounterState extends State<Counter> {
 
   _CounterState(this.filter);
 
-  void incrementCounter() {
-    setState(() {
-      if (counter < 100) {
-        counter++;
-      }
-    });
-  }
-
-  void decrementCounter() {
-    setState(() {
-      if (counter > 0) {
-        counter--;
-      }
-    });
-  }
-
   void setCounter(double newValue) {
     setState(() {
       counter = newValue.toInt();
@@ -131,7 +115,11 @@ class _CounterState extends State<Counter> {
                             backgroundColor: Colors.redAccent,
                             padding: EdgeInsets.all(screenWidth * 0.04)),
                         child: Icon(Icons.remove, size: screenText * 25),
-                        onPressed: counter == 0 ? null : decrementCounter),
+                        onPressed: () {
+                          if (counter != 0) {
+                            counter = Operation().decrementCounter(counter);
+                          }
+                        }),
                     SizedBox(width: screenWidth * 0.2),
                     TextButton(
                         key: Key("add button"),
@@ -140,7 +128,11 @@ class _CounterState extends State<Counter> {
                             backgroundColor: Colors.redAccent,
                             padding: EdgeInsets.all(screenWidth * 0.04)),
                         child: Icon(Icons.add, size: screenText * 25),
-                        onPressed: counter == 100 ? null : incrementCounter)
+                        onPressed: () {
+                          if (counter != 100) {
+                            counter = Operation().incrementCounter(counter);
+                          }
+                        })
                   ]),
                   SizedBox(height: screenHeight * 0.03),
                   Slider(
@@ -192,8 +184,12 @@ class _CounterState extends State<Counter> {
                                           EdgeInsets.all(screenWidth * 0.04)),
                                   child:
                                       Icon(Icons.remove, size: screenText * 28),
-                                  onPressed:
-                                      counter == 0 ? null : decrementCounter),
+                                  onPressed: () {
+                                    if (counter != 0) {
+                                      counter =
+                                          Operation().decrementCounter(counter);
+                                    }
+                                  }),
                               SizedBox(width: screenWidth * 0.2),
                               TextButton(
                                   key: Key("add button tablet"),
@@ -203,8 +199,12 @@ class _CounterState extends State<Counter> {
                                       padding:
                                           EdgeInsets.all(screenWidth * 0.04)),
                                   child: Icon(Icons.add, size: screenText * 28),
-                                  onPressed:
-                                      counter == 100 ? null : incrementCounter)
+                                  onPressed: () {
+                                    if (counter != 100) {
+                                      counter =
+                                          Operation().incrementCounter(counter);
+                                    }
+                                  })
                             ]),
                         SizedBox(height: screenHeight * 0.03),
                         Slider(
@@ -256,9 +256,12 @@ class _CounterState extends State<Counter> {
                                       ),
                                       child: Icon(Icons.remove,
                                           size: screenText * 22),
-                                      onPressed: counter == 0
-                                          ? null
-                                          : decrementCounter)),
+                                      onPressed: () {
+                                        if (counter != 0) {
+                                          counter = Operation()
+                                              .decrementCounter(counter);
+                                        }
+                                      })),
                               SizedBox(width: screenWidth * 0.2),
                               Container(
                                   height: screenHeight * 0.1,
@@ -270,9 +273,12 @@ class _CounterState extends State<Counter> {
                                       ),
                                       child: Icon(Icons.add,
                                           size: screenText * 22),
-                                      onPressed: counter == 100
-                                          ? null
-                                          : incrementCounter))
+                                      onPressed: () {
+                                        if (counter != 100) {
+                                          counter = Operation()
+                                              .incrementCounter(counter);
+                                        }
+                                      }))
                             ]),
                         SizedBox(height: screenHeight * 0.03),
                         Container(
@@ -300,4 +306,18 @@ class _CounterState extends State<Counter> {
   }
 }
 
-class Operation {}
+class Operation {
+  int incrementCounter(int counter) {
+    if (counter < 100) {
+      counter++;
+    }
+    return counter;
+  }
+
+  int decrementCounter(int counter) {
+    if (counter > 0) {
+      counter--;
+    }
+    return counter;
+  }
+}

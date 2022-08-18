@@ -2,12 +2,13 @@
     package="com.example.prcarpolimi">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
    <application
         android:label="prcarpolimi"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyDFsAR2HrIlxa4RtC7P5a-omMTYfG2ZvMU"/>
+               android:value="AIzaSyD4Yjbd2HY_-1yEljkQr9z1EQUPUfknL-s"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
