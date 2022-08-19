@@ -13,25 +13,6 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      //AVVIARE IL LOGOUT
-      final drawer = await find.byTooltip('Open navigation menu');
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 2));
-
-      await tester.tap(drawer);
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 2));
-
-      final accountButton = await find.byType(ListTile).first;
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.tap(accountButton);
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 2));
-
-      final logoutButton = await find.byKey(Key("logout button"));
-      await tester.tap(logoutButton);
-      await tester.pump(Duration(seconds: 2));
-
       //VERIFY WE ARE IN LOGIN PAGE
       expect(find.text('Login'), findsOneWidget);
 
@@ -48,18 +29,19 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      final fa12 = await find.byKey(Key("clickButtom"));
-
       // Tap Login button
-      await tester.tap(fa12);
+      await tester.tap(fab);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
-      await tester.tap(fa12);
-      await tester.pumpAndSettle();
-      await tester.pump(Duration(seconds: 4));
-
+      final drawer = await find.byTooltip('Open navigation menu');
       await tester.tap(drawer);
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
+
+      final accountButton = await find.byType(ListTile).first;
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.tap(accountButton);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
