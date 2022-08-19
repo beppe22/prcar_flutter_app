@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:prcarpolimi/homepage.dart';
 
 void main() {
-  group("Configuration print", () {
+  group("homepage text", () {
     test('hp text', () async {
       final hp = new HomePageTest();
       String title = await hp.printInfoWindow('test', 'test', 'test');

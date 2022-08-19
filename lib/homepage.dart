@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:prcarpolimi/about_your_car/info_car.dart';
 import 'package:prcarpolimi/booking/booking_in.dart';
@@ -375,7 +376,16 @@ class _HomePageState extends State<HomePage> {
                       ListTile(
                           title: Text(" Help",
                               style: TextStyle(fontSize: screenText * 20)),
-                          onTap: () async {})
+                          onTap: () async {
+                            /* SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.landscapeLeft,
+                              DeviceOrientation.landscapeRight
+                            ]);*/
+                            /*SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.portraitDown,
+                              DeviceOrientation.portraitUp
+                            ]);*/
+                          })
                     ])),
                 body: Stack(children: [
                   GoogleMap(

@@ -76,7 +76,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
 
     final positionButton = Container(
         width: width(),
-        height: PosChange().height(screenHeight),
+        height: PosChange().heightChange(screenHeight),
         margin: EdgeInsets.only(
             top: screenHeight * 0.01,
             left: screenWidth * 0.04,
@@ -109,14 +109,14 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                     "Position: " + PosChange().printPosition(positionString!),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: PosChange().text(screenText),
+                        fontSize: PosChange().textChange(screenText),
                         color: Colors.white,
                         fontWeight: FontWeight.bold)))));
 
 //vehicle button field
     final vehicleButton = Container(
         width: width(),
-        height: PosChange().height(screenHeight),
+        height: PosChange().heightChange(screenHeight),
         margin: EdgeInsets.only(
             top: screenHeight * 0.01,
             left: screenWidth * 0.04,
@@ -150,7 +150,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
                 child: Text("Vehicle: " + nameString,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: PosChange().text(screenText),
+                        fontSize: PosChange().textChange(screenText),
                         color: Colors.white,
                         fontWeight: FontWeight.bold)))));
 
@@ -158,7 +158,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
     final seatsButton = Container(
         key: Key("seats button"),
         width: width(),
-        height: PosChange().height(screenHeight),
+        height: PosChange().heightChange(screenHeight),
         margin: EdgeInsets.only(
             top: screenHeight * 0.01,
             left: screenWidth * 0.04,
@@ -188,7 +188,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             child: Text("Seats: " + seatsString.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: PosChange().text(screenText),
+                    fontSize: PosChange().textChange(screenText),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -196,7 +196,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
     final fuelButton = Container(
         key: Key("fuel button"),
         width: width(),
-        height: PosChange().height(screenHeight),
+        height: PosChange().heightChange(screenHeight),
         margin: EdgeInsets.only(
             top: screenHeight * 0.01,
             left: screenWidth * 0.04,
@@ -225,7 +225,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             child: Text("Fuel: " + fuelString.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: PosChange().text(screenText),
+                    fontSize: PosChange().textChange(screenText),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
 
@@ -233,7 +233,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
     final priceButton = Container(
         key: Key("Price button"),
         width: width(),
-        height: PosChange().height(screenHeight),
+        height: PosChange().heightChange(screenHeight),
         margin: EdgeInsets.only(
             top: screenHeight * 0.01,
             left: screenWidth * 0.04,
@@ -263,7 +263,7 @@ class _ChangeInfoCarState extends State<ChangeInfoCar> {
             child: Text("Price: " + priceString.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: PosChange().text(screenText),
+                    fontSize: PosChange().textChange(screenText),
                     color: Colors.white,
                     fontWeight: FontWeight.bold))));
     return PassMarker.useMobileLayout!
@@ -583,7 +583,7 @@ class PosChange {
   }
 
   //Function that prints different height for mobile or tablet
-  double height(double screenHeight) {
+  double heightChange(double screenHeight) {
     if (PassMarker.useMobileLayout!) {
       return screenHeight * 0.07;
     } else {
@@ -592,7 +592,7 @@ class PosChange {
   }
 
   //Function that prints different text for mobile or tablet
-  double text(double screenText) {
+  double textChange(double screenText) {
     if (PassMarker.useMobileLayout!) {
       return screenText * 20;
     } else {

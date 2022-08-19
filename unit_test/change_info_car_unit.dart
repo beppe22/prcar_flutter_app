@@ -14,16 +14,16 @@ void main() {
     test('height test', () async {
       PassMarker.useMobileLayout = true;
       final pos = new PosChange();
-      double title = await pos.height(1.0);
-      double title1 = await pos.text(1.0);
+      double title = await pos.heightChange(1.0);
+      double title1 = await pos.textChange(1.0);
       expect(title, 0.07);
       expect(title1, 20.0);
     });
     test('add new car mobile', () async {
       PassMarker.useMobileLayout = false;
       final pos = new PosChange();
-      double title = await pos.height(1.0);
-      double title1 = await pos.text(1.0);
+      double title = await pos.heightChange(1.0);
+      double title1 = await pos.textChange(1.0);
       expect(title, 0.09);
       expect(title1, 30.0);
     });

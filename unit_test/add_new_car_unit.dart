@@ -7,13 +7,13 @@ void main() {
     test('add new car mobile', () async {
       PassMarker.useMobileLayout = true;
       final add = new AddCarSize();
-      double title = await add.size(1.0);
+      double title = await add.sizeAddCar(1.0);
       expect(title, 20.0);
     });
     test('add new car tablet', () async {
       PassMarker.useMobileLayout = false;
       final add = new AddCarSize();
-      double title = await add.size(1.0);
+      double title = await add.sizeAddCar(1.0);
       expect(title, 30.0);
     });
   });

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prcarpolimi/Internet/NetworkCheck.dart';
 import 'package:prcarpolimi/auth/signUp.dart';
@@ -245,6 +246,7 @@ class _LoginState2 extends State<Login2> {
                                                         _passwordController2
                                                             .text,
                                                     context: context);
+
                                             if (user != null) {
                                               await widget.loginService
                                                   .firebasefirestore()
@@ -373,9 +375,8 @@ class _LoginState2 extends State<Login2> {
                                                   email: _emailController2.text,
                                                   password:
                                                       _passwordController2.text,
-                                                  context:
-                                                      context); /*
-                                          User? user =
+                                                  context: context);
+                                          /* User? user =
                                               await loginUsingEmailPassword(
                                                   email:
                                                       'marinvargasf@gmail.com',
