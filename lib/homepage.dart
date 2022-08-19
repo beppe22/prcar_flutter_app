@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:prcarpolimi/about_your_car/info_car.dart';
 import 'package:prcarpolimi/booking/booking_in.dart';
@@ -60,14 +61,12 @@ class _HomePageState extends State<HomePage> {
     } else {
       pinPillPosition = -620;
     }
-    //checkGps();
     _updateMarkers();
     _updateTimer();
 
     _saveToken();
     if (Platform.isAndroid) {
       _listen();
-      //_checkForInitialMessage();
 
       FirebaseMessaging.onMessageOpenedApp.listen((message) async {
         print('Message clicked!');
@@ -104,55 +103,9 @@ class _HomePageState extends State<HomePage> {
   double long = 0, lat = 0;
   late StreamSubscription<Position> positionStream;
 
-  /*checkGps() async {
-    servicestatus = await Geolocator.isLocationServiceEnabled();
-    if (servicestatus) {
-      permission = await Geolocator.checkPermission();
-
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          print('Location permissions are denied');
-        } else if (permission == LocationPermission.deniedForever) {
-          print("'Location permissions are permanently denied");
-        } else {
-          haspermission = true;
-        }
-      } else {
-        haspermission = true;
-      }
-
-      if (haspermission) {
-        setState(() {
-          //refresh the UI
-        });
-
-        //getLocation();
-      }
-    } else {
-      print("GPS Service is not enabled, turn on GPS location");
-    }
-
-    setState(() {
-      //refresh the UI
-    });
-  }*/
-
-  /*getLocation() async {
-    position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    long = position.longitude;
-    lat = position.latitude;
-
-    setState(() {
-      //refresh UI
-    });
-  }*/
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    // final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
     GoogleMapController _controller;
 
@@ -299,22 +252,6 @@ class _HomePageState extends State<HomePage> {
                           });
                         }
                       }),
-                  /*Positioned(
-                      left: screenWidth * 0.8,
-                      height: screenHeight * 0.1,
-                      child: FloatingActionButton(
-                        onPressed: () async {
-                          await getLocation();
-                          LatLng newPos = LatLng(lat, long);
-                          print(newPos);
-                          _controller?.animateCamera(
-                              CameraUpdate.newCameraPosition(
-                                  CameraPosition(target: newPos, zoom: 16)));
-                        },
-                        backgroundColor: Colors.redAccent,
-                        child:
-                            Icon(Icons.location_history, size: screenText * 25),
-                      )),*/
                   AnimatedPositioned(
                       left: 0,
                       curve: Curves.easeInOut,
@@ -440,18 +377,14 @@ class _HomePageState extends State<HomePage> {
                           title: Text(" Help",
                               style: TextStyle(fontSize: screenText * 20)),
                           onTap: () async {
-                            /*if (MediaQuery.of(context).orientation ==
-                                Orientation.portrait) {
-                              SystemChrome.setPreferredOrientations([
-                                DeviceOrientation.landscapeLeft,
-                                DeviceOrientation.landscapeRight,
-                              ]);
-                            } else {
-                              SystemChrome.setPreferredOrientations([
-                                DeviceOrientation.portraitUp,
-                                DeviceOrientation.portraitDown,
-                              ]);
-                            }*/
+                            /* SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.landscapeLeft,
+                              DeviceOrientation.landscapeRight
+                            ]);*/
+                            /*SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.portraitDown,
+                              DeviceOrientation.portraitUp
+                            ]);*/
                           })
                     ])),
                 body: Stack(children: [
@@ -477,17 +410,6 @@ class _HomePageState extends State<HomePage> {
                           });
                         }
                       }),
-                  /* Positioned(
-                      left: screenWidth * 0.8,
-                      height: screenHeight * 0.08,
-                      child: FloatingActionButton(
-                        onPressed: () {
-                          getLocation();
-                        },
-                        backgroundColor: Colors.redAccent,
-                        child:
-                            Icon(Icons.location_history, size: screenText * 35),
-                      )),*/
                   AnimatedPositioned(
                       left: 0,
                       curve: Curves.easeInOut,
@@ -682,10 +604,8 @@ class _HomePageState extends State<HomePage> {
             .firebasefirestore()
             .collection('users')
             .get()
-            //quando non ci sono macchine da errore
             .then((ds) async {
           for (var user_1 in ds.docs) {
-            //print(user_1.data());
             try {
               await widget.homePageService
                   .firebasefirestore()
@@ -738,52 +658,12 @@ class _HomePageState extends State<HomePage> {
     return cars;
   }
 
-//Function that gives respective colors to different markers
-  BitmapDescriptor _iconColor(String owner, String user) {
-    if (owner == user) {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
-    } else {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
-    }
-  }
-
-  /*Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
-  }
-
-  Future<BitmapDescriptor> getIcons() async {
-    final Uint8List markerIcon =
-        await getBytesFromAsset('assets/location2.png', 100);
-    var icon = await BitmapDescriptor.fromBytes(markerIcon);
-    return icon;
-  }*/
-
-//Functions that prints different InfoWindow for different markers
-  String _printInfoWindow(String owner, String user, String carOwner) {
-    if (owner == user) {
-      return 'My car: click for details';
-    } else {
-      return carOwner;
-    }
-  }
-
 //Functions that updates markers periodically
   void _updateMarkers() async {
     try {
       String? userAuth = widget.homePageService.currentUser()?.uid.toString();
       if (PassMarker.from) {
         PassMarker.markerToPass = {};
-        /*PassMarker.markerToPass.add(Marker(
-            markerId: MarkerId('myPos'),
-            infoWindow: InfoWindow(title: 'You Are Here!'),
-            position: LatLng(lat, long),
-            icon: await getIcons()));*/
         List<CarModel> cars = await _fetchCar();
         for (int i = 0; i < cars.length; i++) {
           String? carLatLng = cars[i].position;
@@ -795,7 +675,7 @@ class _HomePageState extends State<HomePage> {
               PassMarker.markerToPass.add(Marker(
                   markerId: MarkerId('marker$i'),
                   infoWindow: InfoWindow(
-                      title: _printInfoWindow(
+                      title: HomePageTest().printInfoWindow(
                           cars[i].uid.toString(),
                           userAuth!,
                           cars[i].vehicle.toString() +
@@ -821,7 +701,8 @@ class _HomePageState extends State<HomePage> {
                         }
                       }),
                   position: LatLng(lat, lng),
-                  icon: _iconColor(cars[i].uid.toString(), userAuth),
+                  icon: HomePageTest()
+                      .iconColor(cars[i].uid.toString(), userAuth),
                   onTap: () {
                     if (userAuth != cars[i].uid.toString()) {
                       PassMarker.carModel = cars[i];
@@ -858,14 +739,15 @@ class _HomePageState extends State<HomePage> {
               PassMarker.markerToPass.add(Marker(
                   markerId: MarkerId('marker$i'),
                   infoWindow: InfoWindow(
-                      title: _printInfoWindow(
+                      title: HomePageTest().printInfoWindow(
                           searchCar![i].uid.toString(),
                           userAuth!,
                           searchCar![i].vehicle.toString() +
                               '-' +
                               searchCar![i].model.toString())),
                   position: LatLng(lat, lng),
-                  icon: _iconColor(searchCar![i].uid.toString(), userAuth),
+                  icon: HomePageTest()
+                      .iconColor(searchCar![i].uid.toString(), userAuth),
                   onTap: () {
                     if (mounted) {
                       setState(() {
@@ -907,4 +789,24 @@ class _HomePageState extends State<HomePage> {
 
 Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
+}
+
+class HomePageTest {
+//Function that gives respective colors to different markers
+  BitmapDescriptor iconColor(String owner, String user) {
+    if (owner == user) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+    } else {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+    }
+  }
+
+//Functions that prints different InfoWindow for different markers
+  String printInfoWindow(String owner, String user, String carOwner) {
+    if (owner == user) {
+      return 'My car: click for details';
+    } else {
+      return carOwner;
+    }
+  }
 }

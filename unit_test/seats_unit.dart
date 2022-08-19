@@ -1,14 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:prcarpolimi/filters/seats/seats.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
-import 'package:prcarpolimi/services/services.dart';
 
 void main() {
-  group("Price should be incremented", () {
+  group("String print title", () {
     PassMarker.useMobileLayout = true;
-    test('value should increment', () async {
-      final seats = Seats(filter: true, service: Service());
-      expect(seats.filter, true);
+    test('String from filter', () async {
+      final seats = new SeatsString();
+      String title = seats.seatsString(true);
+      expect(title, 'Choose the minimum car\'s seats');
+    });
+
+    test('String from add new car', () async {
+      final seats = SeatsString();
+      String title1 = seats.seatsString(false);
+      expect(title1, 'Choose car\'s seats ');
     });
   });
 }

@@ -103,7 +103,7 @@ class _InfoCarState extends State<InfoCar> {
                                     backgroundColor: Colors.white)),
                             Text(
                                 'Position: ' +
-                                    _positionString(
+                                    InfoCarTest().positionString(
                                         carModel.position.toString()),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
@@ -120,7 +120,7 @@ class _InfoCarState extends State<InfoCar> {
                                     backgroundColor: Colors.white)),
                             Text(
                                 'Status: ' +
-                                    _activeString(
+                                    InfoCarTest().activeString(
                                         carModel.activeOrNot.toString()),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
@@ -404,7 +404,7 @@ class _InfoCarState extends State<InfoCar> {
                                           backgroundColor: Colors.white)),
                                   Text(
                                       'Position: ' +
-                                          _positionString(
+                                          InfoCarTest().positionString(
                                               carModel.position.toString()),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
@@ -423,7 +423,7 @@ class _InfoCarState extends State<InfoCar> {
                                           backgroundColor: Colors.white)),
                                   Text(
                                       'Status: ' +
-                                          _activeString(
+                                          InfoCarTest().activeString(
                                               carModel.activeOrNot.toString()),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
@@ -732,7 +732,7 @@ class _InfoCarState extends State<InfoCar> {
                                             backgroundColor: Colors.white)),
                                     Text(
                                         'Position: ' +
-                                            _positionString(
+                                            InfoCarTest().positionString(
                                                 carModel.position.toString()),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
@@ -751,7 +751,8 @@ class _InfoCarState extends State<InfoCar> {
                                             backgroundColor: Colors.white)),
                                     Text(
                                         'Status: ' +
-                                            _activeString(carModel.activeOrNot
+                                            InfoCarTest().activeString(carModel
+                                                .activeOrNot
                                                 .toString()),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
@@ -1048,21 +1049,6 @@ class _InfoCarState extends State<InfoCar> {
     return cars;
   }
 
-  String _activeString(String active) {
-    if (active == 't') {
-      return 'Active';
-    } else {
-      return 'Inactive';
-    }
-  }
-
-  String _positionString(String position) {
-    String newPos = '';
-    List<String> splitted = position.split(',');
-    newPos = splitted[0].substring(0, 7) + ',' + splitted[1].substring(0, 7);
-    return newPos;
-  }
-
   Future<int> _fetchCarRes(String cid) async {
     User? user = widget.service.currentUser();
     int i = 0;
@@ -1102,6 +1088,23 @@ class _InfoCarState extends State<InfoCar> {
       urlList.insert(i, url);
     }
     return urlList;
+  }
+}
+
+class InfoCarTest {
+  String activeString(String active) {
+    if (active == 't') {
+      return 'Active';
+    } else {
+      return 'Inactive';
+    }
+  }
+
+  String positionString(String position) {
+    String newPos = '';
+    List<String> splitted = position.split(',');
+    newPos = splitted[0].substring(0, 7) + ',' + splitted[1].substring(0, 7);
+    return newPos;
   }
 }
 

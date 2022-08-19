@@ -39,7 +39,7 @@ class Seats extends StatelessWidget {
                       Image.asset("assets/prcarlogo.png", fit: BoxFit.contain)),
               SizedBox(
                   height: screenHeight * 0.07,
-                  child: Text(_seatsString(filter),
+                  child: Text(SeatsString().seatsString(filter),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -96,7 +96,7 @@ class Seats extends StatelessWidget {
                             fit: BoxFit.contain)),
                     SizedBox(
                         height: screenHeight * 0.07,
-                        child: Text(_seatsString(filter),
+                        child: Text(SeatsString().seatsString(filter),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -149,7 +149,7 @@ class Seats extends StatelessWidget {
                       SizedBox(height: screenHeight * 0.15),
                       SizedBox(
                           height: screenHeight * 0.07,
-                          child: Text(_seatsString(filter),
+                          child: Text(SeatsString().seatsString(filter),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -191,9 +191,11 @@ class Seats extends StatelessWidget {
             }
           });
   }
+}
 
-//Function that prints different title (it depends from which screen we arrive)
-  String _seatsString(bool filter) {
+class SeatsString {
+  //Function that prints different title (it depends from which screen we arrive)
+  String seatsString(bool filter) {
     if (filter) {
       return 'Choose the minimum car\'s seats';
     } else {

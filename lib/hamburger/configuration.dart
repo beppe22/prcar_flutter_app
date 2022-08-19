@@ -32,16 +32,7 @@ class _ConfigurationState extends State<Configuration> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
 
-//Function that prints different text's size if a device is a smartphone or a tablet
-    text() {
-      if (PassMarker.useMobileLayout!) {
-        return screenText * 20.0;
-      } else {
-        return screenText * 30.0;
-      }
-    }
-
-//Function that prints different width's size if a device is a smartphone or a tablet
+    //Function that prints different width's size if a device is a smartphone or a tablet
     widthBottom() {
       if (MediaQuery.of(context).orientation == Orientation.portrait) {
         return screenWidth * 0.8;
@@ -53,7 +44,7 @@ class _ConfigurationState extends State<Configuration> {
     //licenseCode field
     final licenseCodeField = TextFormField(
         autofocus: false,
-        style: TextStyle(fontSize: text()),
+        style: TextStyle(fontSize: TextConfiguration().text(screenText)),
         controller: drivingLicenseCodeEditingController,
         keyboardType: TextInputType.name,
         validator: (value) {
@@ -71,14 +62,15 @@ class _ConfigurationState extends State<Configuration> {
             contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Driving License Code",
-            hintStyle: TextStyle(fontSize: text()),
+            hintStyle:
+                TextStyle(fontSize: TextConfiguration().text(screenText)),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
     //expiryDate field
     final expiryDateEditingField = TextFormField(
         autofocus: false,
-        style: TextStyle(fontSize: text()),
+        style: TextStyle(fontSize: TextConfiguration().text(screenText)),
         controller: expiryDateEditingController,
         keyboardType: PassMarker.useMobileLayout!
             ? TextInputType.datetime
@@ -128,7 +120,8 @@ class _ConfigurationState extends State<Configuration> {
             contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.02,
                 screenHeight * 0.015, screenWidth * 0.02, screenHeight * 0.015),
             hintText: "Expiry date (dd/MM/yyyy)",
-            hintStyle: TextStyle(fontSize: text()),
+            hintStyle:
+                TextStyle(fontSize: TextConfiguration().text(screenText)),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
 
@@ -524,5 +517,16 @@ class _ConfigurationState extends State<Configuration> {
         .doc(user.uid)
         .get();
     return snapshot.data()!['isConfirmed'];
+  }
+}
+
+class TextConfiguration {
+  //Function that prints different text's size if a device is a smartphone or a tablet
+  double text(double screenText) {
+    if (PassMarker.useMobileLayout!) {
+      return screenText * 20.0;
+    } else {
+      return screenText * 30.0;
+    }
   }
 }
