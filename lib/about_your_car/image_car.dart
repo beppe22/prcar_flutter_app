@@ -135,7 +135,7 @@ class _ImageCarState extends State<ImageCar> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                   SizedBox(height: screenHeight * 0.05),
-                  Text(_printTitle(add),
+                  Text(ImageTest().printTitle(add),
                       style: TextStyle(
                           fontSize: screenText * 24,
                           fontWeight: FontWeight.bold,
@@ -297,7 +297,7 @@ class _ImageCarState extends State<ImageCar> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                       SizedBox(height: screenHeight * 0.05),
-                      Text(_printTitle(add),
+                      Text(ImageTest().printTitle(add),
                           style: TextStyle(
                               fontSize: screenText * 34,
                               fontWeight: FontWeight.bold,
@@ -428,7 +428,7 @@ class _ImageCarState extends State<ImageCar> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                       SizedBox(height: screenHeight * 0.05),
-                      Text(_printTitle(add),
+                      Text(ImageTest().printTitle(add),
                           style: TextStyle(
                               fontSize: screenText * 34,
                               fontWeight: FontWeight.bold,
@@ -568,9 +568,11 @@ class _ImageCarState extends State<ImageCar> {
               }
             }));
   }
+}
 
+class ImageTest {
 //Function that prints different titles (it depend on where I come from)
-  String _printTitle(bool where) {
+  String printTitle(bool where) {
     if (where) {
       return 'Insert your car\'s pictures \n (min. 1, max 6)';
     } else {

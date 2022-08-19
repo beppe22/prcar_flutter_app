@@ -726,7 +726,7 @@ class _FiltersState extends State<Filters> {
       }
       if (j &&
           (SearchCar.date1Search.toString() != '') &&
-          (_freeDate(SearchCar.date1Search, SearchCar.date2Search,
+          (FilterTest().freeDate(SearchCar.date1Search, SearchCar.date2Search,
               await _fetchDates(cars[i].uid, cars[i].cid)))) {
         j = false;
       }
@@ -735,28 +735,6 @@ class _FiltersState extends State<Filters> {
       }
     }
     return filteredCar;
-  }
-
-//Function that retrieve if a car is available in that range of dates
-  bool _freeDate(String startDate, String endDate, List<String> allDate) {
-    DateTime started = DateFormat("dd/MM/yyyy").parse(startDate);
-    DateTime ended = DateFormat("dd/MM/yyyy").parse(endDate);
-    if (allDate.isEmpty) {
-      return false;
-    } else {
-      for (int i = 0; i < allDate.length; i++) {
-        final splitted = allDate[i].split('-');
-        String start = splitted[0];
-        String end = splitted[1];
-        DateTime startD = DateFormat("dd/MM/yyyy").parse(start);
-        DateTime endD = DateFormat("dd/MM/yyyy").parse(end);
-        if ((startD.compareTo(started) >= 0 && startD.compareTo(ended) <= 0) ||
-            (endD.compareTo(started) >= 0 && endD.compareTo(ended) <= 0)) {
-          return true;
-        }
-      }
-      return false;
-    }
   }
 
 //Function that gives the date in which a car is reserved
@@ -783,6 +761,28 @@ class _FiltersState extends State<Filters> {
 }
 
 class FilterTest {
+  //Function that retrieve if a car is available in that range of dates
+  bool freeDate(String startDate, String endDate, List<String> allDate) {
+    DateTime started = DateFormat("dd/MM/yyyy").parse(startDate);
+    DateTime ended = DateFormat("dd/MM/yyyy").parse(endDate);
+    if (allDate.isEmpty) {
+      return false;
+    } else {
+      for (int i = 0; i < allDate.length; i++) {
+        final splitted = allDate[i].split('-');
+        String start = splitted[0];
+        String end = splitted[1];
+        DateTime startD = DateFormat("dd/MM/yyyy").parse(start);
+        DateTime endD = DateFormat("dd/MM/yyyy").parse(end);
+        if ((startD.compareTo(started) >= 0 && startD.compareTo(ended) <= 0) ||
+            (endD.compareTo(started) >= 0 && endD.compareTo(ended) <= 0)) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+
   printSize() {
     if (PassMarker.useMobileLayout!) {
       return 22.0;

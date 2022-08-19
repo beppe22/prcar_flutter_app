@@ -3,7 +3,7 @@ import 'package:prcarpolimi/hamburger/filters.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 void main() {
-  group("Configuration print", () {
+  group("Filter tests", () {
     test('filter text', () async {
       PassMarker.useMobileLayout = true;
       final filter = new FilterTest();
@@ -28,6 +28,19 @@ void main() {
       final filter = new FilterTest();
       bool pos = await filter.nearbyPosition('0', '0', '80,80');
       expect(pos, true);
+    });
+
+    test('free dates test empty', () async {
+      final filter = new FilterTest();
+      bool date = await filter.freeDate("09/09/2022", "13/09/2022", []);
+      expect(date, false);
+    });
+
+    test('free dates test', () async {
+      final filter = new FilterTest();
+      bool date = await filter
+          .freeDate("09/09/2022", "13/09/2022", ["12/09/2022-17/09/2022"]);
+      expect(date, true);
     });
   });
 }
