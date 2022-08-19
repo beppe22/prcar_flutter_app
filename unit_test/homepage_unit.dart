@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:prcarpolimi/homepage.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() {
   group("Configuration print", () {

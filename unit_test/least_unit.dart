@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:prcarpolimi/filters/least/least.dart';
-import 'package:prcarpolimi/filters/seats/seats.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 
 void main() {

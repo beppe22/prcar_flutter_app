@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:prcarpolimi/about_your_car/image_car.dart';
 import 'package:prcarpolimi/about_your_car/info_car.dart';
 import 'package:prcarpolimi/models/marker_to_pass.dart';
 

@@ -60,14 +60,12 @@ class _HomePageState extends State<HomePage> {
     } else {
       pinPillPosition = -620;
     }
-    //checkGps();
     _updateMarkers();
     _updateTimer();
 
     _saveToken();
     if (Platform.isAndroid) {
       _listen();
-      //_checkForInitialMessage();
 
       FirebaseMessaging.onMessageOpenedApp.listen((message) async {
         print('Message clicked!');
@@ -104,55 +102,9 @@ class _HomePageState extends State<HomePage> {
   double long = 0, lat = 0;
   late StreamSubscription<Position> positionStream;
 
-  /*checkGps() async {
-    servicestatus = await Geolocator.isLocationServiceEnabled();
-    if (servicestatus) {
-      permission = await Geolocator.checkPermission();
-
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          print('Location permissions are denied');
-        } else if (permission == LocationPermission.deniedForever) {
-          print("'Location permissions are permanently denied");
-        } else {
-          haspermission = true;
-        }
-      } else {
-        haspermission = true;
-      }
-
-      if (haspermission) {
-        setState(() {
-          //refresh the UI
-        });
-
-        //getLocation();
-      }
-    } else {
-      print("GPS Service is not enabled, turn on GPS location");
-    }
-
-    setState(() {
-      //refresh the UI
-    });
-  }*/
-
-  /*getLocation() async {
-    position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    long = position.longitude;
-    lat = position.latitude;
-
-    setState(() {
-      //refresh UI
-    });
-  }*/
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    // final screenWidth = MediaQuery.of(context).size.width;
     final screenText = MediaQuery.of(context).textScaleFactor;
     GoogleMapController _controller;
 
@@ -299,22 +251,6 @@ class _HomePageState extends State<HomePage> {
                           });
                         }
                       }),
-                  /*Positioned(
-                      left: screenWidth * 0.8,
-                      height: screenHeight * 0.1,
-                      child: FloatingActionButton(
-                        onPressed: () async {
-                          await getLocation();
-                          LatLng newPos = LatLng(lat, long);
-                          print(newPos);
-                          _controller?.animateCamera(
-                              CameraUpdate.newCameraPosition(
-                                  CameraPosition(target: newPos, zoom: 16)));
-                        },
-                        backgroundColor: Colors.redAccent,
-                        child:
-                            Icon(Icons.location_history, size: screenText * 25),
-                      )),*/
                   AnimatedPositioned(
                       left: 0,
                       curve: Curves.easeInOut,
@@ -439,20 +375,7 @@ class _HomePageState extends State<HomePage> {
                       ListTile(
                           title: Text(" Help",
                               style: TextStyle(fontSize: screenText * 20)),
-                          onTap: () async {
-                            /*if (MediaQuery.of(context).orientation ==
-                                Orientation.portrait) {
-                              SystemChrome.setPreferredOrientations([
-                                DeviceOrientation.landscapeLeft,
-                                DeviceOrientation.landscapeRight,
-                              ]);
-                            } else {
-                              SystemChrome.setPreferredOrientations([
-                                DeviceOrientation.portraitUp,
-                                DeviceOrientation.portraitDown,
-                              ]);
-                            }*/
-                          })
+                          onTap: () async {})
                     ])),
                 body: Stack(children: [
                   GoogleMap(
@@ -477,17 +400,6 @@ class _HomePageState extends State<HomePage> {
                           });
                         }
                       }),
-                  /* Positioned(
-                      left: screenWidth * 0.8,
-                      height: screenHeight * 0.08,
-                      child: FloatingActionButton(
-                        onPressed: () {
-                          getLocation();
-                        },
-                        backgroundColor: Colors.redAccent,
-                        child:
-                            Icon(Icons.location_history, size: screenText * 35),
-                      )),*/
                   AnimatedPositioned(
                       left: 0,
                       curve: Curves.easeInOut,
@@ -682,10 +594,8 @@ class _HomePageState extends State<HomePage> {
             .firebasefirestore()
             .collection('users')
             .get()
-            //quando non ci sono macchine da errore
             .then((ds) async {
           for (var user_1 in ds.docs) {
-            //print(user_1.data());
             try {
               await widget.homePageService
                   .firebasefirestore()
