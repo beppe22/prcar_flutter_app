@@ -20,6 +20,13 @@ void main() {
       await tester.pump();
 
       expect(find.text("Models"), findsOneWidget);
+      expect(find.text("145"), findsOneWidget);
+      expect(find.text("146"), findsOneWidget);
+      expect(find.text("147"), findsOneWidget);
+      expect(find.text("155"), findsOneWidget);
+
+      final textWidgets = find.byType(Text);
+      expect(textWidgets, findsNWidgets(6));
     });
   });
 }

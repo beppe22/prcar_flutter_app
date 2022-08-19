@@ -14,6 +14,14 @@ void main() {
       )));
 
       expect(find.text("Position: "), findsOneWidget);
+      expect(find.text("Vehicle: "), findsOneWidget);
+      expect(find.text("Seats: "), findsOneWidget);
+      expect(find.text("Fuel: "), findsOneWidget);
+      expect(find.text("Price: "), findsOneWidget);
+      expect(find.text("Least: "), findsOneWidget);
+
+      final textWidgets = find.byType(Text);
+      expect(textWidgets, findsNWidgets(6));
     });
   });
 }

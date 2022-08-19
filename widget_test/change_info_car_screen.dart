@@ -14,7 +14,7 @@ class FakeChangeInfoCarService implements ChangeInfoCarService {
 }
 
 void main() {
-  group("change info car rest", () {
+  group("change info car test", () {
     PassMarker.useMobileLayout = true;
 
     testWidgets('general test', (WidgetTester tester) async {
@@ -25,6 +25,12 @@ void main() {
       )));
 
       expect(find.text("Position: "), findsOneWidget);
+      expect(find.text("Seats: "), findsOneWidget);
+      expect(find.text("Fuel: "), findsOneWidget);
+      expect(find.text("Price: "), findsOneWidget);
+
+      final textWidgets = find.byType(Text);
+      expect(textWidgets, findsNWidgets(8));
     });
   });
 }

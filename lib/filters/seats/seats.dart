@@ -47,6 +47,7 @@ class Seats extends StatelessWidget {
                           fontSize: screenText * 22))),
               SizedBox(height: screenHeight * 0.02),
               SeatsButton(
+                  key: Key("2 seats button"),
                   screenHeight: screenHeight,
                   screenWidth: screenWidth,
                   screenText: screenText,

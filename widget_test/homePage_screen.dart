@@ -29,6 +29,8 @@ void main() {
 
         expect(find.text("PrCar"), findsOneWidget);
         expect(find.text('Filters'), findsOneWidget);
+        final textWidgets = find.byType(Text);
+        expect(textWidgets, findsNWidgets(5));
       });
 
       /*await tester.pumpWidget(MaterialApp(

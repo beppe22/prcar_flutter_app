@@ -14,7 +14,14 @@ void main() {
         service: FakeService(),
       )));
 
+      expect(find.text("2"), findsOneWidget);
+      expect(find.text("3"), findsOneWidget);
+      expect(find.text("4"), findsOneWidget);
+      expect(find.text("5"), findsOneWidget);
       expect(find.text("Seats"), findsOneWidget);
+
+      final textWidgets = find.byType(Text);
+      expect(textWidgets, findsNWidgets(6));
     });
   });
 }

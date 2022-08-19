@@ -68,6 +68,7 @@ class _ModelsState extends State<Models> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           GestureDetector(
+                                              key: Key("button for model"),
                                               onTap: () {
                                                 Navigator.of(context)
                                                   ..pop()

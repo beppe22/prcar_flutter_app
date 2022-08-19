@@ -19,6 +19,12 @@ void main() {
       await tester.pump();
 
       expect(find.text("Vehicle"), findsOneWidget);
+      expect(find.text("Alfa Romeo"), findsOneWidget);
+      expect(find.text("Audi"), findsOneWidget);
+      expect(find.text("BMW"), findsOneWidget);
+
+      final textWidgets = find.byType(Text);
+      expect(textWidgets, findsNWidgets(6));
     });
   });
 }

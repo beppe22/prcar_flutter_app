@@ -124,6 +124,7 @@ class _AddNewCarState extends State<AddNewCar> {
 
 //vehicle button field
     final vehicleButton = Container(
+        key: Key("Vehicle button"),
         width: width(),
         height: heigth(),
         margin: EdgeInsets.only(
@@ -165,6 +166,7 @@ class _AddNewCarState extends State<AddNewCar> {
 
     //seats button field
     final seatsButton = Container(
+        key: Key("button for seats"),
         width: width(),
         height: heigth(),
         margin: EdgeInsets.only(
@@ -202,6 +204,7 @@ class _AddNewCarState extends State<AddNewCar> {
 
     //fuel button field
     final fuelButton = Container(
+        key: Key("Button for fuel"),
         width: width(),
         height: heigth(),
         margin: EdgeInsets.only(
@@ -238,6 +241,7 @@ class _AddNewCarState extends State<AddNewCar> {
 
     //price button field
     final priceButton = Container(
+        key: Key("button for price"),
         width: width(),
         height: heigth(),
         margin: EdgeInsets.only(
