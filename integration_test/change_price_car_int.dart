@@ -14,7 +14,7 @@ void main() {
       await tester.pumpAndSettle();
 
       //AVVIARE IL LOGOUT
-      final drawer = await find.byTooltip('Open navigation menu');
+      /*final drawer = await find.byTooltip('Open navigation menu');
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
 
@@ -32,7 +32,7 @@ void main() {
 
       final logoutButton = await find.byKey(Key("logout button"));
       await tester.tap(logoutButton);
-      await tester.pump(Duration(seconds: 2));
+      await tester.pump(Duration(seconds: 2));*/
 
       //VERIFY WE ARE IN LOGIN PAGE
       expect(find.text('Login'), findsOneWidget);
@@ -64,6 +64,9 @@ void main() {
       expect(find.text('Filters'), findsOneWidget);
       expect(find.text("PrCar"), findsOneWidget);
 
+      final drawer = await find.byTooltip('Open navigation menu');
+      await tester.pumpAndSettle();
+      await tester.pump(Duration(seconds: 2));
       await tester.tap(drawer);
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
@@ -101,19 +104,6 @@ void main() {
       await tester.tap(find.byKey(Key("change button")));
       await tester.pumpAndSettle();
       await tester.pump(Duration(seconds: 2));
-
-      /*String value;
-      if (n == 1) {
-        value = "Oil";
-      } else if (n == 2) {
-        value = "Methane";
-      } else if (n == 3) {
-        value = "Diesel";
-      } else if (n == 4) {
-        value = "Electric";
-      } else {
-        value = "Hibryd";
-      }*/
 
       expect(find.text("Price for day: 1"), findsOneWidget);
     });

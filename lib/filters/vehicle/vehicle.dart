@@ -64,6 +64,7 @@ class _VehicleState extends State<Vehicle> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           GestureDetector(
+                                              key: Key("button for vehicle"),
                                               onTap: () {
                                                 Navigator.push(
                                                     context,

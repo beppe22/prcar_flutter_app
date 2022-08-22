@@ -15,6 +15,11 @@ void main() {
       )));
 
       expect(find.text('Account'), findsOneWidget);
+      expect(find.text('Logout'), findsOneWidget);
+      expect(find.text('Delete Account'), findsOneWidget);
+
+      final textWidgets = find.byType(Text);
+      expect(textWidgets, findsNWidgets(6));
     });
   });
 }

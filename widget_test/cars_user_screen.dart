@@ -5,7 +5,7 @@ import 'package:prcarpolimi/models/marker_to_pass.dart';
 import 'package:prcarpolimi/services/services.dart';
 
 void main() {
-  group("info-account page test", () {
+  group("cars user screen test", () {
     PassMarker.useMobileLayout = true;
 
     testWidgets('general test', (WidgetTester tester) async {
@@ -13,6 +13,9 @@ void main() {
           .pumpWidget(MaterialApp(home: Cars_user([], service: Service())));
 
       expect(find.text('Your cars'), findsOneWidget);
+
+      final textWidgets = find.byType(Text);
+      expect(textWidgets, findsNWidgets(2));
     });
   });
 }

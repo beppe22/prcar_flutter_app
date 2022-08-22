@@ -9,14 +9,28 @@ void main() {
     PassMarker.useMobileLayout = true;
 
     testWidgets('general test', (WidgetTester tester) async {
-      final addEmail = await find.byKey(ValueKey(1));
-      final addPassword = await find.byKey(ValueKey(2));
-
       await tester.pumpWidget(MaterialApp(
           home: Login(
         loginService: FakeService(),
       )));
 
+      final textFormFieldWidgets = find.byType(TextFormField);
+      expect(textFormFieldWidgets, findsNWidgets(2));
+
+      final textWidgets = find.byType(Text);
+      expect(textWidgets, findsNWidgets(7));
+
+      expect(find.text("Email"), findsOneWidget);
+      expect(find.text("Password"), findsOneWidget);
+      expect(find.text("Welcome to PrCar!"), findsOneWidget);
+      expect(find.text('Forgot password?'), findsOneWidget);
+      expect(find.text("Don't have an account?"), findsOneWidget);
+      expect(find.text("Login"), findsOneWidget);
+      expect(find.text('Forgot password?'), findsOneWidget);
+      expect(find.text("Don't have an account?"), findsOneWidget);
+
+      final addEmail = await find.byKey(ValueKey(1));
+      final addPassword = await find.byKey(ValueKey(2));
       await tester.enterText(addPassword, 'nuova password');
       await tester.enterText(addEmail, "nuova email");
 
@@ -30,6 +44,7 @@ void main() {
       expect(find.text("Login"), findsOneWidget);
       expect(find.text('Forgot password?'), findsOneWidget);
       expect(find.text("Don't have an account?"), findsOneWidget);
+      expect(textWidgets, findsNWidgets(7));
     });
   });
 }

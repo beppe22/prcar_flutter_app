@@ -16,6 +16,16 @@ void main() {
       )));
 
       expect(find.text('Configuration'), findsOneWidget);
+      //expect(find.text('Insert your driving license info!'), findsOneWidget);
+      //expect(find.text('Driving License Code'), findsOneWidget);
+      //expect(find.text('Expiry date (dd/MM/yyyy)'), findsOneWidget);
+      //expect(find.text('Insert driving license pictures'), findsOneWidget);
+
+      expect(find.text("Driving License is under administrator's control"),
+          findsOneWidget);
+
+      final textWidgets = find.byType(Text);
+      expect(textWidgets, findsNWidgets(3));
     });
   });
 }
