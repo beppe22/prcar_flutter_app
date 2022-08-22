@@ -174,6 +174,7 @@ class _BottomLicenseState extends State<BottomLicense> {
                                 storage.uploadString(
                                     drivingCodePath, 'drivingCode', uidCode);
                                 Fluttertoast.showToast(
+                                    toastLength: Toast.LENGTH_LONG,
                                     msg:
                                         'Driving license inserted :) the administrator will check soon your information and will confirm',
                                     fontSize: 20);
@@ -322,6 +323,7 @@ class _BottomLicenseState extends State<BottomLicense> {
                                     storage.uploadString(drivingCodePath,
                                         'drivingCode', uidCode);
                                     Fluttertoast.showToast(
+                                        toastLength: Toast.LENGTH_LONG,
                                         msg:
                                             'Driving license inserted :) the administrator will check soon your information and will confirm',
                                         fontSize: 20);

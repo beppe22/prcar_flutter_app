@@ -219,9 +219,9 @@ class BookingOutPageState extends State<BookingOutPage> {
                                                                                           _eliminationMessage(index);
                                                                                           PassMarker.status[index] = 'e';
                                                                                         });
-                                                                                        Fluttertoast.showToast(msg: 'This message has been eliminated!', fontSize: 20);
+                                                                                        Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'This message has been eliminated!', fontSize: 20);
                                                                                       } else {
-                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: you can\'t eliminate this message while the reservation isn\'t finished :(', fontSize: 20);
+                                                                                        Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'Impossible operation: you can\'t eliminate this message while the reservation isn\'t finished :(', fontSize: 20);
                                                                                       }
                                                                                     } else {
                                                                                       Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);

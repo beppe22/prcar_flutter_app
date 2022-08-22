@@ -25,6 +25,8 @@ import 'hamburger/cars_user.dart';
 import 'hamburger/filters.dart';
 import 'dart:io' show Platform;
 
+import 'hamburger/help.dart';
+
 const double pinVisiblePosition = 50;
 const double pinInvisiblePosition = -220;
 const double pinInvisiblePosition2 = -620;
@@ -227,7 +229,12 @@ class _HomePageState extends State<HomePage> {
                       ListTile(
                           title: Text("Help",
                               style: TextStyle(fontSize: screenText * 16)),
-                          onTap: () async {})
+                          onTap: () async {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Help()));
+                          })
                     ])),
                 body: Stack(children: [
                   GoogleMap(
@@ -377,14 +384,14 @@ class _HomePageState extends State<HomePage> {
                           title: Text(" Help",
                               style: TextStyle(fontSize: screenText * 20)),
                           onTap: () async {
-                            /* SystemChrome.setPreferredOrientations([
+                            SystemChrome.setPreferredOrientations([
                               DeviceOrientation.landscapeLeft,
                               DeviceOrientation.landscapeRight
-                            ]);*/
-                            /*SystemChrome.setPreferredOrientations([
-                              DeviceOrientation.portraitDown,
-                              DeviceOrientation.portraitUp
-                            ]);*/
+                            ]);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Help()));
                           })
                     ])),
                 body: Stack(children: [

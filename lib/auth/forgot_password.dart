@@ -298,6 +298,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         barrierDismissible: false,
         builder: (context) => const Center(child: CircularProgressIndicator()));
     Fluttertoast.showToast(
+        toastLength: Toast.LENGTH_LONG,
         msg:
             'A email has been sent. (If you don\' see it, check also your spam!)',
         fontSize: 20);

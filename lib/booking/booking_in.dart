@@ -199,14 +199,14 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                                 ]));
                                                                                       } else {
                                                                                         if (PassMarker.status[index] != 'f') {
-                                                                                          Fluttertoast.showToast(msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
+                                                                                          Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'Impossible operation: you can\'t cancel the reservation 3 days before it :(', fontSize: 20);
                                                                                         } else {
-                                                                                          Fluttertoast.showToast(msg: 'Impossible operation: reservation already finished', fontSize: 20);
+                                                                                          Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'Impossible operation: reservation already finished', fontSize: 20);
                                                                                         }
                                                                                       }
                                                                                     } else {
                                                                                       {
-                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
+                                                                                        Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'Impossible operation: reservation already abolished :(', fontSize: 20);
                                                                                       }
                                                                                     }
                                                                                   },
@@ -230,9 +230,9 @@ class BookingInPageState extends State<BookingInPage> {
                                                                                           _eliminationMessage(index);
                                                                                           PassMarker.status[index] = 'e';
                                                                                         });
-                                                                                        Fluttertoast.showToast(msg: 'This message has been eliminated!', fontSize: 20);
+                                                                                        Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'This message has been eliminated!', fontSize: 20);
                                                                                       } else {
-                                                                                        Fluttertoast.showToast(msg: 'Impossible operation: you can\'t eliminate this message while the reservation isn\'t finished :(', fontSize: 20);
+                                                                                        Fluttertoast.showToast(toastLength: Toast.LENGTH_LONG, msg: 'Impossible operation: you can\'t eliminate this message while the reservation isn\'t finished :(', fontSize: 20);
                                                                                       }
                                                                                     } else {
                                                                                       Fluttertoast.showToast(msg: 'No internet connection', fontSize: 20);
@@ -811,18 +811,16 @@ class BookingInPageState extends State<BookingInPage> {
         return Colors.redAccent.shade100;
       }
     } else {
-        return Colors.redAccent;
-        }
+      return Colors.redAccent;
+    }
   }
 
 //Function that changes new booking's colors
   _colorReservation(int i, String bookingId) {
     if (PassMarker.bookId[i] == bookingId) {
-      return Colors.blue;
+      return Colors.blueAccent;
     } else {
-     
-        return Colors.redAccent;
-      
+      return Colors.redAccent;
     }
   }
 }
