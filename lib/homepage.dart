@@ -710,13 +710,19 @@ class _HomePageState extends State<HomePage> {
                   position: LatLng(lat, lng),
                   icon: HomePageTest()
                       .iconColor(cars[i].uid.toString(), userAuth),
-                  onTap: () {
+                  onTap: () async {
                     if (userAuth != cars[i].uid.toString()) {
                       PassMarker.carModel = cars[i];
                       if (mounted) {
-                        setState(() {
+                        if (PassMarker.useMobileLayout!) {
+                          setState(() {
+                            pinPillPosition = pinVisiblePosition;
+                          });
+                        } else {
+                          PassMarker.namePopup =
+                              await _nameString(PassMarker.carModel.uid!);
                           pinPillPosition = pinVisiblePosition;
-                        });
+                        }
                       }
                     } else {
                       if (mounted) {
@@ -755,11 +761,17 @@ class _HomePageState extends State<HomePage> {
                   position: LatLng(lat, lng),
                   icon: HomePageTest()
                       .iconColor(searchCar![i].uid.toString(), userAuth),
-                  onTap: () {
+                  onTap: () async {
                     if (mounted) {
-                      setState(() {
+                      if (PassMarker.useMobileLayout!) {
+                        setState(() {
+                          pinPillPosition = pinVisiblePosition;
+                        });
+                      } else {
+                        PassMarker.namePopup =
+                            await _nameString(PassMarker.carModel.uid!);
                         pinPillPosition = pinVisiblePosition;
-                      });
+                      }
                     }
                   }));
             });
@@ -791,6 +803,16 @@ class _HomePageState extends State<HomePage> {
         .doc(user.uid)
         .get();
     return snapshot.data()!['isConfirmed'];
+  }
+
+  //Function that gives owner's name to the reservation info
+  Future<String> _nameString(String uid) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await firebaseFirestore.collection('users').doc(uid).get();
+    String name = snapshot.data()!['firstName'].toString();
+    String surname = snapshot.data()!['secondName'].toString();
+    return name + ' ' + surname;
   }
 }
 

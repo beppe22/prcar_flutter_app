@@ -14,4 +14,5 @@ class PassMarker {
   static int photoCount = 0;
   static String cidAdd = '';
   static bool? useMobileLayout;
+  static String namePopup = '';
 }
