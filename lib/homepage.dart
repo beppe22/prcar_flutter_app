@@ -28,8 +28,9 @@ import 'dart:io' show Platform;
 import 'hamburger/help.dart';
 
 const double pinVisiblePosition = 50;
+const double pinVisiblePosition2 = 150;
 const double pinInvisiblePosition = -220;
-const double pinInvisiblePosition2 = -620;
+const double pinInvisiblePosition2 = -1020;
 
 class HomePage extends StatefulWidget {
   List<CarModel>? searchCar;
@@ -61,7 +62,7 @@ class _HomePageState extends State<HomePage> {
     if (PassMarker.useMobileLayout!) {
       pinPillPosition = -220;
     } else {
-      pinPillPosition = -620;
+      pinPillPosition = -1020;
     }
     _updateMarkers();
     _updateTimer();
@@ -251,11 +252,7 @@ class _HomePageState extends State<HomePage> {
                       onTap: (LatLng loc) {
                         if (mounted) {
                           setState(() {
-                            if (PassMarker.useMobileLayout!) {
-                              pinPillPosition = pinInvisiblePosition;
-                            } else {
-                              pinPillPosition = pinInvisiblePosition2;
-                            }
+                            pinPillPosition = pinInvisiblePosition;
                           });
                         }
                       }),
@@ -409,11 +406,7 @@ class _HomePageState extends State<HomePage> {
                       onTap: (LatLng loc) {
                         if (mounted) {
                           setState(() {
-                            if (PassMarker.useMobileLayout!) {
-                              pinPillPosition = pinInvisiblePosition;
-                            } else {
-                              pinPillPosition = pinInvisiblePosition2;
-                            }
+                            pinPillPosition = pinInvisiblePosition2;
                           });
                         }
                       }),
@@ -721,7 +714,7 @@ class _HomePageState extends State<HomePage> {
                         } else {
                           PassMarker.namePopup =
                               await _nameString(PassMarker.carModel.uid!);
-                          pinPillPosition = pinVisiblePosition;
+                          pinPillPosition = pinVisiblePosition2;
                         }
                       }
                     } else {
@@ -770,7 +763,7 @@ class _HomePageState extends State<HomePage> {
                       } else {
                         PassMarker.namePopup =
                             await _nameString(PassMarker.carModel.uid!);
-                        pinPillPosition = pinVisiblePosition;
+                        pinPillPosition = pinVisiblePosition2;
                       }
                     }
                   }));
