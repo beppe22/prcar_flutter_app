@@ -24,11 +24,13 @@ import 'bottom_pill.dart';
 import 'hamburger/cars_user.dart';
 import 'hamburger/filters.dart';
 import 'dart:io' show Platform;
-
 import 'hamburger/help.dart';
 
 const double pinVisiblePosition = 50;
 const double pinVisiblePosition2 = 150;
+const double pinVisiblePosition3 =
+    100; //se 100 non va bene prova a cambiare, se il popup risulta ancora
+//troppo in alto devi abbassarlo, se risulta troppo in basso devi alzarlo
 const double pinInvisiblePosition = -220;
 const double pinInvisiblePosition2 = -1020;
 
@@ -714,7 +716,12 @@ class _HomePageState extends State<HomePage> {
                         } else {
                           PassMarker.namePopup =
                               await _nameString(PassMarker.carModel.uid!);
-                          pinPillPosition = pinVisiblePosition2;
+                          if (MediaQuery.of(context).orientation ==
+                              Orientation.portrait) {
+                            pinPillPosition = pinVisiblePosition2;
+                          } else {
+                            pinPillPosition = pinVisiblePosition3;
+                          }
                         }
                       }
                     } else {
@@ -763,7 +770,12 @@ class _HomePageState extends State<HomePage> {
                       } else {
                         PassMarker.namePopup =
                             await _nameString(PassMarker.carModel.uid!);
-                        pinPillPosition = pinVisiblePosition2;
+                        if (MediaQuery.of(context).orientation ==
+                            Orientation.portrait) {
+                          pinPillPosition = pinVisiblePosition2;
+                        } else {
+                          pinPillPosition = pinVisiblePosition3;
+                        }
                       }
                     }
                   }));
