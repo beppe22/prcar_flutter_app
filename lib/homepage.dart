@@ -28,9 +28,7 @@ import 'hamburger/help.dart';
 
 const double pinVisiblePosition = 50;
 const double pinVisiblePosition2 = 150;
-const double pinVisiblePosition3 =
-    100; //se 100 non va bene prova a cambiare, se il popup risulta ancora
-//troppo in alto devi abbassarlo, se risulta troppo in basso devi alzarlo
+const double pinVisiblePosition3 = 20;
 const double pinInvisiblePosition = -220;
 const double pinInvisiblePosition2 = -1020;
 
