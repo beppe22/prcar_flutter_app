@@ -2,12 +2,15 @@
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:prcarpolimi/about_your_car/info_car.dart';
+import 'package:prcarpolimi/auth/storage_service.dart';
 import 'package:prcarpolimi/booking/booking_in.dart';
 import 'package:prcarpolimi/chatImplementation/chatDetail.dart';
 import 'package:prcarpolimi/hamburger/configuration.dart';
@@ -20,11 +23,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prcarpolimi/models/static_user.dart';
 import 'package:prcarpolimi/models/userModel.dart';
 import 'package:prcarpolimi/services/services.dart';
+import 'Internet/NetworkCheck.dart';
 import 'bottom_pill.dart';
+import 'filters/least/least.dart';
 import 'hamburger/cars_user.dart';
 import 'hamburger/filters.dart';
 import 'dart:io' show Platform;
 import 'hamburger/help.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 const double pinVisiblePosition = 50;
 const double pinVisiblePosition2 = 150;
@@ -712,23 +718,374 @@ class _HomePageState extends State<HomePage> {
                             pinPillPosition = pinVisiblePosition;
                           });
                         } else {
-                          PassMarker.namePopup =
+                          String name =
                               await _nameString(PassMarker.carModel.uid!);
-                          if (MediaQuery.of(context).orientation ==
-                              Orientation.portrait) {
-                            pinPillPosition = pinVisiblePosition2;
-                          } else {
-                            pinPillPosition = pinVisiblePosition3;
-                          }
+                          await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    elevation: 6,
+                                    content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          SizedBox(height: 10),
+                                          Center(
+                                              child: Text('Car Information',
+                                                  style: TextStyle(
+                                                      fontSize: 25,
+                                                      fontWeight:
+                                                          FontWeight.bold))),
+                                          SizedBox(height: 5),
+                                          Text('Owner: ' + name,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold)),
+                                          SizedBox(height: 5),
+                                          _buildRow(
+                                              'assets/choc.png',
+                                              PassMarker.carModel.vehicle
+                                                  .toString(),
+                                              'VEHICLE',
+                                              200,
+                                              20,
+                                              20),
+                                          _buildRow(
+                                              'assets/choc.png',
+                                              PassMarker.carModel.model
+                                                  .toString(),
+                                              'MODEL',
+                                              200,
+                                              20,
+                                              20),
+                                          _buildRow(
+                                              'assets/choc.png',
+                                              PassMarker.carModel.fuel
+                                                  .toString(),
+                                              'FUEL',
+                                              200,
+                                              20,
+                                              20),
+                                          _buildRow(
+                                              'assets/choc.png',
+                                              PassMarker.carModel.seats
+                                                  .toString(),
+                                              'SEATS',
+                                              200,
+                                              20,
+                                              20),
+                                          _buildRow(
+                                              'assets/choc.png',
+                                              PassMarker.carModel.price
+                                                  .toString(),
+                                              'PRICE FOR DAY',
+                                              200,
+                                              20,
+                                              20),
+                                          SizedBox(height: 8),
+                                          FloatingActionButton(
+                                              onPressed: () async {
+                                                showDialog(
+                                                  context: context,
+                                                  barrierDismissible: false,
+                                                  builder: (context) =>
+                                                      const Center(
+                                                          child:
+                                                              CircularProgressIndicator()),
+                                                );
+                                                List<String> files =
+                                                    await urlFile(
+                                                        PassMarker
+                                                            .carModel.uid!,
+                                                        PassMarker
+                                                            .carModel.cid!);
+                                                final List<ImageProvider>
+                                                    _imageProviders = [];
+                                                for (int i = 0;
+                                                    i < files.length;
+                                                    i++) {
+                                                  _imageProviders.insert(
+                                                      i,
+                                                      Image.network(files[i])
+                                                          .image);
+                                                }
+                                                MultiImageProvider
+                                                    multiImageProvider =
+                                                    MultiImageProvider(
+                                                        _imageProviders);
+                                                await showImageViewerPager(
+                                                    context,
+                                                    multiImageProvider);
+                                                Navigator.pop(context);
+                                              },
+                                              backgroundColor: Colors.redAccent,
+                                              child: Icon(Icons.photo_library,
+                                                  size: 25)),
+                                          SizedBox(height: 8),
+                                          Container(
+                                              child: MaterialButton(
+                                                  height: 20,
+                                                  minWidth: 70,
+                                                  color: Colors.redAccent,
+                                                  onPressed: () async {
+                                                    if (await NetworkCheck()
+                                                        .check()) {
+                                                      final _auth =
+                                                          FirebaseAuth.instance;
+                                                      User? user =
+                                                          _auth.currentUser;
+                                                      if (await _isConfirmed(
+                                                              user!) ==
+                                                          'confirmed') {
+                                                        PassMarker.hpOrNot =
+                                                            true;
+                                                        var reserveResult =
+                                                            'start';
+                                                        reserveResult = await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    Least(
+                                                                        service:
+                                                                            Service())));
+
+                                                        if (reserveResult ==
+                                                            '1') {
+                                                          Navigator.of(context,
+                                                                  rootNavigator:
+                                                                      true)
+                                                              .pop('dialog');
+                                                        } else if (reserveResult ==
+                                                            '0') {
+                                                          Fluttertoast.showToast(
+                                                              msg:
+                                                                  'Something went wrong, try again later',
+                                                              fontSize: 20);
+                                                        }
+                                                      } else {
+                                                        Fluttertoast.showToast(
+                                                            msg:
+                                                                'Driving License isn\'t confirmed yet :(',
+                                                            fontSize: 20);
+                                                      }
+                                                    } else {
+                                                      Fluttertoast.showToast(
+                                                          msg:
+                                                              'No internet connection',
+                                                          fontSize: 20);
+                                                    }
+                                                  },
+                                                  child: Text("Reserve",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 23))),
+                                              decoration: BoxDecoration(
+                                                  color: Colors
+                                                      .deepPurple.shade200,
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.deepPurple
+                                                            .shade300,
+                                                        spreadRadius: 6,
+                                                        blurRadius: 3)
+                                                  ])),
+                                        ]));
+                              });
                         }
                       }
                     } else {
                       if (mounted) {
-                        setState(() {
+                        setState(() async {
                           if (PassMarker.useMobileLayout!) {
                             pinPillPosition = pinInvisiblePosition;
                           } else {
-                            pinPillPosition = pinInvisiblePosition2;
+                            String name =
+                                await _nameString(PassMarker.carModel.uid!);
+                            await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      elevation: 6,
+                                      content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            SizedBox(height: 10),
+                                            Center(
+                                                child: Text('Car Information',
+                                                    style: TextStyle(
+                                                        fontSize: 25,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                            SizedBox(height: 5),
+                                            Text('Owner: ' + name,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            SizedBox(height: 5),
+                                            _buildRow(
+                                                'assets/choc.png',
+                                                PassMarker.carModel.vehicle
+                                                    .toString(),
+                                                'VEHICLE',
+                                                200,
+                                                20,
+                                                20),
+                                            _buildRow(
+                                                'assets/choc.png',
+                                                PassMarker.carModel.model
+                                                    .toString(),
+                                                'MODEL',
+                                                200,
+                                                20,
+                                                20),
+                                            _buildRow(
+                                                'assets/choc.png',
+                                                PassMarker.carModel.fuel
+                                                    .toString(),
+                                                'FUEL',
+                                                200,
+                                                20,
+                                                20),
+                                            _buildRow(
+                                                'assets/choc.png',
+                                                PassMarker.carModel.seats
+                                                    .toString(),
+                                                'SEATS',
+                                                200,
+                                                20,
+                                                20),
+                                            _buildRow(
+                                                'assets/choc.png',
+                                                PassMarker.carModel.price
+                                                    .toString(),
+                                                'PRICE FOR DAY',
+                                                200,
+                                                20,
+                                                20),
+                                            SizedBox(height: 8),
+                                            FloatingActionButton(
+                                                onPressed: () async {
+                                                  showDialog(
+                                                    context: context,
+                                                    barrierDismissible: false,
+                                                    builder: (context) =>
+                                                        const Center(
+                                                            child:
+                                                                CircularProgressIndicator()),
+                                                  );
+                                                  List<String> files =
+                                                      await urlFile(
+                                                          PassMarker
+                                                              .carModel.uid!,
+                                                          PassMarker
+                                                              .carModel.cid!);
+                                                  final List<ImageProvider>
+                                                      _imageProviders = [];
+                                                  for (int i = 0;
+                                                      i < files.length;
+                                                      i++) {
+                                                    _imageProviders.insert(
+                                                        i,
+                                                        Image.network(files[i])
+                                                            .image);
+                                                  }
+                                                  MultiImageProvider
+                                                      multiImageProvider =
+                                                      MultiImageProvider(
+                                                          _imageProviders);
+                                                  await showImageViewerPager(
+                                                      context,
+                                                      multiImageProvider);
+                                                  Navigator.pop(context);
+                                                },
+                                                backgroundColor:
+                                                    Colors.redAccent,
+                                                child: Icon(Icons.photo_library,
+                                                    size: 25)),
+                                            SizedBox(height: 8),
+                                            Container(
+                                                child: MaterialButton(
+                                                    height: 20,
+                                                    minWidth: 70,
+                                                    color: Colors.redAccent,
+                                                    onPressed: () async {
+                                                      if (await NetworkCheck()
+                                                          .check()) {
+                                                        final _auth =
+                                                            FirebaseAuth
+                                                                .instance;
+                                                        User? user =
+                                                            _auth.currentUser;
+                                                        if (await _isConfirmed(
+                                                                user!) ==
+                                                            'confirmed') {
+                                                          PassMarker.hpOrNot =
+                                                              true;
+                                                          var reserveResult =
+                                                              'start';
+                                                          reserveResult = await Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      Least(
+                                                                          service:
+                                                                              Service())));
+
+                                                          if (reserveResult ==
+                                                              '1') {
+                                                            Navigator.of(
+                                                                    context,
+                                                                    rootNavigator:
+                                                                        true)
+                                                                .pop('dialog');
+                                                          } else if (reserveResult ==
+                                                              '0') {
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                    'Something went wrong, try again later',
+                                                                fontSize: 20);
+                                                          }
+                                                        } else {
+                                                          Fluttertoast.showToast(
+                                                              msg:
+                                                                  'Driving License isn\'t confirmed yet :(',
+                                                              fontSize: 20);
+                                                        }
+                                                      } else {
+                                                        Fluttertoast.showToast(
+                                                            msg:
+                                                                'No internet connection',
+                                                            fontSize: 20);
+                                                      }
+                                                    },
+                                                    child: Text("Reserve",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 23))),
+                                                decoration: BoxDecoration(
+                                                    color: Colors
+                                                        .deepPurple.shade200,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          color: Colors
+                                                              .deepPurple
+                                                              .shade300,
+                                                          spreadRadius: 6,
+                                                          blurRadius: 3)
+                                                    ])),
+                                          ]));
+                                });
                           }
                         });
                       }
@@ -785,6 +1142,58 @@ class _HomePageState extends State<HomePage> {
       print(e);
     }
     _markers = PassMarker.markerToPass;
+  }
+
+  Widget _buildRow(String imageAsset, String value, String type,
+      double screenWidth, double screenHeight, double screenText) {
+    text() {
+      if (PassMarker.useMobileLayout!) {
+        return screenText * 16;
+      } else {
+        return screenText * 20;
+      }
+    }
+
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.008),
+        child: Column(children: <Widget>[
+          SizedBox(height: screenHeight * 0.012),
+          Row(children: <Widget>[
+            SizedBox(width: screenWidth * 0.005),
+            Text(
+              type.toUpperCase(),
+              style: TextStyle(fontSize: text()),
+            ),
+            const Spacer(),
+            Container(
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(
+                        255, 223, 162, 108), //Colors.yellow[900],
+                    borderRadius: BorderRadius.circular(20)),
+                padding: EdgeInsets.symmetric(
+                    vertical: screenHeight * 0.012,
+                    horizontal: screenWidth * 0.06),
+                child: Text(
+                  value,
+                  style: TextStyle(fontSize: text()),
+                ))
+          ])
+        ]));
+  }
+
+  //Function to retrieve car's images
+  Future<List<String>> urlFile(String uid, String cid) async {
+    final Storage storage = Storage();
+    final firebase_storage.FirebaseStorage storage2 =
+        firebase_storage.FirebaseStorage.instance;
+    List<String> urlList = [];
+    firebase_storage.ListResult results =
+        await storage2.ref('$uid/$cid/').listAll();
+    for (int i = 0; i < results.items.length; i++) {
+      String url = await storage.downloadURL(uid, cid, 'imageCar$i');
+      urlList.insert(i, url);
+    }
+    return urlList;
   }
 
 //Timer for updating markers
