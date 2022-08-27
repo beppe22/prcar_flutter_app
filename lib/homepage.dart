@@ -738,12 +738,12 @@ class _HomePageState extends State<HomePage> {
                                                       fontSize: 25,
                                                       fontWeight:
                                                           FontWeight.bold))),
-                                          SizedBox(height: 5),
+                                          SizedBox(height: 8),
                                           Text('Owner: ' + name,
                                               style: TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: 18,
                                                   fontWeight: FontWeight.bold)),
-                                          SizedBox(height: 5),
+                                          SizedBox(height: 8),
                                           _buildRow(
                                               'assets/choc.png',
                                               PassMarker.carModel.vehicle
@@ -752,6 +752,7 @@ class _HomePageState extends State<HomePage> {
                                               200,
                                               20,
                                               20),
+                                          SizedBox(height: 10),
                                           _buildRow(
                                               'assets/choc.png',
                                               PassMarker.carModel.model
@@ -760,6 +761,7 @@ class _HomePageState extends State<HomePage> {
                                               200,
                                               20,
                                               20),
+                                          SizedBox(height: 10),
                                           _buildRow(
                                               'assets/choc.png',
                                               PassMarker.carModel.fuel
@@ -768,6 +770,7 @@ class _HomePageState extends State<HomePage> {
                                               200,
                                               20,
                                               20),
+                                          SizedBox(height: 10),
                                           _buildRow(
                                               'assets/choc.png',
                                               PassMarker.carModel.seats
@@ -776,6 +779,7 @@ class _HomePageState extends State<HomePage> {
                                               200,
                                               20,
                                               20),
+                                          SizedBox(height: 10),
                                           _buildRow(
                                               'assets/choc.png',
                                               PassMarker.carModel.price
@@ -784,7 +788,7 @@ class _HomePageState extends State<HomePage> {
                                               200,
                                               20,
                                               20),
-                                          SizedBox(height: 8),
+                                          SizedBox(height: 10),
                                           FloatingActionButton(
                                               onPressed: () async {
                                                 showDialog(
@@ -823,7 +827,7 @@ class _HomePageState extends State<HomePage> {
                                               backgroundColor: Colors.redAccent,
                                               child: Icon(Icons.photo_library,
                                                   size: 25)),
-                                          SizedBox(height: 8),
+                                          SizedBox(height: 10),
                                           Container(
                                               child: MaterialButton(
                                                   height: 20,
@@ -923,13 +927,13 @@ class _HomePageState extends State<HomePage> {
                                                         fontSize: 25,
                                                         fontWeight:
                                                             FontWeight.bold))),
-                                            SizedBox(height: 5),
+                                            SizedBox(height: 8),
                                             Text('Owner: ' + name,
                                                 style: TextStyle(
-                                                    fontSize: 14,
+                                                    fontSize: 18,
                                                     fontWeight:
                                                         FontWeight.bold)),
-                                            SizedBox(height: 5),
+                                            SizedBox(height: 8),
                                             _buildRow(
                                                 'assets/choc.png',
                                                 PassMarker.carModel.vehicle
@@ -938,6 +942,7 @@ class _HomePageState extends State<HomePage> {
                                                 200,
                                                 20,
                                                 20),
+                                            SizedBox(height: 10),
                                             _buildRow(
                                                 'assets/choc.png',
                                                 PassMarker.carModel.model
@@ -946,6 +951,7 @@ class _HomePageState extends State<HomePage> {
                                                 200,
                                                 20,
                                                 20),
+                                            SizedBox(height: 10),
                                             _buildRow(
                                                 'assets/choc.png',
                                                 PassMarker.carModel.fuel
@@ -954,6 +960,7 @@ class _HomePageState extends State<HomePage> {
                                                 200,
                                                 20,
                                                 20),
+                                            SizedBox(height: 10),
                                             _buildRow(
                                                 'assets/choc.png',
                                                 PassMarker.carModel.seats
@@ -962,6 +969,7 @@ class _HomePageState extends State<HomePage> {
                                                 200,
                                                 20,
                                                 20),
+                                            SizedBox(height: 10),
                                             _buildRow(
                                                 'assets/choc.png',
                                                 PassMarker.carModel.price
@@ -970,7 +978,7 @@ class _HomePageState extends State<HomePage> {
                                                 200,
                                                 20,
                                                 20),
-                                            SizedBox(height: 8),
+                                            SizedBox(height: 10),
                                             FloatingActionButton(
                                                 onPressed: () async {
                                                   showDialog(
@@ -1010,7 +1018,7 @@ class _HomePageState extends State<HomePage> {
                                                     Colors.redAccent,
                                                 child: Icon(Icons.photo_library,
                                                     size: 25)),
-                                            SizedBox(height: 8),
+                                            SizedBox(height: 10),
                                             Container(
                                                 child: MaterialButton(
                                                     height: 20,
@@ -1147,11 +1155,11 @@ class _HomePageState extends State<HomePage> {
   Widget _buildRow(String imageAsset, String value, String type,
       double screenWidth, double screenHeight, double screenText) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.008),
+        padding: EdgeInsets.symmetric(horizontal: screenWidth),
         child: Column(children: <Widget>[
-          SizedBox(height: screenHeight * 0.012),
+          SizedBox(height: screenHeight),
           Row(children: <Widget>[
-            SizedBox(width: screenWidth * 0.005),
+            SizedBox(width: screenWidth),
             Text(
               type.toUpperCase(),
               style: TextStyle(fontSize: screenText),
