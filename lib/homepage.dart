@@ -1146,14 +1146,6 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildRow(String imageAsset, String value, String type,
       double screenWidth, double screenHeight, double screenText) {
-    text() {
-      if (PassMarker.useMobileLayout!) {
-        return screenText * 16;
-      } else {
-        return screenText * 20;
-      }
-    }
-
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.008),
         child: Column(children: <Widget>[
@@ -1162,7 +1154,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(width: screenWidth * 0.005),
             Text(
               type.toUpperCase(),
-              style: TextStyle(fontSize: text()),
+              style: TextStyle(fontSize: screenText),
             ),
             const Spacer(),
             Container(
@@ -1171,11 +1163,10 @@ class _HomePageState extends State<HomePage> {
                         255, 223, 162, 108), //Colors.yellow[900],
                     borderRadius: BorderRadius.circular(20)),
                 padding: EdgeInsets.symmetric(
-                    vertical: screenHeight * 0.012,
-                    horizontal: screenWidth * 0.06),
+                    vertical: screenHeight, horizontal: screenWidth),
                 child: Text(
                   value,
-                  style: TextStyle(fontSize: text()),
+                  style: TextStyle(fontSize: screenText),
                 ))
           ])
         ]));
