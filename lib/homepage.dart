@@ -718,8 +718,7 @@ class _HomePageState extends State<HomePage> {
                             pinPillPosition = pinVisiblePosition;
                           });
                         } else {
-                          String name =
-                              await _nameString(PassMarker.carModel.uid!);
+                          String name = await _nameString(cars[i].uid!);
                           await showDialog(
                               context: context,
                               builder: (context) {
@@ -788,7 +787,7 @@ class _HomePageState extends State<HomePage> {
                                               200,
                                               20,
                                               20),
-                                          SizedBox(height: 10),
+                                          SizedBox(height: 20),
                                           FloatingActionButton(
                                               onPressed: () async {
                                                 showDialog(
@@ -827,11 +826,11 @@ class _HomePageState extends State<HomePage> {
                                               backgroundColor: Colors.redAccent,
                                               child: Icon(Icons.photo_library,
                                                   size: 25)),
-                                          SizedBox(height: 10),
+                                          SizedBox(height: 20),
                                           Container(
                                               child: MaterialButton(
-                                                  height: 20,
-                                                  minWidth: 70,
+                                                  height: 50,
+                                                  minWidth: 100,
                                                   color: Colors.redAccent,
                                                   onPressed: () async {
                                                     if (await NetworkCheck()
@@ -906,194 +905,6 @@ class _HomePageState extends State<HomePage> {
                         setState(() async {
                           if (PassMarker.useMobileLayout!) {
                             pinPillPosition = pinInvisiblePosition;
-                          } else {
-                            String name =
-                                await _nameString(PassMarker.carModel.uid!);
-                            await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      elevation: 6,
-                                      content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            SizedBox(height: 10),
-                                            Center(
-                                                child: Text('Car Information',
-                                                    style: TextStyle(
-                                                        fontSize: 25,
-                                                        fontWeight:
-                                                            FontWeight.bold))),
-                                            SizedBox(height: 8),
-                                            Text('Owner: ' + name,
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 8),
-                                            _buildRow(
-                                                'assets/choc.png',
-                                                PassMarker.carModel.vehicle
-                                                    .toString(),
-                                                'VEHICLE',
-                                                200,
-                                                20,
-                                                20),
-                                            SizedBox(height: 10),
-                                            _buildRow(
-                                                'assets/choc.png',
-                                                PassMarker.carModel.model
-                                                    .toString(),
-                                                'MODEL',
-                                                200,
-                                                20,
-                                                20),
-                                            SizedBox(height: 10),
-                                            _buildRow(
-                                                'assets/choc.png',
-                                                PassMarker.carModel.fuel
-                                                    .toString(),
-                                                'FUEL',
-                                                200,
-                                                20,
-                                                20),
-                                            SizedBox(height: 10),
-                                            _buildRow(
-                                                'assets/choc.png',
-                                                PassMarker.carModel.seats
-                                                    .toString(),
-                                                'SEATS',
-                                                200,
-                                                20,
-                                                20),
-                                            SizedBox(height: 10),
-                                            _buildRow(
-                                                'assets/choc.png',
-                                                PassMarker.carModel.price
-                                                    .toString(),
-                                                'PRICE FOR DAY',
-                                                200,
-                                                20,
-                                                20),
-                                            SizedBox(height: 10),
-                                            FloatingActionButton(
-                                                onPressed: () async {
-                                                  showDialog(
-                                                    context: context,
-                                                    barrierDismissible: false,
-                                                    builder: (context) =>
-                                                        const Center(
-                                                            child:
-                                                                CircularProgressIndicator()),
-                                                  );
-                                                  List<String> files =
-                                                      await urlFile(
-                                                          PassMarker
-                                                              .carModel.uid!,
-                                                          PassMarker
-                                                              .carModel.cid!);
-                                                  final List<ImageProvider>
-                                                      _imageProviders = [];
-                                                  for (int i = 0;
-                                                      i < files.length;
-                                                      i++) {
-                                                    _imageProviders.insert(
-                                                        i,
-                                                        Image.network(files[i])
-                                                            .image);
-                                                  }
-                                                  MultiImageProvider
-                                                      multiImageProvider =
-                                                      MultiImageProvider(
-                                                          _imageProviders);
-                                                  await showImageViewerPager(
-                                                      context,
-                                                      multiImageProvider);
-                                                  Navigator.pop(context);
-                                                },
-                                                backgroundColor:
-                                                    Colors.redAccent,
-                                                child: Icon(Icons.photo_library,
-                                                    size: 25)),
-                                            SizedBox(height: 10),
-                                            Container(
-                                                child: MaterialButton(
-                                                    height: 20,
-                                                    minWidth: 70,
-                                                    color: Colors.redAccent,
-                                                    onPressed: () async {
-                                                      if (await NetworkCheck()
-                                                          .check()) {
-                                                        final _auth =
-                                                            FirebaseAuth
-                                                                .instance;
-                                                        User? user =
-                                                            _auth.currentUser;
-                                                        if (await _isConfirmed(
-                                                                user!) ==
-                                                            'confirmed') {
-                                                          PassMarker.hpOrNot =
-                                                              true;
-                                                          var reserveResult =
-                                                              'start';
-                                                          reserveResult = await Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) =>
-                                                                      Least(
-                                                                          service:
-                                                                              Service())));
-
-                                                          if (reserveResult ==
-                                                              '1') {
-                                                            Navigator.of(
-                                                                    context,
-                                                                    rootNavigator:
-                                                                        true)
-                                                                .pop('dialog');
-                                                          } else if (reserveResult ==
-                                                              '0') {
-                                                            Fluttertoast.showToast(
-                                                                msg:
-                                                                    'Something went wrong, try again later',
-                                                                fontSize: 20);
-                                                          }
-                                                        } else {
-                                                          Fluttertoast.showToast(
-                                                              msg:
-                                                                  'Driving License isn\'t confirmed yet :(',
-                                                              fontSize: 20);
-                                                        }
-                                                      } else {
-                                                        Fluttertoast.showToast(
-                                                            msg:
-                                                                'No internet connection',
-                                                            fontSize: 20);
-                                                      }
-                                                    },
-                                                    child: Text("Reserve",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 23))),
-                                                decoration: BoxDecoration(
-                                                    color: Colors
-                                                        .deepPurple.shade200,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Colors
-                                                              .deepPurple
-                                                              .shade300,
-                                                          spreadRadius: 6,
-                                                          blurRadius: 3)
-                                                    ])),
-                                          ]));
-                                });
                           }
                         });
                       }
@@ -1131,8 +942,7 @@ class _HomePageState extends State<HomePage> {
                           pinPillPosition = pinVisiblePosition;
                         });
                       } else {
-                        String name =
-                            await _nameString(PassMarker.carModel.uid!);
+                        String name = await _nameString(searchCar![i].uid!);
                         await showDialog(
                             context: context,
                             builder: (context) {
@@ -1158,8 +968,7 @@ class _HomePageState extends State<HomePage> {
                                         SizedBox(height: 8),
                                         _buildRow(
                                             'assets/choc.png',
-                                            PassMarker.carModel.vehicle
-                                                .toString(),
+                                            searchCar![i].vehicle.toString(),
                                             'VEHICLE',
                                             200,
                                             20,
@@ -1167,8 +976,7 @@ class _HomePageState extends State<HomePage> {
                                         SizedBox(height: 10),
                                         _buildRow(
                                             'assets/choc.png',
-                                            PassMarker.carModel.model
-                                                .toString(),
+                                            searchCar![i].model.toString(),
                                             'MODEL',
                                             200,
                                             20,
@@ -1176,7 +984,7 @@ class _HomePageState extends State<HomePage> {
                                         SizedBox(height: 10),
                                         _buildRow(
                                             'assets/choc.png',
-                                            PassMarker.carModel.fuel.toString(),
+                                            searchCar![i].fuel.toString(),
                                             'FUEL',
                                             200,
                                             20,
@@ -1184,8 +992,7 @@ class _HomePageState extends State<HomePage> {
                                         SizedBox(height: 10),
                                         _buildRow(
                                             'assets/choc.png',
-                                            PassMarker.carModel.seats
-                                                .toString(),
+                                            searchCar![i].seats.toString(),
                                             'SEATS',
                                             200,
                                             20,
@@ -1193,13 +1000,12 @@ class _HomePageState extends State<HomePage> {
                                         SizedBox(height: 10),
                                         _buildRow(
                                             'assets/choc.png',
-                                            PassMarker.carModel.price
-                                                .toString(),
+                                            searchCar![i].price.toString(),
                                             'PRICE FOR DAY',
                                             200,
                                             20,
                                             20),
-                                        SizedBox(height: 10),
+                                        SizedBox(height: 20),
                                         FloatingActionButton(
                                             onPressed: () async {
                                               showDialog(
@@ -1234,11 +1040,11 @@ class _HomePageState extends State<HomePage> {
                                             backgroundColor: Colors.redAccent,
                                             child: Icon(Icons.photo_library,
                                                 size: 25)),
-                                        SizedBox(height: 10),
+                                        SizedBox(height: 20),
                                         Container(
                                             child: MaterialButton(
-                                                height: 20,
-                                                minWidth: 70,
+                                                height: 50,
+                                                minWidth: 100,
                                                 color: Colors.redAccent,
                                                 onPressed: () async {
                                                   if (await NetworkCheck()
@@ -1322,23 +1128,23 @@ class _HomePageState extends State<HomePage> {
   Widget _buildRow(String imageAsset, String value, String type,
       double screenWidth, double screenHeight, double screenText) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: screenWidth),
+        padding: EdgeInsets.symmetric(horizontal: 0),
         child: Column(children: <Widget>[
           SizedBox(height: screenHeight),
           Row(children: <Widget>[
-            SizedBox(width: screenWidth),
             Text(
               type.toUpperCase(),
               style: TextStyle(fontSize: screenText),
             ),
             const Spacer(),
+            SizedBox(width: screenWidth * 0.1),
             Container(
                 decoration: BoxDecoration(
                     color: const Color.fromARGB(
                         255, 223, 162, 108), //Colors.yellow[900],
                     borderRadius: BorderRadius.circular(20)),
                 padding: EdgeInsets.symmetric(
-                    vertical: screenHeight, horizontal: screenWidth),
+                    vertical: screenHeight, horizontal: screenWidth * 0.7),
                 child: Text(
                   value,
                   style: TextStyle(fontSize: screenText),
