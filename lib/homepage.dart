@@ -387,10 +387,6 @@ class _HomePageState extends State<HomePage> {
                           title: Text(" Help",
                               style: TextStyle(fontSize: screenText * 20)),
                           onTap: () async {
-                            SystemChrome.setPreferredOrientations([
-                              DeviceOrientation.landscapeLeft,
-                              DeviceOrientation.landscapeRight
-                            ]);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

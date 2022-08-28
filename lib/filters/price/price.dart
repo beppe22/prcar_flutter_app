@@ -68,6 +68,11 @@ class _CounterState extends State<Counter> {
   int counter = 0;
 
   _CounterState(this.filter);
+  @override
+  void initState() {
+    super.initState();
+    int counter = 0;
+  }
 
   void setCounter(double newValue) {
     setState(() {
@@ -117,7 +122,9 @@ class _CounterState extends State<Counter> {
                         child: Icon(Icons.remove, size: screenText * 25),
                         onPressed: () {
                           if (counter != 0) {
-                            counter = Operation().decrementCounter(counter);
+                            setState(() {
+                              counter = Operation().decrementCounter(counter);
+                            });
                           }
                         }),
                     SizedBox(width: screenWidth * 0.2),
@@ -130,7 +137,9 @@ class _CounterState extends State<Counter> {
                         child: Icon(Icons.add, size: screenText * 25),
                         onPressed: () {
                           if (counter != 100) {
-                            counter = Operation().incrementCounter(counter);
+                            setState(() {
+                              counter = Operation().incrementCounter(counter);
+                            });
                           }
                         })
                   ]),
@@ -186,8 +195,10 @@ class _CounterState extends State<Counter> {
                                       Icon(Icons.remove, size: screenText * 28),
                                   onPressed: () {
                                     if (counter != 0) {
-                                      counter =
-                                          Operation().decrementCounter(counter);
+                                      setState(() {
+                                        counter = Operation()
+                                            .decrementCounter(counter);
+                                      });
                                     }
                                   }),
                               SizedBox(width: screenWidth * 0.2),
@@ -201,8 +212,10 @@ class _CounterState extends State<Counter> {
                                   child: Icon(Icons.add, size: screenText * 28),
                                   onPressed: () {
                                     if (counter != 100) {
-                                      counter =
-                                          Operation().incrementCounter(counter);
+                                      setState(() {
+                                        counter = Operation()
+                                            .incrementCounter(counter);
+                                      });
                                     }
                                   })
                             ]),
@@ -258,8 +271,10 @@ class _CounterState extends State<Counter> {
                                           size: screenText * 22),
                                       onPressed: () {
                                         if (counter != 0) {
-                                          counter = Operation()
-                                              .decrementCounter(counter);
+                                          setState(() {
+                                            counter = Operation()
+                                                .decrementCounter(counter);
+                                          });
                                         }
                                       })),
                               SizedBox(width: screenWidth * 0.2),
