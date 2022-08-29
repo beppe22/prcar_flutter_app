@@ -271,8 +271,10 @@ class _LoginState extends State<Login> {
                                             User? user =
                                                 await loginUsingEmailPassword(
                                                     email:
-                                                        "arturo.italia@virgilio.it",
-                                                    password: "arturo22",
+                                                        _emailController.text,
+                                                    password:
+                                                        _passwordController
+                                                            .text,
                                                     context: context);
                                             /*User? user =
                                                 await loginUsingEmailPassword(
