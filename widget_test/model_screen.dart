@@ -26,7 +26,7 @@ void main() {
       expect(find.text("155"), findsOneWidget);
 
       final textWidgets = find.byType(Text);
-      expect(textWidgets, findsNWidgets(6));
+      expect(textWidgets, findsNWidgets(8));
     });
   });
 }
