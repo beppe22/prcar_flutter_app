@@ -1,6 +1,6 @@
 # prcarpolimi
 
-A new Flutter project.
+A new Flutter project. An app designed for private car sharing, allowing individuals to rent out their private car at lower costs compared to those rented from private companies. Enriched with features such as real-time chats, live maps, and image uploading.
 
 ## Getting Started
 
